@@ -1,14 +1,16 @@
 import { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Form from '../../components/Form/form';
 import axios from 'axios';
-
 import './forgotPass.css';
+
 const ForgotPassword = (props) => {
     const errRef = useRef();
     const [email, setEmail] = useState('');
     const [success, setSuccess] = useState();
     const [validate, setValidate] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate();
 
     const validateforgotPassword = () => {
         let isValid = true;
@@ -39,14 +41,19 @@ const ForgotPassword = (props) => {
         if (validate) {
             setEmail('');
         }
-
+        setIsSubmitting(true);
         axios
             .post(`/forgot_password?email=${email}`)
             .then((response) => {
+                setIsSubmitting(false);
                 setEmail(email);
                 setSuccess(response.data.messContent);
+                navigate('/new-password');
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                setIsSubmitting(false);
+                console.log(error);
+            });
         errRef.current.focus();
     };
 
@@ -58,16 +65,16 @@ const ForgotPassword = (props) => {
                     <div className="auth-body mx-auto">
                         <h1>Forgot Password</h1>
                         <p>Change your password in three easy steps. This will help you to secure your password!</p>
-                        <ol class="list-unstyled">
+                        <ol className="list-unstyled">
                             <li>
-                                <span class="text-primary text-medium">1. </span>Enter your email address below.
+                                <span className="text-primary text-medium">1. </span>Enter your email address below.
                             </li>
                             <li>
-                                <span class="text-primary text-medium">2. </span>Our system will send you a temporary
-                                link
+                                <span className="text-primary text-medium">2. </span>Our system will send you a
+                                temporary link
                             </li>
                             <li>
-                                <span class="text-primary text-medium">3. </span>Use the link to reset your password
+                                <span className="text-primary text-medium">3. </span>Use the link to reset your password
                             </li>
                         </ol>
                         <div className="">
@@ -95,7 +102,11 @@ const ForgotPassword = (props) => {
                                 </div>
 
                                 <div className="text-center">
-                                    <button type="submit" className="btn btn-primary w-100 theme-btn mx-auto">
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary w-100 theme-btn mx-auto"
+                                        disabled={isSubmitting}
+                                    >
                                         Forgot Password
                                     </button>
                                 </div>

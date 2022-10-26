@@ -1,0 +1,56 @@
+.input-container {
+    margin-bottom: 1.5rem;
+    .input {
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        padding: 12px 14px;
+        font-size: 16px;
+        font-weight: 400;
+        display: block;
+        width: 100%;
+        background-color: #fff;
+        &:focus {
+            outline: none;
+        }
+    }
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 14px;
+        &.should-bold {
+            font-weight: 500;
+        }
+        span {
+            color: red;
+        }
+    }
+    select.input {
+        width: 50%;
+    }
+    textarea.input {
+        resize: vertical;
+    }
+    &.row {
+        display: flex;
+        align-items: center;
+        gap: 2.5rem;
+        margin-bottom: 2.5rem;
+        label {
+            min-width: 200px;
+        }
+    }
+}
+.input-wrapper {
+    position: relative;
+    .error-message {
+        position: relative;
+        top: -20px;
+    }
+    &.row {
+        .error-message {
+            position: absolute;
+            left: 240px;
+            top: 50px;
+        }
+    }
+}

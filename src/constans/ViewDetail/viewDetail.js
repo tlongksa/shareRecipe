@@ -10,14 +10,12 @@ const ViewDetail = () => {
     const { dishId } = useParams();
     const [recipe, setRecipe] = useState([]);
     const [loading, setLoading] = useState(false);
-    const CheckboxGroup = Checkbox.Group;
     const [ingredient, setIngredient] = useState([]);
     const [replacementIngredientList, setReplacementIngredientList] = useState([]);
 
     const [checkedIngredientList, setCheckedIngredientList] = useState([]);
     const [indeterminate, setIndeterminate] = useState(true);
     const [checkAll, setCheckAll] = useState(false);
-    const list = ingredient;
     const [bigRecipeImg, setBigRecipeImg] = useState('');
 
     const getDataDetail = () => {
@@ -45,7 +43,6 @@ const ViewDetail = () => {
     const Loading = () => {
         return <>Loading.....</>;
     };
-    const src = 'https://youtu.be/t4zTeFeP79Q';
 
     const ShowRecipe = () => {
         const [loadings, setLoadings] = useState([]);
@@ -64,11 +61,7 @@ const ViewDetail = () => {
                 });
             }, 2000);
         };
-        const onChange = (list) => {
-            setCheckedIngredientList(list);
-            setIndeterminate(!!list.length && list.length < ingredient.length);
-            setCheckAll(list.length === ingredient.length);
-        };
+
         const changeIngredient = () => {
             axios
                 .get(`/getIngredientChange?ingredientDetailId=${checkedIngredientList.join(',')}`)
