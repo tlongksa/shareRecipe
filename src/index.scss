@@ -37,3 +37,10 @@ button:disabled {
     pointer-events: none;
     opacity: 0.8;
 }
+.custom-page__container {
+    max-width: 1300px;
+    margin: 2.5rem auto;
+    @media (max-width: 1300px) {
+        padding: 0 1rem;
+    }
+}

@@ -22,35 +22,40 @@ import SearchBar from './components/Search/SearchBar';
 import ChangePassword from './constans/Auth/ChangePassword';
 import ViewDetail from './constans/ViewDetail/viewDetail';
 import NewPassword from './constans/Auth/NewPassword';
+import Blogs from './constans/Page/Blogs';
+import { BlogProvider } from './context/blog-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
     // <React.StrictMode>
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<App />}>
-                <Route path="/home" exact element={<HomePage />} />
-                <Route path="/test" element={<homeTest />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/save" element={<Save />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/bmi" element={<Bmi />} />
-                <Route path="/signin" element={<Login />} />
-                <Route path="/profile/:id" element={<Profile />} />
-                <Route path="/sign-up" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/change-password" element={<ChangePassword />} />
-                <Route path="/new-password" element={<NewPassword />} />
-                <Route path="/list-cartegory" element={<ListView />} />
-                <Route path="/view-detail/:dishId" element={<ViewDetail />} />
-                <Route path="/search/:searchTitle" element={<SearchBar />} />
+    <BlogProvider>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<App />}>
+                    <Route path="/home" exact element={<HomePage />} />
+                    <Route path="/test" element={<homeTest />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/blogs" element={<Blogs />} />
+                    <Route path="/save" element={<Save />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/bmi" element={<Bmi />} />
+                    <Route path="/signin" element={<Login />} />
+                    <Route path="/profile/:id" element={<Profile />} />
+                    <Route path="/sign-up" element={<Register />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/change-password" element={<ChangePassword />} />
+                    <Route path="/new-password" element={<NewPassword />} />
+                    <Route path="/list-cartegory" element={<ListView />} />
+                    <Route path="/view-detail/:dishId" element={<ViewDetail />} />
+                    <Route path="/search/:searchTitle" element={<SearchBar />} />
 
-                <Route path="*" element={<NotFound />} />
-                <Route index element={<HomePage />} />
-            </Route>
-        </Routes>
-    </BrowserRouter>,
+                    <Route path="*" element={<NotFound />} />
+                    <Route index element={<HomePage />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    </BlogProvider>,
     // </React.StrictMode>
 );
 

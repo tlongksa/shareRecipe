@@ -18,6 +18,7 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "formik": "^2.2.9",
+    "immer": "^9.0.16",
     "lodash": "^4.17.21",
     "query-string": "^7.1.1",
     "react": "^18.2.0",
@@ -61,5 +62,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://103.98.149.103:8080"
+  "proxy": "https://sharerecipes-test.azurewebsites.net"
 }
