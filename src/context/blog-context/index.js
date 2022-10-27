@@ -8,9 +8,12 @@ import {
     blogGetDetailAction,
     blogGetDetailFailureAction,
     blogGetDetailSuccessAction,
+    blogGetCommentsAction,
+    blogGetCommentsFailureAction,
+    blogGetCommentsSuccessAction,
 } from './actions';
 import blogReducer from './reducer';
-import { getBlogDetailRequest, getListBlogRequest } from '../../api/requests';
+import { getBlogDetailRequest, getListBlogRequest, getBlogCommentsRequest } from '../../api/requests';
 
 export const defaultValues = {
     list: [],
@@ -24,6 +27,7 @@ export const defaultValues = {
         dataResponse: {},
         isLoading: false,
         error: null,
+        comments: [],
     },
 };
 
@@ -32,9 +36,9 @@ const BlogContext = createContext(defaultValues);
 export const BlogProvider = ({ children }) => {
     const [state, dispatchContext] = useReducer(blogReducer, defaultValues);
 
-    const fetchBlogList = (page) => {
+    const fetchBlogList = (page, search = '') => {
         dispatchContext(blogGetListAction());
-        getListBlogRequest(1)
+        getListBlogRequest(page, search)
             .then(({ data }) => {
                 const { listBlogActive = [], pageIndex, numOfPages } = data;
                 dispatchContext(
@@ -63,13 +67,26 @@ export const BlogProvider = ({ children }) => {
             });
     };
 
+    const fetchBlogComments = (id) => {
+        dispatchContext(blogGetCommentsAction());
+        getBlogCommentsRequest(id)
+            .then(({ data }) => {
+                console.log(data);
+                dispatchContext(blogGetCommentsSuccessAction(data));
+            })
+            .catch((err) => {
+                dispatchContext(blogGetCommentsFailureAction(err?.message));
+            });
+    };
+
     return (
         <BlogContext.Provider
             value={{
                 ...state,
-                onFetchMore: (page) => fetchBlogList(page),
+                onFetchMore: (page, search) => fetchBlogList(page, search),
                 onClearList: () => dispatchContext(blogClearListAction()),
                 onFetchDetail: (id) => fetchBlogDetail(id),
+                onFetchComments: (id) => fetchBlogComments(id),
             }}
         >
             {children}

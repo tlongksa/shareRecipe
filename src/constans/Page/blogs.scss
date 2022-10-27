@@ -22,9 +22,12 @@
 .blog-list_item {
     .blog-list_item-avatar {
         width: 100px;
-        object-fit: contain;
         height: 100px;
         object-fit: contain;
+        @media (max-width: 500px) {
+            width: 40px;
+            height: 40px;
+        }
     }
     .blog-list_item-actions_icon {
         font-size: 24px;

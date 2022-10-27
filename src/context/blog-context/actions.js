@@ -6,6 +6,9 @@ import {
     BLOG_GET_DETAIL,
     BLOG_GET_DETAIL_FAILURE,
     BLOG_GET_DETAIL_SUCCESS,
+    BLOG_GET_COMMENTS,
+    BLOG_GET_COMMENTS_SUCCESS,
+    BLOG_GET_COMMENTS_FAILURE,
 } from './types';
 
 const blogGetListAction = () => ({
@@ -40,6 +43,20 @@ const blogGetDetailFailureAction = (error) => ({
     payload: error,
 });
 
+const blogGetCommentsAction = () => ({
+    type: BLOG_GET_COMMENTS,
+});
+
+const blogGetCommentsSuccessAction = (payload) => ({
+    type: BLOG_GET_COMMENTS_SUCCESS,
+    payload,
+});
+
+const blogGetCommentsFailureAction = (error) => ({
+    type: BLOG_GET_COMMENTS_FAILURE,
+    payload: error,
+});
+
 export {
     blogGetListAction,
     blogGetListSuccessAction,
@@ -48,4 +65,7 @@ export {
     blogGetDetailAction,
     blogGetDetailSuccessAction,
     blogGetDetailFailureAction,
+    blogGetCommentsAction,
+    blogGetCommentsFailureAction,
+    blogGetCommentsSuccessAction,
 };

@@ -11,12 +11,12 @@ import {
 } from '@ant-design/icons';
 import Input from '../../components/common/Input/Input';
 import { Link } from 'react-router-dom';
+import Paginator from '../../components/common/Paginator';
 
-const SearchBlog = () => {
-    const [value, setValue] = useState('');
-
+const SearchBlog = ({ search, setSearch, callback }) => {
     const handleChange = (e) => {
-        setValue(e.target.value);
+        setSearch(e.target.value);
+        callback();
     };
 
     return (
@@ -25,7 +25,7 @@ const SearchBlog = () => {
             <Input
                 onChange={handleChange}
                 placeholder="Search..."
-                value={value}
+                value={search}
                 error={null}
                 touched={true}
                 containerNoMarginBottom
@@ -83,16 +83,18 @@ export const BlogItem = ({ item }) => {
 };
 
 const Blogs = () => {
-    const { list, error, isLoading, onFetchMore, onClearList } = useContext(BlogContext);
+    const { list, error, isLoading, extraListInfo, onFetchMore, onClearList } = useContext(BlogContext);
     const dataFetchedRef = useRef(false);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         if (dataFetchedRef.current) return;
         dataFetchedRef.current = true;
-        onFetchMore();
+        onFetchMore(1, search);
         return () => {
             // clean up
             onClearList();
+            setSearch('');
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -105,19 +107,37 @@ const Blogs = () => {
         <section className="client-blog__list-container">
             <div className="custom-page__container">
                 <div className="d-flex justify-content-end mb-3">
-                    <SearchBlog />
+                    <SearchBlog
+                        search={search}
+                        setSearch={setSearch}
+                        callback={() => {
+                            onClearList();
+                            if (search.trim()) {
+                                onFetchMore(extraListInfo.pageIndex, search);
+                            }
+                            if (!search) {
+                                onFetchMore(1, search);
+                            }
+                        }}
+                    />
                 </div>
-                {isLoading ? (
+                <ul className="blog-list_items">
+                    {list.map((item, index) => (
+                        <BlogItem key={`${item.id}-${index}`} item={item} />
+                    ))}
+                </ul>
+                {isLoading && (
                     <div className="blog-list__loader-container">
                         <LoadingOutlined className="blog-list__loader-icon" />
                     </div>
-                ) : (
-                    <ul className="blog-list_items">
-                        {list.map((item, index) => (
-                            <BlogItem key={`${item.id}-${index}`} item={item} />
-                        ))}
-                    </ul>
                 )}
+                <Paginator
+                    isLoading={isLoading}
+                    maxPage={extraListInfo.numOfPages}
+                    curPage={extraListInfo.pageIndex}
+                    scrollAfterClicking={false}
+                    callback={(page) => onFetchMore(page, search)}
+                />
             </div>
         </section>
     );

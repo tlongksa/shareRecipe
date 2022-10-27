@@ -10,6 +10,7 @@ const BlogDetail = () => {
     const {
         blogDetail: { isLoading, error, dataResponse },
         onFetchDetail,
+        onFetchComments,
     } = useContext(BlogContext);
 
     const dataFetchedRef = useRef(false);
@@ -18,9 +19,7 @@ const BlogDetail = () => {
         if (dataFetchedRef.current) return;
         dataFetchedRef.current = true;
         onFetchDetail(id);
-        return () => {
-            // clean up
-        };
+        onFetchComments(id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

@@ -6,6 +6,9 @@ import {
     BLOG_GET_DETAIL,
     BLOG_GET_DETAIL_FAILURE,
     BLOG_GET_DETAIL_SUCCESS,
+    BLOG_GET_COMMENTS,
+    BLOG_GET_COMMENTS_SUCCESS,
+    BLOG_GET_COMMENTS_FAILURE,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -47,6 +50,19 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
                 draft.blogDetail.isLoading = false;
                 break;
             case BLOG_GET_DETAIL_FAILURE:
+                draft.blogDetail.error = payload;
+                draft.blogDetail.isLoading = false;
+                break;
+            case BLOG_GET_COMMENTS:
+                draft.blogDetail.isLoading = true;
+                draft.blogDetail.error = null;
+                break;
+            case BLOG_GET_COMMENTS_SUCCESS:
+                draft.blogDetail.comments = payload;
+                draft.blogDetail.error = null;
+                draft.blogDetail.isLoading = false;
+                break;
+            case BLOG_GET_COMMENTS_FAILURE:
                 draft.blogDetail.error = payload;
                 draft.blogDetail.isLoading = false;
                 break;
