@@ -1,18 +1,29 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, useReducer } from 'react';
-import { blogGetListAction, blogGetListSuccessAction, blogGetListFailureAction } from './actions';
+import {
+    blogGetListAction,
+    blogGetListSuccessAction,
+    blogGetListFailureAction,
+    blogClearListAction,
+    blogGetDetailAction,
+    blogGetDetailFailureAction,
+    blogGetDetailSuccessAction,
+} from './actions';
 import blogReducer from './reducer';
-import { getListBlogRequest } from '../../api/requests';
+import { getBlogDetailRequest, getListBlogRequest } from '../../api/requests';
 
 export const defaultValues = {
     list: [],
     isLoading: false,
     error: null,
     extraListInfo: {
-        current_page: 1,
-        last_page: 0,
-        per_page: 0,
-        total: 0,
+        pageIndex: 1,
+        numOfPages: 0,
+    },
+    blogDetail: {
+        dataResponse: {},
+        isLoading: false,
+        error: null,
     },
 };
 
@@ -24,17 +35,14 @@ export const BlogProvider = ({ children }) => {
     const fetchBlogList = (page) => {
         dispatchContext(blogGetListAction());
         getListBlogRequest(1)
-            .then((response) => {
-                console.log(response);
-                const { data = [], last_page, current_page, per_page, total } = response;
+            .then(({ data }) => {
+                const { listBlogActive = [], pageIndex, numOfPages } = data;
                 dispatchContext(
                     blogGetListSuccessAction({
-                        data: data.length ? data : Object.values(data),
+                        data: listBlogActive,
                         extraListInfo: {
-                            last_page,
-                            current_page,
-                            per_page,
-                            total,
+                            pageIndex,
+                            numOfPages,
                         },
                     }),
                 );
@@ -44,11 +52,24 @@ export const BlogProvider = ({ children }) => {
             });
     };
 
+    const fetchBlogDetail = (id) => {
+        dispatchContext(blogGetDetailAction());
+        getBlogDetailRequest(id)
+            .then(({ data }) => {
+                dispatchContext(blogGetDetailSuccessAction(data));
+            })
+            .catch((err) => {
+                dispatchContext(blogGetDetailFailureAction(err?.message));
+            });
+    };
+
     return (
         <BlogContext.Provider
             value={{
                 ...state,
                 onFetchMore: (page) => fetchBlogList(page),
+                onClearList: () => dispatchContext(blogClearListAction()),
+                onFetchDetail: (id) => fetchBlogDetail(id),
             }}
         >
             {children}

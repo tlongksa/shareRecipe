@@ -24,11 +24,11 @@ import ViewDetail from './constans/ViewDetail/viewDetail';
 import NewPassword from './constans/Auth/NewPassword';
 import Blogs from './constans/Page/Blogs';
 import { BlogProvider } from './context/blog-context';
+import BlogDetail from './constans/Page/BlogDetail';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    // <React.StrictMode>
     <BlogProvider>
         <BrowserRouter>
             <Routes>
@@ -37,6 +37,7 @@ root.render(
                     <Route path="/test" element={<homeTest />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/blogs" element={<Blogs />} />
+                    <Route path="/blog-detail/:id" element={<BlogDetail />} />
                     <Route path="/save" element={<Save />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/bmi" element={<Bmi />} />
@@ -56,7 +57,6 @@ root.render(
             </Routes>
         </BrowserRouter>
     </BlogProvider>,
-    // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

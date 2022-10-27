@@ -1,14 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { CAvatar, CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
-
 import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink, NavRight } from './NavbarElement';
 import img from '../../img/logoDoAn.png';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
+import './index.scss';
 
 const Navbar = () => {
     const [logged, setLogged] = useState(false);
@@ -45,12 +44,13 @@ const Navbar = () => {
             ),
         });
     };
+
     return (
         <>
-            <Nav>
-                <NavLink to="/">
+            <Nav className="bg-white border-bottom">
+                <NavLink to="/" className="d-flex align-items-center gap-2">
                     <img src={require('../../img/logoDoAn1.png')} alt="logo" />
-                    iShii
+                    <strong className="main-logo__name">iShii</strong>
                 </NavLink>
                 <Bars />
                 <NavMenu>

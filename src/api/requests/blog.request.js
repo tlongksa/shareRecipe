@@ -2,4 +2,6 @@ import axios from 'axios';
 
 const getListBlogRequest = (page) => axios.get(`/getListBlog?page=${page}`);
 
-export { getListBlogRequest };
+const getBlogDetailRequest = (id) => axios.get(`/getBlogDetail?blogId=${id}`);
+
+export { getListBlogRequest, getBlogDetailRequest };

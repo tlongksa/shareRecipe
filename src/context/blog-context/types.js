@@ -1,7 +1,20 @@
-const blogCtxKey = '__notificationCtx__';
+const blogCtxKey = '__blogCtx__';
 
 const BLOG_GET_LIST = `${blogCtxKey}/BLOG_GET_LIST`;
 const BLOG_GET_LIST_SUCCESS = `${blogCtxKey}/BLOG_GET_LIST_SUCCESS`;
 const BLOG_GET_LIST_FAILURE = `${blogCtxKey}/BLOG_GET_LIST_FAILURE`;
+const BLOG_CLEAR_LIST = `${blogCtxKey}/BLOG_CLEAR_LIST`;
 
-export { BLOG_GET_LIST, BLOG_GET_LIST_FAILURE, BLOG_GET_LIST_SUCCESS };
+const BLOG_GET_DETAIL = `${blogCtxKey}/BLOG_GET_DETAIL`;
+const BLOG_GET_DETAIL_SUCCESS = `${blogCtxKey}/BLOG_GET_DETAIL_SUCCESS`;
+const BLOG_GET_DETAIL_FAILURE = `${blogCtxKey}/BLOG_GET_DETAIL_FAILURE`;
+
+export {
+    BLOG_GET_LIST,
+    BLOG_GET_LIST_FAILURE,
+    BLOG_GET_LIST_SUCCESS,
+    BLOG_CLEAR_LIST,
+    BLOG_GET_DETAIL,
+    BLOG_GET_DETAIL_FAILURE,
+    BLOG_GET_DETAIL_SUCCESS,
+};

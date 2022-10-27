@@ -1,8 +1,14 @@
-import { BLOG_GET_LIST, BLOG_GET_LIST_FAILURE, BLOG_GET_LIST_SUCCESS } from './types';
+import {
+    BLOG_GET_LIST,
+    BLOG_GET_LIST_FAILURE,
+    BLOG_GET_LIST_SUCCESS,
+    BLOG_CLEAR_LIST,
+    BLOG_GET_DETAIL,
+    BLOG_GET_DETAIL_FAILURE,
+    BLOG_GET_DETAIL_SUCCESS,
+} from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
-
-const MAX_ITEMS_PER_PAGE = 5;
 
 const blogReducer = (state = defaultValues, { type, payload }) =>
     produce(state, (draft) => {
@@ -13,18 +19,36 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
                 break;
             case BLOG_GET_LIST_SUCCESS:
                 draft.isLoading = false;
-                if (draft.extraListInfo.last_page === 0) {
-                    draft.currentNumOfNewNoti = 0;
+                if (draft.extraListInfo.numOfPages === 0) {
                     draft.list = payload?.data;
                 } else {
-                    draft.list = draft.list.concat(payload?.data?.slice(draft.currentNumOfNewNoti, MAX_ITEMS_PER_PAGE));
+                    draft.list = draft.list.concat(payload?.data);
                 }
                 draft.extraListInfo = payload.extraListInfo;
-                draft.currentNewNoti = undefined;
                 break;
             case BLOG_GET_LIST_FAILURE:
                 draft.isLoading = false;
                 draft.error = payload;
+                break;
+            case BLOG_CLEAR_LIST:
+                draft.list = [];
+                draft.extraListInfo = {
+                    pageIndex: 1,
+                    numOfPages: 0,
+                };
+                break;
+            case BLOG_GET_DETAIL:
+                draft.blogDetail.isLoading = true;
+                draft.blogDetail.error = null;
+                break;
+            case BLOG_GET_DETAIL_SUCCESS:
+                draft.blogDetail.dataResponse = payload;
+                draft.blogDetail.error = null;
+                draft.blogDetail.isLoading = false;
+                break;
+            case BLOG_GET_DETAIL_FAILURE:
+                draft.blogDetail.error = payload;
+                draft.blogDetail.isLoading = false;
                 break;
             default:
                 break;

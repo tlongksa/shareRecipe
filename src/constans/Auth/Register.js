@@ -131,7 +131,7 @@ const Register = () => {
                                     {errMsg}
                                 </p>
                                 <h1 id="regis">Register</h1>
-                                <form onSubmit={handleSubmit}>
+                                <form onSubmit={handleSubmit} className="register-form">
                                     <label htmlFor="fullname">Fullname:</label>
                                     <input
                                         type="text"
