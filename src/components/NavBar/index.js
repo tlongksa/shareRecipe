@@ -74,14 +74,14 @@ const Navbar = () => {
                     </NavLink>
                 </NavMenu>
                 {!logged ? (
-                    <>
+                    <div className="d-flex align-items-center">
                         <NavMenu>
-                            <NavLink to="/sign-up">Sign Up</NavLink>
+                            <NavBtnLink to="/sign-up">Sign Up</NavBtnLink>
                         </NavMenu>
                         <NavBtn buttonSignIn>
                             <NavBtnLink to="signin">Sign In</NavBtnLink>
                         </NavBtn>
-                    </>
+                    </div>
                 ) : (
                     <NavRight>
                         <CDropdown>

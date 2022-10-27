@@ -1,5 +1,5 @@
 import { CommentOutlined, DislikeOutlined, LikeOutlined, SearchOutlined } from '@ant-design/icons';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Input from '../../common/Input/Input';
 import './index.scss';

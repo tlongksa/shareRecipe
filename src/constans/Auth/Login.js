@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import './Login.css';
+import './Login.scss';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import axios from 'axios';
@@ -7,7 +7,6 @@ import axios from 'axios';
 import showPwdImg from '../../img/show-password.png';
 import hidePwdImg from '../../img/hide-.svg';
 import apiUrl from '../../api/apiUrl';
-import HomePage from '../Home/HomePage';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 
@@ -22,7 +21,6 @@ const Login = () => {
     const [username, setUser] = useState('');
     const [password, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
     const [isRevealPwd, setIsRevealPwd] = useState(false);
 
     const handleSubmit = async (e) => {
@@ -50,7 +48,6 @@ const Login = () => {
             navigateTo(`/`);
             setUser('');
             setPwd('');
-            setSuccess(true);
             openNotification();
             navigate(from, { replace: true });
         } catch (err) {
@@ -82,77 +79,70 @@ const Login = () => {
     };
 
     return (
-        <>
-            {success ? (
-                <section>
-                    <HomePage />
-                </section>
-            ) : (
-                <section>
-                    <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>
-                        {errMsg}
-                    </p>
-                    <form onSubmit={handleSubmit} className="background">
-                        <h2 className="title">Wellcome to OiShii</h2>
-                        <div>
-                            <div className="left"></div>
-                            <div className="right-login">
-                                <div className="login-background">
-                                    <div className="login">Login</div>
-                                    <div className="contai-login">
-                                        <label htmlFor="name" className="label">
-                                            User Name:{' '}
-                                        </label>
-
-                                        <div className="form-group">
-                                            <input
-                                                type="text"
-                                                name="username"
-                                                id="username"
-                                                placeholder="Enter your user name"
-                                                onChange={(e) => setUser(e.target.value)}
-                                                value={username}
-                                                required
-                                            />
-                                        </div>
-                                        <label htmlFor="password" className="label">
-                                            Password:{' '}
-                                        </label>
-                                        <div className="form-group">
-                                            <input
-                                                type={isRevealPwd ? 'text' : 'password'}
-                                                name="password"
-                                                id="password"
-                                                placeholder="Enter your password"
-                                                onChange={(e) => setPwd(e.target.value)}
-                                                value={password}
-                                                required
-                                            />
-                                            <img
-                                                className="imgEye"
-                                                title={isRevealPwd ? 'Hide password' : 'Show password'}
-                                                src={isRevealPwd ? hidePwdImg : showPwdImg}
-                                                onClick={() => setIsRevealPwd((prevState) => !prevState)}
-                                            />
-                                        </div>
-
-                                        <button className="btnLogin">Login</button>
-                                        <div className="txt">
-                                            <Link to="/sign-up" className="nav-link">
-                                                Register
-                                            </Link>
-                                            <Link to="/forgot-password" className="nav-link">
-                                                Forgot your password?
-                                            </Link>
-                                        </div>
+        <div className="custom-page__container">
+            <section>
+                <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>
+                    {errMsg}
+                </p>
+                <form onSubmit={handleSubmit} className="background">
+                    <h2 className="login__page-title">Wellcome to OiShii</h2>
+                    <div className="login-form__container">
+                        <div className="left"></div>
+                        <div className="right-login">
+                            <div className="login-background">
+                                <div className="login-title">Login</div>
+                                <div className="container-login">
+                                    <label htmlFor="name" className="label">
+                                        User Name:{' '}
+                                    </label>
+                                    <div className="form-group">
+                                        <input
+                                            type="text"
+                                            name="username"
+                                            id="username"
+                                            placeholder="Enter your user name"
+                                            onChange={(e) => setUser(e.target.value)}
+                                            value={username}
+                                            required
+                                        />
+                                    </div>
+                                    <label htmlFor="password" className="label">
+                                        Password:{' '}
+                                    </label>
+                                    <div className="form-group">
+                                        <input
+                                            type={isRevealPwd ? 'text' : 'password'}
+                                            name="password"
+                                            id="password"
+                                            placeholder="Enter your password"
+                                            onChange={(e) => setPwd(e.target.value)}
+                                            value={password}
+                                            required
+                                        />
+                                        <img
+                                            className="imgEye"
+                                            title={isRevealPwd ? 'Hide password' : 'Show password'}
+                                            src={isRevealPwd ? hidePwdImg : showPwdImg}
+                                            onClick={() => setIsRevealPwd((prevState) => !prevState)}
+                                            alt=""
+                                        />
+                                    </div>
+                                    <button className="btnLogin">Login</button>
+                                    <div className="login-bottom__txt">
+                                        <Link to="/sign-up" className="nav-link">
+                                            Register
+                                        </Link>
+                                        <Link to="/forgot-password" className="nav-link">
+                                            Forgot your password?
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </section>
-            )}
-        </>
+                    </div>
+                </form>
+            </section>
+        </div>
     );
 };
 export default Login;
