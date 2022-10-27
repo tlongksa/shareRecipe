@@ -5,17 +5,26 @@ import React from 'react';
 
 import Footer from './components/Footer/footer';
 
+export const ROLES = {
+    admin: 'ROLE_ADMIN',
+    user: 'ROLE_USER',
+};
+
 function App() {
+    const ROLE = localStorage.getItem('roles');
+
     return (
-        <div className="App">
-            <div className="header">
-                <Navbar />
-            </div>
+        <>
+            {(ROLE === ROLES.user || !ROLE) && (
+                <div className="header">
+                    <Navbar />
+                </div>
+            )}
             <div className="content">
                 <Outlet />
             </div>
-            <Footer />
-        </div>
+            {(ROLE === ROLES.user || !ROLE) && <Footer />}
+        </>
     );
 }
 

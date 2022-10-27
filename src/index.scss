@@ -61,3 +61,10 @@ ul {
     pointer-events: none;
     opacity: 0.8;
 }
+.custom-page__container-management {
+    max-width: 1550px;
+    margin: 0 auto;
+    @media (max-width: 1550px) {
+        padding: 0 1rem;
+    }
+}

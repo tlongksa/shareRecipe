@@ -25,6 +25,8 @@ import NewPassword from './constans/Auth/NewPassword';
 import Blogs from './constans/Page/Blogs';
 import { BlogProvider } from './context/blog-context';
 import BlogDetail from './constans/Page/BlogDetail';
+import AdminLayout from './constans/Admin/AdminLayout';
+import Accounts from './constans/Admin/pages/Accounts';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -50,6 +52,9 @@ root.render(
                     <Route path="/list-cartegory" element={<ListView />} />
                     <Route path="/view-detail/:dishId" element={<ViewDetail />} />
                     <Route path="/search/:searchTitle" element={<SearchBar />} />
+                    <Route path="/admin" element={<AdminLayout />}>
+                        <Route path="accounts" element={<Accounts />} />
+                    </Route>
 
                     <Route path="*" element={<NotFound />} />
                     <Route index element={<HomePage />} />
