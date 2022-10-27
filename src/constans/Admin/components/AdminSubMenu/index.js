@@ -21,11 +21,11 @@ export const links = [
     },
 ];
 
-const AdminSubMenu = ({ isShowMenu }) => {
+const AdminSubMenu = ({ isShowMenu, setIsShowMenu }) => {
     return (
         <ul className={`admin-submenu shadow rounded-3 ${isShowMenu ? 'show' : ''}`}>
             {links.map(({ to, label }) => (
-                <li key={to} className="admin-submenu__item">
+                <li key={to} className="admin-submenu__item" onClick={() => setIsShowMenu(false)}>
                     <NavLink to={to}>{label}</NavLink>
                 </li>
             ))}

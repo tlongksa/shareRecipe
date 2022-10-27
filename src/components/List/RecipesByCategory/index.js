@@ -1,6 +1,7 @@
 import { CommentOutlined, DislikeOutlined, LikeOutlined, SearchOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
 import './index.scss';
 
@@ -52,7 +53,18 @@ const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
 );
 
 const RecipesByCategory = (props) => {
+    const { list, isLoading, error, onFetchMoreByCategory } = useContext(RecipeContext);
     const [search, setSearch] = useState('');
+    const { id } = useParams();
+
+    useEffect(() => {
+        onFetchMoreByCategory(id, 1, search);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    if (!isLoading && error) {
+        return <p className="error-message">Something went wrong</p>;
+    }
     return (
         <section className="recipes-by__category-container">
             <div className="custom-page__container">
@@ -72,7 +84,9 @@ const RecipesByCategory = (props) => {
                     </form>
                 </div>
                 <div className="recipes-by__category-list">
-                    <RecipeByCategoryItem />
+                    {list.map((item) => (
+                        <RecipeByCategoryItem item={item} key={item.id} />
+                    ))}
                 </div>
             </div>
         </section>

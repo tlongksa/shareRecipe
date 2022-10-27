@@ -20,7 +20,7 @@ const AdminLayout = (props) => {
                             <MenuOutlined className="toggler-admin__menu" />
                         )}
                     </button>
-                    <AdminSubMenu isShowMenu={isShowMenu} />
+                    <AdminSubMenu isShowMenu={isShowMenu} setIsShowMenu={setIsShowMenu} />
                 </div>
                 <Outlet />
             </div>

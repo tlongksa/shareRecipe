@@ -1,29 +1,37 @@
 import './App.css';
 import Navbar from './components/NavBar';
 import { Outlet } from 'react-router-dom';
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
 import Footer from './components/Footer/footer';
 
 export const ROLES = {
     admin: 'ROLE_ADMIN',
     user: 'ROLE_USER',
+    mod: 'ROLE_MOD',
 };
 
 function App() {
     const ROLE = localStorage.getItem('roles');
 
+    const [hideHeaderAndFooter, setHideHeaderAndFooter] = useState(false);
+
+    useEffect(() => {
+        if (ROLE && ROLE !== ROLES.user) {
+            setHideHeaderAndFooter(true);
+        } else {
+            setHideHeaderAndFooter(false);
+        }
+    }, [ROLE]);
+
     return (
         <>
-            {(ROLE === ROLES.user || !ROLE) && (
+            {!hideHeaderAndFooter && (
                 <div className="header">
                     <Navbar />
                 </div>
             )}
-            <div className="content">
-                <Outlet />
-            </div>
-            {(ROLE === ROLES.user || !ROLE) && <Footer />}
+            <Outlet />
+            {!hideHeaderAndFooter && <Footer />}
         </>
     );
 }

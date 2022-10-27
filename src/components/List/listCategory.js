@@ -37,9 +37,7 @@ const ListCategory = (props) => {
                         <Link key={list.dishCategoryID} to={`/list-recipe-by-category/${list.dishCategoryID}`}>
                             <div className="category-list__item">
                                 <img className="view-img-category" src={list.dishCategoryImage} alt="img" />
-                                <a className="list" href="/list-cartegory">
-                                    {list.name}
-                                </a>
+                                <h5 className="recipe__category-name">{list.name}</h5>
                             </div>
                         </Link>
                     ))}

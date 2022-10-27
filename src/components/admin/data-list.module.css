@@ -1,0 +1,32 @@
+.dataList {
+    margin-top: 1.5rem;
+}
+.dataItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem;
+    align-items: center;
+}
+.dataItem span,
+.dataItem strong {
+    display: block;
+    flex: 1;
+    font-size: 14px;
+}
+
+.no {
+    max-width: 60px;
+}
+.dataItemHead {
+    background-color: #f1f4f8;
+}
+.dataItem:nth-child(odd) {
+    background-color: #f7f8fb;
+}
+
+@media (max-width: 1250px) {
+    .dataItem span,
+    .dataItem strong {
+        font-size: 12px;
+    }
+}
