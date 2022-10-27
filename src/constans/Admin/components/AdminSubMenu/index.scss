@@ -1,0 +1,31 @@
+.admin-submenu {
+    background-color: white;
+    position: absolute;
+    top: 52px;
+    left: -110%;
+    z-index: 4;
+    width: 220px;
+    transition: all 0.3s ease-in-out;
+    .admin-submenu__item {
+        width: 100%;
+        a {
+            padding: 1rem 2rem;
+            width: 100%;
+            display: block;
+            color: #444;
+            border-bottom: 1px solid #aaa;
+            &.active {
+                background-color: #ddd;
+            }
+            &:last-child {
+                border-bottom: none;
+            }
+            &:hover {
+                background-color: #ddd;
+            }
+        }
+    }
+    &.show {
+        left: 0;
+    }
+}

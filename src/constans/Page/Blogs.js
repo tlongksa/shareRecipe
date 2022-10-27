@@ -20,8 +20,8 @@ const SearchBlog = ({ search, setSearch, callback }) => {
     };
 
     return (
-        <form className="blog-list_search shadow rounded-3">
-            <SearchOutlined className="blog-list_search-icon" />
+        <form className="global-list_search shadow rounded-3">
+            <SearchOutlined className="global-list_search-icon" />
             <Input
                 onChange={handleChange}
                 placeholder="Search..."

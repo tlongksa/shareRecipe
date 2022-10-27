@@ -68,3 +68,25 @@ ul {
         padding: 0 1rem;
     }
 }
+
+input:focus {
+    outline: none;
+}
+.global-list__loader-container {
+    margin: 3.5rem 0;
+    display: flex;
+    justify-content: center;
+    .global-list__loader-icon {
+        font-size: 1.5rem;
+    }
+}
+.global-list_search {
+    width: 320px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px 0.5rem 0 0.5rem;
+    .global-list_search-icon {
+        font-size: 24px;
+    }
+}

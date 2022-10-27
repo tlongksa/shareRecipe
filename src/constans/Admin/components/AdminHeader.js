@@ -1,10 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Avatar from '../../../components/common/Avatar';
 import './index.scss';
+import { Link, useNavigate } from 'react-router-dom';
+import Avatar from '../../../components/common/Avatar';
 
 const AdminHeader = () => {
     const avatarImg = localStorage.getItem('img');
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/signin');
+    };
+
     return (
         <header className="py-2 admin-header__management border-bottom">
             <div className="custom-page__container-management">
@@ -12,7 +19,7 @@ const AdminHeader = () => {
                     <Link to={'/admin'} className="admin-header__logo-text">
                         Food <span className="text-green">Recipes</span>
                     </Link>
-                    <Avatar imgSrc={avatarImg || ''} />
+                    <Avatar imgSrc={avatarImg || ''} onClick={handleLogout} />
                 </nav>
             </div>
         </header>

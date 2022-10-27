@@ -15,7 +15,7 @@ import Bmi from './constans/Page/bmi';
 import Save from './constans/Page/save';
 import ForgotPassword from './constans/Auth/forgotPassword';
 import Profile from './constans/User/profile';
-import ListView from './components/List/ListView';
+import RecipesByCategory from './components/List/RecipesByCategory';
 
 import NotFound from './components/Error/NotFound';
 import SearchBar from './components/Search/SearchBar';
@@ -49,7 +49,7 @@ root.render(
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/change-password" element={<ChangePassword />} />
                     <Route path="/new-password" element={<NewPassword />} />
-                    <Route path="/list-cartegory" element={<ListView />} />
+                    <Route path="/list-recipe-by-category/:id" element={<RecipesByCategory />} />
                     <Route path="/view-detail/:dishId" element={<ViewDetail />} />
                     <Route path="/search/:searchTitle" element={<SearchBar />} />
                     <Route path="/admin" element={<AdminLayout />}>

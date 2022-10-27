@@ -1,15 +1,5 @@
 .client-blog__list-container {
     min-height: 80vh;
-    .blog-list_search {
-        width: 320px;
-        display: flex;
-        align-items: center;
-        gap: 2px;
-        padding: 4px 0.5rem 0 0.5rem;
-        .blog-list_search-icon {
-            font-size: 24px;
-        }
-    }
     .blog-list__loader-container {
         margin: 2.5rem 0;
         display: flex;

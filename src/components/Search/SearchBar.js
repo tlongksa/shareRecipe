@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { filter } from 'lodash';
-import { ClockLoader } from 'react-spinners';
-import apiUrl from '../../api/apiUrl';
 
 export default function SearchBar() {
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState([]);
     // const [searchTitle, setSearchTitle] = useState("");
+
     const setSearchTitle = (value) => {
         axios
             .get(`/searchdishbyname/${value}`)
@@ -21,9 +19,9 @@ export default function SearchBar() {
     };
 
     return (
-        <div className="view-search">
+        <div className="home_view-search-container">
             <input
-                className="input-search"
+                className="home_input-search"
                 type="search"
                 onChange={(e) => setSearchTitle(e.target.value)}
                 placeholder="Tìm kiếm"
@@ -31,25 +29,6 @@ export default function SearchBar() {
             <button className="btn-search" type="submit">
                 Tìm kiếm
             </button>
-
-            <div>
-                {/* {
-          loading ? (
-          ) : (
-            name.filter((value) => {
-              if (searchTitle === "") {
-                return value;
-              } 
-              else if (
-                // value.title.toLowerCase().includes(searchTitle.toLowerCase())
-              ) {
-                return value;
-              }
-            })
-              .map((item) => <h5 key={item.dishID}>{item.name}</h5>)
-          )
-        } */}
-            </div>
         </div>
     );
 }
