@@ -43,6 +43,9 @@ button:disabled {
     @media (max-width: 1250px) {
         padding: 0 1rem;
     }
+    &.custom-page__container-no__margin {
+        margin: 0 auto;
+    }
 }
 
 ul,

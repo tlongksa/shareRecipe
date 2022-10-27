@@ -27,7 +27,13 @@ export const defaultValues = {
         dataResponse: {},
         isLoading: false,
         error: null,
-        comments: [],
+        comments: {
+            dataResponse: [],
+            extraListInfo: {
+                pageIndex: 1,
+                numOfPages: 0,
+            },
+        },
     },
 };
 
@@ -71,8 +77,15 @@ export const BlogProvider = ({ children }) => {
         dispatchContext(blogGetCommentsAction());
         getBlogCommentsRequest(id)
             .then(({ data }) => {
-                console.log(data);
-                dispatchContext(blogGetCommentsSuccessAction(data));
+                dispatchContext(
+                    blogGetCommentsSuccessAction({
+                        data: data.blogCommentAccountVos,
+                        extraListInfo: {
+                            pageIndex: data.pageIndex,
+                            numOfPages: data.numOfPages,
+                        },
+                    }),
+                );
             })
             .catch((err) => {
                 dispatchContext(blogGetCommentsFailureAction(err?.message));

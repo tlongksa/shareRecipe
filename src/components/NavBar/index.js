@@ -46,7 +46,7 @@ const Navbar = () => {
     };
 
     return (
-        <>
+        <div className="custom-page__container custom-page__container-no__margin">
             <Nav className="bg-white border-bottom">
                 <NavLink to="/" className="d-flex align-items-center gap-2">
                     <img src={require('../../img/logoDoAn1.png')} alt="logo" />
@@ -54,12 +54,24 @@ const Navbar = () => {
                 </NavLink>
                 <Bars />
                 <NavMenu>
-                    <NavLink to="/">Home</NavLink>
-                    <NavLink to="/blogs">Blog</NavLink>
-                    <NavLink to="/about">About</NavLink>
-                    <NavLink to="/save">Save</NavLink>
-                    <NavLink to="/contact">Contact</NavLink>
-                    <NavLink to="/bmi">BMI</NavLink>
+                    <NavLink to="/" className="ps-4">
+                        Home
+                    </NavLink>
+                    <NavLink to="/blogs" className="ps-4">
+                        Blog
+                    </NavLink>
+                    <NavLink to="/about" className="ps-4">
+                        About
+                    </NavLink>
+                    <NavLink to="/save" className="ps-4">
+                        Save
+                    </NavLink>
+                    <NavLink to="/contact" className="ps-4">
+                        Contact
+                    </NavLink>
+                    <NavLink to="/bmi" className="ps-4">
+                        BMI
+                    </NavLink>
                 </NavMenu>
                 {!logged ? (
                     <>
@@ -98,7 +110,7 @@ const Navbar = () => {
                     </NavRight>
                 )}
             </Nav>
-        </>
+        </div>
     );
 };
 

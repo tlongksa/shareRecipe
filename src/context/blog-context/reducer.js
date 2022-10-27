@@ -58,9 +58,16 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
                 draft.blogDetail.error = null;
                 break;
             case BLOG_GET_COMMENTS_SUCCESS:
-                draft.blogDetail.comments = payload;
                 draft.blogDetail.error = null;
                 draft.blogDetail.isLoading = false;
+                if (draft.blogDetail.comments.extraListInfo.numOfPages === 0) {
+                    draft.blogDetail.comments.dataResponse = payload?.data || [];
+                } else {
+                    draft.blogDetail.comments.dataResponse = draft.blogDetail.comments.dataResponse.concat(
+                        payload?.data || [],
+                    );
+                }
+                draft.blogDetail.comments.extraListInfo = payload.extraListInfo;
                 break;
             case BLOG_GET_COMMENTS_FAILURE:
                 draft.blogDetail.error = payload;

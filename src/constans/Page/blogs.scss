@@ -1,5 +1,5 @@
 .client-blog__list-container {
-    min-height: 70vh;
+    min-height: 80vh;
     .blog-list_search {
         width: 320px;
         display: flex;
@@ -43,13 +43,23 @@
     }
 }
 .client-blog-detail__container {
-    min-height: 70vh;
+    min-height: 80vh;
     .blog-detail__loader-container {
         margin: 2.5rem 0;
         display: flex;
         justify-content: center;
         .blog-detail__loader-icon {
             font-size: 1.5rem;
+        }
+    }
+}
+.blog-comments__list-container {
+    display: flex;
+    justify-content: flex-end;
+    .blog-comments__list {
+        width: calc(100% - 116px);
+        @media (max-width: 500px) {
+            width: calc(100% - 56px);
         }
     }
 }

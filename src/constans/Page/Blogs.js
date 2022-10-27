@@ -36,7 +36,7 @@ const SearchBlog = ({ search, setSearch, callback }) => {
     );
 };
 
-export const BlogItem = ({ item }) => {
+export const BlogItem = ({ item, isAuthenticated }) => {
     return (
         <li className="blog-list_item mb-4">
             <div className="d-flex gap-3">
@@ -58,11 +58,15 @@ export const BlogItem = ({ item }) => {
                     </div>
                     <div className="blog-list_item-content">
                         <h5>
-                            <Link to={`/blog-detail/${item.blogID}`}>{item.title}</Link>
+                            <Link to={`/blogs/${item.blogID}`}>{item.title}</Link>
                         </h5>
                         <p>{item.content}</p>
                     </div>
-                    <div className="blog-list_item-actions d-flex gap-3 align-items-center">
+                    <div
+                        className={`blog-list_item-actions d-flex gap-3 align-items-center ${
+                            isAuthenticated ? '' : 'divDisabled'
+                        }`}
+                    >
                         <button>
                             <LikeOutlined />
                             <span>{item.totalLike}</span>
@@ -86,6 +90,8 @@ const Blogs = () => {
     const { list, error, isLoading, extraListInfo, onFetchMore, onClearList } = useContext(BlogContext);
     const dataFetchedRef = useRef(false);
     const [search, setSearch] = useState('');
+
+    const isAuthenticated = !!localStorage.getItem('token');
 
     useEffect(() => {
         if (dataFetchedRef.current) return;
@@ -123,7 +129,7 @@ const Blogs = () => {
                 </div>
                 <ul className="blog-list_items">
                     {list.map((item, index) => (
-                        <BlogItem key={`${item.id}-${index}`} item={item} />
+                        <BlogItem key={`${item.id}-${index}`} item={item} isAuthenticated={isAuthenticated} />
                     ))}
                 </ul>
                 {isLoading && (

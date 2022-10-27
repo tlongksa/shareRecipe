@@ -36,8 +36,8 @@ root.render(
                     <Route path="/home" exact element={<HomePage />} />
                     <Route path="/test" element={<homeTest />} />
                     <Route path="/about" element={<About />} />
+                    <Route path="/blogs/:id" element={<BlogDetail />} />
                     <Route path="/blogs" element={<Blogs />} />
-                    <Route path="/blog-detail/:id" element={<BlogDetail />} />
                     <Route path="/save" element={<Save />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/bmi" element={<Bmi />} />
