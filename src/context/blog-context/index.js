@@ -114,10 +114,10 @@ export const BlogProvider = ({ children }) => {
         dispatchContext(blogGetListPendingAction());
         getListPendingBlogRequest(page, search)
             .then(({ data }) => {
-                const { listBlogActive = [], pageIndex, numOfPages } = data;
+                const { listBlogPending = [], pageIndex, numOfPages } = data;
                 dispatchContext(
                     blogGetListPendingSuccessAction({
-                        data: listBlogActive,
+                        data: listBlogPending,
                         extraListInfo: {
                             pageIndex,
                             numOfPages,

@@ -120,7 +120,7 @@ const Register = () => {
                 ) : (
                     <section className="register-section__container">
                         <div className="left"></div>
-                        <div className="right">
+                        <div className="right bg-gray-custom">
                             <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">
                                 {errMsg}
                             </p>

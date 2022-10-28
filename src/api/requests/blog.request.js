@@ -49,6 +49,13 @@ const commentOnBlogRequest = (data) =>
         },
     });
 
+const createBlogRequest = (data) =>
+    axios.post(`/saveBlog`, data, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListBlogRequest,
     getBlogDetailRequest,
@@ -59,4 +66,5 @@ export {
     likeBlogRequest,
     dislikeBlogRequest,
     commentOnBlogRequest,
+    createBlogRequest,
 };

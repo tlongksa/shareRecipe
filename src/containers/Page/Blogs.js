@@ -13,7 +13,9 @@ import {
 import Input from '../../components/common/Input/Input';
 import { Link } from 'react-router-dom';
 import Paginator from '../../components/common/Paginator';
-import { dislikeBlogRequest, likeBlogRequest } from '../../api/requests';
+import { dislikeBlogRequest, likeBlogRequest, createBlogRequest } from '../../api/requests';
+import Modal from 'react-bootstrap/Modal';
+import { notification } from 'antd';
 
 const SearchBlog = ({ search, setSearch, callback }) => {
     const handleChange = (e) => {
@@ -38,7 +40,7 @@ const SearchBlog = ({ search, setSearch, callback }) => {
     );
 };
 
-export const BlogItem = ({ item, isAuthenticated, onLike, onDislike }) => {
+export const BlogItem = ({ item, isAuthenticated, onLike, onDislike, hideBottomActions }) => {
     return (
         <li className="blog-list_item mb-4">
             <div className="d-flex gap-3">
@@ -67,7 +69,7 @@ export const BlogItem = ({ item, isAuthenticated, onLike, onDislike }) => {
                     <div
                         className={`blog-list_item-actions d-flex gap-3 align-items-center ${
                             isAuthenticated ? '' : 'divDisabled'
-                        }`}
+                        } ${hideBottomActions ? 'd-none' : ''}`}
                     >
                         <button onClick={() => onLike(item.blogID)}>
                             <LikeOutlined />
@@ -88,11 +90,79 @@ export const BlogItem = ({ item, isAuthenticated, onLike, onDislike }) => {
     );
 };
 
+export const NewBlogForm = ({ show, setShow }) => {
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        setIsProcessing(true);
+        createBlogRequest({ title, content })
+            .then(({ data }) => {
+                setTitle('');
+                setContent('');
+                setShow(false);
+                setIsProcessing(false);
+                notification.open({
+                    message: data?.messContent,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsProcessing(false);
+            });
+    };
+
+    return (
+        <Modal
+            show={show}
+            fullscreen={true}
+            onHide={() => setShow(false)}
+            className={`${isProcessing ? 'divDisabled' : ''}`}
+        >
+            <Modal.Header closeButton>
+                <Modal.Title>Tạo mới blog</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <form onSubmit={onSubmit}>
+                    <Input
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Title"
+                        label={'Title'}
+                        value={title}
+                        error={null}
+                        touched={true}
+                        className="flex-fill"
+                    />
+                    <Input
+                        type="textarea"
+                        label={'Content'}
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                        placeholder="Content ..."
+                    />
+                    <div className="d-flex justify-content-end">
+                        <button
+                            className="button button-sm"
+                            type="submit"
+                            disabled={!content.trim() || !title.trim() || isProcessing}
+                        >
+                            Post
+                        </button>
+                    </div>
+                </form>
+            </Modal.Body>
+        </Modal>
+    );
+};
+
 const Blogs = () => {
     const { list, error, isLoading, extraListInfo, onFetchMore, onClearList, onLikeItem, onDislikeItem } =
         useContext(BlogContext);
     const dataFetchedRef = useRef(false);
     const [search, setSearch] = useState('');
+    const [showNewBlog, setShowNewBlog] = useState(false);
 
     const isAuthenticated = !!localStorage.getItem('token');
 
@@ -149,7 +219,7 @@ const Blogs = () => {
                             }
                         }}
                     />
-                    <button className="button d-flex align-items-center gap-2">
+                    <button className="button d-flex align-items-center gap-2" onClick={() => setShowNewBlog(true)}>
                         <PlusCircleOutlined />
                         <span>Thêm blog</span>
                     </button>
@@ -178,6 +248,7 @@ const Blogs = () => {
                     callback={(page) => onFetchMore(page, search)}
                 />
             </div>
+            <NewBlogForm show={showNewBlog} setShow={setShowNewBlog} />
         </section>
     );
 };

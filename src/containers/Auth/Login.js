@@ -84,7 +84,7 @@ const Login = () => {
                 <h2 className="login__page-title">Wellcome to OiShii</h2>
                 <div className="login-form__container">
                     <div className="left"></div>
-                    <div className="right-login">
+                    <div className="right-login bg-gray-custom">
                         <div className="login-background">
                             <div className="login-title">Login</div>
                             <p ref={errRef} className={'error-message text-center'}>
