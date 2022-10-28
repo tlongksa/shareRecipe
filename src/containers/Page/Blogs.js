@@ -9,6 +9,8 @@ import {
     DislikeOutlined,
     CommentOutlined,
     PlusCircleOutlined,
+    CheckSquareOutlined,
+    DeleteOutlined,
 } from '@ant-design/icons';
 import Input from '../../components/common/Input/Input';
 import { Link } from 'react-router-dom';
@@ -40,7 +42,7 @@ const SearchBlog = ({ search, setSearch, callback }) => {
     );
 };
 
-export const BlogItem = ({ item, isAuthenticated, onLike, onDislike, hideBottomActions }) => {
+export const BlogItem = ({ item, isAuthenticated, onLike, onDislike, hideBottomActions, onApprove, onDelete }) => {
     return (
         <li className="blog-list_item mb-4">
             <div className="d-flex gap-3">
@@ -58,7 +60,21 @@ export const BlogItem = ({ item, isAuthenticated, onLike, onDislike, hideBottomA
                             <strong>{item.userName}</strong>
                             <span className="text-muted">2022-10-26</span>
                         </p>
-                        <EllipsisOutlined className="blog-list_item-actions_icon" />
+                        <div className="d-flex gap-3">
+                            {onApprove && (
+                                <CheckSquareOutlined
+                                    className="blog-list_item-actions_icon"
+                                    onClick={() => onApprove(item.blogID)}
+                                />
+                            )}
+                            {onDelete && (
+                                <DeleteOutlined
+                                    className="blog-list_item-actions_icon"
+                                    onClick={() => onDelete(item.blogID)}
+                                />
+                            )}
+                            <EllipsisOutlined className="blog-list_item-actions_icon" />
+                        </div>
                     </div>
                     <div className="blog-list_item-content">
                         <h5>
@@ -227,7 +243,7 @@ const Blogs = () => {
                 <ul className="blog-list_items">
                     {list.map((item, index) => (
                         <BlogItem
-                            key={`${item.id}-${index}`}
+                            key={`${item.blogID}-${index}`}
                             item={item}
                             isAuthenticated={isAuthenticated}
                             onLike={onLikeBLogHandler}

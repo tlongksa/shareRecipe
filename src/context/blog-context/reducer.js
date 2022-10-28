@@ -17,6 +17,8 @@ import {
     BLOG_DISLIKE_ITEM_SUCCESS,
     BLOG_LIKE_ITEM_DETAIL_SUCCESS,
     BLOG_DISLIKE_ITEM_DETAIL_SUCCESS,
+    BLOG_CLEAR_LIST_PENDING,
+    BLOG_REMOVE_ITEM_FROM_LIST_PENDING,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -133,6 +135,16 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
                     draft.list[idxDislike].totalLike--;
                     draft.list[idxDislike].totalDisLike++;
                 }
+                break;
+            case BLOG_CLEAR_LIST_PENDING:
+                draft.listPendingBlog = [];
+                draft.extraPendingBlogListInfo = {
+                    pageIndex: 1,
+                    numOfPages: 0,
+                };
+                break;
+            case BLOG_REMOVE_ITEM_FROM_LIST_PENDING:
+                draft.listPendingBlog = draft.listPendingBlog.filter((item) => item.blogID !== payload);
                 break;
             default:
                 break;

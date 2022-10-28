@@ -19,6 +19,8 @@ import {
     blogDislikeItemSuccessAction,
     blogLikeItemDetailSuccessAction,
     blogDislikeItemDetailSuccessAction,
+    clearPendingBlogList,
+    removeItemFromPendingBlogList,
 } from './actions';
 import blogReducer from './reducer';
 import {
@@ -144,6 +146,8 @@ export const BlogProvider = ({ children }) => {
                 onDislikeItem: (id) => dispatchContext(blogDislikeItemSuccessAction(id)),
                 onLikeItemDetail: () => dispatchContext(blogLikeItemDetailSuccessAction()),
                 onDislikeItemDetail: () => dispatchContext(blogDislikeItemDetailSuccessAction()),
+                onClearPendingList: () => dispatchContext(clearPendingBlogList()),
+                onRemoveFromPendingList: (id) => dispatchContext(removeItemFromPendingBlogList(id)),
             }}
         >
             {children}

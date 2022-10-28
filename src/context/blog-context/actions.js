@@ -17,6 +17,8 @@ import {
     BLOG_DISLIKE_ITEM_SUCCESS,
     BLOG_LIKE_ITEM_DETAIL_SUCCESS,
     BLOG_DISLIKE_ITEM_DETAIL_SUCCESS,
+    BLOG_CLEAR_LIST_PENDING,
+    BLOG_REMOVE_ITEM_FROM_LIST_PENDING,
 } from './types';
 
 const blogGetListAction = () => ({
@@ -101,6 +103,15 @@ const blogDislikeItemDetailSuccessAction = () => ({
     type: BLOG_DISLIKE_ITEM_DETAIL_SUCCESS,
 });
 
+const clearPendingBlogList = () => ({
+    type: BLOG_CLEAR_LIST_PENDING,
+});
+
+const removeItemFromPendingBlogList = (payload) => ({
+    type: BLOG_REMOVE_ITEM_FROM_LIST_PENDING,
+    payload,
+});
+
 export {
     blogGetListAction,
     blogGetListSuccessAction,
@@ -120,4 +131,6 @@ export {
     blogDislikeItemSuccessAction,
     blogLikeItemDetailSuccessAction,
     blogDislikeItemDetailSuccessAction,
+    clearPendingBlogList,
+    removeItemFromPendingBlogList,
 };
