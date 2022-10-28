@@ -4,14 +4,13 @@ import styled from 'styled-components';
 
 export const Nav = styled.nav`
     background: #cbcde5;
-    height: 60px;
+    height: 70px;
     max-width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 10;
     color: #000;
-    /* Third Nav */
 `;
 export const NavRight = styled.nav`
     background: #cbcde5;
@@ -36,13 +35,13 @@ export const NavLink = styled(Link)`
     padding: 0 1.5rem 0 0;
     height: 100%;
     cursor: pointer;
+    font-weight: 600;
     &.active {
         color: #0212ef;
     }
     &:hover {
         transition: all 0.2s ease-in-out;
-        background: #b3aeae;
-        color: #fff;
+        color: #0212ef;
     }
 `;
 export const NavLinkRight = styled(Link)`

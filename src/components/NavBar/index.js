@@ -85,7 +85,13 @@ const Navbar = () => {
                 ) : (
                     <NavRight>
                         <CDropdown>
-                            <CDropdownToggle color="#cbcde5">
+                            <CDropdownToggle
+                                color="white"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }}
+                            >
                                 <CAvatar src={img} status="success" />{' '}
                             </CDropdownToggle>
                             <CDropdownMenu>

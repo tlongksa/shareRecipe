@@ -9,6 +9,9 @@ import {
     BLOG_GET_COMMENTS,
     BLOG_GET_COMMENTS_SUCCESS,
     BLOG_GET_COMMENTS_FAILURE,
+    BLOG_GET_LIST_PENDING,
+    BLOG_GET_LIST_PENDING_FAILURE,
+    BLOG_GET_LIST_PENDING_SUCCESS,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -72,6 +75,23 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
             case BLOG_GET_COMMENTS_FAILURE:
                 draft.blogDetail.error = payload;
                 draft.blogDetail.isLoading = false;
+                break;
+            case BLOG_GET_LIST_PENDING:
+                draft.isLoading = true;
+                draft.error = null;
+                break;
+            case BLOG_GET_LIST_PENDING_SUCCESS:
+                draft.isLoading = false;
+                if (draft.extraPendingBlogListInfo.numOfPages === 0) {
+                    draft.listPendingBlog = payload?.data;
+                } else {
+                    draft.listPendingBlog = draft.listPendingBlog.concat(payload?.data);
+                }
+                draft.extraPendingBlogListInfo = payload.extraListInfo;
+                break;
+            case BLOG_GET_LIST_PENDING_FAILURE:
+                draft.isLoading = false;
+                draft.error = payload;
                 break;
             default:
                 break;

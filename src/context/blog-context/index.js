@@ -11,9 +11,17 @@ import {
     blogGetCommentsAction,
     blogGetCommentsFailureAction,
     blogGetCommentsSuccessAction,
+    blogGetListPendingAction,
+    blogGetListPendingSuccessAction,
+    blogGetListPendingFailureAction,
 } from './actions';
 import blogReducer from './reducer';
-import { getBlogDetailRequest, getListBlogRequest, getBlogCommentsRequest } from '../../api/requests';
+import {
+    getBlogDetailRequest,
+    getListBlogRequest,
+    getBlogCommentsRequest,
+    getListPendingBlogRequest,
+} from '../../api/requests';
 
 export const defaultValues = {
     list: [],
@@ -34,6 +42,11 @@ export const defaultValues = {
                 numOfPages: 0,
             },
         },
+    },
+    listPendingBlog: [],
+    extraPendingBlogListInfo: {
+        pageIndex: 1,
+        numOfPages: 0,
     },
 };
 
@@ -92,6 +105,26 @@ export const BlogProvider = ({ children }) => {
             });
     };
 
+    const fetchPendingBlogList = (page, search = '') => {
+        dispatchContext(blogGetListPendingAction());
+        getListPendingBlogRequest(page, search)
+            .then(({ data }) => {
+                const { listBlogActive = [], pageIndex, numOfPages } = data;
+                dispatchContext(
+                    blogGetListPendingSuccessAction({
+                        data: listBlogActive,
+                        extraListInfo: {
+                            pageIndex,
+                            numOfPages,
+                        },
+                    }),
+                );
+            })
+            .catch((err) => {
+                dispatchContext(blogGetListPendingFailureAction(err?.message));
+            });
+    };
+
     return (
         <BlogContext.Provider
             value={{
@@ -100,6 +133,7 @@ export const BlogProvider = ({ children }) => {
                 onClearList: () => dispatchContext(blogClearListAction()),
                 onFetchDetail: (id) => fetchBlogDetail(id),
                 onFetchComments: (id) => fetchBlogComments(id),
+                onFetchMorePendingList: (page, search) => fetchPendingBlogList(page, search),
             }}
         >
             {children}

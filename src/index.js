@@ -30,6 +30,8 @@ import Accounts from './containers/Admin/pages/Accounts';
 import { RecipeProvider } from './context/recipe-context';
 import { AccountProvider } from './context/account-context';
 import Recipes from './containers/Admin/pages/Recipes';
+import RecipesByName from './components/List/RecipesByName';
+import PendingBlogs from './containers/Admin/pages/PendingBlogs';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -55,11 +57,13 @@ root.render(
                             <Route path="/change-password" element={<ChangePassword />} />
                             <Route path="/new-password" element={<NewPassword />} />
                             <Route path="/list-recipe-by-category/:id" element={<RecipesByCategory />} />
+                            <Route path="/list-recipe-by-name" element={<RecipesByName />} />
                             <Route path="/view-detail/:dishId" element={<ViewDetail />} />
                             <Route path="/search/:searchTitle" element={<SearchBar />} />
                             <Route path="/admin" element={<AdminLayout />}>
                                 <Route path="accounts" element={<Accounts />} />
                                 <Route path="recipes" element={<Recipes />} />
+                                <Route path="approve-blogs" element={<PendingBlogs />} />
                             </Route>
 
                             <Route path="*" element={<NotFound />} />

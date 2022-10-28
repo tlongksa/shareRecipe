@@ -12,6 +12,10 @@ export const links = [
         label: 'Quản lí công thức',
     },
     {
+        to: '/admin/approve-blogs',
+        label: 'Phê duyệt blog',
+    },
+    {
         to: '/admin/blogs',
         label: 'Quản lí blog',
     },

@@ -1,32 +1,24 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function SearchBar() {
-    const [loading, setLoading] = useState(false);
-    const [name, setName] = useState([]);
-    // const [searchTitle, setSearchTitle] = useState("");
-
-    const setSearchTitle = (value) => {
-        axios
-            .get(`/searchdishbyname/${value}`)
-
-            .then((response) => {
-                console.log(response.data);
-                setName(response.data);
-                setLoading(false);
-            })
-            .catch((error) => console.log(error.message));
-    };
+    const [searchTitle, setSearchTitle] = useState('');
+    const navigate = useNavigate();
 
     return (
         <div className="home_view-search-container">
             <input
                 className="home_input-search"
                 type="search"
+                value={searchTitle}
                 onChange={(e) => setSearchTitle(e.target.value)}
                 placeholder="Tìm kiếm"
             />
-            <button className="btn-search" type="submit">
+            <button
+                className="btn-search"
+                type="button"
+                onClick={() => navigate(`/list-recipe-by-name?name=${searchTitle.trim()}`)}
+            >
                 Tìm kiếm
             </button>
         </div>

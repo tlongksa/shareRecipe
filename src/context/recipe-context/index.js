@@ -11,9 +11,17 @@ import {
     recipeAdminGetListAction,
     recipeAdminGetListSuccessAction,
     recipeAdminGetListFailureAction,
+    recipeGetListByNameAction,
+    recipeGetListByNameSuccessAction,
+    recipeGetListByNameFailureAction,
 } from './actions';
 import recipeReducer from './reducer';
-import { getRecipeDetailRequest, getListRecipeByCategoryRequest, adminGetRecipeListRequest } from '../../api/requests';
+import {
+    getRecipeDetailRequest,
+    getListRecipeByCategoryRequest,
+    adminGetRecipeListRequest,
+    getListRecipeByNameRequest,
+} from '../../api/requests';
 
 export const defaultValues = {
     list: [],
@@ -33,6 +41,11 @@ export const defaultValues = {
         pageIndex: 1,
         numOfPages: 0,
     },
+    recipeByNameList: [],
+    recipeByNameExtraListInfo: {
+        pageIndex: 1,
+        numOfPages: 0,
+    },
 };
 
 const RecipeContext = createContext(defaultValues);
@@ -44,13 +57,13 @@ export const RecipeProvider = ({ children }) => {
         dispatchContext(recipeGetListAction());
         getListRecipeByCategoryRequest(categoryId, page, search)
             .then(({ data }) => {
-                const { listRecipeActive = [], pageIndex, numOfPages } = data;
+                // const { listRecipeActive = [], pageIndex, numOfPages } = data;
                 dispatchContext(
                     recipeGetListSuccessAction({
-                        data: listRecipeActive,
+                        data: data,
                         extraListInfo: {
-                            pageIndex,
-                            numOfPages,
+                            pageIndex: 1,
+                            numOfPages: 0,
                         },
                     }),
                 );
@@ -91,6 +104,26 @@ export const RecipeProvider = ({ children }) => {
             });
     };
 
+    const fetchRecipeListByName = (name, page, search = '') => {
+        dispatchContext(recipeGetListByNameAction());
+        getListRecipeByNameRequest(name, page, search)
+            .then(({ data }) => {
+                // const { listRecipeActive = [], pageIndex, numOfPages } = data;
+                dispatchContext(
+                    recipeGetListByNameSuccessAction({
+                        data: data,
+                        extraListInfo: {
+                            pageIndex: 1,
+                            numOfPages: 0,
+                        },
+                    }),
+                );
+            })
+            .catch((err) => {
+                dispatchContext(recipeGetListByNameFailureAction(err?.message));
+            });
+    };
+
     return (
         <RecipeContext.Provider
             value={{
@@ -100,6 +133,7 @@ export const RecipeProvider = ({ children }) => {
                 onClearList: () => dispatchContext(recipeClearListAction()),
                 onFetchDetail: (id) => fetchRecipeDetail(id),
                 onAdminFetchMore: (page, search) => fetchAdminRecipeList(page, search),
+                onFetchMoreByName: (name, page, search) => fetchRecipeListByName(name, page, search),
             }}
         >
             {children}

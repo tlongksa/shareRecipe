@@ -1,6 +1,6 @@
 import { DislikeOutlined, LikeOutlined, LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
 import './index.scss';
@@ -46,16 +46,18 @@ const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
     </li>
 );
 
-const RecipesByCategory = () => {
-    const { list, isLoading, error, onFetchMoreByCategory } = useContext(RecipeContext);
+const RecipesByName = () => {
+    const { recipeByNameList, isLoading, error, onFetchMoreByName } = useContext(RecipeContext);
     const [search, setSearch] = useState('');
-    const { id } = useParams();
+    const [searchParams] = useSearchParams();
     const isAuthenticated = !!localStorage.getItem('token');
 
+    const name = searchParams.get('name');
+
     useEffect(() => {
-        onFetchMoreByCategory(id, 1, search);
+        onFetchMoreByName(name, 1, search);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [name]);
 
     if (!isLoading && error) {
         return <p className="error-message">Something went wrong</p>;
@@ -79,7 +81,7 @@ const RecipesByCategory = () => {
                     </form>
                 </div>
                 <div className="recipes-by__category-list">
-                    {list.map((item) => (
+                    {recipeByNameList.map((item) => (
                         <RecipeByCategoryItem item={item} key={item.dishID} isAuthenticated={isAuthenticated} />
                     ))}
                 </div>
@@ -92,4 +94,4 @@ const RecipesByCategory = () => {
         </section>
     );
 };
-export default RecipesByCategory;
+export default RecipesByName;

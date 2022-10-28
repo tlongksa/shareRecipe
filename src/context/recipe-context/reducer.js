@@ -9,6 +9,9 @@ import {
     RECIPE_ADMIN_GET_LIST,
     RECIPE_ADMIN_GET_LIST_SUCCESS,
     RECIPE_ADMIN_GET_LIST_FAILURE,
+    RECIPE_GET_LIST_BY_NAME,
+    RECIPE_GET_LIST_BY_NAME_FAILURE,
+    RECIPE_GET_LIST_BY_NAME_SUCCESS,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -63,6 +66,23 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
                 draft.adminRecipeExtraListInfo = payload.extraListInfo;
                 break;
             case RECIPE_ADMIN_GET_LIST_FAILURE:
+                draft.isLoading = false;
+                draft.error = payload;
+                break;
+            case RECIPE_GET_LIST_BY_NAME:
+                draft.isLoading = true;
+                draft.error = null;
+                break;
+            case RECIPE_GET_LIST_BY_NAME_SUCCESS:
+                draft.isLoading = false;
+                if (draft.recipeByNameExtraListInfo.numOfPages === 0) {
+                    draft.recipeByNameList = payload?.data;
+                } else {
+                    draft.recipeByNameList = draft.recipeByNameList.concat(payload?.data);
+                }
+                draft.recipeByNameExtraListInfo = payload.extraListInfo;
+                break;
+            case RECIPE_GET_LIST_BY_NAME_FAILURE:
                 draft.isLoading = false;
                 draft.error = payload;
                 break;

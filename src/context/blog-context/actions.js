@@ -9,6 +9,9 @@ import {
     BLOG_GET_COMMENTS,
     BLOG_GET_COMMENTS_SUCCESS,
     BLOG_GET_COMMENTS_FAILURE,
+    BLOG_GET_LIST_PENDING,
+    BLOG_GET_LIST_PENDING_FAILURE,
+    BLOG_GET_LIST_PENDING_SUCCESS,
 } from './types';
 
 const blogGetListAction = () => ({
@@ -57,6 +60,20 @@ const blogGetCommentsFailureAction = (error) => ({
     payload: error,
 });
 
+const blogGetListPendingAction = () => ({
+    type: BLOG_GET_LIST_PENDING,
+});
+
+const blogGetListPendingSuccessAction = (payload) => ({
+    type: BLOG_GET_LIST_PENDING_SUCCESS,
+    payload,
+});
+
+const blogGetListPendingFailureAction = (error) => ({
+    type: BLOG_GET_LIST_PENDING_FAILURE,
+    payload: error,
+});
+
 export {
     blogGetListAction,
     blogGetListSuccessAction,
@@ -68,4 +85,7 @@ export {
     blogGetCommentsAction,
     blogGetCommentsFailureAction,
     blogGetCommentsSuccessAction,
+    blogGetListPendingAction,
+    blogGetListPendingFailureAction,
+    blogGetListPendingSuccessAction,
 };
