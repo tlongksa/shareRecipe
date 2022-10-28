@@ -28,6 +28,20 @@ const deleteBlogRequest = (id) =>
         },
     });
 
+const likeBlogRequest = (id) =>
+    axios.post(`/likeBlog?blogId=${id}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
+const dislikeBlogRequest = (id) =>
+    axios.post(`/dislikeBlog?blogId=${id}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListBlogRequest,
     getBlogDetailRequest,
@@ -35,4 +49,6 @@ export {
     getListPendingBlogRequest,
     approvePendingBlogRequest,
     deleteBlogRequest,
+    likeBlogRequest,
+    dislikeBlogRequest,
 };

@@ -92,7 +92,7 @@ const Navbar = () => {
                                     alignItems: 'center',
                                 }}
                             >
-                                <CAvatar src={img} status="success" />{' '}
+                                <CAvatar src={img} status="success" />
                             </CDropdownToggle>
                             <CDropdownMenu>
                                 <CDropdownItem

@@ -8,10 +8,12 @@ import {
     LikeOutlined,
     DislikeOutlined,
     CommentOutlined,
+    PlusCircleOutlined,
 } from '@ant-design/icons';
 import Input from '../../components/common/Input/Input';
 import { Link } from 'react-router-dom';
 import Paginator from '../../components/common/Paginator';
+import { dislikeBlogRequest, likeBlogRequest } from '../../api/requests';
 
 const SearchBlog = ({ search, setSearch, callback }) => {
     const handleChange = (e) => {
@@ -36,7 +38,7 @@ const SearchBlog = ({ search, setSearch, callback }) => {
     );
 };
 
-export const BlogItem = ({ item, isAuthenticated }) => {
+export const BlogItem = ({ item, isAuthenticated, onLike, onDislike }) => {
     return (
         <li className="blog-list_item mb-4">
             <div className="d-flex gap-3">
@@ -67,11 +69,11 @@ export const BlogItem = ({ item, isAuthenticated }) => {
                             isAuthenticated ? '' : 'divDisabled'
                         }`}
                     >
-                        <button>
+                        <button onClick={() => onLike(item.blogID)}>
                             <LikeOutlined />
                             <span>{item.totalLike}</span>
                         </button>
-                        <button>
+                        <button onClick={() => onDislike(item.blogID)}>
                             <DislikeOutlined />
                             <span>{item.totalDisLike}</span>
                         </button>
@@ -105,6 +107,26 @@ const Blogs = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const onLikeBLogHandler = (blogId) => {
+        likeBlogRequest(blogId)
+            .then(({ data }) => {
+                console.log(data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const onDislikeBLogHandler = (blogId) => {
+        dislikeBlogRequest(blogId)
+            .then(({ data }) => {
+                console.log(data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     if (!isLoading && error) {
         return <p className="error-message">Something went wrong!</p>;
     }
@@ -112,7 +134,7 @@ const Blogs = () => {
     return (
         <section className="client-blog__list-container">
             <div className="custom-page__container">
-                <div className="d-flex justify-content-end mb-3">
+                <div className="d-flex justify-content-end mb-3 gap-3">
                     <SearchBlog
                         search={search}
                         setSearch={setSearch}
@@ -126,10 +148,20 @@ const Blogs = () => {
                             }
                         }}
                     />
+                    <button className="button d-flex align-items-center gap-2">
+                        <PlusCircleOutlined />
+                        <span>Thêm blog</span>
+                    </button>
                 </div>
                 <ul className="blog-list_items">
                     {list.map((item, index) => (
-                        <BlogItem key={`${item.id}-${index}`} item={item} isAuthenticated={isAuthenticated} />
+                        <BlogItem
+                            key={`${item.id}-${index}`}
+                            item={item}
+                            isAuthenticated={isAuthenticated}
+                            onLike={onLikeBLogHandler}
+                            onDislike={onDislikeBLogHandler}
+                        />
                     ))}
                 </ul>
                 {isLoading && (
