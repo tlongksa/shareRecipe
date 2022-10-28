@@ -19,11 +19,7 @@ const accountReducer = (state = defaultValues, { type, payload }) =>
                 break;
             case ACCOUNT_GET_LIST_SUCCESS:
                 draft.isLoading = false;
-                if (draft.extraListInfo.numOfPages === 0) {
-                    draft.list = payload?.data;
-                } else {
-                    draft.list = draft.list.concat(payload?.data);
-                }
+                draft.list = payload?.data;
                 draft.extraListInfo = payload.extraListInfo;
                 break;
             case ACCOUNT_GET_LIST_FAILURE:

@@ -58,7 +58,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
 const UserDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCallback }) => {
     const isMobile = useMediaQuery({ query: `(max-width: 768px)` });
 
-    let listUserMarkup = list.slice((currentPage - 1) * MAX_ITEMS, currentPage * MAX_ITEMS).map((item, index) => (
+    let listUserMarkup = list.map((item, index) => (
         <li key={item.accountId} className={styles.dataItem}>
             <span className={styles.no}>{index + 1 + (currentPage - 1) * MAX_ITEMS}</span>
             <span>{item.userName || '-'}</span>

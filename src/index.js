@@ -6,30 +6,30 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Login from './constans/Auth/Login';
-import Register from './constans/Auth/Register';
-import HomePage from './constans/Home/HomePage';
-import About from './constans/Page/about';
-import Contact from './constans/Page/contact';
-import Bmi from './constans/Page/bmi';
-import Save from './constans/Page/save';
-import ForgotPassword from './constans/Auth/forgotPassword';
-import Profile from './constans/User/profile';
+import Login from './containers/Auth/Login';
+import Register from './containers/Auth/Register';
+import HomePage from './containers/Home/HomePage';
+import About from './containers/Page/about';
+import Contact from './containers/Page/contact';
+import Bmi from './containers/Page/bmi';
+import Save from './containers/Page/save';
+import ForgotPassword from './containers/Auth/forgotPassword';
+import Profile from './containers/User/profile';
 import RecipesByCategory from './components/List/RecipesByCategory';
 
 import NotFound from './components/Error/NotFound';
 import SearchBar from './components/Search/SearchBar';
-import ChangePassword from './constans/Auth/ChangePassword';
-import ViewDetail from './constans/ViewDetail/viewDetail';
-import NewPassword from './constans/Auth/NewPassword';
-import Blogs from './constans/Page/Blogs';
+import ChangePassword from './containers/Auth/ChangePassword';
+import ViewDetail from './containers/ViewDetail/viewDetail';
+import NewPassword from './containers/Auth/NewPassword';
+import Blogs from './containers/Page/Blogs';
 import { BlogProvider } from './context/blog-context';
-import BlogDetail from './constans/Page/BlogDetail';
-import AdminLayout from './constans/Admin/AdminLayout';
-import Accounts from './constans/Admin/pages/Accounts';
+import BlogDetail from './containers/Page/BlogDetail';
+import AdminLayout from './containers/Admin/AdminLayout';
+import Accounts from './containers/Admin/pages/Accounts';
 import { RecipeProvider } from './context/recipe-context';
 import { AccountProvider } from './context/account-context';
-import Recipes from './constans/Admin/pages/Recipes';
+import Recipes from './containers/Admin/pages/Recipes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

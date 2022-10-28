@@ -58,7 +58,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
 const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCallback }) => {
     const isMobile = useMediaQuery({ query: `(max-width: 768px)` });
 
-    let listUserMarkup = list.slice((currentPage - 1) * MAX_ITEMS, currentPage * MAX_ITEMS).map((item, index) => (
+    let listRecipeMarkup = list.map((item, index) => (
         <li key={item.dishId} className={styles.dataItem}>
             <span className={styles.no}>{index + 1 + (currentPage - 1) * MAX_ITEMS}</span>
             <span>{item.dishName || '-'}</span>
@@ -89,7 +89,7 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
     ));
 
     if (isMobile) {
-        listUserMarkup = list.map((item, index) => (
+        listRecipeMarkup = list.map((item, index) => (
             <MobileCard no={index + 1} key={item.dishId} item={item} onEdit={onEdit} onDelete={onDelete} />
         ));
     }
@@ -107,7 +107,7 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
                         <strong />
                     </li>
                 )}
-                {listUserMarkup}
+                {listRecipeMarkup}
             </ul>
             {!isMobile && (
                 <Paginator

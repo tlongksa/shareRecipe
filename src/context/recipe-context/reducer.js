@@ -59,11 +59,7 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
                 break;
             case RECIPE_ADMIN_GET_LIST_SUCCESS:
                 draft.isLoading = false;
-                if (draft.adminRecipeExtraListInfo.numOfPages === 0) {
-                    draft.adminRecipeList = payload?.data;
-                } else {
-                    draft.adminRecipeList = draft.adminRecipeList.concat(payload?.data);
-                }
+                draft.adminRecipeList = payload?.data;
                 draft.adminRecipeExtraListInfo = payload.extraListInfo;
                 break;
             case RECIPE_ADMIN_GET_LIST_FAILURE:
