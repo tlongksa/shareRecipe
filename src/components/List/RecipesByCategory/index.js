@@ -16,7 +16,7 @@ const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
                 alt=""
                 className="recipe-list_item-avatar"
             />
-            <div className="bg-gray flex-fill py-3 px-4 rounded-1">
+            <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
                 <div className="recipe-list_item-content">
                     <h5>
                         <Link to={`/recipes/${item.recipeID}`}>{item.name}</Link>

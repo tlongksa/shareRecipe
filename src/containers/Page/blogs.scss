@@ -54,3 +54,13 @@
         }
     }
 }
+.comment-form__container {
+    display: flex;
+    justify-content: flex-end;
+    .comment-form__inner {
+        width: calc(100% - 116px);
+        @media (max-width: 500px) {
+            width: calc(100% - 56px);
+        }
+    }
+}

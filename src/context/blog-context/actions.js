@@ -12,6 +12,11 @@ import {
     BLOG_GET_LIST_PENDING,
     BLOG_GET_LIST_PENDING_FAILURE,
     BLOG_GET_LIST_PENDING_SUCCESS,
+    BLOG_DETAIL_CLEAR,
+    BLOG_LIKE_ITEM_SUCCESS,
+    BLOG_DISLIKE_ITEM_SUCCESS,
+    BLOG_LIKE_ITEM_DETAIL_SUCCESS,
+    BLOG_DISLIKE_ITEM_DETAIL_SUCCESS,
 } from './types';
 
 const blogGetListAction = () => ({
@@ -74,6 +79,28 @@ const blogGetListPendingFailureAction = (error) => ({
     payload: error,
 });
 
+const clearBlogDetailAction = () => ({
+    type: BLOG_DETAIL_CLEAR,
+});
+
+const blogLikeItemSuccessAction = (payload) => ({
+    type: BLOG_LIKE_ITEM_SUCCESS,
+    payload,
+});
+
+const blogDislikeItemSuccessAction = (payload) => ({
+    type: BLOG_DISLIKE_ITEM_SUCCESS,
+    payload,
+});
+
+const blogLikeItemDetailSuccessAction = () => ({
+    type: BLOG_LIKE_ITEM_DETAIL_SUCCESS,
+});
+
+const blogDislikeItemDetailSuccessAction = () => ({
+    type: BLOG_DISLIKE_ITEM_DETAIL_SUCCESS,
+});
+
 export {
     blogGetListAction,
     blogGetListSuccessAction,
@@ -88,4 +115,9 @@ export {
     blogGetListPendingAction,
     blogGetListPendingFailureAction,
     blogGetListPendingSuccessAction,
+    clearBlogDetailAction,
+    blogLikeItemSuccessAction,
+    blogDislikeItemSuccessAction,
+    blogLikeItemDetailSuccessAction,
+    blogDislikeItemDetailSuccessAction,
 };

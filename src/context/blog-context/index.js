@@ -14,6 +14,11 @@ import {
     blogGetListPendingAction,
     blogGetListPendingSuccessAction,
     blogGetListPendingFailureAction,
+    clearBlogDetailAction,
+    blogLikeItemSuccessAction,
+    blogDislikeItemSuccessAction,
+    blogLikeItemDetailSuccessAction,
+    blogDislikeItemDetailSuccessAction,
 } from './actions';
 import blogReducer from './reducer';
 import {
@@ -134,6 +139,11 @@ export const BlogProvider = ({ children }) => {
                 onFetchDetail: (id) => fetchBlogDetail(id),
                 onFetchComments: (id) => fetchBlogComments(id),
                 onFetchMorePendingList: (page, search) => fetchPendingBlogList(page, search),
+                onClearDetail: (id) => dispatchContext(clearBlogDetailAction()),
+                onLikeItem: (id) => dispatchContext(blogLikeItemSuccessAction(id)),
+                onDislikeItem: (id) => dispatchContext(blogDislikeItemSuccessAction(id)),
+                onLikeItemDetail: () => dispatchContext(blogLikeItemDetailSuccessAction()),
+                onDislikeItemDetail: () => dispatchContext(blogDislikeItemDetailSuccessAction()),
             }}
         >
             {children}

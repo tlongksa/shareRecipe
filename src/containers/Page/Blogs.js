@@ -50,7 +50,7 @@ export const BlogItem = ({ item, isAuthenticated, onLike, onDislike }) => {
                     alt=""
                     className="rounded-circle blog-list_item-avatar"
                 />
-                <div className="bg-gray flex-fill py-3 px-4 rounded-1">
+                <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
                     <div className="d-flex justify-content-between align-items-center">
                         <p className="d-flex align-items-center gap-1">
                             <strong>{item.userName}</strong>
@@ -89,7 +89,8 @@ export const BlogItem = ({ item, isAuthenticated, onLike, onDislike }) => {
 };
 
 const Blogs = () => {
-    const { list, error, isLoading, extraListInfo, onFetchMore, onClearList } = useContext(BlogContext);
+    const { list, error, isLoading, extraListInfo, onFetchMore, onClearList, onLikeItem, onDislikeItem } =
+        useContext(BlogContext);
     const dataFetchedRef = useRef(false);
     const [search, setSearch] = useState('');
 
@@ -109,8 +110,8 @@ const Blogs = () => {
 
     const onLikeBLogHandler = (blogId) => {
         likeBlogRequest(blogId)
-            .then(({ data }) => {
-                console.log(data);
+            .then(() => {
+                onLikeItem(blogId);
             })
             .catch((err) => {
                 console.log(err);
@@ -119,8 +120,8 @@ const Blogs = () => {
 
     const onDislikeBLogHandler = (blogId) => {
         dislikeBlogRequest(blogId)
-            .then(({ data }) => {
-                console.log(data);
+            .then(() => {
+                onDislikeItem(blogId);
             })
             .catch((err) => {
                 console.log(err);

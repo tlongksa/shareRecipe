@@ -12,6 +12,11 @@ import {
     BLOG_GET_LIST_PENDING,
     BLOG_GET_LIST_PENDING_FAILURE,
     BLOG_GET_LIST_PENDING_SUCCESS,
+    BLOG_DETAIL_CLEAR,
+    BLOG_LIKE_ITEM_SUCCESS,
+    BLOG_DISLIKE_ITEM_SUCCESS,
+    BLOG_LIKE_ITEM_DETAIL_SUCCESS,
+    BLOG_DISLIKE_ITEM_DETAIL_SUCCESS,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -92,6 +97,42 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
             case BLOG_GET_LIST_PENDING_FAILURE:
                 draft.isLoading = false;
                 draft.error = payload;
+                break;
+            case BLOG_DETAIL_CLEAR:
+                draft.blogDetail = {
+                    dataResponse: {},
+                    isLoading: false,
+                    error: null,
+                    comments: {
+                        dataResponse: [],
+                        extraListInfo: {
+                            pageIndex: 1,
+                            numOfPages: 0,
+                        },
+                    },
+                };
+                break;
+            case BLOG_LIKE_ITEM_DETAIL_SUCCESS:
+                draft.blogDetail.dataResponse.totalLike++;
+                draft.blogDetail.dataResponse.totalDisLike--;
+                break;
+            case BLOG_DISLIKE_ITEM_DETAIL_SUCCESS:
+                draft.blogDetail.dataResponse.totalLike--;
+                draft.blogDetail.dataResponse.totalDisLike++;
+                break;
+            case BLOG_LIKE_ITEM_SUCCESS:
+                const idxLike = draft.list.findIndex((item) => item.blogID === payload);
+                if (idxLike > -1) {
+                    draft.list[idxLike].totalLike++;
+                    draft.list[idxLike].totalDisLike--;
+                }
+                break;
+            case BLOG_DISLIKE_ITEM_SUCCESS:
+                const idxDislike = draft.list.findIndex((item) => item.blogID === payload);
+                if (idxDislike > -1) {
+                    draft.list[idxDislike].totalLike--;
+                    draft.list[idxDislike].totalDisLike++;
+                }
                 break;
             default:
                 break;

@@ -29,14 +29,21 @@ const deleteBlogRequest = (id) =>
     });
 
 const likeBlogRequest = (id) =>
-    axios.post(`/likeBlog?blogId=${id}`, {
+    axios.post(`/likeBlog?blogId=${id}`, null, {
         headers: {
             authorization: `Bearer ${token || ''}`,
         },
     });
 
 const dislikeBlogRequest = (id) =>
-    axios.post(`/dislikeBlog?blogId=${id}`, {
+    axios.post(`/dislikeBlog?blogId=${id}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
+const commentOnBlogRequest = (data) =>
+    axios.post(`/saveBlogComment`, data, {
         headers: {
             authorization: `Bearer ${token || ''}`,
         },
@@ -51,4 +58,5 @@ export {
     deleteBlogRequest,
     likeBlogRequest,
     dislikeBlogRequest,
+    commentOnBlogRequest,
 };
