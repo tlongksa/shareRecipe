@@ -6,6 +6,7 @@ import './blogs.scss';
 import { LoadingOutlined, EllipsisOutlined, LikeOutlined, DislikeOutlined } from '@ant-design/icons';
 import Input from '../../components/common/Input/Input';
 import { commentOnBlogRequest, dislikeBlogRequest, likeBlogRequest } from '../../api/requests';
+import AuthContext from '../../context/auth-context';
 
 export const BlogCommentItem = ({ item, isAuthenticated }) => {
     return (
@@ -61,7 +62,10 @@ const BlogDetail = () => {
         onDislikeItemDetail,
     } = useContext(BlogContext);
     const dataFetchedRef = useRef(false);
-    const isAuthenticated = !!localStorage.getItem('token');
+    const {
+        userInfo: { accessToken },
+    } = useContext(AuthContext);
+    const isAuthenticated = !!accessToken;
     const [content, setContent] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
 

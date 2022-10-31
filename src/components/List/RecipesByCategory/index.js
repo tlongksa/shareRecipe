@@ -1,6 +1,7 @@
 import { DislikeOutlined, LikeOutlined, LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import AuthContext from '../../../context/auth-context';
 import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
 import './index.scss';
@@ -50,7 +51,10 @@ const RecipesByCategory = () => {
     const { list, isLoading, error, onFetchMoreByCategory } = useContext(RecipeContext);
     const [search, setSearch] = useState('');
     const { id } = useParams();
-    const isAuthenticated = !!localStorage.getItem('token');
+    const {
+        userInfo: { accessToken },
+    } = useContext(AuthContext);
+    const isAuthenticated = !!accessToken;
 
     useEffect(() => {
         onFetchMoreByCategory(id, 1, search);

@@ -1,8 +1,9 @@
 import './App.css';
 import Navbar from './components/NavBar';
 import { Outlet } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Footer from './components/Footer/footer';
+import AuthContext from './context/auth-context';
 
 export const ROLES = {
     admin: 'ROLE_ADMIN',
@@ -11,17 +12,19 @@ export const ROLES = {
 };
 
 function App() {
-    const ROLE = localStorage.getItem('roles');
+    const {
+        userInfo: { roles },
+    } = useContext(AuthContext);
 
     const [hideHeaderAndFooter, setHideHeaderAndFooter] = useState(false);
 
     useEffect(() => {
-        if (ROLE && ROLE !== ROLES.user) {
+        if (roles && roles !== ROLES.user) {
             setHideHeaderAndFooter(true);
         } else {
             setHideHeaderAndFooter(false);
         }
-    }, [ROLE]);
+    }, [roles]);
 
     return (
         <>

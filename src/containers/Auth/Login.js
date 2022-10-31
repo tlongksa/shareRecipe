@@ -1,18 +1,19 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import './Login.scss';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-
 import axios from 'axios';
-
 import showPwdImg from '../../img/show-password.png';
 import hidePwdImg from '../../img/hide-.svg';
 import apiUrl from '../../api/apiUrl';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
+import AuthContext from '../../context/auth-context';
+import { USER_INFO_STORAGE_KEY } from '../../constants';
 
 const Login = () => {
     const navigate = useNavigate();
     const navigateTo = useNavigate();
+    const { onLoginSuccess } = useContext(AuthContext);
 
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
@@ -27,28 +28,33 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(apiUrl.LOGIN_URL, JSON.stringify({ username, password }), {
+            const { data } = await axios.post(apiUrl.LOGIN_URL, JSON.stringify({ username, password }), {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true,
             });
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            const id = response?.data?.id;
-            const img = response?.data?.avatarImage;
-            const name = response?.data?.username;
 
-            // localStorage.setItem("imgAVT", response.data.avatarImage);
+            const roles = data?.roles?.[0];
 
-            localStorage.setItem('token', accessToken);
-            localStorage.setItem('roles', roles);
-            localStorage.setItem('id', id);
-            localStorage.setItem('img', img);
-            localStorage.setItem('name', name);
+            if (data?.accessToken) {
+                onLoginSuccess(data);
+                localStorage.setItem(USER_INFO_STORAGE_KEY, JSON.stringify({ ...data, roles }));
+            }
 
             navigateTo(`/`);
             setUser('');
             setPwd('');
-            openNotification();
+            notification.open({
+                message: 'Đăng nhập thành công !',
+                description:
+                    'Chào mừng bạn đến thăm quan trang website OiShii của chúng tôi, rất vui lòng được phục vụ quý khách, chúc quá khác có trải nghiệm thật tốt!!!',
+                icon: (
+                    <SmileOutlined
+                        style={{
+                            color: '#108ee9',
+                        }}
+                    />
+                ),
+            });
             navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {
@@ -62,20 +68,6 @@ const Login = () => {
             }
             errRef.current.focus();
         }
-    };
-    const openNotification = () => {
-        notification.open({
-            message: 'Đăng nhập thành công !',
-            description:
-                'Chào mừng bạn đến thăm quan trang website OiShii của chúng tôi, rất vui lòng được phục vụ quý khách, chúc quá khác có trải nghiệm thật tốt!!!',
-            icon: (
-                <SmileOutlined
-                    style={{
-                        color: '#108ee9',
-                    }}
-                />
-            ),
-        });
     };
 
     return (

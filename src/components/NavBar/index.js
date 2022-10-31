@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,30 +8,30 @@ import img from '../../img/logoDoAn.png';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import './index.scss';
+import AuthContext from '../../context/auth-context';
 
 const Navbar = () => {
     const [logged, setLogged] = useState(false);
     const navigateTo = useNavigate();
-
-    const currentAccessToken = localStorage.getItem('token');
-    const id = localStorage.getItem('id');
+    const {
+        onLogoutSuccess,
+        userInfo: { accessToken, id },
+    } = useContext(AuthContext);
 
     useEffect(() => {
-        if (currentAccessToken) {
+        if (accessToken) {
             setLogged(true);
         } else {
             setLogged(false);
         }
-    }, [currentAccessToken]);
+    }, [accessToken]);
 
     const handleLogout = () => {
+        onLogoutSuccess();
         localStorage.clear();
         setLogged(false);
         navigateTo('/');
         navigateTo(0);
-        openNotification();
-    };
-    const openNotification = () => {
         notification.open({
             message: 'Đăng xuất thành công !',
             description: 'Chào bạn, OiShii rất vui lòng được phục vụ quý khách, chúc quý khác có một ngày tốt lành !!!',

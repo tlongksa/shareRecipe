@@ -18,6 +18,7 @@ import Paginator from '../../components/common/Paginator';
 import { dislikeBlogRequest, likeBlogRequest, createBlogRequest } from '../../api/requests';
 import Modal from 'react-bootstrap/Modal';
 import { notification } from 'antd';
+import AuthContext from '../../context/auth-context';
 
 const SearchBlog = ({ search, setSearch, callback }) => {
     const handleChange = (e) => {
@@ -179,8 +180,10 @@ const Blogs = () => {
     const dataFetchedRef = useRef(false);
     const [search, setSearch] = useState('');
     const [showNewBlog, setShowNewBlog] = useState(false);
-
-    const isAuthenticated = !!localStorage.getItem('token');
+    const {
+        userInfo: { accessToken },
+    } = useContext(AuthContext);
+    const isAuthenticated = !!accessToken;
 
     useEffect(() => {
         if (dataFetchedRef.current) return;

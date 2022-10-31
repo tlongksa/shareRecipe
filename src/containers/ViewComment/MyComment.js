@@ -1,38 +1,36 @@
-import React, { useState, createElement, useEffect, useRef } from 'react'
-
-import { CheckCircleTwoTone, CloseCircleOutlined, DeleteOutlined, DislikeFilled, DislikeOutlined, EditOutlined, FlagFilled, FlagOutlined, LikeFilled, LikeOutlined, SmileOutlined, StarOutlined } from '@ant-design/icons';
-import { Avatar, Comment, notification, Pagination, Tooltip } from 'antd';
+import React, { useState, useEffect, useContext } from 'react';
+import {
+    CheckCircleTwoTone,
+    CloseCircleOutlined,
+    DeleteOutlined,
+    DislikeFilled,
+    DislikeOutlined,
+    EditOutlined,
+    FlagFilled,
+    FlagOutlined,
+    LikeFilled,
+    LikeOutlined,
+} from '@ant-design/icons';
+import { Avatar, Comment, notification, Tooltip } from 'antd';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
-import Moment from 'react-moment';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
-import { Grid, Rating, Stack } from '@mui/material';
-
-
+import { Rating, Stack } from '@mui/material';
 import './ViewComment.css';
+import AuthContext from '../../context/auth-context';
 
 const MyComment = (props) => {
-
-
-    const { comment, cmtContent, onDelete, changed } = props;
-    const { dishId } = useParams();// lưu dishid
+    const { comment, cmtContent, onDelete } = props;
+    const { dishId } = useParams();
     const [isEdit, setIsEdit] = useState(false);
-    const [flags, setFlags] = useState(0);
     const [action, setAction] = useState(null);
-    const [deletes, setDelete] = useState('');
-    const [chang, setChanged] = useState(1);
-    const [star, setStar] = useState(3);// lưu sao
-    const [success, setSuccess] = useState('');
-    const currentAccessToken = localStorage.getItem('token');
+    const [star, setStar] = useState(3);
+    const {
+        userInfo: { accessToken },
+    } = useContext(AuthContext);
     const [commentContent, setCommentContent] = useState(cmtContent);
-    const token = `Bearer ${currentAccessToken}`;
-    const [checkLike, setCheckLike] = useState(0);
-    const [checkDisLike, setDisCheckLike] = useState(0);
-    const errRef = useRef();
-
-    const myCommentRef = useRef();
+    const token = `Bearer ${accessToken}`;
 
     useEffect(() => {
         if (comment && comment.checkLike) {
@@ -44,146 +42,121 @@ const MyComment = (props) => {
     }, [comment]);
 
     const like = () => {
-
-        if (currentAccessToken) {
-            axios.post(
-                `/likeDishComment?dishCommentId=${comment.dishCommentID}`,
-                { commentContent },
-                {
-                    headers: {
-                        Authorization: token
+        if (accessToken) {
+            axios
+                .post(
+                    `/likeDishComment?dishCommentId=${comment.dishCommentID}`,
+                    { commentContent },
+                    {
+                        headers: {
+                            Authorization: token,
+                        },
+                    },
+                )
+                .then((response) => {
+                    onDelete();
+                    if (action === 'liked') {
+                        setAction('');
+                    } else {
+                        setAction('liked');
                     }
-                }
-
-            ).then(response => {
-                onDelete()
-                if (action === 'liked') {
-                    setAction('');
-                } else {
-                    setAction('liked');
-                }
-
-                setChanged(comment.length)
-            }).catch(err => {
-                // setSuccess(err);
-            })
+                })
+                .catch((err) => {});
         }
-        console.log(checkLike)
-
-
-
     };
-    const dislike = () => {
-        if (currentAccessToken) {
-            axios.post(
-                `/dislikeDishComment?dishCommentId=${comment.dishCommentID}`,
-                { commentContent },
-                {
-                    headers: {
-                        Authorization: token
-                    }
-                }
 
-            ).then(response => {
-                if (action === 'disliked') {
-                    setAction('');
-                } else {
-                    setAction('disliked');
-                }
-                onDelete()
-                setFlags(1);
-                setChanged(comment.length)
-            }).catch(err => {
-                // setSuccess(err);
-            })
+    const dislike = () => {
+        if (accessToken) {
+            axios
+                .post(
+                    `/dislikeDishComment?dishCommentId=${comment.dishCommentID}`,
+                    { commentContent },
+                    {
+                        headers: {
+                            Authorization: token,
+                        },
+                    },
+                )
+                .then((response) => {
+                    if (action === 'disliked') {
+                        setAction('');
+                    } else {
+                        setAction('disliked');
+                    }
+                    onDelete();
+                })
+                .catch((err) => {});
         }
     };
 
     const flag = () => {
-        if (currentAccessToken) {
-            axios.post(
-                `/reportDishComment?dishCommentId=${comment.dishCommentID}`,
-                { commentContent },
-                {
-                    headers: {
-                        Authorization: token
-                    }
-                }
-
-            ).then(response => {
-                setAction('flaged');
-                setChanged(comment.length)
-                setSuccess(comment.messContent);
-            }).catch(err => {
-                setSuccess("Vui lòng thử lại!");
-            })
+        if (accessToken) {
+            axios
+                .post(
+                    `/reportDishComment?dishCommentId=${comment.dishCommentID}`,
+                    { commentContent },
+                    {
+                        headers: {
+                            Authorization: token,
+                        },
+                    },
+                )
+                .then((response) => {
+                    setAction('flaged');
+                })
+                .catch((err) => {});
         }
     };
     const LoadEditComment = async (e) => {
         e.preventDefault();
-        console.log("tesst")
-        if (currentAccessToken) {
+        if (accessToken) {
             if (star) {
                 const dishCommentID = comment.dishCommentID;
-                console.log(comment)
-                await axios.post(
-                    `/saveDishComment`,
-                    { dishId, content: commentContent, starRate: star, dishCommentId: dishCommentID },
-                    {
-                        headers: {
-                            headers: { 'Content-Type': 'application/json' },
-                            Authorization: token
-                        }
-                    }
-                ).then(response => {
-                    console.log(props.changed)
-                    console.log(changed)
-                    setSuccess(response.data.messContent);
-                    setIsEdit(false);
-                    onDelete();
-                    openNotification("Sửa bình luận thành công!");
-                }).catch(err => {
-                    setSuccess(err);
-                })
-
-
-
-            }
-            else {
-                openNotification("Vui lòng đánh giá công thức nấu ăn trước khi bình luận!");
+                await axios
+                    .post(
+                        `/saveDishComment`,
+                        { dishId, content: commentContent, starRate: star, dishCommentId: dishCommentID },
+                        {
+                            headers: {
+                                headers: { 'Content-Type': 'application/json' },
+                                Authorization: token,
+                            },
+                        },
+                    )
+                    .then((response) => {
+                        setIsEdit(false);
+                        onDelete();
+                        openNotification('Sửa bình luận thành công!');
+                    })
+                    .catch((err) => {});
+            } else {
+                openNotification('Vui lòng đánh giá công thức nấu ăn trước khi bình luận!');
             }
         } else {
             openNotification('Vui lòng đăng nhập trước khi bình luận');
         }
-    }
-
+    };
 
     function handDelete(id) {
-        if (currentAccessToken) {
-            axios.post(
-                `/deleteDishComment?dishCommentId=${id}`,
-                { commentContent },
-                {
-                    headers: {
-                        Authorization: token
-                    }
-                }
-
-            ).then(response => {
-                setChanged(comment.length)
-                // setSuccess(response.data.messContent);
-                onDelete();
-                openNotification("Bình luận đã được xóa");
-                // <openNotification value="Bình luận đã được xóa"/>
-                
-            }).catch(err => {
-                // setSuccess(err);
-            })
+        if (accessToken) {
+            axios
+                .post(
+                    `/deleteDishComment?dishCommentId=${id}`,
+                    { commentContent },
+                    {
+                        headers: {
+                            Authorization: token,
+                        },
+                    },
+                )
+                .then((response) => {
+                    onDelete();
+                    openNotification('Bình luận đã được xóa');
+                })
+                .catch((err) => {});
         }
-
     }
     function openNotification(message) {
-
         notification.open({
             message: message,
             icon: (
@@ -194,18 +167,17 @@ const MyComment = (props) => {
                 />
             ),
         });
-    };
+    }
     const Cancel = (value) => {
         setIsEdit(!isEdit);
-    }
+    };
     const handleChangeEditComment = (value) => {
         setIsEdit(!isEdit);
-        setCommentContent(comment.content)
-    }
+        setCommentContent(comment.content);
+    };
 
     const actions = [
-        <Tooltip key="comment-basic-like" title="Thích" >
-
+        <Tooltip key="comment-basic-like" title="Thích">
             <span onClick={like}>
                 {React.createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
                 <span className="comment-action">{comment.totalLike}</span>
@@ -217,12 +189,9 @@ const MyComment = (props) => {
                 <span className="comment-action">{comment.totalDisLike}</span>
             </span>
         </Tooltip>,
-        <Tooltip key="comment-basic-flag" title="Đánh giá sao">
-
-        </Tooltip>,
+        <Tooltip key="comment-basic-flag" title="Đánh giá sao"></Tooltip>,
 
         <Tooltip key="comment-basic-flag" title="Báo cáo">
-
             <span onClick={flag} className="comment-action">
                 {React.createElement(action === 'flaged' ? FlagFilled : FlagOutlined)}
             </span>
@@ -230,22 +199,23 @@ const MyComment = (props) => {
     ];
 
     return (
-        // ref={myCommentRef}
-
-        <div className='my-comment'>
-            {/* <p ref={errRef} className={success ? "sucmsg" : "offscreen"}>{success}</p> */}
+        <div className="my-comment">
             <Comment
                 actions={actions}
-                author={<a>{comment.accountUserName}</a>}
+                author={<p>{comment.accountUserName}</p>}
                 avatar={<Avatar src={comment.avatarImage} alt={comment.accountUserName} />}
                 content={
                     <p>
                         <h6> {comment.content}</h6>
-                        <div className='actions-hover'>
-
-                            <DeleteOutlined onClick={() => handDelete(comment.dishCommentID)} className="styles-icon " />
-                            <EditOutlined onClick={() => handleChangeEditComment(comment.dishCommentID)} className="styles-icon hidden" />
-
+                        <div className="actions-hover">
+                            <DeleteOutlined
+                                onClick={() => handDelete(comment.dishCommentID)}
+                                className="styles-icon "
+                            />
+                            <EditOutlined
+                                onClick={() => handleChangeEditComment(comment.dishCommentID)}
+                                className="styles-icon hidden"
+                            />
                         </div>
                         <div style={{ fontSize: '16px' }}>
                             Đánh giá :
@@ -256,54 +226,43 @@ const MyComment = (props) => {
                                 readOnly
                             />
                         </div>
-
                     </p>
-
                 }
-
                 datetime={
                     <Tooltip title="">
-                        {/* <span><Moment >{comment.updateDate}</Moment></span> */}
-                        <span>{comment.updateDate}
-
-                        </span>
+                        <span>{comment.updateDate}</span>
                     </Tooltip>
                 }
             />
-            {isEdit &&
+            {isEdit && (
                 <Form onSubmit={LoadEditComment} autoComplete={'off'}>
-
                     <Form.Group className="mb-3" controlId="commentContent">
-                        <CloseCircleOutlined onClick={(() => Cancel(comment.dishCommentID))} style={{ float: 'right' }} />
+                        <CloseCircleOutlined onClick={() => Cancel(comment.dishCommentID)} style={{ float: 'right' }} />
                         <Form.Control
                             as="textarea"
                             rows={3}
                             value={commentContent}
                             onChange={(e) => setCommentContent(e.target.value)}
-
                         />
                     </Form.Group>
-
-                    <Stack spacing={1}> Đánh giá công thức nấu ăn :
+                    <Stack spacing={1}>
+                        Đánh giá công thức nấu ăn :
                         <Rating
-
                             name="half-rating"
                             defaultValue={5}
                             precision={1}
                             value={star}
-                            onChange={e => setStar(e.target.value)}
+                            onChange={(e) => setStar(e.target.value)}
                         />
-
                     </Stack>
 
-                    <Button className="cmt" variant='info' type='submit' >Lưu</Button>
-
+                    <Button className="cmt" variant="info" type="submit">
+                        Lưu
+                    </Button>
                 </Form>
-            }
-
-
+            )}
         </div>
-    )
+    );
 };
 
 export default MyComment;

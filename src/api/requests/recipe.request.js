@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { getAccessToken } from '../../utils';
 
-const token = localStorage.getItem('token');
+const token = getAccessToken();
 
 const getListRecipeByCategoryRequest = (categoryId, page = 1, search = '') =>
     axios.get(`/searchdishbycate?cateId=${categoryId}&pageIndex=${page}&searchData=${search}`);

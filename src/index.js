@@ -32,48 +32,51 @@ import { AccountProvider } from './context/account-context';
 import Recipes from './containers/Admin/pages/Recipes';
 import RecipesByName from './components/List/RecipesByName';
 import PendingBlogs from './containers/Admin/pages/PendingBlogs';
+import { AuthProvider } from './context/auth-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    <AccountProvider>
-        <RecipeProvider>
-            <BlogProvider>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<App />}>
-                            <Route path="/home" exact element={<HomePage />} />
-                            <Route path="/test" element={<homeTest />} />
-                            <Route path="/about" element={<About />} />
-                            <Route path="/blogs/:id" element={<BlogDetail />} />
-                            <Route path="/blogs" element={<Blogs />} />
-                            <Route path="/save" element={<Save />} />
-                            <Route path="/contact" element={<Contact />} />
-                            <Route path="/bmi" element={<Bmi />} />
-                            <Route path="/signin" element={<Login />} />
-                            <Route path="/profile/:id" element={<Profile />} />
-                            <Route path="/sign-up" element={<Register />} />
-                            <Route path="/forgot-password" element={<ForgotPassword />} />
-                            <Route path="/change-password" element={<ChangePassword />} />
-                            <Route path="/new-password" element={<NewPassword />} />
-                            <Route path="/list-recipe-by-category/:id" element={<RecipesByCategory />} />
-                            <Route path="/list-recipe-by-name" element={<RecipesByName />} />
-                            <Route path="/view-detail/:dishId" element={<ViewDetail />} />
-                            <Route path="/search/:searchTitle" element={<SearchBar />} />
-                            <Route path="/admin" element={<AdminLayout />}>
-                                <Route path="accounts" element={<Accounts />} />
-                                <Route path="recipes" element={<Recipes />} />
-                                <Route path="approve-blogs" element={<PendingBlogs />} />
-                            </Route>
+    <AuthProvider>
+        <AccountProvider>
+            <RecipeProvider>
+                <BlogProvider>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/" element={<App />}>
+                                <Route path="/home" exact element={<HomePage />} />
+                                <Route path="/test" element={<homeTest />} />
+                                <Route path="/about" element={<About />} />
+                                <Route path="/blogs/:id" element={<BlogDetail />} />
+                                <Route path="/blogs" element={<Blogs />} />
+                                <Route path="/save" element={<Save />} />
+                                <Route path="/contact" element={<Contact />} />
+                                <Route path="/bmi" element={<Bmi />} />
+                                <Route path="/signin" element={<Login />} />
+                                <Route path="/profile/:id" element={<Profile />} />
+                                <Route path="/sign-up" element={<Register />} />
+                                <Route path="/forgot-password" element={<ForgotPassword />} />
+                                <Route path="/change-password" element={<ChangePassword />} />
+                                <Route path="/new-password" element={<NewPassword />} />
+                                <Route path="/list-recipe-by-category/:id" element={<RecipesByCategory />} />
+                                <Route path="/list-recipe-by-name" element={<RecipesByName />} />
+                                <Route path="/view-detail/:dishId" element={<ViewDetail />} />
+                                <Route path="/search/:searchTitle" element={<SearchBar />} />
+                                <Route path="/admin" element={<AdminLayout />}>
+                                    <Route path="accounts" element={<Accounts />} />
+                                    <Route path="recipes" element={<Recipes />} />
+                                    <Route path="approve-blogs" element={<PendingBlogs />} />
+                                </Route>
 
-                            <Route path="*" element={<NotFound />} />
-                            <Route index element={<HomePage />} />
-                        </Route>
-                    </Routes>
-                </BrowserRouter>
-            </BlogProvider>
-        </RecipeProvider>
-    </AccountProvider>,
+                                <Route path="*" element={<NotFound />} />
+                                <Route index element={<HomePage />} />
+                            </Route>
+                        </Routes>
+                    </BrowserRouter>
+                </BlogProvider>
+            </RecipeProvider>
+        </AccountProvider>
+    </AuthProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

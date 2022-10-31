@@ -1,5 +1,7 @@
 import axios from 'axios';
-const token = localStorage.getItem('token');
+import { getAccessToken } from '../../utils';
+
+const token = getAccessToken();
 
 const getListBlogRequest = (page = 1, search = '') => axios.get(`/getListBlog?pageIndex=${page}&searchData=${search}`);
 

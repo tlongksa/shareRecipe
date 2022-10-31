@@ -1,43 +1,27 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-import React from "react";
-import axios from "axios";
+const User = () => {
+    const [listUsers, setListUsers] = useState([]);
 
-class User extends React.Component{
-    name = localStorage.getItem('name');
-    state ={
-        listUsers:[]
-    }
-    async componentDidMount(){
-        let res = await axios.get(`/getInformationBMIUser/${this.name}`);
-        this.setState({
-            listUsers: res && res.data && res.data.data ? res.data.data : []
-            
-        })
-        console.log(this.name);
+    const fetchBmiUserInfo = async () => {
+        const { data } = await axios.get(`/getInformationBMIUser/${this.name}`);
+        setListUsers(data?.data || []);
+    };
 
-        console.log(res.data);
-    }
-    
+    useEffect(() => {
+        fetchBmiUserInfo();
+    }, []);
 
-    render(){
-        let name = localStorage.getItem('name');
-        console.log(name);
-        let {listUsers} = this.state;
-        return (
-            <div className="demo"> 
-                {listUsers && listUsers.length > 0 &&
-                    listUsers.map((item, index) =>{
-                        return (
-                            <div className="child" key={item.User}>
-                                    {/* {item.name} */}
-                                    {item.email}
-                            </div>       
-                        )
-                    })
-                }
-            </div>
-        )
-    }
-}
+    return (
+        <div className="demo">
+            {listUsers?.map((item, index) => (
+                <div className="child" key={item.User}>
+                    {item.email}
+                </div>
+            ))}
+        </div>
+    );
+};
 
 export default User;

@@ -51,7 +51,6 @@ const PendingBlogs = () => {
     }
     return (
         <section className="pending-blogs__container">
-            <h1>PendingBlogs</h1>
             <ul className="blog-list_items">
                 {listPendingBlog.map((item, index) => (
                     <BlogItem

@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './index.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import Avatar from '../../../components/common/Avatar';
 import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
+import AuthContext from '../../../context/auth-context';
 
 const AdminHeader = () => {
-    const avatarImg = localStorage.getItem('img');
+    const {
+        onLogoutSuccess,
+        userInfo: { avatarImage },
+    } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.clear();
+        onLogoutSuccess();
         navigate('/signin');
     };
 
@@ -28,7 +33,7 @@ const AdminHeader = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Avatar imgSrc={avatarImg || ''} />
+                            <Avatar imgSrc={avatarImage || ''} />
                         </CDropdownToggle>
                         <CDropdownMenu>
                             <CDropdownItem

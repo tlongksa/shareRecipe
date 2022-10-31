@@ -1,18 +1,21 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROLES } from '../App';
+import AuthContext from '../context/auth-context';
 
 const useRedirectToManagementDashboard = () => {
-    const ROLE = localStorage.getItem('roles');
+    const {
+        userInfo: { roles },
+    } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (ROLE && ROLE !== ROLES.user) {
-            if (ROLE === ROLES.admin) {
+        if (roles && roles !== ROLES.user) {
+            if (roles === ROLES.admin) {
                 navigate('/admin/accounts');
             }
         }
-    }, [ROLE, navigate]);
+    }, [roles, navigate]);
 };
 
 export default useRedirectToManagementDashboard;
