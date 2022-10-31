@@ -14,6 +14,9 @@ import {
     recipeGetListByNameAction,
     recipeGetListByNameSuccessAction,
     recipeGetListByNameFailureAction,
+    recipeGetListCategoryAction,
+    recipeGetListCategorySuccessAction,
+    recipeGetListCategoryFailureAction,
 } from './actions';
 import recipeReducer from './reducer';
 import {
@@ -21,6 +24,7 @@ import {
     getListRecipeByCategoryRequest,
     adminGetRecipeListRequest,
     getListRecipeByNameRequest,
+    getListRecipeCategoriesRequest,
 } from '../../api/requests';
 
 export const defaultValues = {
@@ -45,6 +49,11 @@ export const defaultValues = {
     recipeByNameExtraListInfo: {
         pageIndex: 1,
         numOfPages: 0,
+    },
+    categories: {
+        isLoading: false,
+        error: null,
+        list: [],
     },
 };
 
@@ -124,6 +133,17 @@ export const RecipeProvider = ({ children }) => {
             });
     };
 
+    const fetchRecipeCategories = () => {
+        dispatchContext(recipeGetListCategoryAction());
+        getListRecipeCategoriesRequest()
+            .then(({ data }) => {
+                dispatchContext(recipeGetListCategorySuccessAction(data));
+            })
+            .catch((err) => {
+                dispatchContext(recipeGetListCategoryFailureAction(err?.message));
+            });
+    };
+
     return (
         <RecipeContext.Provider
             value={{
@@ -134,6 +154,7 @@ export const RecipeProvider = ({ children }) => {
                 onFetchDetail: (id) => fetchRecipeDetail(id),
                 onAdminFetchMore: (page, search) => fetchAdminRecipeList(page, search),
                 onFetchMoreByName: (name, page, search) => fetchRecipeListByName(name, page, search),
+                onFetchRecipeCategories: () => fetchRecipeCategories(),
             }}
         >
             {children}

@@ -12,6 +12,9 @@ import {
     RECIPE_GET_LIST_BY_NAME,
     RECIPE_GET_LIST_BY_NAME_FAILURE,
     RECIPE_GET_LIST_BY_NAME_SUCCESS,
+    RECIPE_GET_CATEGORY_LIST,
+    RECIPE_GET_CATEGORY_LIST_SUCCESS,
+    RECIPE_GET_CATEGORY_LIST_FAILURE,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -85,6 +88,18 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
             case RECIPE_GET_LIST_BY_NAME_FAILURE:
                 draft.isLoading = false;
                 draft.error = payload;
+                break;
+            case RECIPE_GET_CATEGORY_LIST:
+                draft.categories.isLoading = true;
+                draft.categories.error = null;
+                break;
+            case RECIPE_GET_CATEGORY_LIST_SUCCESS:
+                draft.categories.isLoading = false;
+                draft.categories.list = payload;
+                break;
+            case RECIPE_GET_CATEGORY_LIST_FAILURE:
+                draft.categories.isLoading = false;
+                draft.categories.error = payload;
                 break;
             default:
                 break;

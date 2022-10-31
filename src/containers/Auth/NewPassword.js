@@ -11,6 +11,7 @@ import { SmileOutlined } from '@ant-design/icons';
 const NewPassword = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate();
+
     const onSubmit = (values) => {
         setIsProcessing(true);
         resetNewPasswordRequest(values)
@@ -42,6 +43,7 @@ const NewPassword = () => {
                 });
             });
     };
+
     return (
         <section className="new-password__container">
             <h1>Create New Password</h1>

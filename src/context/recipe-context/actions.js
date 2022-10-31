@@ -12,6 +12,9 @@ import {
     RECIPE_GET_LIST_BY_NAME,
     RECIPE_GET_LIST_BY_NAME_FAILURE,
     RECIPE_GET_LIST_BY_NAME_SUCCESS,
+    RECIPE_GET_CATEGORY_LIST,
+    RECIPE_GET_CATEGORY_LIST_SUCCESS,
+    RECIPE_GET_CATEGORY_LIST_FAILURE,
 } from './types';
 
 const recipeGetListAction = () => ({
@@ -74,6 +77,20 @@ const recipeGetListByNameFailureAction = (error) => ({
     payload: error,
 });
 
+const recipeGetListCategoryAction = () => ({
+    type: RECIPE_GET_CATEGORY_LIST,
+});
+
+const recipeGetListCategorySuccessAction = (payload) => ({
+    type: RECIPE_GET_CATEGORY_LIST_SUCCESS,
+    payload,
+});
+
+const recipeGetListCategoryFailureAction = (error) => ({
+    type: RECIPE_GET_CATEGORY_LIST_FAILURE,
+    payload: error,
+});
+
 export {
     recipeGetListAction,
     recipeGetListSuccessAction,
@@ -88,4 +105,7 @@ export {
     recipeGetListByNameAction,
     recipeGetListByNameSuccessAction,
     recipeGetListByNameFailureAction,
+    recipeGetListCategoryAction,
+    recipeGetListCategorySuccessAction,
+    recipeGetListCategoryFailureAction,
 };

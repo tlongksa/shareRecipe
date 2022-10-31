@@ -110,3 +110,8 @@ input:focus {
 .bg-gray-custom {
     background-color: rgb(227 227 227 / 50%);
 }
+.sm:flex-col {
+    @media (max-width: 600px) {
+        flex-direction: column;
+    }
+}

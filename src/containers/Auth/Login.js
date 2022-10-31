@@ -57,7 +57,7 @@ const Login = () => {
                 ),
             });
             if (roles === ROLES.admin) {
-                navigateTo('/admin/accounts');
+                navigateTo('/admin');
                 return;
             }
             navigateTo(`/`);

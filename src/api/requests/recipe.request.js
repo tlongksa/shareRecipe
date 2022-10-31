@@ -18,9 +18,12 @@ const adminGetRecipeListRequest = (page = 1, search = '') =>
 const getListRecipeByNameRequest = (name, page = 1, search = '') =>
     axios.get(`/searchdishbyname?name=${name}&pageIndex=${page}&searchData=${search}`);
 
+const getListRecipeCategoriesRequest = () => axios.get('/getCategories');
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
     adminGetRecipeListRequest,
     getListRecipeByNameRequest,
+    getListRecipeCategoriesRequest,
 };
