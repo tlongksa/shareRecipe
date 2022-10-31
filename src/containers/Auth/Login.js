@@ -9,6 +9,7 @@ import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import AuthContext from '../../context/auth-context';
 import { USER_INFO_STORAGE_KEY } from '../../constants';
+import { ROLES } from '../../App';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -34,15 +35,15 @@ const Login = () => {
             });
 
             const roles = data?.roles?.[0];
-
+            const dataToSave = {
+                ...data,
+                roles,
+            };
             if (data?.accessToken) {
-                onLoginSuccess(data);
-                localStorage.setItem(USER_INFO_STORAGE_KEY, JSON.stringify({ ...data, roles }));
+                onLoginSuccess(dataToSave);
+                localStorage.setItem(USER_INFO_STORAGE_KEY, JSON.stringify(dataToSave));
             }
 
-            navigateTo(`/`);
-            setUser('');
-            setPwd('');
             notification.open({
                 message: 'Đăng nhập thành công !',
                 description:
@@ -55,6 +56,11 @@ const Login = () => {
                     />
                 ),
             });
+            if (roles === ROLES.admin) {
+                navigateTo('/admin/accounts');
+                return;
+            }
+            navigateTo(`/`);
             navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {
