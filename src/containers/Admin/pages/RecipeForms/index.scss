@@ -15,4 +15,29 @@
         gap: 2rem;
         align-items: center;
     }
+    .recipe-image__galerry {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+        max-width: 90%;
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+        .recipe-image__galerry-item {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            .recipe-image__galerry-close__icon {
+                position: absolute;
+                right: -12px;
+                top: -8px;
+            }
+        }
+    }
+    .recipe-video__container {
+        width: 400px;
+    }
 }

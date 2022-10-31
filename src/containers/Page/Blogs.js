@@ -154,7 +154,7 @@ export const NewBlogForm = ({ show, setShow }) => {
                     />
                     <Input
                         type="textarea"
-                        label={'Content'}
+                        label="Content"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="Content ..."

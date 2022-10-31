@@ -14,7 +14,6 @@ const ViewDetail = () => {
     const [replacementIngredientList, setReplacementIngredientList] = useState([]);
 
     const [checkedIngredientList, setCheckedIngredientList] = useState([]);
-    const [indeterminate, setIndeterminate] = useState(true);
     const [checkAll, setCheckAll] = useState(false);
     const [bigRecipeImg, setBigRecipeImg] = useState('');
 
@@ -47,20 +46,20 @@ const ViewDetail = () => {
     const ShowRecipe = () => {
         const [loadings, setLoadings] = useState([]);
 
-        const enterLoading = (index) => {
-            setLoadings((prevLoadings) => {
-                const newLoadings = [...prevLoadings];
-                newLoadings[index] = true;
-                return newLoadings;
-            });
-            setTimeout(() => {
-                setLoadings((prevLoadings) => {
-                    const newLoadings = [...prevLoadings];
-                    newLoadings[index] = false;
-                    return newLoadings;
-                });
-            }, 2000);
-        };
+        // const enterLoading = (index) => {
+        //     setLoadings((prevLoadings) => {
+        //         const newLoadings = [...prevLoadings];
+        //         newLoadings[index] = true;
+        //         return newLoadings;
+        //     });
+        //     setTimeout(() => {
+        //         setLoadings((prevLoadings) => {
+        //             const newLoadings = [...prevLoadings];
+        //             newLoadings[index] = false;
+        //             return newLoadings;
+        //         });
+        //     }, 2000);
+        // };
 
         const changeIngredient = () => {
             axios
@@ -111,7 +110,6 @@ const ViewDetail = () => {
                             } else {
                                 setCheckedIngredientList([]);
                             }
-                            setIndeterminate(false);
                             setCheckAll(e.target.checked);
                         }}
                         checked={checkAll}
