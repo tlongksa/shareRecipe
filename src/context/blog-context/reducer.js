@@ -32,11 +32,7 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
                 break;
             case BLOG_GET_LIST_SUCCESS:
                 draft.isLoading = false;
-                if (draft.extraListInfo.numOfPages === 0) {
-                    draft.list = payload?.data;
-                } else {
-                    draft.list = draft.list.concat(payload?.data);
-                }
+                draft.list = payload?.data;
                 draft.extraListInfo = payload.extraListInfo;
                 break;
             case BLOG_GET_LIST_FAILURE:
@@ -70,13 +66,7 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
             case BLOG_GET_COMMENTS_SUCCESS:
                 draft.blogDetail.error = null;
                 draft.blogDetail.isLoading = false;
-                if (draft.blogDetail.comments.extraListInfo.numOfPages === 0) {
-                    draft.blogDetail.comments.dataResponse = payload?.data || [];
-                } else {
-                    draft.blogDetail.comments.dataResponse = draft.blogDetail.comments.dataResponse.concat(
-                        payload?.data || [],
-                    );
-                }
+                draft.blogDetail.comments.dataResponse = payload?.data || [];
                 draft.blogDetail.comments.extraListInfo = payload.extraListInfo;
                 break;
             case BLOG_GET_COMMENTS_FAILURE:
@@ -89,11 +79,7 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
                 break;
             case BLOG_GET_LIST_PENDING_SUCCESS:
                 draft.isLoading = false;
-                if (draft.extraPendingBlogListInfo.numOfPages === 0) {
-                    draft.listPendingBlog = payload?.data;
-                } else {
-                    draft.listPendingBlog = draft.listPendingBlog.concat(payload?.data);
-                }
+                draft.listPendingBlog = payload?.data;
                 draft.extraPendingBlogListInfo = payload.extraListInfo;
                 break;
             case BLOG_GET_LIST_PENDING_FAILURE:

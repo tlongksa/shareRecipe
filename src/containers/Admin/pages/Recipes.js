@@ -22,7 +22,6 @@ const Recipes = () => {
         deleteRecipeRequest(id)
             .then(({ data }) => {
                 setIsProcessing(false);
-                console.log(data);
                 onAdminFetchMore(1);
             })
             .catch((err) => {

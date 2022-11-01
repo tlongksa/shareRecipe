@@ -22,6 +22,8 @@ const RecipeForm = () => {
     const [listDishImage, setListDishImage] = useState([]);
     const [video, setVideo] = useState('');
 
+    console.log(progress);
+
     useEffect(() => {
         if (!step || (step !== '1' && step !== '2' && step !== '3')) {
             navigate('/admin/recipes');

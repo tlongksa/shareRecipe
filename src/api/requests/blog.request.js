@@ -17,14 +17,14 @@ const getListPendingBlogRequest = (page = 1, search = '') =>
     });
 
 const approvePendingBlogRequest = (id) =>
-    axios.post(`/admin/approveBlog?blogId=${id}`, {
+    axios.post(`/admin/approveBlog?blogId=${id}`, null, {
         headers: {
             authorization: `Bearer ${token || ''}`,
         },
     });
 
 const deleteBlogRequest = (id) =>
-    axios.delete(`/admin/deleteBlog?blogId=${id}`, {
+    axios.delete(`/deleteBlog?blogId=${id}`, {
         headers: {
             authorization: `Bearer ${token || ''}`,
         },
