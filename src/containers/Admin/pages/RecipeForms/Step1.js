@@ -18,10 +18,10 @@ const Step1 = ({ recipeFormData, setRecipeFormData }) => {
 
     const onCheckRecipeCategory = (e) => {
         const value = parseInt(e.target.value);
-        if (idDishCategory.includes(value)) {
-            setIdDishCategory((prevState) => prevState.filter((val) => val !== value));
+        if (idDishCategory.find((item) => item.dishCategoryID === value)) {
+            setIdDishCategory((prevState) => prevState.filter((item) => item.dishCategoryID !== value));
         } else {
-            setIdDishCategory((prevState) => [...prevState, value]);
+            setIdDishCategory((prevState) => [...prevState, { dishCategoryID: value }]);
         }
     };
 
@@ -39,7 +39,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData }) => {
             initialValues={{
                 name: '',
                 description: '',
-                level: 0,
+                Level: 0,
                 numberPeopleForDish: 0,
                 time: 0,
             }}
@@ -53,7 +53,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData }) => {
                         onChange={handleChange}
                         placeholder="Vui lòng nhập tên món ăn"
                         value={values.name}
-                        label="Nhập tên  món ăn :"
+                        label="Nhập tên món ăn :"
                         error={errors.name}
                         touched={touched.name}
                     />
@@ -61,7 +61,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData }) => {
                         type="textarea"
                         name="description"
                         onChange={handleChange}
-                        placeholder="Vui lòng  mô tả chi tiết công thức nấu ăn của ban"
+                        placeholder="Vui lòng mô tả chi tiết công thức nấu ăn của bạn"
                         value={values.description}
                         error={errors.description}
                         touched={touched.description}
@@ -77,7 +77,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData }) => {
                                         type="checkbox"
                                         value={dishCategoryID}
                                         onChange={onCheckRecipeCategory}
-                                        checked={idDishCategory.includes(dishCategoryID)}
+                                        checked={idDishCategory.find((item) => item.dishCategoryID === dishCategoryID)}
                                     />
                                     <span className="checkmarkCheckbox" />
                                 </label>
@@ -90,12 +90,12 @@ const Step1 = ({ recipeFormData, setRecipeFormData }) => {
                             {RECIPE_LEVELS.map(({ value, label }) => (
                                 <label key={value} className="custom-radio__container">
                                     {label}
-                                    <input type="radio" name="level" onChange={handleChange} value={value} />
+                                    <input type="radio" name="Level" onChange={handleChange} value={value} />
                                     <span className="radioCheckmark" />
                                 </label>
                             ))}
                         </div>
-                        {errors.level && touched.level && <p className="error-message">{errors.level}</p>}
+                        {errors.Level && touched.Level && <p className="error-message">{errors.Level}</p>}
                     </div>
                     <div className="mt-3 d-flex gap-5">
                         <Input

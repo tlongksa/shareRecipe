@@ -9,13 +9,13 @@ import { getStorage } from 'firebase/storage';
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: 'hotel-booking-platform.firebaseapp.com',
-    projectId: 'hotel-booking-platform',
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: '805642290387',
-    appId: process.env.REACT_APP_FIREBASE_APP_ID,
-    measurementId: 'G-RDNREN99K1',
+    apiKey: 'xxx',
+    authDomain: 'xxxx',
+    projectId: 'xxx',
+    storageBucket: 'xxx',
+    messagingSenderId: 'xxx',
+    appId: 'xxx',
+    measurementId: 'xxx',
 };
 
 // Initialize Firebase

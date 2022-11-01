@@ -20,10 +20,18 @@ const getListRecipeByNameRequest = (name, page = 1, search = '') =>
 
 const getListRecipeCategoriesRequest = () => axios.get('/getCategories');
 
+const createRecipeRequest = (data) =>
+    axios.post(`/mod/createrecipe`, data, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
     adminGetRecipeListRequest,
     getListRecipeByNameRequest,
     getListRecipeCategoriesRequest,
+    createRecipeRequest,
 };

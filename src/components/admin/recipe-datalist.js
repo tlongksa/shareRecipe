@@ -18,7 +18,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                                 fontSize: 16,
                                 color: '#289AE7',
                             }}
-                            onClick={() => onEdit(item.dishId)}
+                            onClick={() => onEdit(item.dishID)}
                         />
                         <DeleteOutlined
                             style={{
@@ -26,7 +26,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                                 fontSize: 18,
                                 color: '#f53838',
                             }}
-                            onClick={() => onDelete(item.dishId)}
+                            onClick={() => onDelete(item.dishID)}
                         />
                     </div>
                 </div>
@@ -59,7 +59,7 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
     const isMobile = useMediaQuery({ query: `(max-width: 768px)` });
 
     let listRecipeMarkup = list.map((item, index) => (
-        <li key={item.dishId} className={styles.dataItem}>
+        <li key={item.dishID} className={styles.dataItem}>
             <span className={styles.no}>{index + 1 + (currentPage - 1) * MAX_ITEMS}</span>
             <span>{item.dishName || '-'}</span>
             <span>{item.formulaDescribe || '-'}</span>
@@ -73,7 +73,7 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
                             fontSize: 18,
                             color: '#289AE7',
                         }}
-                        onClick={() => onEdit(item.dishId)}
+                        onClick={() => onEdit(item.dishID)}
                     />
                     <DeleteOutlined
                         style={{
@@ -81,7 +81,7 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
                             fontSize: 18,
                             color: '#f53838',
                         }}
-                        onClick={() => onDelete(item.dishId)}
+                        onClick={() => onDelete(item.dishID)}
                     />
                 </div>
             </span>
@@ -90,7 +90,7 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
 
     if (isMobile) {
         listRecipeMarkup = list.map((item, index) => (
-            <MobileCard no={index + 1} key={item.dishId} item={item} onEdit={onEdit} onDelete={onDelete} />
+            <MobileCard no={index + 1} key={item.dishID} item={item} onEdit={onEdit} onDelete={onDelete} />
         ));
     }
 

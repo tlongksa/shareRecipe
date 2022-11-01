@@ -55,8 +55,8 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish }) => {
                 <button
                     className="button button-sm d-flex align-items-center gap-2"
                     onClick={() => {
-                        recipeImagesRef.current?.click();
                         setImgError('');
+                        recipeImagesRef.current?.click();
                     }}
                     type="button"
                 >
@@ -64,20 +64,18 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish }) => {
                 </button>
             </div>
             <div className="recipe-image__galerry mb-3">
-                {imageUrls.map((imgSrc, index) =>
-                    imgSrc ? (
-                        <div className="recipe-image__galerry-item" key={imgSrc}>
-                            <img src={imgSrc} alt="" />
-                            <CloseOutlined
-                                className="recipe-image__galerry-close__icon cursor-pointer"
-                                onClick={() => {
-                                    setImageUrls((prevState) => prevState.filter((imgUrl) => imgUrl !== imgSrc));
-                                    setFiles((prevState) => [...prevState].filter((_, idx) => idx !== index));
-                                }}
-                            />
-                        </div>
-                    ) : null,
-                )}
+                {imageUrls.map((imgSrc, index) => (
+                    <div className="recipe-image__galerry-item" key={imgSrc}>
+                        <img src={imgSrc} alt="" />
+                        <CloseOutlined
+                            className="recipe-image__galerry-close__icon cursor-pointer"
+                            onClick={() => {
+                                setImageUrls((prevState) => prevState.filter((imgUrl) => imgUrl !== imgSrc));
+                                setFiles((prevState) => [...prevState].filter((_, idx) => idx !== index));
+                            }}
+                        />
+                    </div>
+                ))}
             </div>
             <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                 <h4>Dán link video mô tả cách làm của món ăn : </h4>
@@ -180,6 +178,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish }) => {
                 <button
                     className="button button-sm"
                     type="button"
+                    disabled={imgError || videoError}
                     onClick={() => {
                         setRecipeFormData((prevState) => ({
                             ...prevState,
