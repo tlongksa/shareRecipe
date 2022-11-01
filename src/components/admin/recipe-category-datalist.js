@@ -33,8 +33,14 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                     <p>{no}</p>
                 </div>
                 <div className="custom-col">
-                    <strong>Họ và tên</strong>
+                    <strong>Tên thể loại</strong>
                     <p>{item.name}</p>
+                </div>
+                <div className="custom-col">
+                    <strong>Ảnh mô tả</strong>
+                    <p>
+                        <img src={item.dishCategoryImage} alt="" width={120} />
+                    </p>
                 </div>
             </div>
         </div>
