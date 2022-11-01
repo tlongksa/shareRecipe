@@ -11,7 +11,7 @@ import Register from './containers/Auth/Register';
 import HomePage from './containers/Home/HomePage';
 import About from './containers/Page/about';
 import Contact from './containers/Page/contact';
-import Bmi from './containers/Page/bmi';
+import BmiInfo from './containers/Page/BmiInfo';
 import Save from './containers/Page/save';
 import ForgotPassword from './containers/Auth/forgotPassword';
 import Profile from './containers/User/profile';
@@ -23,17 +23,19 @@ import ChangePassword from './containers/Auth/ChangePassword';
 import ViewDetail from './containers/ViewDetail/viewDetail';
 import NewPassword from './containers/Auth/NewPassword';
 import Blogs from './containers/Page/Blogs';
-import { BlogProvider } from './context/blog-context';
 import BlogDetail from './containers/Page/BlogDetail';
 import AdminLayout from './containers/Admin/AdminLayout';
 import Accounts from './containers/Admin/pages/Accounts';
-import { RecipeProvider } from './context/recipe-context';
-import { AccountProvider } from './context/account-context';
 import Recipes from './containers/Admin/pages/Recipes';
 import RecipesByName from './components/List/RecipesByName';
 import PendingBlogs from './containers/Admin/pages/PendingBlogs';
-import { AuthProvider } from './context/auth-context';
 import RecipeForm from './containers/Admin/pages/RecipeForms';
+
+// contexts
+import { BlogProvider } from './context/blog-context';
+import { RecipeProvider } from './context/recipe-context';
+import { AccountProvider } from './context/account-context';
+import { AuthProvider } from './context/auth-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -52,7 +54,7 @@ root.render(
                                 <Route path="/blogs" element={<Blogs />} />
                                 <Route path="/save" element={<Save />} />
                                 <Route path="/contact" element={<Contact />} />
-                                <Route path="/bmi" element={<Bmi />} />
+                                <Route path="/bmi" element={<BmiInfo />} />
                                 <Route path="/signin" element={<Login />} />
                                 <Route path="/profile/:id" element={<Profile />} />
                                 <Route path="/sign-up" element={<Register />} />

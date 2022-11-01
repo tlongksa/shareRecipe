@@ -1,17 +1,12 @@
 import React from 'react';
-import './index.css'
-
-
+import './index.scss';
 
 const About = () => {
- 
-  return (
-    <>
-      
-
-    </>
-
-  );
+    return (
+        <>
+            <h1>About</h1>
+        </>
+    );
 };
 
 export default About;

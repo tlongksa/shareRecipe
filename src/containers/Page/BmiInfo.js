@@ -1,28 +1,12 @@
 import React from 'react';
 import { Select, Button, Tabs, Checkbox } from 'antd';
 import { Option } from 'antd/lib/mentions';
-import { useState } from 'react';
 import { Container, Row, Form } from 'react-bootstrap';
 import DefaultUserPic from '../../img/team-male.jpg';
 import { SaveOutlined } from '@ant-design/icons';
 import User from './UserTest';
 
-const Bmi = () => {
-    const [loadings, setLoadings] = useState([]);
-    const enterLoading = (index) => {
-        setLoadings((prevLoadings) => {
-            const newLoadings = [...prevLoadings];
-            newLoadings[index] = true;
-            return newLoadings;
-        });
-        setTimeout(() => {
-            setLoadings((prevLoadings) => {
-                const newLoadings = [...prevLoadings];
-                newLoadings[index] = false;
-                return newLoadings;
-            });
-        }, 2000);
-    };
+const BmiInfo = () => {
     const handleChange = (value) => {
         console.log(`selected ${value}`);
     };
@@ -50,7 +34,6 @@ const Bmi = () => {
                             <div className="txt-bmi">Địa chỉ: Ninh Bình</div>
                             <div className="txt-bmi">Chiều cao: 173 cm</div>
                             <div className="txt-bmi">
-                                {' '}
                                 Chỉ số R:
                                 <Select defaultValue="Choose BMI" className="select-bmi" onChange={handleChange}>
                                     <Option value="option 1">Option 1</Option>
@@ -59,12 +42,7 @@ const Bmi = () => {
                                 </Select>
                             </div>
                             <div>
-                                <Button
-                                    type="primary"
-                                    icon={<SaveOutlined />}
-                                    loading={loadings[1]}
-                                    onClick={() => enterLoading(1)}
-                                >
+                                <Button type="primary" icon={<SaveOutlined />} loading={false} onClick={() => {}}>
                                     Save
                                 </Button>
                             </div>
@@ -104,4 +82,4 @@ const Bmi = () => {
     );
 };
 
-export default Bmi;
+export default BmiInfo;
