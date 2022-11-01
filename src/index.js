@@ -36,6 +36,7 @@ import { BlogProvider } from './context/blog-context';
 import { RecipeProvider } from './context/recipe-context';
 import { AccountProvider } from './context/account-context';
 import { AuthProvider } from './context/auth-context';
+import RecipeCategories from './containers/Admin/pages/RecipeCategories';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -70,8 +71,8 @@ root.render(
                                     <Route path="recipes" element={<Recipes />} />
                                     <Route path="approve-blogs" element={<PendingBlogs />} />
                                     <Route path="recipe-form" element={<RecipeForm />} />
+                                    <Route path="recipe-categories" element={<RecipeCategories />} />
                                 </Route>
-
                                 <Route path="*" element={<NotFound />} />
                                 <Route index element={<HomePage />} />
                             </Route>

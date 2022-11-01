@@ -8,6 +8,10 @@ export const links = [
         label: 'Quản lí tài khoản',
     },
     {
+        to: '/admin/recipe-categories',
+        label: 'Quản lí thể loại',
+    },
+    {
         to: '/admin/recipes',
         label: 'Quản lí công thức',
     },

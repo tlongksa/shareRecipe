@@ -1,3 +1,4 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect } from 'react';
 import UserDataList from '../../../components/admin/user-datalist';
 import AccountContext from '../../../context/account-context';
@@ -24,6 +25,11 @@ const Accounts = () => {
                     onFetchMore(page);
                 }}
             />
+            {isLoading && (
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
+                </div>
+            )}
         </section>
     );
 };

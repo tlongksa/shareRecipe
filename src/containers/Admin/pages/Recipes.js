@@ -1,4 +1,4 @@
-import { PlusCircleOutlined, SearchOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusCircleOutlined, SearchOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteRecipeRequest } from '../../../api/requests';
@@ -67,6 +67,11 @@ const Recipes = () => {
                     onAdminFetchMore(page);
                 }}
             />
+            {isLoading && (
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
+                </div>
+            )}
         </section>
     );
 };
