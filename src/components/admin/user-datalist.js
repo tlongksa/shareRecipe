@@ -109,17 +109,15 @@ const UserDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCa
                 )}
                 {listUserMarkup}
             </ul>
-            {!isMobile && (
-                <Paginator
-                    curPage={currentPage}
-                    maxPage={maxPage}
-                    scrollAfterClicking
-                    isLoading={false}
-                    callback={(page) => {
-                        paginateCallback(page);
-                    }}
-                />
-            )}
+            <Paginator
+                curPage={currentPage}
+                maxPage={maxPage}
+                scrollAfterClicking
+                isLoading={false}
+                callback={(page) => {
+                    paginateCallback(page);
+                }}
+            />
         </>
     );
 };

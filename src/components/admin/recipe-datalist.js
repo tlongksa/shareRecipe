@@ -109,17 +109,15 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
                 )}
                 {listRecipeMarkup}
             </ul>
-            {!isMobile && (
-                <Paginator
-                    curPage={currentPage}
-                    maxPage={maxPage}
-                    scrollAfterClicking
-                    isLoading={false}
-                    callback={(page) => {
-                        paginateCallback(page);
-                    }}
-                />
-            )}
+            <Paginator
+                curPage={currentPage}
+                maxPage={maxPage}
+                scrollAfterClicking
+                isLoading={false}
+                callback={(page) => {
+                    paginateCallback(page);
+                }}
+            />
         </>
     );
 };

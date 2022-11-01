@@ -27,6 +27,13 @@ const createRecipeRequest = (data) =>
         },
     });
 
+const deleteRecipeRequest = (id) =>
+    axios.delete(`/mod/deleterecipe?recipe_id=${id}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
@@ -34,4 +41,5 @@ export {
     getListRecipeByNameRequest,
     getListRecipeCategoriesRequest,
     createRecipeRequest,
+    deleteRecipeRequest,
 };
