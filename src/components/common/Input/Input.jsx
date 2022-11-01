@@ -18,6 +18,7 @@ const Input = ({
     containerNoMarginBottom,
     className,
     inputClassName,
+    textAreaRows = 6,
 }) => {
     let input = (
         <input
@@ -39,7 +40,7 @@ const Input = ({
                 name={name}
                 onChange={onChange}
                 cols="30"
-                rows="6"
+                rows={textAreaRows}
                 value={value}
                 placeholder={placeholder}
                 readOnly={readOnly}

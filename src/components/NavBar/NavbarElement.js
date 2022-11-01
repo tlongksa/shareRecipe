@@ -13,17 +13,14 @@ export const Nav = styled.nav`
     color: #000;
 `;
 export const NavRight = styled.nav`
-    background: #cbcde5;
     height: 60px;
     display: flex;
-    float: right;
 `;
 export const NavLeft = styled.nav`
     width: 80%;
     background: #cbcde5;
     height: 60px;
     display: flex;
-    float: left;
     z-index: 10;
     margin: 0px calc((50% - 1050px) / 2);
 `;

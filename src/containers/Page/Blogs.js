@@ -11,6 +11,7 @@ import {
     PlusCircleOutlined,
     CheckSquareOutlined,
     DeleteOutlined,
+    EditOutlined,
 } from '@ant-design/icons';
 import Input from '../../components/common/Input/Input';
 import { Link } from 'react-router-dom';
@@ -19,6 +20,7 @@ import { dislikeBlogRequest, likeBlogRequest, createBlogRequest } from '../../ap
 import Modal from 'react-bootstrap/Modal';
 import { notification } from 'antd';
 import AuthContext from '../../context/auth-context';
+import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 
 const SearchBlog = ({ search, setSearch, callback }) => {
     const handleChange = (e) => {
@@ -43,7 +45,18 @@ const SearchBlog = ({ search, setSearch, callback }) => {
     );
 };
 
-export const BlogItem = ({ item, isAuthenticated, onLike, onDislike, hideBottomActions, onApprove, onDelete }) => {
+export const BlogItem = ({
+    item,
+    isAuthenticated,
+    onLike,
+    onDislike,
+    hideBottomActions,
+    onApprove,
+    onDelete,
+    username,
+    hideDeleteIcon,
+    onEdit,
+}) => {
     return (
         <li className="blog-list_item mb-4">
             <div className="d-flex gap-3">
@@ -57,7 +70,7 @@ export const BlogItem = ({ item, isAuthenticated, onLike, onDislike, hideBottomA
                 />
                 <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
                     <div className="d-flex justify-content-between align-items-center">
-                        <p className="d-flex align-items-center gap-1">
+                        <p className="d-flex align-items-center gap-3">
                             <strong>{item.userName}</strong>
                             <span className="text-muted">2022-10-26</span>
                         </p>
@@ -70,11 +83,32 @@ export const BlogItem = ({ item, isAuthenticated, onLike, onDislike, hideBottomA
                             )}
                             {onDelete && (
                                 <DeleteOutlined
-                                    className="blog-list_item-actions_icon"
+                                    className={`blog-list_item-actions_icon ${hideDeleteIcon ? 'd-none' : ''}`}
                                     onClick={() => onDelete(item.blogID)}
                                 />
                             )}
-                            <EllipsisOutlined className="blog-list_item-actions_icon" />
+                            {username && item.userName === username && (
+                                <CDropdown>
+                                    <CDropdownToggle
+                                        color="white"
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                        }}
+                                        caret={false}
+                                    >
+                                        <EllipsisOutlined className="blog-list_item-actions_icon" />
+                                    </CDropdownToggle>
+                                    <CDropdownMenu>
+                                        <CDropdownItem onClick={() => onEdit && onEdit(item)}>
+                                            <EditOutlined className="blog-list_item-actions_icon" /> <span>Sửa</span>
+                                        </CDropdownItem>
+                                        <CDropdownItem onClick={() => onDelete(item.blogID)}>
+                                            <DeleteOutlined className="blog-list_item-actions_icon" /> <span>Xóa</span>
+                                        </CDropdownItem>
+                                    </CDropdownMenu>
+                                </CDropdown>
+                            )}
                         </div>
                     </div>
                     <div className="blog-list_item-content">
@@ -107,18 +141,33 @@ export const BlogItem = ({ item, isAuthenticated, onLike, onDislike, hideBottomA
     );
 };
 
-export const NewBlogForm = ({ show, setShow }) => {
+export const BlogForm = ({ show, setShow, blogData, callback }) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
 
+    useEffect(() => {
+        if (blogData?.blogID) {
+            setTitle(blogData?.title);
+            setContent(blogData?.content);
+        }
+    }, [blogData]);
+
     const onSubmit = (e) => {
         e.preventDefault();
         setIsProcessing(true);
-        createBlogRequest({ title, content })
+        const payloadToSubmit = {
+            title,
+            content,
+        };
+        if (blogData?.blogID) {
+            payloadToSubmit.blogId = blogData?.blogID;
+        }
+        createBlogRequest(payloadToSubmit)
             .then(({ data }) => {
                 setTitle('');
                 setContent('');
+                callback && callback();
                 setShow(false);
                 setIsProcessing(false);
                 notification.open({
@@ -158,6 +207,7 @@ export const NewBlogForm = ({ show, setShow }) => {
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="Content ..."
+                        textAreaRows={15}
                     />
                     <div className="d-flex justify-content-end">
                         <button
@@ -267,7 +317,7 @@ const Blogs = () => {
                     callback={(page) => onFetchMore(page, search)}
                 />
             </div>
-            <NewBlogForm show={showNewBlog} setShow={setShowNewBlog} />
+            <BlogForm show={showNewBlog} setShow={setShowNewBlog} />
         </section>
     );
 };

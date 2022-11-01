@@ -120,7 +120,15 @@ const Step1 = ({ recipeFormData, setRecipeFormData }) => {
                         />
                     </div>
                     <div className="d-flex justify-content-end gap-4 align-items-center mt-4">
-                        <button className="button button-sm button-secondary" type="button">
+                        <button
+                            className="button button-sm button-secondary"
+                            type="button"
+                            onClick={() => {
+                                setRecipeFormData({});
+                                setIdDishCategory([]);
+                                navigate('/admin/recipes');
+                            }}
+                        >
                             Hủy bỏ
                         </button>
                         <button className="button button-sm" type="submit">

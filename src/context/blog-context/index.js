@@ -93,9 +93,9 @@ export const BlogProvider = ({ children }) => {
             });
     };
 
-    const fetchBlogComments = (id) => {
+    const fetchBlogComments = (id, page = 1) => {
         dispatchContext(blogGetCommentsAction());
-        getBlogCommentsRequest(id)
+        getBlogCommentsRequest(id, page)
             .then(({ data }) => {
                 dispatchContext(
                     blogGetCommentsSuccessAction({
@@ -139,7 +139,7 @@ export const BlogProvider = ({ children }) => {
                 onFetchMore: (page, search) => fetchBlogList(page, search),
                 onClearList: () => dispatchContext(blogClearListAction()),
                 onFetchDetail: (id) => fetchBlogDetail(id),
-                onFetchComments: (id) => fetchBlogComments(id),
+                onFetchComments: (id, page) => fetchBlogComments(id, page),
                 onFetchMorePendingList: (page, search) => fetchPendingBlogList(page, search),
                 onClearDetail: (id) => dispatchContext(clearBlogDetailAction()),
                 onLikeItem: (id) => dispatchContext(blogLikeItemSuccessAction(id)),

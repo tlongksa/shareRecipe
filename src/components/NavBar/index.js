@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink as NavLinkRoot, useLocation } from 'react-router-dom';
 import { CAvatar, CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink, NavRight } from './NavbarElement';
 import img from '../../img/logoDoAn.png';
@@ -17,6 +17,7 @@ const Navbar = () => {
         onLogoutSuccess,
         userInfo: { accessToken, id },
     } = useContext(AuthContext);
+    const { pathname } = useLocation();
 
     useEffect(() => {
         if (accessToken) {
@@ -54,9 +55,14 @@ const Navbar = () => {
                 </NavLink>
                 <Bars />
                 <NavMenu>
-                    <NavLink to="/" className="ps-4">
+                    <NavLinkRoot
+                        to="/"
+                        className={({ isActive }) =>
+                            isActive && pathname === '/' ? 'active ps-4 header-menu__link' : 'ps-4 header-menu__link'
+                        }
+                    >
                         Home
-                    </NavLink>
+                    </NavLinkRoot>
                     <NavLink to="/blogs" className="ps-4">
                         Blog
                     </NavLink>
@@ -92,7 +98,7 @@ const Navbar = () => {
                                     alignItems: 'center',
                                 }}
                             >
-                                <CAvatar src={img} status="success" />
+                                <CAvatar src={img} />
                             </CDropdownToggle>
                             <CDropdownMenu>
                                 <CDropdownItem

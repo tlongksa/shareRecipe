@@ -102,23 +102,23 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
                 break;
             case BLOG_LIKE_ITEM_DETAIL_SUCCESS:
                 draft.blogDetail.dataResponse.totalLike++;
-                draft.blogDetail.dataResponse.totalDisLike--;
+                // draft.blogDetail.dataResponse.totalDisLike--;
                 break;
             case BLOG_DISLIKE_ITEM_DETAIL_SUCCESS:
-                draft.blogDetail.dataResponse.totalLike--;
+                // draft.blogDetail.dataResponse.totalLike--;
                 draft.blogDetail.dataResponse.totalDisLike++;
                 break;
             case BLOG_LIKE_ITEM_SUCCESS:
                 const idxLike = draft.list.findIndex((item) => item.blogID === payload);
                 if (idxLike > -1) {
                     draft.list[idxLike].totalLike++;
-                    draft.list[idxLike].totalDisLike--;
+                    // draft.list[idxLike].totalDisLike--;
                 }
                 break;
             case BLOG_DISLIKE_ITEM_SUCCESS:
                 const idxDislike = draft.list.findIndex((item) => item.blogID === payload);
                 if (idxDislike > -1) {
-                    draft.list[idxDislike].totalLike--;
+                    // draft.list[idxDislike].totalLike--;
                     draft.list[idxDislike].totalDisLike++;
                 }
                 break;

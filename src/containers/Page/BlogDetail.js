@@ -1,14 +1,31 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import BlogContext from '../../context/blog-context';
-import { BlogItem } from './Blogs';
+import { BlogForm, BlogItem } from './Blogs';
 import './blogs.scss';
-import { LoadingOutlined, EllipsisOutlined, LikeOutlined, DislikeOutlined } from '@ant-design/icons';
+import {
+    LoadingOutlined,
+    EllipsisOutlined,
+    LikeOutlined,
+    DislikeOutlined,
+    EditOutlined,
+    DeleteOutlined,
+} from '@ant-design/icons';
 import Input from '../../components/common/Input/Input';
-import { commentOnBlogRequest, dislikeBlogRequest, likeBlogRequest } from '../../api/requests';
+import {
+    commentOnBlogRequest,
+    deleteBlogCommentRequest,
+    dislikeBlogRequest,
+    likeBlogRequest,
+    likeBlogCommentRequest,
+    dislikeBlogCommentRequest,
+    deleteBlogRequest,
+} from '../../api/requests';
 import AuthContext from '../../context/auth-context';
+import Paginator from '../../components/common/Paginator';
+import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 
-export const BlogCommentItem = ({ item, isAuthenticated }) => {
+export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onLike, onDislike, onEdit }) => {
     return (
         <li className="blog-list_item mb-4">
             <div className="d-flex gap-3">
@@ -26,7 +43,26 @@ export const BlogCommentItem = ({ item, isAuthenticated }) => {
                             <strong>{item.accountUserName}</strong>
                             <span className="text-muted">{item?.createDate}</span>
                         </p>
-                        <EllipsisOutlined className="blog-list_item-actions_icon" />
+                        <CDropdown className={`${username && item.accountUserName === username ? '' : 'd-none'}`}>
+                            <CDropdownToggle
+                                color="white"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }}
+                                caret={false}
+                            >
+                                <EllipsisOutlined className="blog-list_item-actions_icon" />
+                            </CDropdownToggle>
+                            <CDropdownMenu>
+                                <CDropdownItem onClick={() => onEdit(item)}>
+                                    <EditOutlined className="blog-list_item-actions_icon" /> <span>Sửa</span>
+                                </CDropdownItem>
+                                <CDropdownItem onClick={() => onDelete(item.blogCommentID)}>
+                                    <DeleteOutlined className="blog-list_item-actions_icon" /> <span>Xóa</span>
+                                </CDropdownItem>
+                            </CDropdownMenu>
+                        </CDropdown>
                     </div>
                     <div className="blog-list_item-content">
                         <p>{item.content}</p>
@@ -36,11 +72,11 @@ export const BlogCommentItem = ({ item, isAuthenticated }) => {
                             isAuthenticated ? '' : 'divDisabled'
                         }`}
                     >
-                        <button>
+                        <button onClick={() => onLike(item.blogCommentID)}>
                             <LikeOutlined />
                             <span>{item.totalLike}</span>
                         </button>
-                        <button>
+                        <button onClick={() => onDislike(item.blogCommentID)}>
                             <DislikeOutlined />
                             <span>{item.totalDisLike}</span>
                         </button>
@@ -63,11 +99,13 @@ const BlogDetail = () => {
     } = useContext(BlogContext);
     const dataFetchedRef = useRef(false);
     const {
-        userInfo: { accessToken },
+        userInfo: { accessToken, username },
     } = useContext(AuthContext);
     const isAuthenticated = !!accessToken;
     const [content, setContent] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
+    const navigate = useNavigate();
+    const [showEditBlog, setShowEditBlog] = useState(false);
 
     useEffect(() => {
         if (dataFetchedRef.current) return;
@@ -97,7 +135,7 @@ const BlogDetail = () => {
             });
     };
 
-    const onLikeBLogHandler = (blogId) => {
+    const onLikeBlogHandler = (blogId) => {
         likeBlogRequest(blogId)
             .then(() => {
                 onLikeItemDetail();
@@ -107,7 +145,7 @@ const BlogDetail = () => {
             });
     };
 
-    const onDislikeBLogHandler = (blogId) => {
+    const onDislikeBlogHandler = (blogId) => {
         dislikeBlogRequest(blogId)
             .then(() => {
                 onDislikeItemDetail();
@@ -117,12 +155,56 @@ const BlogDetail = () => {
             });
     };
 
+    const onLikeBlogCmtHandler = (blogCmtId) => {
+        likeBlogCommentRequest(blogCmtId)
+            .then(() => {
+                // onLikeItemDetail();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const onDislikeBlogCmtHandler = (blogCmtId) => {
+        dislikeBlogCommentRequest(blogCmtId)
+            .then(() => {
+                // onDislikeItemDetail();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const onDeleteBlogCommentHandler = (id) => {
+        setIsProcessing(true);
+        deleteBlogCommentRequest(id)
+            .then(() => {
+                setIsProcessing(false);
+            })
+            .catch((err) => {
+                setIsProcessing(false);
+            });
+    };
+
+    const onDeleteBlogHandler = (id) => {
+        setIsProcessing(true);
+        deleteBlogRequest(id)
+            .then(() => {
+                setIsProcessing(false);
+                navigate('/blogs');
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsProcessing(false);
+            });
+    };
+
     if (!isLoading && error) {
         return <p className="error-message">Something went wrong!</p>;
     }
 
     return (
-        <section className="client-blog-detail__container">
+        <section className={`client-blog-detail__container ${isProcessing ? 'divDisabled' : ''}`}>
             <div className="custom-page__container">
                 {isLoading ? (
                     <div className="blog-detail__loader-container">
@@ -133,19 +215,38 @@ const BlogDetail = () => {
                         <BlogItem
                             item={dataResponse}
                             isAuthenticated={isAuthenticated}
-                            onLike={onLikeBLogHandler}
-                            onDislike={onDislikeBLogHandler}
+                            onLike={onLikeBlogHandler}
+                            onDislike={onDislikeBlogHandler}
+                            onDelete={onDeleteBlogHandler}
+                            username={username}
+                            hideDeleteIcon
+                            onEdit={(blog) => {
+                                setShowEditBlog(true);
+                            }}
                         />
-                        <div className="blog-comments__list-container">
+                        <div className={`blog-comments__list-container`}>
                             <div className="blog-comments__list">
                                 {comments.dataResponse.map((item) => (
                                     <BlogCommentItem
                                         key={item.blogCommentID}
                                         item={item}
                                         isAuthenticated={isAuthenticated}
+                                        username={username}
+                                        onDelete={onDeleteBlogCommentHandler}
+                                        onLike={onLikeBlogCmtHandler}
+                                        onDislike={onDislikeBlogCmtHandler}
                                     />
                                 ))}
                             </div>
+                        </div>
+                        <div className="d-flex justify-content-end">
+                            <Paginator
+                                isLoading={isLoading}
+                                maxPage={comments.extraListInfo.numOfPages}
+                                curPage={comments.extraListInfo.pageIndex}
+                                scrollAfterClicking={false}
+                                callback={(page) => onFetchComments(id, page)}
+                            />
                         </div>
                     </>
                 )}
@@ -158,17 +259,19 @@ const BlogDetail = () => {
                             placeholder="Bình luận ..."
                         />
                         <div className="d-flex justify-content-end">
-                            <button
-                                className="button button-sm"
-                                type="submit"
-                                disabled={!content.trim() || isProcessing}
-                            >
+                            <button className="button button-sm" type="submit" disabled={!content.trim()}>
                                 Post
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
+            <BlogForm
+                show={showEditBlog}
+                setShow={setShowEditBlog}
+                blogData={dataResponse}
+                callback={() => onFetchDetail(id)}
+            />
         </section>
     );
 };

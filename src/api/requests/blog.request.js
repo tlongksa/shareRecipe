@@ -7,7 +7,7 @@ const getListBlogRequest = (page = 1, search = '') => axios.get(`/getListBlog?pa
 
 const getBlogDetailRequest = (id) => axios.get(`/getBlogDetail?blogId=${id}`);
 
-const getBlogCommentsRequest = (id) => axios.get(`/getBlogComment?blogId=${id}`);
+const getBlogCommentsRequest = (id, page = 1) => axios.get(`/getBlogComment?blogId=${id}&pageIndex=${page}`);
 
 const getListPendingBlogRequest = (page = 1, search = '') =>
     axios.get(`/admin/listBlogPending?pageIndex=${page}&searchData=${search}`, {
@@ -24,7 +24,7 @@ const approvePendingBlogRequest = (id) =>
     });
 
 const deleteBlogRequest = (id) =>
-    axios.delete(`/deleteBlog?blogId=${id}`, {
+    axios.post(`/deleteBlog?blogId=${id}`, null, {
         headers: {
             authorization: `Bearer ${token || ''}`,
         },
@@ -58,6 +58,27 @@ const createBlogRequest = (data) =>
         },
     });
 
+const likeBlogCommentRequest = (id) =>
+    axios.post(`/likeBlogComment?blogCommentId=${id}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
+const dislikeBlogCommentRequest = (id) =>
+    axios.post(`/dislikeBlogComment?blogCommentId=${id}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
+const deleteBlogCommentRequest = (id) =>
+    axios.post(`/deleteBlogComment?blogCommentId=${id}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListBlogRequest,
     getBlogDetailRequest,
@@ -69,4 +90,7 @@ export {
     dislikeBlogRequest,
     commentOnBlogRequest,
     createBlogRequest,
+    likeBlogCommentRequest,
+    dislikeBlogCommentRequest,
+    deleteBlogCommentRequest,
 };
