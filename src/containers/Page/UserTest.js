@@ -5,7 +5,7 @@ const User = () => {
     const [listUsers, setListUsers] = useState([]);
 
     const fetchBmiUserInfo = async () => {
-        const { data } = await axios.get(`/getInformationBMIUser/${this.name}`);
+        const { data } = await axios.get(`/getInformationBMIUser/`);
         setListUsers(data?.data || []);
     };
 

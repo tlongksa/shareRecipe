@@ -37,49 +37,52 @@ import { RecipeProvider } from './context/recipe-context';
 import { AccountProvider } from './context/account-context';
 import { AuthProvider } from './context/auth-context';
 import RecipeCategories from './containers/Admin/pages/RecipeCategories';
+import { BmiProvider } from './context/bmi-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
     <AuthProvider>
         <AccountProvider>
-            <RecipeProvider>
-                <BlogProvider>
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/" element={<App />}>
-                                <Route path="/home" exact element={<HomePage />} />
-                                <Route path="/test" element={<homeTest />} />
-                                <Route path="/about" element={<About />} />
-                                <Route path="/blogs/:id" element={<BlogDetail />} />
-                                <Route path="/blogs" element={<Blogs />} />
-                                <Route path="/save" element={<Save />} />
-                                <Route path="/contact" element={<Contact />} />
-                                <Route path="/bmi" element={<BmiInfo />} />
-                                <Route path="/signin" element={<Login />} />
-                                <Route path="/profile/:id" element={<Profile />} />
-                                <Route path="/sign-up" element={<Register />} />
-                                <Route path="/forgot-password" element={<ForgotPassword />} />
-                                <Route path="/change-password" element={<ChangePassword />} />
-                                <Route path="/new-password" element={<NewPassword />} />
-                                <Route path="/list-recipe-by-category/:id" element={<RecipesByCategory />} />
-                                <Route path="/list-recipe-by-name" element={<RecipesByName />} />
-                                <Route path="/view-detail/:dishId" element={<ViewDetail />} />
-                                <Route path="/search/:searchTitle" element={<SearchBar />} />
-                                <Route path="/admin" element={<AdminLayout />}>
-                                    <Route path="accounts" element={<Accounts />} />
-                                    <Route path="recipes" element={<Recipes />} />
-                                    <Route path="approve-blogs" element={<PendingBlogs />} />
-                                    <Route path="recipe-form" element={<RecipeForm />} />
-                                    <Route path="recipe-categories" element={<RecipeCategories />} />
+            <BmiProvider>
+                <RecipeProvider>
+                    <BlogProvider>
+                        <BrowserRouter>
+                            <Routes>
+                                <Route path="/" element={<App />}>
+                                    <Route path="/home" exact element={<HomePage />} />
+                                    <Route path="/test" element={<homeTest />} />
+                                    <Route path="/about" element={<About />} />
+                                    <Route path="/blogs/:id" element={<BlogDetail />} />
+                                    <Route path="/blogs" element={<Blogs />} />
+                                    <Route path="/save" element={<Save />} />
+                                    <Route path="/contact" element={<Contact />} />
+                                    <Route path="/bmi" element={<BmiInfo />} />
+                                    <Route path="/signin" element={<Login />} />
+                                    <Route path="/profile/:id" element={<Profile />} />
+                                    <Route path="/sign-up" element={<Register />} />
+                                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                                    <Route path="/change-password" element={<ChangePassword />} />
+                                    <Route path="/new-password" element={<NewPassword />} />
+                                    <Route path="/list-recipe-by-category/:id" element={<RecipesByCategory />} />
+                                    <Route path="/list-recipe-by-name" element={<RecipesByName />} />
+                                    <Route path="/view-detail/:dishId" element={<ViewDetail />} />
+                                    <Route path="/search/:searchTitle" element={<SearchBar />} />
+                                    <Route path="/admin" element={<AdminLayout />}>
+                                        <Route path="accounts" element={<Accounts />} />
+                                        <Route path="recipes" element={<Recipes />} />
+                                        <Route path="approve-blogs" element={<PendingBlogs />} />
+                                        <Route path="recipe-form" element={<RecipeForm />} />
+                                        <Route path="recipe-categories" element={<RecipeCategories />} />
+                                    </Route>
+                                    <Route path="*" element={<NotFound />} />
+                                    <Route index element={<HomePage />} />
                                 </Route>
-                                <Route path="*" element={<NotFound />} />
-                                <Route index element={<HomePage />} />
-                            </Route>
-                        </Routes>
-                    </BrowserRouter>
-                </BlogProvider>
-            </RecipeProvider>
+                            </Routes>
+                        </BrowserRouter>
+                    </BlogProvider>
+                </RecipeProvider>
+            </BmiProvider>
         </AccountProvider>
     </AuthProvider>,
 );

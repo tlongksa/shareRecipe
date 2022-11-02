@@ -1,84 +1,187 @@
-import React from 'react';
-import { Select, Button, Tabs, Checkbox } from 'antd';
-import { Option } from 'antd/lib/mentions';
-import { Container, Row, Form } from 'react-bootstrap';
-import DefaultUserPic from '../../img/team-male.jpg';
-import { SaveOutlined } from '@ant-design/icons';
-import User from './UserTest';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Form, Formik } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
+import Input from '../../components/common/Input/Input';
+import AuthContext from '../../context/auth-context';
+import BmiContext from '../../context/bmi-context';
+import { BmiInfoSchema } from '../../validators';
+import './index.scss';
 
-const BmiInfo = () => {
-    const handleChange = (value) => {
-        console.log(`selected ${value}`);
-    };
-    const onChange = (key) => {
-        console.log(key);
-    };
+export const mobilityOptions = [
+    {
+        value: 1,
+        label: 'Ít hoạt động, chỉ ăn đi làm về ngủ',
+    },
+    {
+        value: 1.375,
+        label: 'Có tập nhẹ nhàng, tuần 1-3 buổi',
+    },
+    {
+        value: 1.5,
+        label: 'Có vận động vừa 4-5 buổi',
+    },
+    {
+        value: 1.72,
+        label: 'Vận động nhiều 6-7 buổi',
+    },
+    {
+        value: 1.9,
+        label: 'Vận động rất nhiều ngày tập 2 lần',
+    },
+];
+
+const BmiForm = ({ item }) => {
+    const onSubmit = (values) => {};
 
     return (
-        <>
-            <Container className="">
-                <Row style={{ marginTop: '15px' }}>
-                    <>
-                        <div>
-                            <img src={DefaultUserPic} alt="profils pic" />
-                            <Form.Control className="bmiImage" type="file" name="bmiImage" />
-                            <Button className="btn-bmi" variant="primary">
-                                Update bmi
-                            </Button>
-                        </div>
-                        <div className="col-bmi">
-                            <div className="txt-bmi">Name: Lê Thành Long</div>
-                            <div className="txt-bmi">Email: tlongksa@gmail.com</div>
-                            <div className="txt-bmi">Date Of Birth :2000-11-14</div>
-                            <div className="txt-bmi">Số diện thoại: 039xxxx322</div>
-                            <div className="txt-bmi">Địa chỉ: Ninh Bình</div>
-                            <div className="txt-bmi">Chiều cao: 173 cm</div>
-                            <div className="txt-bmi">
-                                Chỉ số R:
-                                <Select defaultValue="Choose BMI" className="select-bmi" onChange={handleChange}>
-                                    <Option value="option 1">Option 1</Option>
-                                    <Option value="option 2">Option 2</Option>
-                                    <Option value="option 3">Option 3</Option>
-                                </Select>
+        <div className="bmi-form__info p-4 bg-gray-custom flex-fill rounded">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+                <p>Tên : {item?.name}</p>
+                <p>Ngày sinh: 2000-11-14</p>
+                <p>Giới tính: {item?.gender}</p>
+            </div>
+            <Formik
+                initialValues={{
+                    high: item?.high,
+                    weight: item?.weight,
+                    target: item?.target,
+                    mobility: item?.mobility,
+                }}
+                onSubmit={onSubmit}
+                validationSchema={BmiInfoSchema}
+            >
+                {({ errors, touched, values, handleChange }) => (
+                    <Form>
+                        <div className="d-flex gap-4 align-items-center mb-3">
+                            <p>Chiều cao : </p>
+                            <div className="w-50">
+                                <Input
+                                    name="high"
+                                    onChange={handleChange}
+                                    placeholder="Vui lòng nhập chiều cao của bạn "
+                                    value={values.high}
+                                    error={errors.high}
+                                    touched={touched.high}
+                                    containerNoMarginBottom
+                                    className="flex-fill"
+                                />
                             </div>
-                            <div>
-                                <Button type="primary" icon={<SaveOutlined />} loading={false} onClick={() => {}}>
-                                    Save
-                                </Button>
+                        </div>
+                        <div className="d-flex gap-4 align-items-center mb-3">
+                            <p>Cân nặng : </p>
+                            <div className="w-50">
+                                <Input
+                                    name="weight"
+                                    onChange={handleChange}
+                                    placeholder="Vui lòng nhập cân nặng của bạn "
+                                    value={values.weight}
+                                    error={errors.weight}
+                                    touched={touched.weight}
+                                    containerNoMarginBottom
+                                    className="flex-fill"
+                                />
                             </div>
                         </div>
-                    </>
-                </Row>
-                <div>
-                    <Tabs
-                        defaultActiveKey="1"
-                        onChange={onChange}
-                        items={[
-                            {
-                                label: `Chức năng 1`,
-                                key: '1',
-                                children: [
-                                    <Checkbox>Checkbox1</Checkbox>,
-                                    <Checkbox>Checkbox1.1</Checkbox>,
-                                    <Checkbox>Checkbox1.2</Checkbox>,
-                                ],
-                            },
-                            {
-                                label: `Chức năng 2`,
-                                key: '2',
-                                children: [<Checkbox>Checkbox2</Checkbox>, <Checkbox>Checkbox2.1</Checkbox>],
-                            },
-                            {
-                                label: `Chức năng 3`,
-                                key: '3',
-                                children: [<Checkbox>Checkbox3</Checkbox>, <Checkbox>Checkbox3.1</Checkbox>],
-                            },
-                        ]}
-                    />
+                        <div className="d-flex gap-4 align-items-center mb-3">
+                            <p>Mục tiêu : </p>
+                            <Input
+                                type="select"
+                                name="target"
+                                onChange={handleChange}
+                                value={values.target}
+                                error={errors.target}
+                                touched={touched.target}
+                                containerNoMarginBottom
+                                className="flex-fill"
+                            >
+                                <option value="Giảm cân">Giảm cân</option>
+                                <option value="Giữ nguyên">Giữ nguyên</option>
+                                <option value="Tăng cân">Tăng cân</option>
+                            </Input>
+                        </div>
+                        <div className="d-flex gap-4 align-items-center mb-3">
+                            <p>Chỉ số R : </p>
+                            <Input
+                                type="select"
+                                name="mobility"
+                                onChange={handleChange}
+                                value={values.mobility}
+                                error={errors.mobility}
+                                touched={touched.mobility}
+                                containerNoMarginBottom
+                                className="flex-fill"
+                            >
+                                {mobilityOptions.map(({ value, label }) => (
+                                    <option value={value} key={value}>
+                                        {label}
+                                    </option>
+                                ))}
+                            </Input>
+                        </div>
+                        <div className="d-flex gap-4 align-items-center">
+                            <p>Tổng số calo: </p>
+                            <p>{item?.totalCalo} calo</p>
+                        </div>
+                        <div className="d-flex justify-content-end">
+                            <button className="button button-sm">Lưu</button>
+                        </div>
+                    </Form>
+                )}
+            </Formik>
+        </div>
+    );
+};
+
+const BmiInfo = () => {
+    const { userInfo } = useContext(AuthContext);
+    const {
+        bmiDetail: { dataResponse, isLoading },
+        onFetchDetail,
+    } = useContext(BmiContext);
+    const [recipeType, setRecipeType] = useState('total');
+
+    useEffect(() => {
+        if (userInfo?.username) {
+            onFetchDetail(userInfo?.username);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userInfo]);
+
+    if (isLoading) {
+        return (
+            <section className="client-bmi__info">
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
                 </div>
-            </Container>
-            <User on />
-        </>
+            </section>
+        );
+    }
+
+    return (
+        <section className="client-bmi__info">
+            <div className="custom-page__container">
+                <div className="d-flex gap-4 mb-4">
+                    <img
+                        src={userInfo?.avatarImage}
+                        alt=""
+                        className="w-200px object-fit-contain align-self-baseline"
+                    />
+                    <BmiForm item={dataResponse} />
+                </div>
+                <button
+                    className={`button button-sm me-3 ${recipeType === 'total' ? '' : 'button-secondary'}`}
+                    onClick={() => setRecipeType('total')}
+                >
+                    Total calories
+                </button>
+                <button
+                    className={`button button-sm ${recipeType === 'favourite' ? '' : 'button-secondary'}`}
+                    onClick={() => setRecipeType('favourite')}
+                >
+                    Favourite
+                </button>
+            </div>
+        </section>
     );
 };
 

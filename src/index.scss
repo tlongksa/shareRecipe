@@ -115,3 +115,9 @@ input:focus {
         flex-direction: column;
     }
 }
+p {
+    margin-bottom: 0 !important;
+}
+.object-fit-contain {
+    object-fit: contain;
+}
