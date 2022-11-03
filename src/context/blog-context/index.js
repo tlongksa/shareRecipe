@@ -21,6 +21,9 @@ import {
     blogDislikeItemDetailSuccessAction,
     clearPendingBlogList,
     removeItemFromPendingBlogList,
+    blogGetCommentReportListAction,
+    blogGetCommentReportListSuccessAction,
+    blogGetCommentReportListFailureAction,
 } from './actions';
 import blogReducer from './reducer';
 import {
@@ -28,6 +31,7 @@ import {
     getListBlogRequest,
     getBlogCommentsRequest,
     getListPendingBlogRequest,
+    getListBlogCommentReportRequest,
 } from '../../api/requests';
 
 export const defaultValues = {
@@ -54,6 +58,15 @@ export const defaultValues = {
     extraPendingBlogListInfo: {
         pageIndex: 1,
         numOfPages: 0,
+    },
+    blogCommentReport: {
+        list: [],
+        isLoading: false,
+        error: null,
+        extraListInfo: {
+            pageIndex: 1,
+            numOfPages: 0,
+        },
     },
 };
 
@@ -132,6 +145,26 @@ export const BlogProvider = ({ children }) => {
             });
     };
 
+    const fetchBlogCommentReportList = (page, search = '') => {
+        dispatchContext(blogGetCommentReportListAction());
+        getListBlogCommentReportRequest(page, search)
+            .then(({ data }) => {
+                const { dishCommentAccountVoList = [], pageIndex, numOfPages } = data;
+                dispatchContext(
+                    blogGetCommentReportListSuccessAction({
+                        data: dishCommentAccountVoList,
+                        extraListInfo: {
+                            pageIndex,
+                            numOfPages,
+                        },
+                    }),
+                );
+            })
+            .catch((err) => {
+                dispatchContext(blogGetCommentReportListFailureAction(err?.message));
+            });
+    };
+
     return (
         <BlogContext.Provider
             value={{
@@ -148,6 +181,7 @@ export const BlogProvider = ({ children }) => {
                 onDislikeItemDetail: () => dispatchContext(blogDislikeItemDetailSuccessAction()),
                 onClearPendingList: () => dispatchContext(clearPendingBlogList()),
                 onRemoveFromPendingList: (id) => dispatchContext(removeItemFromPendingBlogList(id)),
+                onFetchMoreBlogCommentReport: (page, search) => fetchBlogCommentReportList(page, search),
             }}
         >
             {children}

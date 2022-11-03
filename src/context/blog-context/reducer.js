@@ -19,6 +19,9 @@ import {
     BLOG_DISLIKE_ITEM_DETAIL_SUCCESS,
     BLOG_CLEAR_LIST_PENDING,
     BLOG_REMOVE_ITEM_FROM_LIST_PENDING,
+    BLOG_GET_COMMENT_REPORT_LIST,
+    BLOG_GET_COMMENT_REPORT_LIST_SUCCESS,
+    BLOG_GET_COMMENT_REPORT_LIST_FAILURE,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -131,6 +134,19 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
                 break;
             case BLOG_REMOVE_ITEM_FROM_LIST_PENDING:
                 draft.listPendingBlog = draft.listPendingBlog.filter((item) => item.blogID !== payload);
+                break;
+            case BLOG_GET_COMMENT_REPORT_LIST:
+                draft.blogCommentReport.isLoading = true;
+                draft.blogCommentReport.error = null;
+                break;
+            case BLOG_GET_COMMENT_REPORT_LIST_SUCCESS:
+                draft.blogCommentReport.isLoading = false;
+                draft.blogCommentReport.list = payload?.data || [];
+                draft.blogCommentReport.extraListInfo = payload.extraListInfo;
+                break;
+            case BLOG_GET_COMMENT_REPORT_LIST_FAILURE:
+                draft.blogCommentReport.isLoading = false;
+                draft.blogCommentReport.error = payload;
                 break;
             default:
                 break;

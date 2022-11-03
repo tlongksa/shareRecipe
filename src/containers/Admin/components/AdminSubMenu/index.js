@@ -20,12 +20,12 @@ export const links = [
         label: 'Phê duyệt blog',
     },
     {
-        to: '/admin/blogs',
-        label: 'Quản lí blog',
+        to: '/admin/blog-comment-reports',
+        label: 'Quản lí report bình luận blog',
     },
     {
-        to: '/admin/reports',
-        label: 'Quản lí report',
+        to: '/admin/recipe-reports',
+        label: 'Quản lý  cảnh báo bình luận  công  thức',
     },
 ];
 
