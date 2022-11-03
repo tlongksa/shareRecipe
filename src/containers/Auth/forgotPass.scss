@@ -1,0 +1,27 @@
+.text-back {
+    text-decoration: none;
+}
+
+.sucmsg {
+    color: rgb(14, 8, 8);
+    font-weight: bold;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.change-password__container {
+    display: flex;
+    .bgr-fotgot-left {
+        background-image: url(../../img/img4.jpg);
+        height: 700px;
+        width: 50%;
+    }
+    @media (max-width: 900px) {
+        flex-direction: column-reverse;
+        .bgr-fotgot-left {
+            width: 100%;
+        }
+    }
+}

@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import './forgotPass.css';
+import './forgotPass.scss';
 import { changePasswordRequest } from '../../api/requests';
 
 const ChangePassword = (props) => {
@@ -16,14 +16,14 @@ const ChangePassword = (props) => {
     };
 
     return (
-        <div>
-            <div className="bgr-fotgot-left"></div>
-            <div className="bgr-fotgot-right">
-                <div className="d-flex flex-column align-content-end">
+        <div className="custom-page__container">
+            <div className="change-password__container d-flex">
+                <div className="bgr-fotgot-left" />
+                <div className="bg-gray-custom p-5">
                     <div className="auth-body mx-auto">
                         <h1>Change Password</h1>
                         <p>Change your password in three easy steps. This will help you to secure your password!</p>
-                        <ol class="list-unstyled">
+                        <ol class="list-unstyled mb-5">
                             <li>
                                 <span class="text-primary text-medium">1. </span>Enter your oldPassword.
                             </li>
@@ -44,6 +44,7 @@ const ChangePassword = (props) => {
                                         value={oldPassword}
                                         placeholder="Nhập mật khẩu cũ"
                                         onChange={(e) => setOldPassword(e.target.value)}
+                                        className="border-1 border-dark p-2 rounded-2 w-100 d-block"
                                     />
                                 </div>
                                 <div className="email mb-3">
@@ -54,9 +55,10 @@ const ChangePassword = (props) => {
                                         value={newPassword}
                                         placeholder="Nhập mật khẩu mới"
                                         onChange={(e) => setNewPassword(e.target.value)}
+                                        className="border-1 border-dark p-2 rounded-2 w-100 d-block"
                                     />
                                 </div>
-                                <div className="text-center">
+                                <div className="text-center mt-5">
                                     <button type="submit" className="btn btn-primary w-100 theme-btn mx-auto">
                                         Change Password
                                     </button>

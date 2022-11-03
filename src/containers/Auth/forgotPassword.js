@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from '../../components/Form/form';
-import './forgotPass.css';
+import './forgotPass.scss';
 import { forgotPasswordRequest } from '../../api/requests';
 
 const ForgotPassword = (props) => {

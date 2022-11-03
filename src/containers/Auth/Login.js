@@ -21,7 +21,6 @@ const Login = () => {
     const [password, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [isRevealPwd, setIsRevealPwd] = useState(false);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 

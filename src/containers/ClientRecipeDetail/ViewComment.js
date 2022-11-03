@@ -34,10 +34,6 @@ const ViewComments = () => {
         getData();
     }, []);
 
-    useEffect(() => {
-        getListComment();
-    }, [index]);
-
     const getListComment = () => {
         getRecipeCommentsAuthRequest(dishId, index)
             .then(({ data }) => {
@@ -105,6 +101,7 @@ const ViewComments = () => {
                 total={comment.numOfPages * 10}
                 onChange={(value) => {
                     setIndex(value);
+                    getListComment();
                 }}
             />
         </>

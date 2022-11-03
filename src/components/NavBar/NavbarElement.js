@@ -15,6 +15,10 @@ export const Nav = styled.nav`
 export const NavRight = styled.nav`
     height: 60px;
     display: flex;
+    @media screen and (max-width: 768px) {
+        position: relative;
+        right: 50px;
+    }
 `;
 export const NavLeft = styled.nav`
     width: 80%;
@@ -92,7 +96,6 @@ export const NavBtnLink = styled(Link)`
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     text-decoration: none;
-    /* Second Nav */
     margin-left: 24px;
     &:hover {
         transition: all 0.2s ease-in-out;

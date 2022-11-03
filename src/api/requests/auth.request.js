@@ -15,7 +15,7 @@ const changePasswordRequest = (formData) =>
 const forgotPasswordRequest = (email) => axios.post(`/forgot_password?email=${email}`);
 
 const loginRequest = (formData) =>
-    axios.post(apiUrl.LOGIN_URL, JSON.stringify(formData), {
+    axios.post(apiUrl.LOGIN_URL, formData, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
     });
