@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from '../../components/Form/form';
-import axios from 'axios';
 import './forgotPass.css';
+import { forgotPasswordRequest } from '../../api/requests';
 
 const ForgotPassword = (props) => {
     const errRef = useRef();
@@ -35,19 +35,16 @@ const ForgotPassword = (props) => {
 
     const forgotPassword = async (e) => {
         e.preventDefault();
-
         const validate = validateforgotPassword();
-
         if (validate) {
             setEmail('');
         }
         setIsSubmitting(true);
-        axios
-            .post(`/forgot_password?email=${email}`)
-            .then((response) => {
+        forgotPasswordRequest(email)
+            .then(({ data }) => {
                 setIsSubmitting(false);
                 setEmail(email);
-                setSuccess(response.data.messContent);
+                setSuccess(data?.messContent);
                 navigate('/new-password');
             })
             .catch((error) => {

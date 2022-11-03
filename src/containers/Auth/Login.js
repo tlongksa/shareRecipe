@@ -1,15 +1,14 @@
 import React, { useContext, useRef, useState } from 'react';
 import './Login.scss';
 import { Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
 import showPwdImg from '../../img/show-password.png';
 import hidePwdImg from '../../img/hide-.svg';
-import apiUrl from '../../api/apiUrl';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import AuthContext from '../../context/auth-context';
 import { USER_INFO_STORAGE_KEY } from '../../constants';
 import { ROLES } from '../../App';
+import { loginRequest } from '../../api/requests';
 
 const Login = () => {
     const { onLoginSuccess } = useContext(AuthContext);
@@ -27,11 +26,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const { data } = await axios.post(apiUrl.LOGIN_URL, JSON.stringify({ username, password }), {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true,
-            });
-
+            const { data } = await loginRequest({ username, password });
             const roles = data?.roles?.[0];
             const dataToSave = {
                 ...data,

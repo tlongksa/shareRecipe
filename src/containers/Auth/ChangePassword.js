@@ -1,32 +1,17 @@
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import apiUrl from '../../api/apiUrl';
-
 import './forgotPass.css';
-import axios from 'axios';
-import AuthContext from '../../context/auth-context';
+import { changePasswordRequest } from '../../api/requests';
+
 const ChangePassword = (props) => {
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [success, setSuccess] = useState();
-    const {
-        userInfo: { accessToken },
-    } = useContext(AuthContext);
     const errRef = useRef();
 
-    const token = `Bearer ${accessToken}`;
     const changePassword = async (e) => {
         e.preventDefault();
-        const { data } = await axios.post(
-            apiUrl.ChangePassword_URL,
-            { oldPassword, newPassword },
-            {
-                headers: {
-                    Authorization: token,
-                },
-            },
-        );
-
+        const { data } = await changePasswordRequest({ oldPassword, newPassword });
         setSuccess(data.messContent);
     };
 
@@ -71,16 +56,6 @@ const ChangePassword = (props) => {
                                         onChange={(e) => setNewPassword(e.target.value)}
                                     />
                                 </div>
-                                {/* <div className="email mb-3">
-                                    <input type="password"
-                                        id="password"
-                                        name="password"
-                                        value={newPassword}
-                                        placeholder="Nhập lại mật khẩu mới"
-                                        
-                                    />
-                                </div> */}
-
                                 <div className="text-center">
                                     <button type="submit" className="btn btn-primary w-100 theme-btn mx-auto">
                                         Change Password

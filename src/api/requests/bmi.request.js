@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './axiosInstance';
 import { getAccessToken } from '../../utils';
 
 const token = getAccessToken();
@@ -37,10 +37,14 @@ const updateUserBmiInfoRequest = (data) =>
             authorization: `Bearer ${token || ''}`,
         },
     });
+
+const getUserBmiListRequest = () => axios.get(`/getInformationBMIUser/`);
+
 export {
     getUserBmiInfoRequest,
     getUserBmiRecipeListRequest,
     getMainIngredientListRequest,
     updateUserBmiInfoRequest,
     getUserBmiRecipeByFavouriteRequest,
+    getUserBmiListRequest,
 };

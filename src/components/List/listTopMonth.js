@@ -1,22 +1,17 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.scss';
-import apiUrl from '../../api/apiUrl';
 import HomeRecipeItem from './HomeRecipeItem';
+import { getTopMonthListRecipeRequest } from '../../api/requests/recipe.request';
 
 const ListTopMonth = (props) => {
     const [ListTopMonth, setListTopMonth] = useState([]);
     const navigateTo = useNavigate();
 
     useEffect(() => {
-        async function getData() {
-            const res = await axios.get(apiUrl.TOPMONTH_URL); // link api get
-            return res;
-        }
-        getData()
-            .then((res) => setListTopMonth(res?.data))
-            .catch((error) => setErrMsg(error.message));
+        getTopMonthListRecipeRequest()
+            .then(({ data }) => setListTopMonth(data))
+            .catch((error) => setErrMsg(error?.message));
     }, []);
 
     const [errMsg, setErrMsg] = useState('');

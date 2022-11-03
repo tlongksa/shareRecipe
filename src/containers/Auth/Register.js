@@ -1,15 +1,14 @@
 import { useRef, useState, useEffect } from 'react';
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from '../../api/axios';
 import './Register.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
+import { signupRequest } from '../../api/requests';
 const USER_REGEX = /^[A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^[A-z0-9-_].{0,16}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-const REGISTER_URL = '/signup';
 
 const Register = () => {
     const userRef = useRef();
@@ -35,6 +34,8 @@ const Register = () => {
 
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         userRef.current.focus();
@@ -67,19 +68,13 @@ const Register = () => {
             return;
         }
         try {
-            const response = await axios.post(REGISTER_URL, JSON.stringify({ username, password, email, fullname }), {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true,
-            });
-            console.log(response?.data);
-
-            console.log(response?.accessToken);
-            console.log(JSON.stringify(response));
+            await signupRequest({ username, password, email, fullname });
             setSuccess(true);
             setUser('');
             setPwd('');
             setMatchPwd('');
             openNotification();
+            navigate('/signin');
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');

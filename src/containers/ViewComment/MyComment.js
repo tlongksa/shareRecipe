@@ -12,13 +12,19 @@ import {
     LikeOutlined,
 } from '@ant-design/icons';
 import { Avatar, Comment, notification, Tooltip } from 'antd';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import { Rating, Stack } from '@mui/material';
 import './ViewComment.css';
 import AuthContext from '../../context/auth-context';
+import {
+    likeRecipeCommentRequest,
+    dislikeRecipeCommentRequest,
+    reportRecipeCommentRequest,
+    createRecipeCommentRequest,
+    deleteRecipeCommentRequest,
+} from '../../api/requests';
 
 const MyComment = (props) => {
     const { comment, cmtContent, onDelete } = props;
@@ -30,6 +36,7 @@ const MyComment = (props) => {
         userInfo: { accessToken },
     } = useContext(AuthContext);
     const [commentContent, setCommentContent] = useState(cmtContent);
+
     const token = `Bearer ${accessToken}`;
 
     useEffect(() => {
@@ -43,16 +50,7 @@ const MyComment = (props) => {
 
     const like = () => {
         if (accessToken) {
-            axios
-                .post(
-                    `/likeDishComment?dishCommentId=${comment.dishCommentID}`,
-                    { commentContent },
-                    {
-                        headers: {
-                            Authorization: token,
-                        },
-                    },
-                )
+            likeRecipeCommentRequest(comment.dishCommentID, { commentContent })
                 .then((response) => {
                     onDelete();
                     if (action === 'liked') {
@@ -67,16 +65,7 @@ const MyComment = (props) => {
 
     const dislike = () => {
         if (accessToken) {
-            axios
-                .post(
-                    `/dislikeDishComment?dishCommentId=${comment.dishCommentID}`,
-                    { commentContent },
-                    {
-                        headers: {
-                            Authorization: token,
-                        },
-                    },
-                )
+            dislikeRecipeCommentRequest()
                 .then((response) => {
                     if (action === 'disliked') {
                         setAction('');
@@ -91,39 +80,26 @@ const MyComment = (props) => {
 
     const flag = () => {
         if (accessToken) {
-            axios
-                .post(
-                    `/reportDishComment?dishCommentId=${comment.dishCommentID}`,
-                    { commentContent },
-                    {
-                        headers: {
-                            Authorization: token,
-                        },
-                    },
-                )
+            reportRecipeCommentRequest(comment.dishCommentID, { commentContent })
                 .then((response) => {
                     setAction('flaged');
                 })
                 .catch((err) => {});
         }
     };
+
     const LoadEditComment = async (e) => {
         e.preventDefault();
         if (accessToken) {
             if (star) {
                 const dishCommentID = comment.dishCommentID;
-                await axios
-                    .post(
-                        `/saveDishComment`,
-                        { dishId, content: commentContent, starRate: star, dishCommentId: dishCommentID },
-                        {
-                            headers: {
-                                headers: { 'Content-Type': 'application/json' },
-                                Authorization: token,
-                            },
-                        },
-                    )
-                    .then((response) => {
+                await createRecipeCommentRequest({
+                    dishId,
+                    content: commentContent,
+                    starRate: star,
+                    dishCommentId: dishCommentID,
+                })
+                    .then(() => {
                         setIsEdit(false);
                         onDelete();
                         openNotification('Sửa bình luận thành công!');
@@ -139,16 +115,7 @@ const MyComment = (props) => {
 
     function handDelete(id) {
         if (accessToken) {
-            axios
-                .post(
-                    `/deleteDishComment?dishCommentId=${id}`,
-                    { commentContent },
-                    {
-                        headers: {
-                            Authorization: token,
-                        },
-                    },
-                )
+            deleteRecipeCommentRequest(id)
                 .then((response) => {
                     onDelete();
                     openNotification('Bình luận đã được xóa');

@@ -1,11 +1,9 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-
-// import { connect } from 'react-redux';
 import DefaultUserPic from '../../img/team-male.jpg';
 import './index.css';
+import { getAccountProfileRequest } from '../../api/requests';
 
 const UserProfile = () => {
     const { id } = useParams();
@@ -14,11 +12,10 @@ const UserProfile = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios
-            .get(`/getprofile/${id}`)
-            .then((response) => {
+        getAccountProfileRequest(id)
+            .then(({ data }) => {
                 setLoading(false);
-                setUser(response.data);
+                setUser(data);
             })
             .catch((error) => {
                 setLoading(false);

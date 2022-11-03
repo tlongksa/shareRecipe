@@ -1,22 +1,17 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiUrl from '../../api/apiUrl';
 import './index.scss';
 import HomeRecipeItem from './HomeRecipeItem';
+import { getTopNewListRecipeRequest } from '../../api/requests/recipe.request';
 
 const ListTopNew = (props) => {
     const [ListTopNew, setListTopNew] = useState([]);
     const navigateTo = useNavigate();
 
     useEffect(() => {
-        async function getData() {
-            const res = await axios.get(apiUrl.TOPNEW_URL);
-            return res;
-        }
-        getData()
-            .then((res) => setListTopNew(res?.data))
-            .catch((error) => setErrMsg(error.message));
+        getTopNewListRecipeRequest()
+            .then(({ data }) => setListTopNew(data))
+            .catch((error) => setErrMsg(error?.message));
     }, []);
 
     const [errMsg, setErrMsg] = useState('');

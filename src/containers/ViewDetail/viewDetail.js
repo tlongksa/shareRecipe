@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import './index.css';
-
 import ViewComments from '../ViewComment/ViewComment';
 import { Button, Checkbox, Divider } from 'antd';
+import { getRecipeDetailRequest, getRecipeIngredientChangeRequest } from '../../api/requests/recipe.request';
 
 const ViewDetail = () => {
     const { dishId } = useParams();
@@ -18,12 +17,11 @@ const ViewDetail = () => {
     const [bigRecipeImg, setBigRecipeImg] = useState('');
 
     const getDataDetail = () => {
-        axios
-            .get(`/getRecipeDetail?dishId=${dishId}`)
-            .then((response) => {
-                setRecipe(response.data);
-                setIngredient(response.data.ingredientDetailList);
-                setBigRecipeImg(response.data?.dishImageList?.[0]?.url);
+        getRecipeDetailRequest(dishId)
+            .then(({ data }) => {
+                setRecipe(data);
+                setIngredient(data?.ingredientDetailList);
+                setBigRecipeImg(data?.dishImageList?.[0]?.url);
             })
             .catch((error) => console.log(error));
         setLoading(false);
@@ -47,14 +45,14 @@ const ViewDetail = () => {
         const [loadings] = useState([]);
 
         const changeIngredient = () => {
-            axios
-                .get(`/getIngredientChange?ingredientDetailId=${checkedIngredientList.join(',')}`)
+            getRecipeIngredientChangeRequest(checkedIngredientList.join(','))
                 .then((response) => {
                     setReplacementIngredientList(response.data);
                 })
                 .catch((error) => console.log(error));
             setLoading(false);
         };
+
         return (
             <>
                 <div className="container-list" key={recipe.dishId}>

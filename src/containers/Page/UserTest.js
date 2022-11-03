@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { getUserBmiListRequest } from '../../api/requests';
 
 const User = () => {
     const [listUsers, setListUsers] = useState([]);
 
     const fetchBmiUserInfo = async () => {
-        const { data } = await axios.get(`/getInformationBMIUser/`);
+        const { data } = await getUserBmiListRequest();
         setListUsers(data?.data || []);
     };
 

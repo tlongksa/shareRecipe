@@ -5,9 +5,9 @@ import { Pagination } from 'antd';
 import { Rating, Stack } from '@mui/material';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import axios from 'axios';
 import MyComment from './MyComment';
 import AuthContext from '../../context/auth-context';
+import { createRecipeCommentRequest, getRecipeCommentsAuthRequest, getRecipeCommentsRequest } from '../../api/requests';
 
 const ViewComments = () => {
     const { dishId } = useParams();
@@ -19,18 +19,17 @@ const ViewComments = () => {
     const {
         userInfo: { accessToken },
     } = useContext(AuthContext);
-    const token = `Bearer ${accessToken}`;
     const [index, setIndex] = useState(1);
 
     const getData = () => {
-        axios
-            .get(`/getListCommentOfRecipe?dishId=${dishId}`)
-            .then((response) => {
-                setComment(response.data);
-                setCommentList(response.data.dishCommentAccountVoList);
+        getRecipeCommentsRequest(dishId)
+            .then(({ data }) => {
+                setComment(data);
+                setCommentList(data?.dishCommentAccountVoList);
             })
             .catch((error) => console.log(error));
     };
+
     useEffect(() => {
         getData();
     }, [changed]);
@@ -40,14 +39,9 @@ const ViewComments = () => {
     }, [index]);
 
     const getListComment = () => {
-        axios
-            .get(`/getListCommentOfRecipe?dishId=${dishId}&pageIndex=${index}`, {
-                headers: {
-                    Authorization: token,
-                },
-            })
-            .then((response) => {
-                setCommentList(response.data.dishCommentAccountVoList);
+        getRecipeCommentsAuthRequest(dishId, index)
+            .then(({ data }) => {
+                setCommentList(data?.dishCommentAccountVoList);
             })
             .catch((err) => console.log(err));
     };
@@ -55,18 +49,8 @@ const ViewComments = () => {
     const AddComment = async (e) => {
         e.preventDefault();
         if (accessToken && star) {
-            await axios
-                .post(
-                    `/saveDishComment`,
-                    { dishId, content: content, starRate: star },
-                    {
-                        headers: {
-                            headers: { 'Content-Type': 'application/json' },
-                            Authorization: token,
-                        },
-                    },
-                )
-                .then((response) => {
+            await createRecipeCommentRequest({ dishId, content: content, starRate: star })
+                .then(() => {
                     setChanged(comment.length);
                 })
                 .catch((err) => {});

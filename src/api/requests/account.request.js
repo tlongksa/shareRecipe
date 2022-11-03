@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './axiosInstance';
 import { getAccessToken } from '../../utils';
 
 const token = getAccessToken();
@@ -31,4 +31,12 @@ const deleteAccountRequest = (id) =>
         },
     });
 
-export { getListAccountRequest, getAccountDetailRequest, deleteAccountRequest, updateAccountRoleRequest };
+const getAccountProfileRequest = (id) => axios.get(`/getprofile/${id}`);
+
+export {
+    getListAccountRequest,
+    getAccountDetailRequest,
+    deleteAccountRequest,
+    updateAccountRoleRequest,
+    getAccountProfileRequest,
+};

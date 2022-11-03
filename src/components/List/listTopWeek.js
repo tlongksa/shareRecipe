@@ -1,6 +1,6 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getTopWeekListRecipeRequest } from '../../api/requests/recipe.request';
 import HomeRecipeItem from './HomeRecipeItem';
 import './index.scss';
 
@@ -8,17 +8,12 @@ const ListTopWeek = (props) => {
     const [ListTopWeek, setListTopWeek] = useState([]);
 
     useEffect(() => {
-        async function getData() {
-            const res = await axios.get('/getTop5VoteWeek'); // link api get
-            return res;
-        }
-        getData()
-            .then((res) => setListTopWeek(res?.data))
-            .catch((error) => setErrMsg(error.message));
+        getTopWeekListRecipeRequest()
+            .then(({ data }) => setListTopWeek(data))
+            .catch((error) => setErrMsg(error?.message));
     }, []);
 
     const navigateTo = useNavigate();
-
     const [errMsg, setErrMsg] = useState('');
 
     return (
