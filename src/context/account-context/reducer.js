@@ -6,6 +6,7 @@ import {
     ACCOUNT_GET_DETAIL,
     ACCOUNT_GET_DETAIL_FAILURE,
     ACCOUNT_GET_DETAIL_SUCCESS,
+    ACCOUNT_REMOVE_LIST_ITEM,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -45,6 +46,9 @@ const accountReducer = (state = defaultValues, { type, payload }) =>
             case ACCOUNT_GET_DETAIL_FAILURE:
                 draft.accountDetail.error = payload;
                 draft.accountDetail.isLoading = false;
+                break;
+            case ACCOUNT_REMOVE_LIST_ITEM:
+                draft.list = draft.list.filter((acc) => acc.accountId !== payload);
                 break;
             default:
                 break;

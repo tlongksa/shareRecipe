@@ -6,6 +6,7 @@ import {
     ACCOUNT_GET_DETAIL,
     ACCOUNT_GET_DETAIL_FAILURE,
     ACCOUNT_GET_DETAIL_SUCCESS,
+    ACCOUNT_REMOVE_LIST_ITEM,
 } from './types';
 
 const accountGetListAction = () => ({
@@ -40,6 +41,11 @@ const accountGetDetailFailureAction = (error) => ({
     payload: error,
 });
 
+const accountRemoveListItemAction = (payload) => ({
+    type: ACCOUNT_REMOVE_LIST_ITEM,
+    payload,
+});
+
 export {
     accountGetListAction,
     accountGetListSuccessAction,
@@ -48,4 +54,5 @@ export {
     accountGetDetailAction,
     accountGetDetailSuccessAction,
     accountGetDetailFailureAction,
+    accountRemoveListItemAction,
 };

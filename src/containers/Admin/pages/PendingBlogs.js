@@ -16,7 +16,7 @@ const PendingBlogs = () => {
         onClearPendingList,
         onRemoveFromPendingList,
     } = useContext(BlogContext);
-    const [search, setSearch] = useState('');
+    const [search] = useState('');
 
     useEffect(() => {
         onFetchMorePendingList(1);
@@ -40,6 +40,9 @@ const PendingBlogs = () => {
         deleteBlogRequest(id)
             .then(() => {
                 onRemoveFromPendingList(id);
+                if (listPendingBlog.length === 0) {
+                    onFetchMorePendingList(1);
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -51,6 +54,11 @@ const PendingBlogs = () => {
     }
     return (
         <section className="pending-blogs__container">
+            {isLoading && (
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
+                </div>
+            )}
             <ul className="blog-list_items">
                 {listPendingBlog.map((item, index) => (
                     <BlogItem
@@ -63,11 +71,6 @@ const PendingBlogs = () => {
                     />
                 ))}
             </ul>
-            {isLoading && (
-                <div className="global-list__loader-container">
-                    <LoadingOutlined className="global-list__loader-icon" />
-                </div>
-            )}
             <Paginator
                 isLoading={isLoading}
                 maxPage={extraPendingBlogListInfo.numOfPages}

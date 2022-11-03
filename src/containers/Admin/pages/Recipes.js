@@ -22,7 +22,9 @@ const Recipes = () => {
         deleteRecipeRequest(id)
             .then(({ data }) => {
                 setIsProcessing(false);
-                onAdminFetchMore(1);
+                if (adminRecipeList.length === 0) {
+                    onAdminFetchMore(1);
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -58,6 +60,11 @@ const Recipes = () => {
                     <span>Thêm công thức</span>
                 </button>
             </div>
+            {isLoading && (
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
+                </div>
+            )}
             <RecipeDataList
                 list={adminRecipeList}
                 maxPage={adminRecipeExtraListInfo.numOfPages}
@@ -67,11 +74,6 @@ const Recipes = () => {
                     onAdminFetchMore(page);
                 }}
             />
-            {isLoading && (
-                <div className="global-list__loader-container">
-                    <LoadingOutlined className="global-list__loader-icon" />
-                </div>
-            )}
         </section>
     );
 };

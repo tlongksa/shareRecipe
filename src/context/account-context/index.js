@@ -8,6 +8,7 @@ import {
     accountGetDetailAction,
     accountGetDetailFailureAction,
     accountGetDetailSuccessAction,
+    accountRemoveListItemAction,
 } from './actions';
 import accountReducer from './reducer';
 import { getAccountDetailRequest, getListAccountRequest } from '../../api/requests';
@@ -70,6 +71,7 @@ export const AccountProvider = ({ children }) => {
                 onFetchMore: (page, search) => fetchAccountList(page, search),
                 onClearList: () => dispatchContext(accountClearListAction()),
                 onFetchDetail: (id) => fetchAccountDetail(id),
+                onRemoveItem: (id) => dispatchContext(accountRemoveListItemAction(id)),
             }}
         >
             {children}

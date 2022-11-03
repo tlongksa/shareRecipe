@@ -17,11 +17,18 @@ const getAccountDetailRequest = (id) =>
         },
     });
 
-const deleteAccountRequest = (id) =>
-    axios.delete(`/admin/deleteAccount/${id}`, {
+const updateAccountRoleRequest = (id, role) =>
+    axios.post(`/admin/changeRole?accountId=${id}&role=${role}`, null, {
         headers: {
             authorization: `Bearer ${token || ''}`,
         },
     });
 
-export { getListAccountRequest, getAccountDetailRequest, deleteAccountRequest };
+const deleteAccountRequest = (id) =>
+    axios.post(`/admin/deleteAccount?accountId=${id}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
+export { getListAccountRequest, getAccountDetailRequest, deleteAccountRequest, updateAccountRoleRequest };
