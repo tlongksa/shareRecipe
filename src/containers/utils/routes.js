@@ -1,12 +1,12 @@
 export default {
     HOME: '/home',
     LOGIN: '/signin',
-    REGISTER: "/sign-up",
+    REGISTER: '/sign-up',
     PROFILE: '/profile',
     EDIT_PROFILE: '/edit-profile',
     // RECIPE: '/recipe/:recipe_id',
     // UPDATE_INFO: '/update-info',
-    RICIPE_DETAIL: '//view-detail/:dishId',
+    RICIPE_DETAIL: '//recipe-detail/:dishId',
     // CREATE_RECIPE: '/create-recipe',
     // EDIT_RECIPE: '/edit-recipe',
     SEARCH: '/search',
@@ -15,5 +15,5 @@ export default {
     // BLOG: '/blog/:id',
     // OTHER_PROFILE: '/profilepage',
     // BLOG_LIST: '/blog-list',
-    ERROR_PAGE: '/error'
-}
+    ERROR_PAGE: '/error',
+};

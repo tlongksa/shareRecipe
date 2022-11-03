@@ -67,7 +67,7 @@ root.render(
                                     <Route path="/new-password" element={<NewPassword />} />
                                     <Route path="/list-recipe-by-category/:id" element={<RecipesByCategory />} />
                                     <Route path="/list-recipe-by-name" element={<RecipesByName />} />
-                                    <Route path="/view-detail/:dishId" element={<ViewDetail />} />
+                                    <Route path="/recipe-detail/:dishId" element={<ViewDetail />} />
                                     <Route path="/search/:searchTitle" element={<SearchBar />} />
                                     <Route path="/admin" element={<AdminLayout />}>
                                         <Route path="accounts" element={<Accounts />} />

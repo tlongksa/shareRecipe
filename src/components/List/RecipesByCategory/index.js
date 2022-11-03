@@ -14,7 +14,7 @@ const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
             <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
                 <div className="recipe-list_item-content">
                     <h5>
-                        <Link to={`/recipes/${item.recipeID}`}>{item.name}</Link>
+                        <Link to={`/recipe-detail/${item.dishID}`}>{item.name}</Link>
                     </h5>
                     <p>{item.description}</p>
                 </div>
@@ -58,6 +58,7 @@ const RecipesByCategory = () => {
     if (!isLoading && error) {
         return <p className="error-message">Something went wrong</p>;
     }
+
     return (
         <section className="recipes-by__category-container">
             <div className="custom-page__container">

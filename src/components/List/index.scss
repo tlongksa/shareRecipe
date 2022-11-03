@@ -1,11 +1,10 @@
-.view-container {
+.home__list-category__container {
     display: flex;
     flex-direction: row;
-    max-width: 100%;
     flex-wrap: wrap;
     margin-top: 1rem;
     padding: 10px 0;
-    text-align: center;
+    padding-left: 0.6rem;
 }
 .home-category-list__title,
 .home-list__title {
@@ -104,10 +103,11 @@
 
 .recipe__category-name {
     font-size: 16px;
+    text-align: center;
 }
 
-.text-view a {
-    font-size: 30px !important;
+.recipe-info__text-view a {
+    font-size: 30px;
     display: -webkit-box;
     -webkit-line-clamp: 1; /* số dòng hiển thị */
     -webkit-box-orient: vertical;
@@ -117,4 +117,15 @@
 
 .home-dish__item {
     cursor: pointer;
+}
+
+.home-recipe__item-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+}
+.recipe-info__text-view {
+    padding: 0 1.5rem 1rem 1.5rem;
 }

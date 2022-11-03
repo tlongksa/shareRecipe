@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import './index.scss';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -6,11 +6,9 @@ import RecipeContext from '../../context/recipe-context';
 
 const ListCategory = (props) => {
     const { onFetchRecipeCategories, categories } = useContext(RecipeContext);
-    const errRef = useRef();
 
     useEffect(() => {
         onFetchRecipeCategories();
-        errRef.current.focus();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -18,10 +16,8 @@ const ListCategory = (props) => {
         return (
             <>
                 <div className="home-category-list__title">Catergory</div>
-                <section className="view-container">
-                    <p ref={errRef} className={categories?.error?.message ? 'errmsg' : 'offscreen'}>
-                        {categories?.error?.message}
-                    </p>
+                <p className="error-message">{categories?.error?.message}</p>
+                <section className="home__list-category__container">
                     {categories.list.map((list) => (
                         <Link key={list.dishCategoryID} to={`/list-recipe-by-category/${list.dishCategoryID}`}>
                             <div className="category-list__item">
