@@ -199,7 +199,7 @@ const BmiInfo = () => {
     return (
         <section className="client-bmi__info">
             <div className="custom-page__container">
-                <div className="d-flex gap-4 mb-4">
+                <div className="d-flex gap-3 mb-4">
                     <img
                         src={userInfo?.avatarImage || IMAGE_PLACEHODLER_URI}
                         alt=""

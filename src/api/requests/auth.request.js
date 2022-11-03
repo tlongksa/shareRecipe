@@ -17,7 +17,6 @@ const forgotPasswordRequest = (email) => axios.post(`/forgot_password?email=${em
 const loginRequest = (formData) =>
     axios.post(apiUrl.LOGIN_URL, formData, {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
     });
 
 const signupRequest = (formData) =>

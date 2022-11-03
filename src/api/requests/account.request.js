@@ -31,7 +31,12 @@ const deleteAccountRequest = (id) =>
         },
     });
 
-const getAccountProfileRequest = (id) => axios.get(`/getprofile/${id}`);
+const getAccountProfileRequest = (id) =>
+    axios.get(`/getprofile/${id}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
 
 export {
     getListAccountRequest,
