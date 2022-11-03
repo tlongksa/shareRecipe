@@ -46,9 +46,9 @@ export const BmiProvider = ({ children }) => {
             });
     };
 
-    const fetchBmiRecipeList = (totalCalo, meal = '', mainIngredient = '') => {
+    const fetchBmiRecipeList = (totalCalo) => {
         dispatchContext(bmiGetDetailAction());
-        getUserBmiRecipeListRequest(totalCalo, meal, mainIngredient)
+        getUserBmiRecipeListRequest(totalCalo)
             .then(({ data }) => {
                 console.log(data);
                 dispatchContext(bmiGetDetailSuccessAction(data));
@@ -75,8 +75,7 @@ export const BmiProvider = ({ children }) => {
                 ...state,
                 onFetchDetail: (name) => fetchBmiDetail(name),
                 onClearDetail: () => dispatchContext(clearBmiDetailAction()),
-                onFetchRecipes: (totalCalo, meal = '', mainIngredient = '') =>
-                    fetchBmiRecipeList(totalCalo, meal, mainIngredient),
+                onFetchRecipes: (totalCalo) => fetchBmiRecipeList(totalCalo),
                 onFetchMainIngredients: () => fetchMainIngredients(),
             }}
         >

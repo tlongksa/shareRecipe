@@ -34,7 +34,7 @@ export const mobilityOptions = [
 
 export const MEALS = ['Bữa sáng', 'Bữa trưa', 'Bữa tối'];
 
-const BmiForm = ({ item, username }) => {
+const BmiForm = ({ item, userInfo }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const onSubmit = (values) => {
@@ -44,7 +44,9 @@ const BmiForm = ({ item, username }) => {
             high: values.high,
             weight: values.weight,
             r: values.mobility,
-            username,
+            username: userInfo?.username,
+            gender: item?.gender,
+            dob: item.dob,
         })
             .then(({ data }) => {
                 setIsProcessing(false);
@@ -179,7 +181,7 @@ const BmiInfo = () => {
 
     useEffect(() => {
         if (dataResponse?.totalCalo) {
-            onFetchRecipes(dataResponse?.totalCalo, '', '');
+            onFetchRecipes(dataResponse?.totalCalo);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataResponse]);
@@ -203,7 +205,7 @@ const BmiInfo = () => {
                         alt=""
                         className="w-200px object-fit-contain align-self-baseline"
                     />
-                    <BmiForm item={dataResponse} username={userInfo.username} />
+                    <BmiForm item={dataResponse} userInfo={userInfo} />
                 </div>
                 <button
                     className={`button button-sm me-3 ${recipeType === 'total' ? '' : 'button-secondary'}`}

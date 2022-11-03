@@ -10,17 +10,19 @@ const getUserBmiInfoRequest = (name = '') =>
         },
     });
 
-const getUserBmiRecipeListRequest = (totalCalo, meal, mainIngredient) =>
-    axios.get(
-        `/getDishByBMIUser?${meal ? `meal=${meal}&` : ''}${
-            mainIngredient ? `mainIngredient=${mainIngredient}&` : ''
-        }totalCalo=${totalCalo}`,
-        {
-            headers: {
-                authorization: `Bearer ${token || ''}`,
-            },
+const getUserBmiRecipeListRequest = (totalCalo) =>
+    axios.get(`/getListDishByBMIUser?totalCalo=${totalCalo}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
         },
-    );
+    });
+
+const getUserBmiRecipeByFavouriteRequest = (totalCalo, meal, mainIngredient) =>
+    axios.get(`/getDishByBMIUser?meal=${meal}&mainIngredient=${mainIngredient}&totalCalo=${totalCalo}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
 
 const getMainIngredientListRequest = () =>
     axios.get(`/getMainIngredient`, {
@@ -35,4 +37,10 @@ const updateUserBmiInfoRequest = (data) =>
             authorization: `Bearer ${token || ''}`,
         },
     });
-export { getUserBmiInfoRequest, getUserBmiRecipeListRequest, getMainIngredientListRequest, updateUserBmiInfoRequest };
+export {
+    getUserBmiInfoRequest,
+    getUserBmiRecipeListRequest,
+    getMainIngredientListRequest,
+    updateUserBmiInfoRequest,
+    getUserBmiRecipeByFavouriteRequest,
+};

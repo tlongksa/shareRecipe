@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 import './Login.scss';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import showPwdImg from '../../img/show-password.png';
 import hidePwdImg from '../../img/hide-.svg';
@@ -12,8 +12,6 @@ import { USER_INFO_STORAGE_KEY } from '../../constants';
 import { ROLES } from '../../App';
 
 const Login = () => {
-    const navigate = useNavigate();
-    const navigateTo = useNavigate();
     const { onLoginSuccess } = useContext(AuthContext);
 
     const location = useLocation();
@@ -43,7 +41,6 @@ const Login = () => {
                 onLoginSuccess(dataToSave);
                 localStorage.setItem(USER_INFO_STORAGE_KEY, JSON.stringify(dataToSave));
             }
-
             notification.open({
                 message: 'Đăng nhập thành công !',
                 description:
@@ -57,11 +54,11 @@ const Login = () => {
                 ),
             });
             if (roles === ROLES.admin) {
-                navigateTo('/admin');
+                window.location.replace('/admin/accounts');
                 return;
             }
-            navigateTo(`/`);
-            navigate(from, { replace: true });
+            window.location.replace('/');
+            window.location.replace(from);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg(err);

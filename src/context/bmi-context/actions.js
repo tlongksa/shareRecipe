@@ -10,6 +10,7 @@ import {
     BMI_GET_MAIN_INGREDIENTS,
     BMI_GET_MAIN_INGREDIENTS_SUCCESS,
     BMI_GET_MAIN_INGREDIENTS_FAILURE,
+    BMI_UPDATE_SUCCESS,
 } from './types';
 
 const bmiGetDetailAction = () => ({
@@ -62,6 +63,11 @@ const bmiGetMainIngredientsFailureAction = (error) => ({
     payload: error,
 });
 
+const updateBmiInfoSuccess = (payload) => ({
+    type: BMI_UPDATE_SUCCESS,
+    payload,
+});
+
 export {
     bmiGetDetailAction,
     bmiGetDetailSuccessAction,
@@ -74,4 +80,5 @@ export {
     bmiGetMainIngredientsAction,
     bmiGetMainIngredientsSuccessAction,
     bmiGetMainIngredientsFailureAction,
+    updateBmiInfoSuccess,
 };

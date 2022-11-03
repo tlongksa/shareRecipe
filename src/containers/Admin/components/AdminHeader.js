@@ -36,13 +36,7 @@ const AdminHeader = () => {
                             <Avatar imgSrc={avatarImage || ''} />
                         </CDropdownToggle>
                         <CDropdownMenu>
-                            <CDropdownItem
-                                onClick={() => {
-                                    // navigate(`/profile/${id}`);
-                                }}
-                            >
-                                Thông tin cá nhân cá nhân
-                            </CDropdownItem>
+                            <CDropdownItem onClick={() => {}}>Thông tin cá nhân cá nhân</CDropdownItem>
                             <CDropdownItem onClick={() => {}}>Yêu thích</CDropdownItem>
                             <CDropdownItem
                                 onClick={() => {
