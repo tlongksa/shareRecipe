@@ -7,6 +7,7 @@ import Step3 from './Step3';
 import AuthContext from '../../../../context/auth-context';
 import { fileUploadHandler } from '../../../../hooks/useFileUpload';
 import { createRecipeRequest } from '../../../../api/requests';
+import { RECIPE_FORM_DATA } from '../../../../constants';
 
 const RecipeForm = () => {
     const { userInfo } = useContext(AuthContext);
@@ -65,7 +66,7 @@ const RecipeForm = () => {
 
     function createRecipeHandler() {
         setIsCreating(true);
-        createRecipeRequest({
+        const payloadToSubmit = {
             video,
             listDishImage,
             name: recipeFormData.name,
@@ -78,7 +79,10 @@ const RecipeForm = () => {
             formulaId: {
                 describe: '',
                 summary: '',
-                listStep: recipeFormData.listStep,
+                listStep: recipeFormData.listStep.map((step, index) => ({
+                    describe: step.describe,
+                    title: index + 1,
+                })),
                 account: {
                     userName: userInfo?.username,
                 },
@@ -106,7 +110,9 @@ const RecipeForm = () => {
                     })),
                 })),
             ],
-        })
+        };
+        localStorage.setItem(RECIPE_FORM_DATA, JSON.stringify(payloadToSubmit));
+        createRecipeRequest(payloadToSubmit)
             .then(({ data }) => {
                 setIsCreating(false);
                 console.log(data);

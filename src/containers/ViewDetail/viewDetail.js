@@ -23,7 +23,6 @@ const ViewDetail = () => {
             .then((response) => {
                 setRecipe(response.data);
                 setIngredient(response.data.ingredientDetailList);
-                // setCheckedIngredientList(indeterminate.ingredientDetailId);
                 setBigRecipeImg(response.data?.dishImageList?.[0]?.url);
             })
             .catch((error) => console.log(error));
@@ -33,6 +32,7 @@ const ViewDetail = () => {
     useEffect(() => {
         setLoading(true);
         getDataDetail();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const mapReplacementIngredient = (rootIngId) => {
@@ -44,22 +44,7 @@ const ViewDetail = () => {
     };
 
     const ShowRecipe = () => {
-        const [loadings, setLoadings] = useState([]);
-
-        // const enterLoading = (index) => {
-        //     setLoadings((prevLoadings) => {
-        //         const newLoadings = [...prevLoadings];
-        //         newLoadings[index] = true;
-        //         return newLoadings;
-        //     });
-        //     setTimeout(() => {
-        //         setLoadings((prevLoadings) => {
-        //             const newLoadings = [...prevLoadings];
-        //             newLoadings[index] = false;
-        //             return newLoadings;
-        //         });
-        //     }, 2000);
-        // };
+        const [loadings] = useState([]);
 
         const changeIngredient = () => {
             axios
