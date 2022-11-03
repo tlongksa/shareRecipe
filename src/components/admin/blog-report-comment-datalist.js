@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
 import styles from './data-list.module.css';
 import { useMediaQuery } from 'react-responsive';
 import { SettingOutlined, DeleteOutlined } from '@ant-design/icons';
-import { MAX_ITEMS } from '../../constants';
 import Paginator from '../common/Paginator';
 
 function MobileCard({ item, no, onEdit, onDelete }) {
@@ -18,7 +16,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                                 fontSize: 16,
                                 color: '#289AE7',
                             }}
-                            onClick={() => onEdit(item.dishCategoryID)}
+                            onClick={() => onEdit(item.dishID)}
                         />
                         <DeleteOutlined
                             style={{
@@ -26,7 +24,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                                 fontSize: 18,
                                 color: '#f53838',
                             }}
-                            onClick={() => onDelete(item.dishCategoryID)}
+                            onClick={() => onDelete(item.dishID)}
                         />
                     </div>
                 </div>
@@ -35,31 +33,46 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                     <p>{no}</p>
                 </div>
                 <div className="custom-col">
-                    <strong>Tên thể loại</strong>
-                    <p>{item.name}</p>
+                    <strong>Mô tả nội dung</strong>
+                    <p>{item.content}</p>
                 </div>
                 <div className="custom-col">
-                    <strong>Ảnh mô tả</strong>
-                    <p>
-                        <img src={item.dishCategoryImage} alt="" width={80} />
-                    </p>
+                    <strong>Ngày tạo</strong>
+                    <p>{item?.createDate || '-'}</p>
+                </div>
+                <div className="custom-col">
+                    <strong>Người tạo</strong>
+                    <p>{item.accountUserName}</p>
+                </div>
+                <div className="custom-col">
+                    <strong>Lượt thích</strong>
+                    <p>{item.totalLike}</p>
+                </div>
+                <div className="custom-col">
+                    <strong>Lượt không thích</strong>
+                    <p>{item.totalDisLike}</p>
+                </div>
+                <div className="custom-col">
+                    <strong>Cảnh báo</strong>
+                    <p>{item.flag}</p>
                 </div>
             </div>
         </div>
     );
 }
 
-const RecipeCategoryDatalist = ({ list, onEdit, onDelete }) => {
+const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCallback }) => {
     const isMobile = useMediaQuery({ query: `(max-width: 768px)` });
-    const [curPage, setCurPage] = useState(1);
 
-    let listRecipeCategoryMarkup = list.slice((curPage - 1) * MAX_ITEMS, curPage * MAX_ITEMS).map((item, index) => (
-        <li key={item.dishCategoryID} className={styles.dataItem}>
+    let listBlogCommentReportMarkup = list.map((item, index) => (
+        <li key={item.dishID} className={styles.dataItem}>
             <span className={styles.no}>{index + 1}</span>
-            <span>{item.name || '-'}</span>
-            <span>
-                <img src={item.dishCategoryImage} alt="" width={80} />
-            </span>
+            <span>{item.content}</span>
+            <span>{item?.createDate || '-'}</span>
+            <span>{item.accountUserName}</span>
+            <span>{item.totalLike}</span>
+            <span>{item.totalDisLike}</span>
+            <span>{item.flag}</span>
             <span>
                 <div className="d-flex align-items-center mw-60-px gap-sm">
                     <SettingOutlined
@@ -68,7 +81,7 @@ const RecipeCategoryDatalist = ({ list, onEdit, onDelete }) => {
                             fontSize: 18,
                             color: '#289AE7',
                         }}
-                        onClick={() => onEdit(item.dishCategoryID)}
+                        onClick={() => onEdit(item.dishID)}
                     />
                     <DeleteOutlined
                         style={{
@@ -76,7 +89,7 @@ const RecipeCategoryDatalist = ({ list, onEdit, onDelete }) => {
                             fontSize: 18,
                             color: '#f53838',
                         }}
-                        onClick={() => onDelete(item.dishCategoryID)}
+                        onClick={() => onDelete(item.dishID)}
                     />
                 </div>
             </span>
@@ -84,34 +97,39 @@ const RecipeCategoryDatalist = ({ list, onEdit, onDelete }) => {
     ));
 
     if (isMobile) {
-        listRecipeCategoryMarkup = list
-            .slice((curPage - 1) * MAX_ITEMS, curPage * MAX_ITEMS)
-            .map((item, index) => (
-                <MobileCard no={index + 1} key={item.dishCategoryID} item={item} onEdit={onEdit} onDelete={onDelete} />
-            ));
+        listBlogCommentReportMarkup = list.map((item, index) => (
+            <MobileCard no={index + 1} key={item.dishID} item={item} onEdit={onEdit} onDelete={onDelete} />
+        ));
     }
+
     return (
-        <div>
+        <>
             <ul className={styles.dataList}>
                 {!isMobile && (
                     <li className={[styles.dataItem, styles.dataItemHead].join(' ')}>
                         <strong className={styles.no}>No</strong>
-                        <strong>Tên thể loại</strong>
-                        <strong>Ảnh mô tả</strong>
+                        <strong>Mô tả nội dung</strong>
+                        <strong>Ngày tạo </strong>
+                        <strong>Người tạo</strong>
+                        <strong>Lượt thích</strong>
+                        <strong>Lượt không thích</strong>
+                        <strong>Cảnh báo</strong>
                         <strong />
                     </li>
                 )}
-                {listRecipeCategoryMarkup}
-                <Paginator
-                    curPage={curPage}
-                    maxPage={Math.ceil(list.length / MAX_ITEMS)}
-                    callback={(page) => setCurPage(page)}
-                    scrollAfterClicking
-                    isLoading={false}
-                />
+                {listBlogCommentReportMarkup}
             </ul>
-        </div>
+            <Paginator
+                curPage={currentPage}
+                maxPage={maxPage}
+                scrollAfterClicking
+                isLoading={false}
+                callback={(page) => {
+                    paginateCallback(page);
+                }}
+            />
+        </>
     );
 };
 
-export default RecipeCategoryDatalist;
+export default BlogReportCommentDataList;

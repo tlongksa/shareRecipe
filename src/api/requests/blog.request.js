@@ -86,6 +86,13 @@ const getListBlogCommentReportRequest = (page = 1, search = '') =>
         },
     });
 
+const reportBlogCommentRequest = (id) =>
+    axios.post(`/reportBlogComment?blogCommentId=${id}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListBlogRequest,
     getBlogDetailRequest,
@@ -101,4 +108,5 @@ export {
     dislikeBlogCommentRequest,
     deleteBlogCommentRequest,
     getListBlogCommentReportRequest,
+    reportBlogCommentRequest,
 };

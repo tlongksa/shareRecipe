@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect } from 'react';
-import UserDataList from '../../../components/admin/user-datalist';
+import BlogReportCommentDataList from '../../../components/admin/blog-report-comment-datalist';
 import BlogContext from '../../../context/blog-context';
 
 const BlogCommentReports = () => {
@@ -20,7 +20,7 @@ const BlogCommentReports = () => {
 
     return (
         <section className={`account-list__container ${isLoading ? 'divDisabled' : ''}`}>
-            <UserDataList
+            <BlogReportCommentDataList
                 list={list}
                 maxPage={extraListInfo.numOfPages}
                 currentPage={extraListInfo.pageIndex}

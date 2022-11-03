@@ -109,7 +109,7 @@ export const BlogItem = ({
                             )}
                         </div>
                     </div>
-                    <div className="blog-list_item-content">
+                    <div className="blog-list_item-content mb-2">
                         <h5>
                             <Link to={`/blogs/${item.blogID}`}>{item.title}</Link>
                         </h5>

@@ -10,6 +10,7 @@ import {
     DislikeOutlined,
     EditOutlined,
     DeleteOutlined,
+    FlagOutlined,
 } from '@ant-design/icons';
 import Input from '../../components/common/Input/Input';
 import {
@@ -20,13 +21,14 @@ import {
     likeBlogCommentRequest,
     dislikeBlogCommentRequest,
     deleteBlogRequest,
+    reportBlogCommentRequest,
 } from '../../api/requests';
 import AuthContext from '../../context/auth-context';
 import Paginator from '../../components/common/Paginator';
 import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
 
-export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onLike, onDislike, onEdit }) => {
+export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onLike, onDislike, onEdit, onReport }) => {
     return (
         <li className="blog-list_item mb-4">
             <div className="d-flex gap-3">
@@ -62,7 +64,7 @@ export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onL
                             </CDropdownMenu>
                         </CDropdown>
                     </div>
-                    <div className="blog-list_item-content">
+                    <div className="blog-list_item-content mb-2">
                         <p>{item.content}</p>
                     </div>
                     <div
@@ -77,6 +79,9 @@ export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onL
                         <button onClick={() => onDislike(item.blogCommentID)}>
                             <DislikeOutlined />
                             <span>{item.totalDisLike}</span>
+                        </button>
+                        <button onClick={() => onReport(item.blogCommentID)}>
+                            <FlagOutlined />
                         </button>
                     </div>
                 </div>
@@ -197,6 +202,16 @@ const BlogDetail = () => {
             });
     };
 
+    const onReportBlogCommentHandler = (blogCmtId) => {
+        reportBlogCommentRequest(blogCmtId)
+            .then(() => {
+                // onLikeItemDetail();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     if (!isLoading && error) {
         return <p className="error-message">Something went wrong!</p>;
     }
@@ -233,6 +248,7 @@ const BlogDetail = () => {
                                         onDelete={onDeleteBlogCommentHandler}
                                         onLike={onLikeBlogCmtHandler}
                                         onDislike={onDislikeBlogCmtHandler}
+                                        onReport={onReportBlogCommentHandler}
                                     />
                                 ))}
                             </div>
@@ -246,23 +262,23 @@ const BlogDetail = () => {
                                 callback={(page) => onFetchComments(id, page)}
                             />
                         </div>
+                        <div className="comment-form__container">
+                            <form onSubmit={onCommentSubmit} className="comment-form__inner">
+                                <Input
+                                    type="textarea"
+                                    value={content}
+                                    onChange={(e) => setContent(e.target.value)}
+                                    placeholder="Bình luận ..."
+                                />
+                                <div className="d-flex justify-content-end">
+                                    <button className="button button-sm" type="submit" disabled={!content.trim()}>
+                                        Post
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </>
                 )}
-                <div className="comment-form__container">
-                    <form onSubmit={onCommentSubmit} className="comment-form__inner">
-                        <Input
-                            type="textarea"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            placeholder="Bình luận ..."
-                        />
-                        <div className="d-flex justify-content-end">
-                            <button className="button button-sm" type="submit" disabled={!content.trim()}>
-                                Post
-                            </button>
-                        </div>
-                    </form>
-                </div>
             </div>
             <BlogForm
                 show={showEditBlog}
