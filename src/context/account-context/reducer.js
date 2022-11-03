@@ -7,9 +7,11 @@ import {
     ACCOUNT_GET_DETAIL_FAILURE,
     ACCOUNT_GET_DETAIL_SUCCESS,
     ACCOUNT_REMOVE_LIST_ITEM,
+    ACCOUNT_UPDATE_ROLE_SUCESS,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
+import { ROLES } from '../../App';
 
 const accountReducer = (state = defaultValues, { type, payload }) =>
     produce(state, (draft) => {
@@ -49,6 +51,17 @@ const accountReducer = (state = defaultValues, { type, payload }) =>
                 break;
             case ACCOUNT_REMOVE_LIST_ITEM:
                 draft.list = draft.list.filter((acc) => acc.accountId !== payload);
+                break;
+            case ACCOUNT_UPDATE_ROLE_SUCESS:
+                draft.list = draft.list.map((acc) =>
+                    acc.accountId === payload.userId
+                        ? {
+                              ...acc,
+                              role: ROLES[payload.newRole],
+                          }
+                        : acc,
+                );
+                break;
                 break;
             default:
                 break;

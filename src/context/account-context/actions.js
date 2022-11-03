@@ -7,6 +7,7 @@ import {
     ACCOUNT_GET_DETAIL_FAILURE,
     ACCOUNT_GET_DETAIL_SUCCESS,
     ACCOUNT_REMOVE_LIST_ITEM,
+    ACCOUNT_UPDATE_ROLE_SUCESS,
 } from './types';
 
 const accountGetListAction = () => ({
@@ -46,6 +47,11 @@ const accountRemoveListItemAction = (payload) => ({
     payload,
 });
 
+const accountUpdateRoleSuccessAction = (payload) => ({
+    type: ACCOUNT_UPDATE_ROLE_SUCESS,
+    payload,
+});
+
 export {
     accountGetListAction,
     accountGetListSuccessAction,
@@ -55,4 +61,5 @@ export {
     accountGetDetailSuccessAction,
     accountGetDetailFailureAction,
     accountRemoveListItemAction,
+    accountUpdateRoleSuccessAction,
 };

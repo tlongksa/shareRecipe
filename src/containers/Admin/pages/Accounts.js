@@ -1,11 +1,12 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
-import { deleteAccountRequest } from '../../../api/requests';
+import { deleteAccountRequest, updateAccountRoleRequest } from '../../../api/requests';
 import UserDataList from '../../../components/admin/user-datalist';
 import AccountContext from '../../../context/account-context';
 
 const Accounts = () => {
-    const { list, isLoading, error, onFetchMore, extraListInfo, onRemoveItem } = useContext(AccountContext);
+    const { list, isLoading, error, onFetchMore, extraListInfo, onRemoveItem, onUpdateRole } =
+        useContext(AccountContext);
     const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
@@ -29,7 +30,18 @@ const Accounts = () => {
             });
     };
 
-    const onChangeUserRoleHandler = (userId) => {};
+    const onChangeUserRoleHandler = (userId, newRole) => {
+        setIsProcessing(true);
+        updateAccountRoleRequest(userId, newRole)
+            .then(() => {
+                setIsProcessing(false);
+                onUpdateRole(userId, newRole);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsProcessing(false);
+            });
+    };
 
     if (!isLoading && error) {
         return <p className="error-message">Something went wrong!</p>;

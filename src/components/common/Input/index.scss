@@ -27,6 +27,9 @@
     }
     select.input {
         width: 50%;
+        &.-full {
+            width: 100%;
+        }
     }
     textarea.input {
         resize: vertical;
