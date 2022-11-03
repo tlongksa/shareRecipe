@@ -32,7 +32,7 @@ const ViewComments = () => {
 
     useEffect(() => {
         getData();
-    }, [changed]);
+    }, []);
 
     useEffect(() => {
         getListComment();
@@ -72,7 +72,6 @@ const ViewComments = () => {
                         />
                     </Form.Group>
                     <Stack spacing={1}>
-                        {' '}
                         Đánh giá công thức nấu ăn :
                         <Rating
                             name="half-rating"

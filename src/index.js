@@ -20,7 +20,7 @@ import RecipesByCategory from './components/List/RecipesByCategory';
 import NotFound from './components/Error/NotFound';
 import SearchBar from './components/Search/SearchBar';
 import ChangePassword from './containers/Auth/ChangePassword';
-import ViewDetail from './containers/ViewDetail/viewDetail';
+import ClientRecipeDetail from './containers/ClientRecipeDetail';
 import NewPassword from './containers/Auth/NewPassword';
 import Blogs from './containers/Page/Blogs';
 import BlogDetail from './containers/Page/BlogDetail';
@@ -67,7 +67,7 @@ root.render(
                                     <Route path="/new-password" element={<NewPassword />} />
                                     <Route path="/list-recipe-by-category/:id" element={<RecipesByCategory />} />
                                     <Route path="/list-recipe-by-name" element={<RecipesByName />} />
-                                    <Route path="/recipe-detail/:dishId" element={<ViewDetail />} />
+                                    <Route path="/recipe-detail/:dishId" element={<ClientRecipeDetail />} />
                                     <Route path="/search/:searchTitle" element={<SearchBar />} />
                                     <Route path="/admin" element={<AdminLayout />}>
                                         <Route path="accounts" element={<Accounts />} />

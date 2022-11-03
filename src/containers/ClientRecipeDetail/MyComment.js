@@ -37,8 +37,6 @@ const MyComment = (props) => {
     } = useContext(AuthContext);
     const [commentContent, setCommentContent] = useState(cmtContent);
 
-    const token = `Bearer ${accessToken}`;
-
     useEffect(() => {
         if (comment && comment.checkLike) {
             setAction('liked');
@@ -172,7 +170,7 @@ const MyComment = (props) => {
                 author={<p>{comment.accountUserName}</p>}
                 avatar={<Avatar src={comment.avatarImage} alt={comment.accountUserName} />}
                 content={
-                    <p>
+                    <div>
                         <h6> {comment.content}</h6>
                         <div className="actions-hover">
                             <DeleteOutlined
@@ -193,7 +191,7 @@ const MyComment = (props) => {
                                 readOnly
                             />
                         </div>
-                    </p>
+                    </div>
                 }
                 datetime={
                     <Tooltip title="">
