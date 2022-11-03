@@ -31,7 +31,7 @@ const ListTopMonth = (props) => {
                     {errMsg}
                 </p>
                 {ListTopMonth.map((item) => (
-                    <HomeRecipeItem key={item.dishId} item={item} navigateTo={navigateTo} />
+                    <HomeRecipeItem key={item.dishID || item.dishId} item={item} navigateTo={navigateTo} />
                 ))}
             </section>
         </>

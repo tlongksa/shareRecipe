@@ -4,7 +4,7 @@ const HomeRecipeItem = ({ item, navigateTo }) => {
     return (
         <div
             onClick={() => {
-                navigateTo(`/view-detail/${item.dishID}`);
+                navigateTo(`/view-detail/${item.dishID || item.dishId}`);
             }}
             className="home-dish__item"
         >

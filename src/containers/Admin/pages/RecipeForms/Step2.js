@@ -1,6 +1,6 @@
 import { PlusCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Form, Formik } from 'formik';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../../../components/common/Input/Input';
 import { RecipeStep2Schema } from '../../../../validators';
@@ -8,7 +8,7 @@ import produce from 'immer';
 import { v4 as uuid_v4 } from 'uuid';
 import Modal from 'react-bootstrap/Modal';
 
-const Step2 = ({ recipeFormData, setRecipeFormData }) => {
+const Step2 = ({ recipeFormData, setRecipeFormData, initialData }) => {
     const navigate = useNavigate();
     const [showNewMainIngredientForm, setShowNewMainIngredientForm] = useState(false);
     const [showNewExtraIngredientForm, setShowNewExtraIngredientForm] = useState(false);
@@ -18,6 +18,36 @@ const Step2 = ({ recipeFormData, setRecipeFormData }) => {
     const [selectedMainIng, setSelectedMainIng] = useState({});
     const [selectedExtraIng, setSelectedExtraIng] = useState({});
     const [selectedExtraReplaceIng, setSelectedExtraReplaceIng] = useState({});
+
+    useEffect(() => {
+        if (initialData?.listIngredientDetail?.length) {
+            setMainIngredients(
+                initialData.listIngredientDetail
+                    .filter((it) => it.mainIngredient === 1)
+                    .map((mappedItem) => ({
+                        calo: mappedItem.calo,
+                        mainIngredient: 1,
+                        name: mappedItem.name,
+                        quantity: mappedItem.quantity,
+                        unit: mappedItem.unit,
+                        id: uuid_v4(),
+                    })),
+            );
+            setExtraIngredients(
+                initialData.listIngredientDetail
+                    .filter((it) => it.mainIngredient === 0)
+                    .map((mappedItem) => ({
+                        calo: mappedItem.calo,
+                        mainIngredient: 0,
+                        name: mappedItem.name,
+                        quantity: mappedItem.quantity,
+                        unit: mappedItem.unit,
+                        id: uuid_v4(),
+                        ingredientChangeList: mappedItem?.ingredientChangeList || [],
+                    })),
+            );
+        }
+    }, [initialData]);
 
     const onSubmitMainIngredient = (values, { resetForm }) => {
         if (selectedMainIng?.id) {

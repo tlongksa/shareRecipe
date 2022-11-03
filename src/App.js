@@ -1,6 +1,6 @@
 import './App.css';
 import Navbar from './components/NavBar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
 import Footer from './components/Footer/footer';
 import AuthContext from './context/auth-context';
@@ -15,16 +15,16 @@ function App() {
     const {
         userInfo: { roles },
     } = useContext(AuthContext);
-
+    const { pathname } = useLocation();
     const [hideHeaderAndFooter, setHideHeaderAndFooter] = useState(false);
 
     useEffect(() => {
-        if (roles && roles !== ROLES.user) {
+        if (roles && roles !== ROLES.user && pathname.includes('/admin')) {
             setHideHeaderAndFooter(true);
         } else {
             setHideHeaderAndFooter(false);
         }
-    }, [roles]);
+    }, [roles, pathname]);
 
     return (
         <>

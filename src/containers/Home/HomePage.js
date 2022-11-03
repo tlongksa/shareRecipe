@@ -9,7 +9,6 @@ import img2 from '../../img/img2.jpg';
 import img3 from '../../img/img3.jpeg';
 import './homePage.scss';
 import SearchBar from '../../components/Search/SearchBar';
-import useRedirectToManagementDashboard from '../../hooks/useRedirectToManagementDashboard';
 
 const carousels = [
     {
@@ -30,7 +29,6 @@ const carousels = [
 ];
 
 const HomePage = (props) => {
-    useRedirectToManagementDashboard();
     const [index, setIndex] = useState(0);
 
     const handleSelect = (selectedIndex, e) => {

@@ -9,6 +9,10 @@ import { fileUploadHandler } from '../../../../hooks/useFileUpload';
 import { createRecipeRequest } from '../../../../api/requests';
 import { RECIPE_FORM_DATA } from '../../../../constants';
 
+const initialRecipeFormData = localStorage.getItem(RECIPE_FORM_DATA)
+    ? JSON.parse(localStorage.getItem(RECIPE_FORM_DATA))
+    : null;
+
 const RecipeForm = () => {
     const { userInfo } = useContext(AuthContext);
     const [searchParams] = useSearchParams();
@@ -16,14 +20,12 @@ const RecipeForm = () => {
     const [recipeFormData, setRecipeFormData] = useState({});
     const [shouldFinish, setShouldFinish] = useState(false);
     const navigate = useNavigate();
-    const [progress, setProgress] = useState(0);
+    const [_, setProgress] = useState(0);
     const [isUploading, setIsUploading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
     const [fileError, setFileError] = useState('');
     const [listDishImage, setListDishImage] = useState([]);
     const [video, setVideo] = useState('');
-
-    console.log(progress);
 
     useEffect(() => {
         if (!step || (step !== '1' && step !== '2' && step !== '3')) {
@@ -101,7 +103,7 @@ const RecipeForm = () => {
                     quantity: extraIng.quantity,
                     unit: extraIng.unit,
                     calo: extraIng.calo,
-                    extraIngredient: 0,
+                    mainIngredient: 0,
                     ingredientChangeList: extraIng.ingredientChangeList.map((replaceIng) => ({
                         name: replaceIng.name,
                         quantity: replaceIng.quantity,
@@ -124,15 +126,28 @@ const RecipeForm = () => {
     }
 
     return (
-        <section className={`recipe-form__container ${isUploading || isCreating ? 'divDisabled' : ''}`}>
+        <section className={`recipe-form__container pb-4 ${isUploading || isCreating ? 'divDisabled' : ''}`}>
             {fileError && <p className="error-message">{fileError}</p>}
-            {step === '1' && <Step1 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} />}
-            {step === '2' && <Step2 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} />}
+            {step === '1' && (
+                <Step1
+                    recipeFormData={recipeFormData}
+                    setRecipeFormData={setRecipeFormData}
+                    initialData={initialRecipeFormData}
+                />
+            )}
+            {step === '2' && (
+                <Step2
+                    recipeFormData={recipeFormData}
+                    setRecipeFormData={setRecipeFormData}
+                    initialData={initialRecipeFormData}
+                />
+            )}
             {step === '3' && (
                 <Step3
                     recipeFormData={recipeFormData}
                     setRecipeFormData={setRecipeFormData}
                     setShouldFinish={setShouldFinish}
+                    initialData={initialRecipeFormData}
                 />
             )}
         </section>

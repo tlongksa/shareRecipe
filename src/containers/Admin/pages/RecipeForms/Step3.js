@@ -11,7 +11,7 @@ import { generateImageUrl, generateVideoUrl } from '../../../../utils';
 import { v4 as uuid_v4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 
-const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish }) => {
+const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, initialData }) => {
     const recipeImagesRef = useRef();
     const recipeVideoRef = useRef();
     const navigate = useNavigate();
@@ -24,6 +24,23 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish }) => {
     const [describe, setDescribe] = useState('');
     const [listStep, setListStep] = useState([]);
     const [selectedStep, setSelectedStep] = useState({});
+
+    useEffect(() => {
+        if (initialData?.listDishImage?.length) {
+            setImageUrls(initialData?.listDishImage?.map((it) => it.url));
+        }
+        if (initialData?.video) {
+            setVideo(initialData?.video);
+        }
+        if (initialData?.formulaId?.listStep?.length) {
+            setListStep(
+                initialData?.formulaId?.listStep.map((it) => ({
+                    describe: it.describe,
+                    title: uuid_v4(),
+                })),
+            );
+        }
+    }, [initialData]);
 
     useEffect(() => {
         if (files.length > 0) {

@@ -10,6 +10,37 @@ import { SmileOutlined } from '@ant-design/icons';
 import './index.scss';
 import AuthContext from '../../context/auth-context';
 
+export const NavMenuCenter = () => {
+    const { pathname } = useLocation();
+    return (
+        <NavMenu>
+            <NavLinkRoot
+                to="/"
+                className={({ isActive }) =>
+                    isActive && pathname === '/' ? 'active ps-4 header-menu__link' : 'ps-4 header-menu__link'
+                }
+            >
+                Home
+            </NavLinkRoot>
+            <NavLink to="/blogs" className="ps-4">
+                Blog
+            </NavLink>
+            <NavLink to="/about" className="ps-4">
+                About
+            </NavLink>
+            <NavLink to="/save" className="ps-4">
+                Save
+            </NavLink>
+            <NavLink to="/contact" className="ps-4">
+                Contact
+            </NavLink>
+            <NavLink to="/bmi" className="ps-4">
+                BMI
+            </NavLink>
+        </NavMenu>
+    );
+};
+
 const Navbar = () => {
     const [logged, setLogged] = useState(false);
     const navigateTo = useNavigate();
@@ -17,7 +48,6 @@ const Navbar = () => {
         onLogoutSuccess,
         userInfo: { accessToken, id },
     } = useContext(AuthContext);
-    const { pathname } = useLocation();
 
     useEffect(() => {
         if (accessToken) {
@@ -54,31 +84,7 @@ const Navbar = () => {
                     <strong className="main-logo__name">iShii</strong>
                 </NavLink>
                 <Bars />
-                <NavMenu>
-                    <NavLinkRoot
-                        to="/"
-                        className={({ isActive }) =>
-                            isActive && pathname === '/' ? 'active ps-4 header-menu__link' : 'ps-4 header-menu__link'
-                        }
-                    >
-                        Home
-                    </NavLinkRoot>
-                    <NavLink to="/blogs" className="ps-4">
-                        Blog
-                    </NavLink>
-                    <NavLink to="/about" className="ps-4">
-                        About
-                    </NavLink>
-                    <NavLink to="/save" className="ps-4">
-                        Save
-                    </NavLink>
-                    <NavLink to="/contact" className="ps-4">
-                        Contact
-                    </NavLink>
-                    <NavLink to="/bmi" className="ps-4">
-                        BMI
-                    </NavLink>
-                </NavMenu>
+                <NavMenuCenter />
                 {!logged ? (
                     <div className="d-flex align-items-center">
                         <NavMenu>

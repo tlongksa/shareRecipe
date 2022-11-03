@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Avatar from '../../../components/common/Avatar';
 import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import AuthContext from '../../../context/auth-context';
+import { NavMenuCenter } from '../../../components/NavBar';
 
 const AdminHeader = () => {
     const {
@@ -25,6 +26,7 @@ const AdminHeader = () => {
                     <Link to={'/admin'} className="admin-header__logo-text">
                         Food <span className="text-green">Recipes</span>
                     </Link>
+                    <NavMenuCenter />
                     <CDropdown>
                         <CDropdownToggle
                             color="white"

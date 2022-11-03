@@ -6,10 +6,16 @@ import { RECIPE_LEVELS } from '../../../../constants';
 import RecipeContext from '../../../../context/recipe-context';
 import { RecipeStep1Schema } from '../../../../validators';
 
-const Step1 = ({ recipeFormData, setRecipeFormData }) => {
+const Step1 = ({ recipeFormData, setRecipeFormData, initialData }) => {
     const { onFetchRecipeCategories, categories } = useContext(RecipeContext);
     const navigate = useNavigate();
     const [idDishCategory, setIdDishCategory] = useState([]);
+
+    useEffect(() => {
+        if (initialData?.idDishCategory) {
+            setIdDishCategory(initialData.idDishCategory);
+        }
+    }, [initialData]);
 
     useEffect(() => {
         onFetchRecipeCategories();
@@ -37,11 +43,11 @@ const Step1 = ({ recipeFormData, setRecipeFormData }) => {
     return (
         <Formik
             initialValues={{
-                name: '',
+                name: initialData?.name || '',
                 description: '',
-                Level: 0,
-                numberPeopleForDish: 0,
-                time: 0,
+                Level: initialData?.Level || 0,
+                numberPeopleForDish: initialData?.numberPeopleForDish || 0,
+                time: initialData?.time || 0,
             }}
             onSubmit={onSubmit}
             validationSchema={RecipeStep1Schema}
