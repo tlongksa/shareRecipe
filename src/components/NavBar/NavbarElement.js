@@ -34,11 +34,11 @@ export const NavLink = styled(Link)`
     cursor: pointer;
     font-weight: 600;
     &.active {
-        color: #0212ef;
+        color: #667eea;
     }
     &:hover {
         transition: all 0.2s ease-in-out;
-        color: #0212ef;
+        color: #667eea;
     }
 `;
 export const NavLinkRight = styled(Link)`

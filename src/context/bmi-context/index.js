@@ -5,9 +5,12 @@ import {
     bmiGetDetailFailureAction,
     bmiGetDetailSuccessAction,
     clearBmiDetailAction,
+    bmiGetMainIngredientsAction,
+    bmiGetMainIngredientsSuccessAction,
+    bmiGetMainIngredientsFailureAction,
 } from './actions';
 import bmiReducer from './reducer';
-import { getUserBmiInfoRequest } from '../../api/requests';
+import { getUserBmiInfoRequest, getUserBmiRecipeListRequest, getMainIngredientListRequest } from '../../api/requests';
 
 export const defaultValues = {
     bmiDetail: {
@@ -16,6 +19,11 @@ export const defaultValues = {
         error: null,
     },
     recipes: {
+        dataResponse: [],
+        isLoading: false,
+        error: null,
+    },
+    mainIngredients: {
         dataResponse: [],
         isLoading: false,
         error: null,
@@ -31,11 +39,33 @@ export const BmiProvider = ({ children }) => {
         dispatchContext(bmiGetDetailAction());
         getUserBmiInfoRequest(name)
             .then(({ data }) => {
+                dispatchContext(bmiGetDetailSuccessAction(data));
+            })
+            .catch((err) => {
+                dispatchContext(bmiGetDetailFailureAction(err?.message));
+            });
+    };
+
+    const fetchBmiRecipeList = (totalCalo, meal = '', mainIngredient = '') => {
+        dispatchContext(bmiGetDetailAction());
+        getUserBmiRecipeListRequest(totalCalo, meal, mainIngredient)
+            .then(({ data }) => {
                 console.log(data);
                 dispatchContext(bmiGetDetailSuccessAction(data));
             })
             .catch((err) => {
                 dispatchContext(bmiGetDetailFailureAction(err?.message));
+            });
+    };
+
+    const fetchMainIngredients = () => {
+        dispatchContext(bmiGetMainIngredientsAction());
+        getMainIngredientListRequest()
+            .then(({ data }) => {
+                dispatchContext(bmiGetMainIngredientsSuccessAction(data));
+            })
+            .catch((err) => {
+                dispatchContext(bmiGetMainIngredientsFailureAction(err?.message));
             });
     };
 
@@ -45,6 +75,9 @@ export const BmiProvider = ({ children }) => {
                 ...state,
                 onFetchDetail: (name) => fetchBmiDetail(name),
                 onClearDetail: () => dispatchContext(clearBmiDetailAction()),
+                onFetchRecipes: (totalCalo, meal = '', mainIngredient = '') =>
+                    fetchBmiRecipeList(totalCalo, meal, mainIngredient),
+                onFetchMainIngredients: () => fetchMainIngredients(),
             }}
         >
             {children}

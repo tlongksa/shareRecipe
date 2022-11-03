@@ -1,11 +1,13 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Form, Formik } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
+import './index.scss';
 import Input from '../../components/common/Input/Input';
 import AuthContext from '../../context/auth-context';
 import BmiContext from '../../context/bmi-context';
 import { BmiInfoSchema } from '../../validators';
-import './index.scss';
+import { IMAGE_PLACEHODLER_URI } from '.././../constants';
+import { updateUserBmiInfoRequest } from '../../api/requests';
 
 export const mobilityOptions = [
     {
@@ -30,11 +32,31 @@ export const mobilityOptions = [
     },
 ];
 
-const BmiForm = ({ item }) => {
-    const onSubmit = (values) => {};
+export const MEALS = ['Bữa sáng', 'Bữa trưa', 'Bữa tối'];
+
+const BmiForm = ({ item, username }) => {
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    const onSubmit = (values) => {
+        setIsProcessing(true);
+        updateUserBmiInfoRequest({
+            target: values.target,
+            high: values.high,
+            weight: values.weight,
+            r: values.mobility,
+            username,
+        })
+            .then(({ data }) => {
+                setIsProcessing(false);
+            })
+            .catch((err) => {
+                setIsProcessing(false);
+                console.log(err);
+            });
+    };
 
     return (
-        <div className="bmi-form__info p-4 bg-gray-custom flex-fill rounded">
+        <div className={`bmi-form__info p-4 bg-gray-custom flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <p>Tên : {item?.name}</p>
                 <p>Ngày sinh: 2000-11-14</p>
@@ -123,7 +145,9 @@ const BmiForm = ({ item }) => {
                             <p>{item?.totalCalo} calo</p>
                         </div>
                         <div className="d-flex justify-content-end">
-                            <button className="button button-sm">Lưu</button>
+                            <button className="button button-sm" type="submit">
+                                Lưu
+                            </button>
                         </div>
                     </Form>
                 )}
@@ -133,21 +157,34 @@ const BmiForm = ({ item }) => {
 };
 
 const BmiInfo = () => {
-    const { userInfo } = useContext(AuthContext);
+    const { userInfo, isLoading: isLoadingUserInfo } = useContext(AuthContext);
     const {
         bmiDetail: { dataResponse, isLoading },
+        mainIngredients: { dataResponse: mainIngredientList },
         onFetchDetail,
+        onFetchRecipes,
+        onFetchMainIngredients,
     } = useContext(BmiContext);
     const [recipeType, setRecipeType] = useState('total');
+    const [meal, setMeal] = useState('');
+    const [mainIngredient, setMainIngredient] = useState('');
 
     useEffect(() => {
         if (userInfo?.username) {
             onFetchDetail(userInfo?.username);
+            onFetchMainIngredients();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userInfo]);
 
-    if (isLoading) {
+    useEffect(() => {
+        if (dataResponse?.totalCalo) {
+            onFetchRecipes(dataResponse?.totalCalo, '', '');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dataResponse]);
+
+    if (isLoadingUserInfo || isLoading) {
         return (
             <section className="client-bmi__info">
                 <div className="global-list__loader-container">
@@ -162,11 +199,11 @@ const BmiInfo = () => {
             <div className="custom-page__container">
                 <div className="d-flex gap-4 mb-4">
                     <img
-                        src={userInfo?.avatarImage}
+                        src={userInfo?.avatarImage || IMAGE_PLACEHODLER_URI}
                         alt=""
                         className="w-200px object-fit-contain align-self-baseline"
                     />
-                    <BmiForm item={dataResponse} />
+                    <BmiForm item={dataResponse} username={userInfo.username} />
                 </div>
                 <button
                     className={`button button-sm me-3 ${recipeType === 'total' ? '' : 'button-secondary'}`}
@@ -180,6 +217,47 @@ const BmiInfo = () => {
                 >
                     Favourite
                 </button>
+                {recipeType === 'favourite' && (
+                    <div className="p-4 bg-gray-custom rounded mt-4">
+                        <h5 className="mb-4">Chọn bữa</h5>
+                        <div className="d-flex gap-4 align-items-center mb-3">
+                            {MEALS.map((value) => (
+                                <label key={value} className="custom-radio__container">
+                                    {value}
+                                    <input
+                                        type="radio"
+                                        onChange={(e) => {
+                                            setMeal(e.target.value);
+                                        }}
+                                        value={value}
+                                        checked={value === meal}
+                                    />
+                                    <span className="radioCheckmark" />
+                                </label>
+                            ))}
+                        </div>
+                        <h5 className="mb-4">Chọn nguyên liệu chính</h5>
+                        <div className="main-ingredient__list mb-3">
+                            {mainIngredientList?.map((value) => (
+                                <label key={value} className="custom-radio__container">
+                                    {value}
+                                    <input
+                                        type="radio"
+                                        onChange={(e) => {
+                                            setMainIngredient(e.target.value);
+                                        }}
+                                        value={value}
+                                        checked={value === mainIngredient}
+                                    />
+                                    <span className="radioCheckmark" />
+                                </label>
+                            ))}
+                        </div>
+                        <div className="d-flex justify-content-end">
+                            <button className="button button-sm">Tìm kiếm</button>
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
     );

@@ -1,6 +1,7 @@
 import { DislikeOutlined, LikeOutlined, LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { IMAGE_PLACEHODLER_URI } from '../../../constants';
 import AuthContext from '../../../context/auth-context';
 import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
@@ -9,14 +10,7 @@ import './index.scss';
 const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
     <li className="recipe-list_item mb-4">
         <div className="d-flex gap-3">
-            <img
-                src={
-                    item.image ||
-                    'https://st4.depositphotos.com/4329009/19956/v/600/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg'
-                }
-                alt=""
-                className="recipe-list_item-avatar"
-            />
+            <img src={item.image || IMAGE_PLACEHODLER_URI} alt="" className="recipe-list_item-avatar" />
             <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
                 <div className="recipe-list_item-content">
                     <h5>

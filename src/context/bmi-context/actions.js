@@ -7,6 +7,9 @@ import {
     BMI_GET_RECIPE_LIST_SUCCESS,
     BMI_GET_RECIPE_LIST_FAILURE,
     BMI_CLEAR_RECIPE_LIST,
+    BMI_GET_MAIN_INGREDIENTS,
+    BMI_GET_MAIN_INGREDIENTS_SUCCESS,
+    BMI_GET_MAIN_INGREDIENTS_FAILURE,
 } from './types';
 
 const bmiGetDetailAction = () => ({
@@ -42,7 +45,21 @@ const bmiGetRecipeListFailureAction = (error) => ({
 });
 
 const clearBmiRecipeListAction = () => ({
-    type: BMI_DETAIL_CLEAR,
+    type: BMI_CLEAR_RECIPE_LIST,
+});
+
+const bmiGetMainIngredientsAction = () => ({
+    type: BMI_GET_MAIN_INGREDIENTS,
+});
+
+const bmiGetMainIngredientsSuccessAction = (payload) => ({
+    type: BMI_GET_MAIN_INGREDIENTS_SUCCESS,
+    payload,
+});
+
+const bmiGetMainIngredientsFailureAction = (error) => ({
+    type: BMI_GET_MAIN_INGREDIENTS_FAILURE,
+    payload: error,
 });
 
 export {
@@ -54,4 +71,7 @@ export {
     bmiGetRecipeListSuccessAction,
     bmiGetRecipeListFailureAction,
     clearBmiRecipeListAction,
+    bmiGetMainIngredientsAction,
+    bmiGetMainIngredientsSuccessAction,
+    bmiGetMainIngredientsFailureAction,
 };

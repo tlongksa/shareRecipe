@@ -22,4 +22,9 @@
 }
 .client-bmi__info {
     min-height: 85vh;
+    .main-ingredient__list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+    }
 }

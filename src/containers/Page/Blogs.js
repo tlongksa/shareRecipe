@@ -21,6 +21,7 @@ import Modal from 'react-bootstrap/Modal';
 import { notification } from 'antd';
 import AuthContext from '../../context/auth-context';
 import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
+import { IMAGE_PLACEHODLER_URI } from '../../constants';
 
 const SearchBlog = ({ search, setSearch, callback }) => {
     const handleChange = (e) => {
@@ -61,10 +62,7 @@ export const BlogItem = ({
         <li className="blog-list_item mb-4">
             <div className="d-flex gap-3">
                 <img
-                    src={
-                        item.avatarImage ||
-                        'https://st4.depositphotos.com/4329009/19956/v/600/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg'
-                    }
+                    src={item.avatarImage || IMAGE_PLACEHODLER_URI}
                     alt=""
                     className="rounded-circle blog-list_item-avatar"
                 />
