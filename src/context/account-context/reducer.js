@@ -62,7 +62,6 @@ const accountReducer = (state = defaultValues, { type, payload }) =>
                         : acc,
                 );
                 break;
-                break;
             default:
                 break;
         }
