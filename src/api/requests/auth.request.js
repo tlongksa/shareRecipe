@@ -22,7 +22,6 @@ const loginRequest = (formData) =>
 const signupRequest = (formData) =>
     axios.post(apiUrl.REGISTER_URL, JSON.stringify(formData), {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
     });
 
 export { resetNewPasswordRequest, changePasswordRequest, forgotPasswordRequest, loginRequest, signupRequest };
