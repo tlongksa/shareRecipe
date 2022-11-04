@@ -8,6 +8,7 @@ import AuthContext from '../../../../context/auth-context';
 import { fileUploadHandler } from '../../../../hooks/useFileUpload';
 import { createRecipeRequest } from '../../../../api/requests';
 import { RECIPE_FORM_DATA } from '../../../../constants';
+import RecipeContext from '../../../../context/recipe-context';
 
 const initialRecipeFormData = localStorage.getItem(RECIPE_FORM_DATA)
     ? JSON.parse(localStorage.getItem(RECIPE_FORM_DATA))
@@ -17,6 +18,7 @@ const RecipeForm = () => {
     const { userInfo } = useContext(AuthContext);
     const [searchParams] = useSearchParams();
     const step = searchParams.get('step');
+    const id = searchParams.get('id');
     const [recipeFormData, setRecipeFormData] = useState({});
     const [shouldFinish, setShouldFinish] = useState(false);
     const navigate = useNavigate();
@@ -26,6 +28,10 @@ const RecipeForm = () => {
     const [fileError, setFileError] = useState('');
     const [listDishImage, setListDishImage] = useState([]);
     const [video, setVideo] = useState('');
+    const {
+        recipeDetail: { dataResponse, isLoading, error },
+        onFetchDetail,
+    } = useContext(RecipeContext);
 
     useEffect(() => {
         if (!step || (step !== '1' && step !== '2' && step !== '3')) {
@@ -133,6 +139,7 @@ const RecipeForm = () => {
                     recipeFormData={recipeFormData}
                     setRecipeFormData={setRecipeFormData}
                     initialData={initialRecipeFormData}
+                    id={id}
                 />
             )}
             {step === '2' && (
@@ -140,6 +147,7 @@ const RecipeForm = () => {
                     recipeFormData={recipeFormData}
                     setRecipeFormData={setRecipeFormData}
                     initialData={initialRecipeFormData}
+                    id={id}
                 />
             )}
             {step === '3' && (
@@ -148,6 +156,7 @@ const RecipeForm = () => {
                     setRecipeFormData={setRecipeFormData}
                     setShouldFinish={setShouldFinish}
                     initialData={initialRecipeFormData}
+                    id={id}
                 />
             )}
         </section>

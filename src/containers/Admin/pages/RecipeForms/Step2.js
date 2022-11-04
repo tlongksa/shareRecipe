@@ -8,7 +8,7 @@ import produce from 'immer';
 import { v4 as uuid_v4 } from 'uuid';
 import Modal from 'react-bootstrap/Modal';
 
-const Step2 = ({ recipeFormData, setRecipeFormData, initialData }) => {
+const Step2 = ({ recipeFormData, setRecipeFormData, initialData, id }) => {
     const navigate = useNavigate();
     const [showNewMainIngredientForm, setShowNewMainIngredientForm] = useState(false);
     const [showNewExtraIngredientForm, setShowNewExtraIngredientForm] = useState(false);

@@ -11,7 +11,7 @@ import { generateImageUrl, generateVideoUrl } from '../../../../utils';
 import { v4 as uuid_v4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 
-const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, initialData }) => {
+const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, initialData, id }) => {
     const recipeImagesRef = useRef();
     const recipeVideoRef = useRef();
     const navigate = useNavigate();

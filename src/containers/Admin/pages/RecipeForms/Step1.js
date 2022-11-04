@@ -6,7 +6,7 @@ import { RECIPE_LEVELS } from '../../../../constants';
 import RecipeContext from '../../../../context/recipe-context';
 import { RecipeStep1Schema } from '../../../../validators';
 
-const Step1 = ({ recipeFormData, setRecipeFormData, initialData }) => {
+const Step1 = ({ recipeFormData, setRecipeFormData, initialData, id }) => {
     const { onFetchRecipeCategories, categories } = useContext(RecipeContext);
     const navigate = useNavigate();
     const [idDishCategory, setIdDishCategory] = useState([]);
@@ -37,7 +37,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData, initialData }) => {
             ...values,
             idDishCategory,
         }));
-        navigate('/admin/recipe-form?step=2');
+        navigate(id ? `/admin/recipe-form?step=2&id=${id}` : `/admin/recipe-form?step=2`);
     };
 
     return (

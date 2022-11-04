@@ -1,41 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.scss';
 import ViewComments from './ViewComment';
 import { Button, Checkbox, Divider } from 'antd';
-import { getRecipeDetailRequest, getRecipeIngredientChangeRequest } from '../../api/requests';
+import { getRecipeIngredientChangeRequest } from '../../api/requests';
 import { LoadingOutlined } from '@ant-design/icons';
+import RecipeContext from '../../context/recipe-context';
 
 const ClientRecipeDetail = () => {
     const { dishId } = useParams();
-    const [recipe, setRecipe] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [ingredient, setIngredient] = useState([]);
     const [replacementIngredientList, setReplacementIngredientList] = useState([]);
-
     const [checkedIngredientList, setCheckedIngredientList] = useState([]);
     const [checkAll, setCheckAll] = useState(false);
     const [bigRecipeImg, setBigRecipeImg] = useState('');
-
-    const getDataDetail = () => {
-        setLoading(true);
-        getRecipeDetailRequest(dishId)
-            .then(({ data }) => {
-                setRecipe(data);
-                setIngredient(data?.ingredientDetailList);
-                setBigRecipeImg(data?.dishImageList?.[0]?.url);
-                setLoading(false);
-            })
-            .catch((error) => {
-                setLoading(false);
-                console.log(error);
-            });
-    };
+    const {
+        recipeDetail: { dataResponse, isLoading, error },
+        onFetchDetail,
+    } = useContext(RecipeContext);
 
     useEffect(() => {
-        getDataDetail();
+        onFetchDetail(dishId);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [dishId]);
+
+    useEffect(() => {
+        if (dataResponse?.dishImageList?.[0]?.url) {
+            setBigRecipeImg(dataResponse?.dishImageList?.[0]?.url);
+        }
+    }, [dataResponse]);
 
     const mapReplacementIngredient = (rootIngId) => {
         return replacementIngredientList.find((item) => item.ingredientDetailId === rootIngId);
@@ -49,7 +41,11 @@ const ClientRecipeDetail = () => {
             .catch((error) => console.log(error));
     };
 
-    return loading ? (
+    if (!isLoading && error) {
+        return <p className="error-message">{error || 'Something went wrong!'}</p>;
+    }
+
+    return isLoading ? (
         <div className="recipe-detail__container">
             <div className="global-list__loader-container">
                 <LoadingOutlined className="global-list__loader-icon" />
@@ -60,9 +56,9 @@ const ClientRecipeDetail = () => {
             <div className="custom-page__container">
                 <div className="top-info__container">
                     <div className="left-view">
-                        <img src={bigRecipeImg} alt={recipe.dishName} className="img-view-detail" />
+                        <img src={bigRecipeImg} alt={dataResponse?.dishName} className="img-view-detail" />
                         <div className="flex-full d-flex">
-                            {recipe.dishImageList?.map((listImg) => (
+                            {dataResponse?.dishImageList?.map((listImg) => (
                                 <div key={listImg.dishImageID}>
                                     <img
                                         className="img-view-show"
@@ -75,14 +71,14 @@ const ClientRecipeDetail = () => {
                         </div>
                     </div>
                     <div className="right-view flex-fill">
-                        <h3 className="mb-3">{recipe.dishName}</h3>
-                        <div className="mb-3">Tổng quan:{recipe.summary}</div>
-                        <div className="mb-3">Mô tả: {recipe.formulaDescribe}</div>
-                        <div className="mb-3">Tổng kalo: {recipe.totalCalo} </div>
-                        <div className="mb-3">Mức độ: {recipe.level}</div>
-                        <div className="mb-3">Số người đánh giá: {recipe.numberPeopleForDish}</div>
+                        <h3 className="mb-3">{dataResponse.dishName}</h3>
+                        <div className="mb-3">Tổng quan:{dataResponse.summary}</div>
+                        <div className="mb-3">Mô tả: {dataResponse.formulaDescribe}</div>
+                        <div className="mb-3">Tổng kalo: {dataResponse.totalCalo} </div>
+                        <div className="mb-3">Mức độ: {dataResponse.level}</div>
+                        <div className="mb-3">Số người đánh giá: {dataResponse.numberPeopleForDish}</div>
                         <div className="mb-3">
-                            Tạo ngày: {recipe.createDate} bởi {recipe.verifier}
+                            Tạo ngày: {dataResponse.createDate} bởi {dataResponse.verifier}
                         </div>
                     </div>
                 </div>
@@ -92,7 +88,9 @@ const ClientRecipeDetail = () => {
                     <Checkbox
                         onChange={(e) => {
                             if (e.target.checked) {
-                                setCheckedIngredientList(ingredient.map((ing) => ing.ingredientDetailId));
+                                setCheckedIngredientList(
+                                    dataResponse?.ingredientDetailList?.map((ing) => ing.ingredientDetailId),
+                                );
                             } else {
                                 setCheckedIngredientList([]);
                             }
@@ -103,7 +101,7 @@ const ClientRecipeDetail = () => {
                         Check all
                     </Checkbox>
                     <br /> <br />
-                    {ingredient?.map((listIngredient) => (
+                    {dataResponse?.ingredientDetailList?.map((listIngredient) => (
                         <div className="view-ingredient" key={listIngredient.ingredientDetailId}>
                             <Checkbox
                                 checked={checkedIngredientList.includes(listIngredient.ingredientDetailId)}
@@ -154,7 +152,7 @@ const ClientRecipeDetail = () => {
                     <Divider />
                     <h3 className="view-title">Cách làm :</h3>
                     <ul>
-                        {recipe?.stepList?.map((item, index) => (
+                        {dataResponse?.stepList?.map((item, index) => (
                             <li className="step__list-item mt-3" key={`step__item-${item.stepID}`}>
                                 <div className="">
                                     <strong>
@@ -165,7 +163,7 @@ const ClientRecipeDetail = () => {
                         ))}
                     </ul>
                     <h3 className="view-title">Video Hướng Dẫn :</h3>
-                    <video src={recipe?.video} width="100%" controls></video>
+                    <video src={dataResponse?.video} width="100%" controls></video>
                     <hr />
                     <ViewComments />
                 </div>
