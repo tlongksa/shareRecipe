@@ -39,6 +39,7 @@ import { AuthProvider } from './context/auth-context';
 import RecipeCategories from './containers/Admin/pages/RecipeCategories';
 import { BmiProvider } from './context/bmi-context';
 import BlogCommentReports from './containers/Admin/pages/BlogCommentReports';
+import RecipeCommentReports from './containers/Admin/pages/RecipeCommentReports';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -76,6 +77,7 @@ root.render(
                                         <Route path="recipe-form" element={<RecipeForm />} />
                                         <Route path="recipe-categories" element={<RecipeCategories />} />
                                         <Route path="blog-comment-reports" element={<BlogCommentReports />} />
+                                        <Route path="recipe-comment-reports" element={<RecipeCommentReports />} />
                                     </Route>
                                     <Route path="*" element={<NotFound />} />
                                     <Route index element={<HomePage />} />

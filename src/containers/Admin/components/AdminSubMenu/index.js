@@ -24,8 +24,8 @@ export const links = [
         label: 'Quản lí report bình luận blog',
     },
     {
-        to: '/admin/recipe-reports',
-        label: 'Quản lý  cảnh báo bình luận  công  thức',
+        to: '/admin/recipe-comment-reports',
+        label: 'Quản lý cảnh báo bình luận công thức',
     },
 ];
 

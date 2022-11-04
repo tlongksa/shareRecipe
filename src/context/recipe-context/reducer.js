@@ -16,6 +16,9 @@ import {
     RECIPE_GET_CATEGORY_LIST_SUCCESS,
     RECIPE_GET_CATEGORY_LIST_FAILURE,
     RECIPE_CLEAR_DETAIL,
+    RECIPE_GET_COMMENT_REPORT_LIST,
+    RECIPE_GET_COMMENT_REPORT_LIST_SUCCESS,
+    RECIPE_GET_COMMENT_REPORT_LIST_FAILURE,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -108,6 +111,19 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
                     isLoading: false,
                     error: null,
                 };
+                break;
+            case RECIPE_GET_COMMENT_REPORT_LIST:
+                draft.recipeCommentReport.isLoading = true;
+                draft.recipeCommentReport.error = null;
+                break;
+            case RECIPE_GET_COMMENT_REPORT_LIST_SUCCESS:
+                draft.recipeCommentReport.isLoading = false;
+                draft.recipeCommentReport.list = payload?.data || [];
+                draft.recipeCommentReport.extraListInfo = payload.extraListInfo;
+                break;
+            case RECIPE_GET_COMMENT_REPORT_LIST_FAILURE:
+                draft.recipeCommentReport.isLoading = false;
+                draft.recipeCommentReport.error = payload;
                 break;
             default:
                 break;

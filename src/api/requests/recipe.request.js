@@ -87,6 +87,13 @@ const deleteRecipeCommentRequest = (dishCommentId) =>
         },
     });
 
+const getListReportRecipeCommentRequest = (page, search) =>
+    axios.get(`/reportDishComment??pageIndex=${page}&searchData=${search}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
@@ -106,4 +113,5 @@ export {
     dislikeRecipeCommentRequest,
     reportRecipeCommentRequest,
     deleteRecipeCommentRequest,
+    getListReportRecipeCommentRequest,
 };

@@ -16,6 +16,9 @@ import {
     RECIPE_GET_CATEGORY_LIST_SUCCESS,
     RECIPE_GET_CATEGORY_LIST_FAILURE,
     RECIPE_CLEAR_DETAIL,
+    RECIPE_GET_COMMENT_REPORT_LIST,
+    RECIPE_GET_COMMENT_REPORT_LIST_SUCCESS,
+    RECIPE_GET_COMMENT_REPORT_LIST_FAILURE,
 } from './types';
 
 const recipeGetListAction = () => ({
@@ -96,6 +99,20 @@ const recipeClearDetailAction = () => ({
     type: RECIPE_CLEAR_DETAIL,
 });
 
+const recipeGetCommentReportListAction = () => ({
+    type: RECIPE_GET_COMMENT_REPORT_LIST,
+});
+
+const recipeGetCommentReportListSuccessAction = (payload) => ({
+    type: RECIPE_GET_COMMENT_REPORT_LIST_SUCCESS,
+    payload,
+});
+
+const recipeGetCommentReportListFailureAction = (error) => ({
+    type: RECIPE_GET_COMMENT_REPORT_LIST_FAILURE,
+    payload: error,
+});
+
 export {
     recipeGetListAction,
     recipeGetListSuccessAction,
@@ -114,4 +131,7 @@ export {
     recipeGetListCategorySuccessAction,
     recipeGetListCategoryFailureAction,
     recipeClearDetailAction,
+    recipeGetCommentReportListAction,
+    recipeGetCommentReportListSuccessAction,
+    recipeGetCommentReportListFailureAction,
 };

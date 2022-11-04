@@ -16,7 +16,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                                 fontSize: 16,
                                 color: '#289AE7',
                             }}
-                            onClick={() => onEdit(item.blogCommentID)}
+                            onClick={() => onEdit(item.dishCommentID)}
                         />
                         <DeleteOutlined
                             style={{
@@ -24,7 +24,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                                 fontSize: 18,
                                 color: '#f53838',
                             }}
-                            onClick={() => onDelete(item.blogCommentID)}
+                            onClick={() => onDelete(item.dishCommentID)}
                         />
                     </div>
                 </div>
@@ -61,11 +61,11 @@ function MobileCard({ item, no, onEdit, onDelete }) {
     );
 }
 
-const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCallback }) => {
+const RecipeReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCallback }) => {
     const isMobile = useMediaQuery({ query: `(max-width: 768px)` });
 
-    let listBlogCommentReportMarkup = list.map((item, index) => (
-        <li key={item.blogCommentID} className={styles.dataItem}>
+    let listRecipeCommentReportMarkup = list.map((item, index) => (
+        <li key={item.dishCommentID} className={styles.dataItem}>
             <span className={styles.no}>{index + 1}</span>
             <span>{item.content}</span>
             <span>{item?.createDate || '-'}</span>
@@ -81,7 +81,7 @@ const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPag
                             fontSize: 18,
                             color: '#289AE7',
                         }}
-                        onClick={() => onEdit(item.blogCommentID)}
+                        onClick={() => onEdit(item.dishCommentID)}
                     />
                     <DeleteOutlined
                         style={{
@@ -89,7 +89,7 @@ const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPag
                             fontSize: 18,
                             color: '#f53838',
                         }}
-                        onClick={() => onDelete(item.blogCommentID)}
+                        onClick={() => onDelete(item.dishCommentID)}
                     />
                 </div>
             </span>
@@ -97,8 +97,8 @@ const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPag
     ));
 
     if (isMobile) {
-        listBlogCommentReportMarkup = list.map((item, index) => (
-            <MobileCard no={index + 1} key={item.blogCommentID} item={item} onEdit={onEdit} onDelete={onDelete} />
+        listRecipeCommentReportMarkup = list.map((item, index) => (
+            <MobileCard no={index + 1} key={item.dishCommentID} item={item} onEdit={onEdit} onDelete={onDelete} />
         ));
     }
 
@@ -117,7 +117,7 @@ const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPag
                         <strong />
                     </li>
                 )}
-                {listBlogCommentReportMarkup}
+                {listRecipeCommentReportMarkup}
             </ul>
             <Paginator
                 curPage={currentPage}
@@ -132,4 +132,4 @@ const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPag
     );
 };
 
-export default BlogReportCommentDataList;
+export default RecipeReportCommentDataList;

@@ -18,6 +18,9 @@ import {
     recipeGetListCategorySuccessAction,
     recipeGetListCategoryFailureAction,
     recipeClearDetailAction,
+    recipeGetCommentReportListAction,
+    recipeGetCommentReportListSuccessAction,
+    recipeGetCommentReportListFailureAction,
 } from './actions';
 import recipeReducer from './reducer';
 import {
@@ -26,6 +29,7 @@ import {
     adminGetRecipeListRequest,
     getListRecipeByNameRequest,
     getListRecipeCategoriesRequest,
+    getListReportRecipeCommentRequest,
 } from '../../api/requests';
 
 export const defaultValues = {
@@ -55,6 +59,15 @@ export const defaultValues = {
         isLoading: false,
         error: null,
         list: [],
+    },
+    recipeCommentReport: {
+        list: [],
+        isLoading: false,
+        error: null,
+        extraListInfo: {
+            pageIndex: 1,
+            numOfPages: 0,
+        },
     },
 };
 
@@ -145,6 +158,26 @@ export const RecipeProvider = ({ children }) => {
             });
     };
 
+    const fetchRecipeCommentReportList = (page, search = '') => {
+        dispatchContext(recipeGetCommentReportListAction());
+        getListReportRecipeCommentRequest(page, search)
+            .then(({ data }) => {
+                const { recipeCommentAccountVoList = [], pageIndex, numOfPages } = data;
+                dispatchContext(
+                    recipeGetCommentReportListSuccessAction({
+                        data: recipeCommentAccountVoList,
+                        extraListInfo: {
+                            pageIndex,
+                            numOfPages,
+                        },
+                    }),
+                );
+            })
+            .catch((err) => {
+                dispatchContext(recipeGetCommentReportListFailureAction(err?.message));
+            });
+    };
+
     return (
         <RecipeContext.Provider
             value={{
@@ -157,6 +190,7 @@ export const RecipeProvider = ({ children }) => {
                 onFetchMoreByName: (name, page, search) => fetchRecipeListByName(name, page, search),
                 onFetchRecipeCategories: () => fetchRecipeCategories(),
                 onClearDetail: () => dispatchContext(recipeClearDetailAction()),
+                onFetchMoreRecipeCommentReport: (page, search) => fetchRecipeCommentReportList(page, search),
             }}
         >
             {children}
