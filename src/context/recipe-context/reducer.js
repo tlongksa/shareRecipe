@@ -15,6 +15,7 @@ import {
     RECIPE_GET_CATEGORY_LIST,
     RECIPE_GET_CATEGORY_LIST_SUCCESS,
     RECIPE_GET_CATEGORY_LIST_FAILURE,
+    RECIPE_CLEAR_DETAIL,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -100,6 +101,13 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
             case RECIPE_GET_CATEGORY_LIST_FAILURE:
                 draft.categories.isLoading = false;
                 draft.categories.error = payload;
+                break;
+            case RECIPE_CLEAR_DETAIL:
+                draft.recipeDetail = {
+                    dataResponse: {},
+                    isLoading: false,
+                    error: null,
+                };
                 break;
             default:
                 break;

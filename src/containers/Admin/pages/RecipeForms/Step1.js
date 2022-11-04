@@ -6,16 +6,16 @@ import { RECIPE_LEVELS } from '../../../../constants';
 import RecipeContext from '../../../../context/recipe-context';
 import { RecipeStep1Schema } from '../../../../validators';
 
-const Step1 = ({ recipeFormData, setRecipeFormData, initialData, id }) => {
+const Step1 = ({ recipeFormData, setRecipeFormData, id }) => {
     const { onFetchRecipeCategories, categories } = useContext(RecipeContext);
     const navigate = useNavigate();
     const [idDishCategory, setIdDishCategory] = useState([]);
 
     useEffect(() => {
-        if (initialData?.idDishCategory) {
-            setIdDishCategory(initialData.idDishCategory);
+        if (recipeFormData?.idDishCategory) {
+            setIdDishCategory(recipeFormData.idDishCategory);
         }
-    }, [initialData]);
+    }, [recipeFormData]);
 
     useEffect(() => {
         onFetchRecipeCategories();
@@ -37,17 +37,17 @@ const Step1 = ({ recipeFormData, setRecipeFormData, initialData, id }) => {
             ...values,
             idDishCategory,
         }));
-        navigate(id ? `/admin/recipe-form?step=2&id=${id}` : `/admin/recipe-form?step=2`);
+        navigate(`/admin/recipe-form?step=2${id ? `&id=${id}` : ''}`);
     };
 
     return (
         <Formik
             initialValues={{
-                name: initialData?.name || '',
-                description: '',
-                Level: initialData?.Level || 0,
-                numberPeopleForDish: initialData?.numberPeopleForDish || 0,
-                time: initialData?.time || 0,
+                name: recipeFormData?.name || '',
+                description: recipeFormData?.description || '',
+                Level: recipeFormData?.Level || '',
+                numberPeopleForDish: recipeFormData?.numberPeopleForDish || 0,
+                time: recipeFormData?.time || 0,
             }}
             onSubmit={onSubmit}
             validationSchema={RecipeStep1Schema}

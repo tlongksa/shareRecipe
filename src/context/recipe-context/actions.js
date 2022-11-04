@@ -15,6 +15,7 @@ import {
     RECIPE_GET_CATEGORY_LIST,
     RECIPE_GET_CATEGORY_LIST_SUCCESS,
     RECIPE_GET_CATEGORY_LIST_FAILURE,
+    RECIPE_CLEAR_DETAIL,
 } from './types';
 
 const recipeGetListAction = () => ({
@@ -91,6 +92,10 @@ const recipeGetListCategoryFailureAction = (error) => ({
     payload: error,
 });
 
+const recipeClearDetailAction = () => ({
+    type: RECIPE_CLEAR_DETAIL,
+});
+
 export {
     recipeGetListAction,
     recipeGetListSuccessAction,
@@ -108,4 +113,5 @@ export {
     recipeGetListCategoryAction,
     recipeGetListCategorySuccessAction,
     recipeGetListCategoryFailureAction,
+    recipeClearDetailAction,
 };

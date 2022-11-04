@@ -17,6 +17,7 @@ import {
     recipeGetListCategoryAction,
     recipeGetListCategorySuccessAction,
     recipeGetListCategoryFailureAction,
+    recipeClearDetailAction,
 } from './actions';
 import recipeReducer from './reducer';
 import {
@@ -155,6 +156,7 @@ export const RecipeProvider = ({ children }) => {
                 onAdminFetchMore: (page, search) => fetchAdminRecipeList(page, search),
                 onFetchMoreByName: (name, page, search) => fetchRecipeListByName(name, page, search),
                 onFetchRecipeCategories: () => fetchRecipeCategories(),
+                onClearDetail: () => dispatchContext(recipeClearDetailAction()),
             }}
         >
             {children}

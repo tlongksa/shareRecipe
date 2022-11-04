@@ -73,6 +73,7 @@ const Recipes = () => {
                 paginateCallback={(page) => {
                     onAdminFetchMore(page);
                 }}
+                onEdit={(id) => navigate(`/admin/recipe-form?step=1&id=${id}`)}
             />
         </section>
     );

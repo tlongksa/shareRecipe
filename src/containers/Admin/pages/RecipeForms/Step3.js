@@ -11,7 +11,7 @@ import { generateImageUrl, generateVideoUrl } from '../../../../utils';
 import { v4 as uuid_v4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 
-const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, initialData, id }) => {
+const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
     const recipeImagesRef = useRef();
     const recipeVideoRef = useRef();
     const navigate = useNavigate();
@@ -26,21 +26,21 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, initialData
     const [selectedStep, setSelectedStep] = useState({});
 
     useEffect(() => {
-        if (initialData?.listDishImage?.length) {
-            setImageUrls(initialData?.listDishImage?.map((it) => it.url));
+        if (recipeFormData?.listDishImage?.length) {
+            setImageUrls(recipeFormData?.listDishImage?.map((it) => it.url));
         }
-        if (initialData?.video) {
-            setVideo(initialData?.video);
+        if (recipeFormData?.video) {
+            setVideo(recipeFormData?.video);
         }
-        if (initialData?.formulaId?.listStep?.length) {
+        if (recipeFormData?.listStep?.length) {
             setListStep(
-                initialData?.formulaId?.listStep.map((it) => ({
+                recipeFormData?.listStep?.map((it) => ({
                     describe: it.describe,
                     title: uuid_v4(),
                 })),
             );
         }
-    }, [initialData]);
+    }, [recipeFormData]);
 
     useEffect(() => {
         if (files.length > 0) {
@@ -188,7 +188,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, initialData
                 <button
                     className="button button-sm button-secondary"
                     type="button"
-                    onClick={() => navigate('/admin/recipe-form?step=2')}
+                    onClick={() => navigate(`/admin/recipe-form?step=2${id ? `&id=${id}` : ''}`)}
                 >
                     Trở về
                 </button>
@@ -206,7 +206,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, initialData
                         setShouldFinish(true);
                     }}
                 >
-                    Tiếp theo
+                    Xác nhận
                 </button>
             </div>
         </>

@@ -8,7 +8,7 @@ import produce from 'immer';
 import { v4 as uuid_v4 } from 'uuid';
 import Modal from 'react-bootstrap/Modal';
 
-const Step2 = ({ recipeFormData, setRecipeFormData, initialData, id }) => {
+const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
     const navigate = useNavigate();
     const [showNewMainIngredientForm, setShowNewMainIngredientForm] = useState(false);
     const [showNewExtraIngredientForm, setShowNewExtraIngredientForm] = useState(false);
@@ -20,34 +20,13 @@ const Step2 = ({ recipeFormData, setRecipeFormData, initialData, id }) => {
     const [selectedExtraReplaceIng, setSelectedExtraReplaceIng] = useState({});
 
     useEffect(() => {
-        if (initialData?.listIngredientDetail?.length) {
-            setMainIngredients(
-                initialData.listIngredientDetail
-                    .filter((it) => it.mainIngredient === 1)
-                    .map((mappedItem) => ({
-                        calo: mappedItem.calo,
-                        mainIngredient: 1,
-                        name: mappedItem.name,
-                        quantity: mappedItem.quantity,
-                        unit: mappedItem.unit,
-                        id: uuid_v4(),
-                    })),
-            );
-            setExtraIngredients(
-                initialData.listIngredientDetail
-                    .filter((it) => it.mainIngredient === 0)
-                    .map((mappedItem) => ({
-                        calo: mappedItem.calo,
-                        mainIngredient: 0,
-                        name: mappedItem.name,
-                        quantity: mappedItem.quantity,
-                        unit: mappedItem.unit,
-                        id: uuid_v4(),
-                        ingredientChangeList: mappedItem?.ingredientChangeList || [],
-                    })),
-            );
+        if (recipeFormData?.mainIngredients?.length) {
+            setMainIngredients(recipeFormData?.mainIngredients);
         }
-    }, [initialData]);
+        if (recipeFormData?.extraIngredients?.length) {
+            setExtraIngredients(recipeFormData?.extraIngredients);
+        }
+    }, [recipeFormData]);
 
     const onSubmitMainIngredient = (values, { resetForm }) => {
         if (selectedMainIng?.id) {
@@ -369,7 +348,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, initialData, id }) => {
                 <button
                     className="button button-sm button-secondary"
                     type="button"
-                    onClick={() => navigate('/admin/recipe-form?step=1')}
+                    onClick={() => navigate(`/admin/recipe-form?step=1${id ? `&id=${id}` : ''}`)}
                 >
                     Trở về
                 </button>
@@ -382,7 +361,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, initialData, id }) => {
                             mainIngredients,
                             extraIngredients,
                         }));
-                        navigate('/admin/recipe-form?step=3');
+                        navigate(`/admin/recipe-form?step=3${id ? `&id=${id}` : ''}`);
                     }}
                 >
                     Tiếp theo
