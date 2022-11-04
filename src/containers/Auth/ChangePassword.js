@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './forgotPass.scss';
 import { changePasswordRequest } from '../../api/requests';
@@ -7,12 +7,19 @@ const ChangePassword = (props) => {
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [success, setSuccess] = useState();
-    const errRef = useRef();
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const changePassword = async (e) => {
         e.preventDefault();
-        const { data } = await changePasswordRequest({ oldPassword, newPassword });
-        setSuccess(data.messContent);
+        setIsProcessing(true);
+        try {
+            const { data } = await changePasswordRequest({ oldPassword, newPassword });
+            setIsProcessing(false);
+            setSuccess(data?.messContent);
+        } catch (error) {
+            setIsProcessing(false);
+            console.log(error);
+        }
     };
 
     return (
@@ -59,17 +66,18 @@ const ChangePassword = (props) => {
                                     />
                                 </div>
                                 <div className="text-center mt-5">
-                                    <button type="submit" className="btn btn-primary w-100 theme-btn mx-auto">
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary w-100 theme-btn mx-auto"
+                                        disabled={isProcessing}
+                                    >
                                         Change Password
                                     </button>
                                 </div>
                             </form>
-                            <p ref={errRef} className={success ? 'sucmsg' : 'offscreen'}>
-                                {success}
-                            </p>
-
+                            <p className={success ? 'sucmsg' : 'offscreen'}>{success}</p>
                             <hr />
-                            <p className="">
+                            <p className="mt-3">
                                 <Link className="text-back" to="/">
                                     Back to Home
                                 </Link>

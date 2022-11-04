@@ -1,6 +1,7 @@
 class Form {
     static validEmail(str) {
-        let regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        let regex =
+            /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
         return regex.test(str);
     }
     static minLength(str, length) {
@@ -21,7 +22,7 @@ class Form {
             if ('isRequired' in key[1] && key[1].isRequired) {
                 if (key[1].value.length === 0) {
                     results.push({
-                        [key[0]]: [`The ${key[0]} is required.`]
+                        [key[0]]: [`The ${key[0]} is required.`],
                     });
                 } else {
                     if ('isEmail' in key[1] && key[1].isEmail) {
@@ -29,14 +30,14 @@ class Form {
 
                         if (!isValidEmail) {
                             results.push({
-                                [key[0]]: [`The ${key[0]} must be valid email.`]
+                                [key[0]]: [`The ${key[0]} must be valid email.`],
                             });
                         }
                     }
 
                     if ('minLength' in key[1] && Form.minLength(key[1].value, key[1].minLength)) {
                         results.push({
-                            [key[0]]: [`The ${key[0]} must at least ${key[1].minLength} characters.`]
+                            [key[0]]: [`The ${key[0]} must at least ${key[1].minLength} characters.`],
                         });
                     }
                 }
@@ -45,29 +46,29 @@ class Form {
 
                 if (!isValidEmail) {
                     results.push({
-                        [key[0]]: [`The ${key[0]} must be valid email`]
+                        [key[0]]: [`The ${key[0]} must be valid email`],
                     });
                 }
             } else if ('minLength' in key[1] && Form.minLength(key[1].value, key[1].minLength)) {
                 results.push({
-                    [key[0]]: [`The ${key[0]} must at least ${key[1].minLength} characters.`]
+                    [key[0]]: [`The ${key[0]} must at least ${key[1].minLength} characters.`],
                 });
             }
-            return results
-        })
+            return results;
+        });
 
-        results = Object.assign({}, ...results.map((result) => result))
+        results = Object.assign({}, ...results.map((result) => result));
 
         if (Object.keys(results).length > 0) {
             validations = {
-                errors: results
-            }
+                errors: results,
+            };
         } else {
-            validations = null
+            validations = null;
         }
 
         return validations;
     }
 }
 
-export default Form
+export default Form;

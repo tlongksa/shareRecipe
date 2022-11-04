@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Login.scss';
 import { Link, useLocation } from 'react-router-dom';
 import showPwdImg from '../../img/show-password.png';
@@ -15,15 +15,15 @@ const Login = () => {
 
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
-    const errRef = useRef();
-
+    const [isProcessing, setIsProcessing] = useState(false);
     const [username, setUser] = useState('');
     const [password, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [isRevealPwd, setIsRevealPwd] = useState(false);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setIsProcessing(true);
         try {
             const { data } = await loginRequest({ username, password });
             const roles = data?.roles?.[0];
@@ -31,6 +31,7 @@ const Login = () => {
                 ...data,
                 roles,
             };
+            setIsProcessing(false);
             if (data?.accessToken) {
                 onLoginSuccess(dataToSave);
                 localStorage.setItem(USER_INFO_STORAGE_KEY, JSON.stringify(dataToSave));
@@ -54,6 +55,7 @@ const Login = () => {
             window.location.replace('/');
             window.location.replace(from);
         } catch (err) {
+            setIsProcessing(false);
             if (!err?.response) {
                 setErrMsg(err);
             } else if (err.response?.status === 400) {
@@ -63,7 +65,6 @@ const Login = () => {
             } else {
                 setErrMsg('Login Failed');
             }
-            errRef.current.focus();
         }
     };
 
@@ -76,9 +77,7 @@ const Login = () => {
                     <div className="right-login bg-gray-custom">
                         <div className="login-background">
                             <div className="login-title">Login</div>
-                            <p ref={errRef} className={'error-message text-center'}>
-                                {errMsg}
-                            </p>
+                            <p className={'error-message text-center'}>{errMsg}</p>
                             <div className="container-login">
                                 <label htmlFor="name" className="label">
                                     User Name:{' '}
@@ -115,7 +114,9 @@ const Login = () => {
                                         alt=""
                                     />
                                 </div>
-                                <button className="btnLogin">Login</button>
+                                <button className="btnLogin" disabled={isProcessing}>
+                                    Login
+                                </button>
                                 <div className="login-bottom__txt">
                                     <Link to="/sign-up" className="nav-link">
                                         Register

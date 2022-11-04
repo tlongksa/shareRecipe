@@ -12,8 +12,7 @@ const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const Register = () => {
     const userRef = useRef();
-    const errRef = useRef();
-
+    const [isProcessing, setIsProcessing] = useState(false);
     const [fullname, setFulName] = useState('');
 
     const [email, setEmail] = useState('');
@@ -59,7 +58,7 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // if button enabled with JS hack
+        setIsProcessing(true);
         const v1 = USER_REGEX.test(username);
         const v2 = PWD_REGEX.test(password);
         const v3 = EMAIL_REGEX.test(email);
@@ -69,6 +68,7 @@ const Register = () => {
         }
         try {
             await signupRequest({ username, password, email, fullname });
+            setIsProcessing(false);
             setSuccess(true);
             setUser('');
             setPwd('');
@@ -76,6 +76,7 @@ const Register = () => {
             openNotification();
             navigate('/signin');
         } catch (err) {
+            setIsProcessing(false);
             if (!err?.response) {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 409) {
@@ -83,9 +84,7 @@ const Register = () => {
             } else {
                 setErrMsg('Registration Failed');
             }
-            errRef.current.focus();
         }
-        // console.log(username,password,email,fullname);
     };
     const openNotification = () => {
         notification.open({
@@ -116,7 +115,7 @@ const Register = () => {
                     <section className="register-section__container">
                         <div className="left"></div>
                         <div className="right bg-gray-custom">
-                            <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">
+                            <p className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">
                                 {errMsg}
                             </p>
                             <h1 className="register-title">Register</h1>
@@ -175,7 +174,6 @@ const Register = () => {
                                     onChange={(e) => setPwd(e.target.value)}
                                     value={password}
                                     required
-                                    // aria-invalid={validPwd ? "false" : "true"}
                                     aria-describedby="pwdnote"
                                     onFocus={() => setPwdFocus(true)}
                                     onBlur={() => setPwdFocus(false)}
@@ -245,7 +243,7 @@ const Register = () => {
 
                                 <button
                                     className="register-btn__submit"
-                                    disabled={!validName || !validPwd || !validMatch ? true : false}
+                                    disabled={!validName || !validPwd || !validMatch || isProcessing ? true : false}
                                 >
                                     Sign Up
                                 </button>
@@ -254,7 +252,6 @@ const Register = () => {
                                 Already registered?
                                 <br />
                                 <span className="line">
-                                    {/*put router link here*/}
                                     <Link to="/signin" className="nav-link">
                                         Login
                                     </Link>
