@@ -1,13 +1,15 @@
-import { LoadingOutlined } from '@ant-design/icons';
+import { DislikeOutlined, LikeOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Form, Formik } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
 import './index.scss';
+import './bmi.scss';
 import Input from '../../components/common/Input/Input';
 import AuthContext from '../../context/auth-context';
 import BmiContext from '../../context/bmi-context';
 import { BmiInfoSchema } from '../../validators';
 import { IMAGE_PLACEHODLER_URI } from '.././../constants';
 import { updateUserBmiInfoRequest } from '../../api/requests';
+import { Link } from 'react-router-dom';
 
 export const mobilityOptions = [
     {
@@ -142,12 +144,13 @@ const BmiForm = ({ item, userInfo }) => {
                                 ))}
                             </Input>
                         </div>
-                        <div className="d-flex gap-4 align-items-center">
+                        <div className="d-flex gap-4 align-items-center mb-3">
                             <p>Tổng số calo: </p>
                             <p>{item?.totalCalo} calo</p>
                         </div>
+                        {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
                         <div className="d-flex justify-content-end">
-                            <button className="button button-sm" type="submit">
+                            <button className="button button-sm" type="submit" disabled={item?.messContent}>
                                 Lưu
                             </button>
                         </div>
@@ -163,6 +166,7 @@ const BmiInfo = () => {
     const {
         bmiDetail: { dataResponse, isLoading },
         mainIngredients: { dataResponse: mainIngredientList },
+        recipes: { dataResponse: recipeList, isLoading: isLoadingRecipes },
         onFetchDetail,
         onFetchRecipes,
         onFetchMainIngredients,
@@ -259,6 +263,47 @@ const BmiInfo = () => {
                             <button className="button button-sm">Tìm kiếm</button>
                         </div>
                     </div>
+                )}
+                {isLoadingRecipes ? (
+                    <div className="global-list__loader-container">
+                        <LoadingOutlined className="global-list__loader-icon" />
+                    </div>
+                ) : (
+                    <ul className="mt-4">
+                        {recipeList?.map((item, index) => (
+                            <li className="bmi-recipe__list-item mb-4" key={item.dishID + index}>
+                                <div className="d-flex gap-3">
+                                    <img
+                                        src={item?.dishImageList?.[0]?.url || IMAGE_PLACEHODLER_URI}
+                                        alt=""
+                                        className="rounded-circle recipe-list_item-avatar"
+                                    />
+                                    <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
+                                        <div className="recipe-list_item-content mb-2">
+                                            <h5>
+                                                <Link to={`/recipe-detail/${item.dishID}`}>{item.dishName}</Link>
+                                            </h5>
+                                            <p>{item.formulaDescribe}</p>
+                                            <p className="d-flex align-items-center gap-3">
+                                                <strong>By {item.verifier}</strong>
+                                                <span className="text-muted">{item?.createDate || '-'}</span>
+                                            </p>
+                                        </div>
+                                        <div className={`recipe-list_item-actions d-flex gap-3 align-items-center`}>
+                                            <button onClick={() => {}}>
+                                                <LikeOutlined />
+                                                <span>{item.totalLike}</span>
+                                            </button>
+                                            <button onClick={() => {}}>
+                                                <DislikeOutlined />
+                                                <span>{item.totalDisLike}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
                 )}
             </div>
         </section>

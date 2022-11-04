@@ -3,16 +3,11 @@ import './index.scss';
 
 const Save = () => {
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '90vh',
-            }}
-        >
-            <h1>Save</h1>
-        </div>
+        <section className="custom-page__container">
+            <div className="mh-85vh">
+                <h1>Save</h1>
+            </div>
+        </section>
     );
 };
 

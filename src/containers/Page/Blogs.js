@@ -26,12 +26,11 @@ import { IMAGE_PLACEHODLER_URI } from '../../constants';
 const SearchBlog = ({ search, setSearch, callback }) => {
     const handleChange = (e) => {
         setSearch(e.target.value);
-        callback();
     };
 
     return (
-        <form className="global-list_search shadow rounded-3">
-            <SearchOutlined className="global-list_search-icon" />
+        <form className="global-list_search shadow rounded-3" onSubmit={callback}>
+            <SearchOutlined className="global-list_search-icon cursor-pointer" />
             <Input
                 onChange={handleChange}
                 placeholder="Search..."
@@ -70,7 +69,7 @@ export const BlogItem = ({
                     <div className="d-flex justify-content-between align-items-center">
                         <p className="d-flex align-items-center gap-3">
                             <strong>{item.userName}</strong>
-                            <span className="text-muted">2022-10-26</span>
+                            <span className="text-muted">{item?.createDate || '-'}</span>
                         </p>
                         <div className="d-flex gap-3">
                             {onApprove && (
@@ -286,7 +285,10 @@ const Blogs = () => {
                             }
                         }}
                     />
-                    <button className="button d-flex align-items-center gap-2" onClick={() => setShowNewBlog(true)}>
+                    <button
+                        className="button button-sm d-flex align-items-center gap-2"
+                        onClick={() => setShowNewBlog(true)}
+                    >
                         <PlusCircleOutlined />
                         <span>Thêm blog</span>
                     </button>

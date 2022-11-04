@@ -8,6 +8,9 @@ import {
     bmiGetMainIngredientsAction,
     bmiGetMainIngredientsSuccessAction,
     bmiGetMainIngredientsFailureAction,
+    bmiGetRecipeListAction,
+    bmiGetRecipeListSuccessAction,
+    bmiGetRecipeListFailureAction,
 } from './actions';
 import bmiReducer from './reducer';
 import { getUserBmiInfoRequest, getUserBmiRecipeListRequest, getMainIngredientListRequest } from '../../api/requests';
@@ -47,14 +50,13 @@ export const BmiProvider = ({ children }) => {
     };
 
     const fetchBmiRecipeList = (totalCalo) => {
-        dispatchContext(bmiGetDetailAction());
+        dispatchContext(bmiGetRecipeListAction());
         getUserBmiRecipeListRequest(totalCalo)
             .then(({ data }) => {
-                console.log(data);
-                dispatchContext(bmiGetDetailSuccessAction(data));
+                dispatchContext(bmiGetRecipeListSuccessAction(data));
             })
             .catch((err) => {
-                dispatchContext(bmiGetDetailFailureAction(err?.message));
+                dispatchContext(bmiGetRecipeListFailureAction(err?.message));
             });
     };
 
