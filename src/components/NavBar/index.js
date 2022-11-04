@@ -1,6 +1,4 @@
-import React, { useContext } from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate, NavLink as NavLinkRoot, useLocation } from 'react-router-dom';
 import { CAvatar, CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink, NavRight } from './NavbarElement';
@@ -10,10 +8,11 @@ import { SmileOutlined } from '@ant-design/icons';
 import './index.scss';
 import AuthContext from '../../context/auth-context';
 
-export const NavMenuCenter = () => {
+export const NavMenuCenter = ({ className }) => {
     const { pathname } = useLocation();
+
     return (
-        <NavMenu>
+        <NavMenu className={`${className || ''}`}>
             <NavLinkRoot
                 to="/"
                 className={({ isActive }) =>
@@ -42,25 +41,16 @@ export const NavMenuCenter = () => {
 };
 
 const Navbar = () => {
-    const [logged, setLogged] = useState(false);
     const navigateTo = useNavigate();
     const {
         onLogoutSuccess,
         userInfo: { accessToken, id },
     } = useContext(AuthContext);
-
-    useEffect(() => {
-        if (accessToken) {
-            setLogged(true);
-        } else {
-            setLogged(false);
-        }
-    }, [accessToken]);
+    const [showSidebar, setShowSidebar] = useState(false);
 
     const handleLogout = () => {
         onLogoutSuccess();
         localStorage.clear();
-        setLogged(false);
         navigateTo('/');
         navigateTo(0);
         notification.open({
@@ -83,9 +73,9 @@ const Navbar = () => {
                     <img src={require('../../img/logoDoAn1.png')} alt="logo" />
                     <strong className="main-logo__name">iShii</strong>
                 </NavLink>
-                <Bars />
-                <NavMenuCenter />
-                {!logged ? (
+                <Bars onClick={() => setShowSidebar((prevState) => !prevState)} />
+                <NavMenuCenter className={`${showSidebar ? 'show' : ''}`} />
+                {!accessToken ? (
                     <div className="d-flex align-items-center">
                         <NavMenu>
                             <NavBtnLink to="/sign-up">Sign Up</NavBtnLink>

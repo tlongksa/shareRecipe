@@ -74,7 +74,26 @@ export const NavMenu = styled.div`
     align-items: center;
     height: 100%;
     @media screen and (max-width: 768px) {
-        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-color: white;
+        z-index: 100;
+        height: 100vh;
+        flex-direction: column;
+        width: 250px;
+        border-right: 1px solid #ccc;
+        padding-top: 1.5rem;
+        transition: all 0.3s ease-in-out;
+        transform: translateX(-250px);
+        a {
+            height: auto;
+            width: 100%;
+            padding: 1rem 2rem;
+        }
+        &.show {
+            transform: translateX(0);
+        }
     }
 `;
 
