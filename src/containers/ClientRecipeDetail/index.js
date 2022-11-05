@@ -57,7 +57,7 @@ const ClientRecipeDetail = () => {
                 <div className="top-info__container">
                     <div className="left-view">
                         <img src={bigRecipeImg} alt={dataResponse?.dishName} className="img-view-detail" />
-                        <div className="flex-full d-flex">
+                        <div className="flex-full d-flex flex-wrap">
                             {dataResponse?.dishImageList?.map((listImg) => (
                                 <div key={listImg.dishImageID}>
                                     <img

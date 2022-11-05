@@ -23,14 +23,24 @@ import AuthContext from '../../context/auth-context';
 import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
 
-const SearchBlog = ({ search, setSearch, callback }) => {
+const SearchBlog = ({ search, setSearch, callback, emptySearchCallback }) => {
     const handleChange = (e) => {
-        setSearch(e.target.value);
+        const { value } = e.target;
+        setSearch(value);
+        if (!value.trim()) {
+            emptySearchCallback();
+        }
     };
 
     return (
-        <form className="global-list_search shadow rounded-3" onSubmit={callback}>
-            <SearchOutlined className="global-list_search-icon cursor-pointer" />
+        <form
+            className="global-list_search shadow rounded-3"
+            onSubmit={(e) => {
+                e.preventDefault();
+                callback();
+            }}
+        >
+            <SearchOutlined className="global-list_search-icon cursor-pointer" onClick={callback} />
             <Input
                 onChange={handleChange}
                 placeholder="Search..."
@@ -276,14 +286,11 @@ const Blogs = () => {
                         search={search}
                         setSearch={setSearch}
                         callback={() => {
-                            onClearList();
                             if (search.trim()) {
-                                onFetchMore(extraListInfo.pageIndex, search);
-                            }
-                            if (!search) {
                                 onFetchMore(1, search);
                             }
                         }}
+                        emptySearchCallback={() => onFetchMore(1, '')}
                     />
                     <button
                         className="button button-sm d-flex align-items-center gap-2"
@@ -309,12 +316,15 @@ const Blogs = () => {
                         <LoadingOutlined className="blog-list__loader-icon" />
                     </div>
                 )}
+                {!isLoading && list.length === 0 && (
+                    <p className="my-3 text-center error-message">Không có bài viết phù hơp</p>
+                )}
                 <Paginator
                     isLoading={isLoading}
                     maxPage={extraListInfo.numOfPages}
                     curPage={extraListInfo.pageIndex}
                     scrollAfterClicking={false}
-                    callback={(page) => onFetchMore(page, search)}
+                    callback={(page) => onFetchMore(page, search || '')}
                 />
             </div>
             <BlogForm show={showNewBlog} setShow={setShowNewBlog} />
