@@ -166,10 +166,11 @@ const BmiInfo = () => {
     const {
         bmiDetail: { dataResponse, isLoading },
         mainIngredients: { dataResponse: mainIngredientList },
-        recipes: { dataResponse: recipeList, isLoading: isLoadingRecipes },
+        recipes: { dataResponse: recipeList },
         onFetchDetail,
         onFetchRecipes,
         onFetchMainIngredients,
+        onFetchRecipesByFavourite,
     } = useContext(BmiContext);
     const [recipeType, setRecipeType] = useState('total');
     const [meal, setMeal] = useState('');
@@ -213,7 +214,12 @@ const BmiInfo = () => {
                 </div>
                 <button
                     className={`button button-sm me-3 ${recipeType === 'total' ? '' : 'button-secondary'}`}
-                    onClick={() => setRecipeType('total')}
+                    onClick={() => {
+                        onFetchRecipes(dataResponse?.totalCalo);
+                        setRecipeType('total');
+                        setMeal('');
+                        setMainIngredient('');
+                    }}
                 >
                     Total calories
                 </button>
@@ -260,51 +266,51 @@ const BmiInfo = () => {
                             ))}
                         </div>
                         <div className="d-flex justify-content-end">
-                            <button className="button button-sm">Tìm kiếm</button>
+                            <button
+                                className="button button-sm"
+                                disabled={!meal || !mainIngredient}
+                                onClick={() => onFetchRecipesByFavourite(dataResponse?.totalCalo, meal, mainIngredient)}
+                            >
+                                Tìm kiếm
+                            </button>
                         </div>
                     </div>
                 )}
-                {isLoadingRecipes ? (
-                    <div className="global-list__loader-container">
-                        <LoadingOutlined className="global-list__loader-icon" />
-                    </div>
-                ) : (
-                    <ul className="mt-4">
-                        {recipeList?.map((item, index) => (
-                            <li className="bmi-recipe__list-item mb-4" key={item.dishID + index}>
-                                <div className="d-flex gap-3">
-                                    <img
-                                        src={item?.dishImageList?.[0]?.url || IMAGE_PLACEHODLER_URI}
-                                        alt=""
-                                        className="rounded-circle recipe-list_item-avatar"
-                                    />
-                                    <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
-                                        <div className="recipe-list_item-content mb-2">
-                                            <h5>
-                                                <Link to={`/recipe-detail/${item.dishID}`}>{item.dishName}</Link>
-                                            </h5>
-                                            <p>{item.formulaDescribe}</p>
-                                            <p className="d-flex align-items-center gap-3">
-                                                <strong>By {item.verifier}</strong>
-                                                <span className="text-muted">{item?.createDate || '-'}</span>
-                                            </p>
-                                        </div>
-                                        <div className={`recipe-list_item-actions d-flex gap-3 align-items-center`}>
-                                            <button onClick={() => {}}>
-                                                <LikeOutlined />
-                                                <span>{item.totalLike}</span>
-                                            </button>
-                                            <button onClick={() => {}}>
-                                                <DislikeOutlined />
-                                                <span>{item.totalDisLike}</span>
-                                            </button>
-                                        </div>
+                <ul className="mt-4">
+                    {recipeList?.map((item, index) => (
+                        <li className="bmi-recipe__list-item mb-4" key={item.dishID + index}>
+                            <div className="d-flex gap-3">
+                                <img
+                                    src={item?.dishImageList?.[0]?.url || IMAGE_PLACEHODLER_URI}
+                                    alt=""
+                                    className="rounded-circle recipe-list_item-avatar"
+                                />
+                                <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
+                                    <div className="recipe-list_item-content mb-2">
+                                        <h5>
+                                            <Link to={`/recipe-detail/${item.dishID}`}>{item.dishName}</Link>
+                                        </h5>
+                                        <p>{item.formulaDescribe}</p>
+                                        <p className="d-flex align-items-center gap-3">
+                                            <strong>By {item.verifier}</strong>
+                                            <span className="text-muted">{item?.createDate || '-'}</span>
+                                        </p>
+                                    </div>
+                                    <div className={`recipe-list_item-actions d-flex gap-3 align-items-center`}>
+                                        <button onClick={() => {}}>
+                                            <LikeOutlined />
+                                            <span>{item.totalLike}</span>
+                                        </button>
+                                        <button onClick={() => {}}>
+                                            <DislikeOutlined />
+                                            <span>{item.totalDisLike}</span>
+                                        </button>
                                     </div>
                                 </div>
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                            </div>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </section>
     );

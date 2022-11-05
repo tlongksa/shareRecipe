@@ -13,7 +13,12 @@ import {
     bmiGetRecipeListFailureAction,
 } from './actions';
 import bmiReducer from './reducer';
-import { getUserBmiInfoRequest, getUserBmiRecipeListRequest, getMainIngredientListRequest } from '../../api/requests';
+import {
+    getUserBmiInfoRequest,
+    getUserBmiRecipeListRequest,
+    getMainIngredientListRequest,
+    getUserBmiRecipeByFavouriteRequest,
+} from '../../api/requests';
 
 export const defaultValues = {
     bmiDetail: {
@@ -60,6 +65,17 @@ export const BmiProvider = ({ children }) => {
             });
     };
 
+    const fetchBmiRecipeListByFavourite = (totalCalo, meal, mainIngredient) => {
+        dispatchContext(bmiGetRecipeListAction());
+        getUserBmiRecipeByFavouriteRequest(totalCalo, meal, mainIngredient)
+            .then(({ data }) => {
+                dispatchContext(bmiGetRecipeListSuccessAction([data]));
+            })
+            .catch((err) => {
+                dispatchContext(bmiGetRecipeListFailureAction(err?.message));
+            });
+    };
+
     const fetchMainIngredients = () => {
         dispatchContext(bmiGetMainIngredientsAction());
         getMainIngredientListRequest()
@@ -79,6 +95,8 @@ export const BmiProvider = ({ children }) => {
                 onClearDetail: () => dispatchContext(clearBmiDetailAction()),
                 onFetchRecipes: (totalCalo) => fetchBmiRecipeList(totalCalo),
                 onFetchMainIngredients: () => fetchMainIngredients(),
+                onFetchRecipesByFavourite: (totalCalo, meal, mainIngredient) =>
+                    fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient),
             }}
         >
             {children}
