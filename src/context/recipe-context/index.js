@@ -171,10 +171,10 @@ export const RecipeProvider = ({ children }) => {
         dispatchContext(recipeGetCommentReportListAction());
         getListReportRecipeCommentRequest(page, search)
             .then(({ data }) => {
-                const { recipeCommentAccountVoList = [], pageIndex, numOfPages } = data;
+                const { dishCommentAccountVoList = [], pageIndex, numOfPages } = data;
                 dispatchContext(
                     recipeGetCommentReportListSuccessAction({
-                        data: recipeCommentAccountVoList,
+                        data: dishCommentAccountVoList,
                         extraListInfo: {
                             pageIndex,
                             numOfPages,

@@ -88,7 +88,7 @@ const deleteRecipeCommentRequest = (dishCommentId) =>
     });
 
 const getListReportRecipeCommentRequest = (page, search) =>
-    axios.get(`/reportDishComment??pageIndex=${page}&searchData=${search}`, {
+    axios.get(`/admin/getListDishCommentReport?pageIndex=${page}&searchData=${search}`, {
         headers: {
             authorization: `Bearer ${token || ''}`,
         },
