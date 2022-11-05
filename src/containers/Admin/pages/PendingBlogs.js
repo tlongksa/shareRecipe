@@ -1,6 +1,7 @@
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { approvePendingBlogRequest, deleteBlogRequest } from '../../../api/requests';
+import Input from '../../../components/common/Input/Input';
 import Paginator from '../../../components/common/Paginator';
 import BlogContext from '../../../context/blog-context';
 import { BlogItem } from '../../Page/Blogs';
@@ -16,7 +17,7 @@ const PendingBlogs = () => {
         onClearPendingList,
         onRemoveFromPendingList,
     } = useContext(BlogContext);
-    const [search] = useState('');
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         onFetchMorePendingList(1);
@@ -54,6 +55,42 @@ const PendingBlogs = () => {
     }
     return (
         <section className="pending-blogs__container">
+            <div className="d-flex justify-content-end mb-3 gap-3 sm:flex-col">
+                <form
+                    className="global-list_search shadow rounded-3"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        if (search.trim()) {
+                            onFetchMorePendingList(1, search);
+                        }
+                    }}
+                >
+                    <SearchOutlined
+                        className="global-list_search-icon cursor-pointer"
+                        onClick={() => {
+                            if (search.trim()) {
+                                onFetchMorePendingList(1, search);
+                            }
+                        }}
+                    />
+                    <Input
+                        onChange={(e) => {
+                            const { value } = e.target;
+                            setSearch(value);
+                            if (!value.trim()) {
+                                onFetchMorePendingList(1, '');
+                            }
+                        }}
+                        placeholder="Search..."
+                        value={search}
+                        error={null}
+                        touched={true}
+                        containerNoMarginBottom
+                        className="flex-fill"
+                        inputClassName="border-0"
+                    />
+                </form>
+            </div>
             {isLoading && (
                 <div className="global-list__loader-container">
                     <LoadingOutlined className="global-list__loader-icon" />
@@ -76,7 +113,7 @@ const PendingBlogs = () => {
                 maxPage={extraPendingBlogListInfo.numOfPages}
                 curPage={extraPendingBlogListInfo.pageIndex}
                 scrollAfterClicking={false}
-                callback={(page) => onFetchMorePendingList(page, search)}
+                callback={(page) => onFetchMorePendingList(page, search || '')}
             />
         </section>
     );

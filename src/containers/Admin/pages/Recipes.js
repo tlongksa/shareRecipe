@@ -38,11 +38,37 @@ const Recipes = () => {
 
     return (
         <section className={`account-list__container ${isLoading || isProcessing ? 'divDisabled' : ''}`}>
+            {isLoading && (
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
+                </div>
+            )}
             <div className="d-flex justify-content-end mb-3 gap-3 sm:flex-col">
-                <form className="global-list_search shadow rounded-3">
-                    <SearchOutlined className="global-list_search-icon" />
+                <form
+                    className="global-list_search shadow rounded-3"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        if (search.trim()) {
+                            onAdminFetchMore(1, search);
+                        }
+                    }}
+                >
+                    <SearchOutlined
+                        className="global-list_search-icon cursor-pointer"
+                        onClick={() => {
+                            if (search.trim()) {
+                                onAdminFetchMore(1, search);
+                            }
+                        }}
+                    />
                     <Input
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => {
+                            const { value } = e.target;
+                            setSearch(value);
+                            if (!value.trim()) {
+                                onAdminFetchMore(1, '');
+                            }
+                        }}
                         placeholder="Search..."
                         value={search}
                         error={null}
@@ -60,18 +86,13 @@ const Recipes = () => {
                     <span>Thêm công thức</span>
                 </button>
             </div>
-            {isLoading && (
-                <div className="global-list__loader-container">
-                    <LoadingOutlined className="global-list__loader-icon" />
-                </div>
-            )}
             <RecipeDataList
                 list={adminRecipeList}
                 maxPage={adminRecipeExtraListInfo.numOfPages}
                 currentPage={adminRecipeExtraListInfo.pageIndex}
                 onDelete={(id) => deleteRecipeHandler(id)}
                 paginateCallback={(page) => {
-                    onAdminFetchMore(page);
+                    onAdminFetchMore(page, search || '');
                 }}
                 onEdit={(id) => navigate(`/admin/recipe-form?step=1&id=${id}`)}
             />

@@ -62,9 +62,15 @@ const BmiForm = ({ item, userInfo }) => {
     return (
         <div className={`bmi-form__info p-4 bg-gray-custom flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
             <div className="d-flex justify-content-between align-items-center mb-3">
-                <p>Tên : {item?.name}</p>
-                <p>Ngày sinh: 2000-11-14</p>
-                <p>Giới tính: {item?.gender}</p>
+                <p>
+                    <strong>Tên</strong> : {item?.name}
+                </p>
+                <p>
+                    <strong>Ngày sinh</strong> : 2000-11-14
+                </p>
+                <p>
+                    <strong>Giới tính</strong> : {item?.gender}
+                </p>
             </div>
             <Formik
                 initialValues={{

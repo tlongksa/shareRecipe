@@ -55,7 +55,7 @@ const ForgotPassword = (props) => {
     };
 
     return (
-        <div className="">
+        <div className="mt-5 mh-85vh">
             <div className="bgr-fotgot-left"></div>
             <div className="bgr-fotgot-right">
                 <div className="d-flex flex-column align-content-end">
