@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate, NavLink as NavLinkRoot, useLocation } from 'react-router-dom';
 import { CAvatar, CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink, NavRight } from './NavbarElement';
-import img from '../../img/logoDoAn.png';
+import img from '../../assets/img/logoDoAn.png';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import './index.scss';
@@ -70,7 +70,7 @@ const Navbar = () => {
         <div className="custom-page__container custom-page__container-no__margin">
             <Nav className="bg-white border-bottom">
                 <NavLink to="/" className="d-flex align-items-center gap-2">
-                    <img src={require('../../img/logoDoAn1.png')} alt="logo" />
+                    <img src={require('../../assets/img/logoDoAn1.png')} alt="logo" />
                     <strong className="main-logo__name">iShii</strong>
                 </NavLink>
                 <Bars onClick={() => setShowSidebar((prevState) => !prevState)} />

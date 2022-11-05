@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import DefaultUserPic from '../../img/team-male.jpg';
+import DefaultUserPic from '../../assets/img/team-male.jpg';
 import './index.css';
 import { getAccountProfileRequest } from '../../api/requests';
 

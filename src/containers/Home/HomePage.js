@@ -4,9 +4,9 @@ import ListCategory from '../../components/List/listCategory';
 import ListTopMonth from '../../components/List/listTopMonth';
 import ListTopNew from '../../components/List/listTopNew';
 import ListTopWeek from '../../components/List/listTopWeek';
-import img1 from '../../img/img1.jpg';
-import img2 from '../../img/img2.jpg';
-import img3 from '../../img/img3.jpeg';
+import img1 from '../../assets/img/img1.jpg';
+import img2 from '../../assets/img/img2.jpg';
+import img3 from '../../assets/img/img3.jpg';
 import './homePage.scss';
 import SearchBar from '../../components/Search/SearchBar';
 

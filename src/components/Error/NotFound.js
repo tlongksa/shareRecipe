@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Flex, Heading, VStack, Image, Text } from '@chakra-ui/react';
-import ErrorImg from '../../img/error.png';
+import ErrorImg from '../../assets/img/error.png';
 import { useNavigate } from 'react-router-dom';
 import AuthConText from '../../context/auth-context';
 import { ROLES } from '../../App';

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import './Login.scss';
 import { Link, useLocation } from 'react-router-dom';
-import showPwdImg from '../../img/show-password.png';
-import hidePwdImg from '../../img/hide-.svg';
+import showPwdImg from '../../assets/img/show-password.png';
+import hidePwdImg from '../../assets/img/hide-.svg';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import AuthContext from '../../context/auth-context';
