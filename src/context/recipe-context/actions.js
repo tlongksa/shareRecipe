@@ -19,6 +19,9 @@ import {
     RECIPE_GET_COMMENT_REPORT_LIST,
     RECIPE_GET_COMMENT_REPORT_LIST_SUCCESS,
     RECIPE_GET_COMMENT_REPORT_LIST_FAILURE,
+    RECIPE_GET_FAVOURITE_LIST,
+    RECIPE_GET_FAVOURITE_LIST_SUCCESS,
+    RECIPE_GET_FAVOURITE_LIST_FAILURE,
 } from './types';
 
 const recipeGetListAction = () => ({
@@ -113,6 +116,20 @@ const recipeGetCommentReportListFailureAction = (error) => ({
     payload: error,
 });
 
+const recipeGetFavouriteListAction = () => ({
+    type: RECIPE_GET_FAVOURITE_LIST,
+});
+
+const recipeGetFavouriteListSuccessAction = (payload) => ({
+    type: RECIPE_GET_FAVOURITE_LIST_SUCCESS,
+    payload,
+});
+
+const recipeGetFavouriteListFailureAction = (error) => ({
+    type: RECIPE_GET_FAVOURITE_LIST_FAILURE,
+    payload: error,
+});
+
 export {
     recipeGetListAction,
     recipeGetListSuccessAction,
@@ -134,4 +151,7 @@ export {
     recipeGetCommentReportListAction,
     recipeGetCommentReportListSuccessAction,
     recipeGetCommentReportListFailureAction,
+    recipeGetFavouriteListAction,
+    recipeGetFavouriteListSuccessAction,
+    recipeGetFavouriteListFailureAction,
 };

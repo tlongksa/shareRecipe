@@ -19,13 +19,13 @@ export const NavMenuCenter = ({ className }) => {
                     isActive && pathname === '/' ? 'active ps-4 header-menu__link' : 'ps-4 header-menu__link'
                 }
             >
-                Home
+                Trang chủ
             </NavLinkRoot>
             <NavLink to="/blogs" className="ps-4">
                 Blog
             </NavLink>
-            <NavLink to="/about" className="ps-4">
-                About
+            <NavLink to="/favourite-recipes" className="ps-4">
+                Yêu thích
             </NavLink>
             <NavLink to="/save" className="ps-4">
                 Save
@@ -104,7 +104,13 @@ const Navbar = () => {
                                 >
                                     Trang cá nhân
                                 </CDropdownItem>
-                                <CDropdownItem href="#">Yêu thích</CDropdownItem>
+                                <CDropdownItem
+                                    onClick={() => {
+                                        navigateTo(`/favourite-recipes`);
+                                    }}
+                                >
+                                    Yêu thích
+                                </CDropdownItem>
                                 <CDropdownItem
                                     onClick={() => {
                                         navigateTo(`/change-password`);

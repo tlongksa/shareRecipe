@@ -21,6 +21,9 @@ import {
     recipeGetCommentReportListAction,
     recipeGetCommentReportListSuccessAction,
     recipeGetCommentReportListFailureAction,
+    recipeGetFavouriteListAction,
+    recipeGetFavouriteListSuccessAction,
+    recipeGetFavouriteListFailureAction,
 } from './actions';
 import recipeReducer from './reducer';
 import {
@@ -30,6 +33,7 @@ import {
     getListRecipeByNameRequest,
     getListRecipeCategoriesRequest,
     getListReportRecipeCommentRequest,
+    getFavouriteRecipeListRequest,
 } from '../../api/requests';
 
 export const defaultValues = {
@@ -68,6 +72,11 @@ export const defaultValues = {
             pageIndex: 1,
             numOfPages: 0,
         },
+    },
+    favouriteRecipeList: [],
+    favouriteRecipeExtraListInfo: {
+        pageIndex: 1,
+        numOfPages: 0,
     },
 };
 
@@ -178,6 +187,26 @@ export const RecipeProvider = ({ children }) => {
             });
     };
 
+    const fetchFavouriteRecipeList = (page, search = '') => {
+        dispatchContext(recipeGetFavouriteListAction());
+        getFavouriteRecipeListRequest(page, search)
+            .then(({ data }) => {
+                const { listAccountActive = [], pageIndex, numOfPages } = data;
+                dispatchContext(
+                    recipeGetFavouriteListSuccessAction({
+                        data: listAccountActive,
+                        extraListInfo: {
+                            pageIndex,
+                            numOfPages,
+                        },
+                    }),
+                );
+            })
+            .catch((err) => {
+                dispatchContext(recipeGetFavouriteListFailureAction(err?.message));
+            });
+    };
+
     return (
         <RecipeContext.Provider
             value={{
@@ -191,6 +220,7 @@ export const RecipeProvider = ({ children }) => {
                 onFetchRecipeCategories: () => fetchRecipeCategories(),
                 onClearDetail: () => dispatchContext(recipeClearDetailAction()),
                 onFetchMoreRecipeCommentReport: (page, search) => fetchRecipeCommentReportList(page, search),
+                onFetchFavouriteMore: (page, search) => fetchFavouriteRecipeList(page, search),
             }}
         >
             {children}

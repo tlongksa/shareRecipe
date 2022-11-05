@@ -1,13 +1,5 @@
 .client-blog__list-container {
     min-height: 80vh;
-    .blog-list__loader-container {
-        margin: 2.5rem 0;
-        display: flex;
-        justify-content: center;
-        .blog-list__loader-icon {
-            font-size: 1.5rem;
-        }
-    }
 }
 .blog-list_item {
     .blog-list_item-avatar {

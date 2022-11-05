@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.scss';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Login from './containers/Auth/Login';
@@ -30,16 +29,17 @@ import Recipes from './containers/Admin/pages/Recipes';
 import RecipesByName from './components/List/RecipesByName';
 import PendingBlogs from './containers/Admin/pages/PendingBlogs';
 import RecipeForm from './containers/Admin/pages/RecipeForms';
+import BlogCommentReports from './containers/Admin/pages/BlogCommentReports';
+import RecipeCommentReports from './containers/Admin/pages/RecipeCommentReports';
+import RecipeCategories from './containers/Admin/pages/RecipeCategories';
 
 // contexts
 import { BlogProvider } from './context/blog-context';
 import { RecipeProvider } from './context/recipe-context';
 import { AccountProvider } from './context/account-context';
 import { AuthProvider } from './context/auth-context';
-import RecipeCategories from './containers/Admin/pages/RecipeCategories';
 import { BmiProvider } from './context/bmi-context';
-import BlogCommentReports from './containers/Admin/pages/BlogCommentReports';
-import RecipeCommentReports from './containers/Admin/pages/RecipeCommentReports';
+import FavouriteRecipes from './containers/FavouriteRecipes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -60,6 +60,7 @@ root.render(
                                     <Route path="/save" element={<Save />} />
                                     <Route path="/contact" element={<Contact />} />
                                     <Route path="/bmi" element={<BmiInfo />} />
+                                    <Route path="/favourite-recipes" element={<FavouriteRecipes />} />
                                     <Route path="/signin" element={<Login />} />
                                     <Route path="/profile/:id" element={<Profile />} />
                                     <Route path="/sign-up" element={<Register />} />
@@ -90,8 +91,3 @@ root.render(
         </AccountProvider>
     </AuthProvider>,
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

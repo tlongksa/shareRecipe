@@ -19,6 +19,9 @@ import {
     RECIPE_GET_COMMENT_REPORT_LIST,
     RECIPE_GET_COMMENT_REPORT_LIST_SUCCESS,
     RECIPE_GET_COMMENT_REPORT_LIST_FAILURE,
+    RECIPE_GET_FAVOURITE_LIST,
+    RECIPE_GET_FAVOURITE_LIST_SUCCESS,
+    RECIPE_GET_FAVOURITE_LIST_FAILURE,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -82,12 +85,8 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
                 break;
             case RECIPE_GET_LIST_BY_NAME_SUCCESS:
                 draft.isLoading = false;
-                if (draft.recipeByNameExtraListInfo.numOfPages === 0) {
-                    draft.recipeByNameList = payload?.data;
-                } else {
-                    draft.recipeByNameList = draft.recipeByNameList.concat(payload?.data);
-                }
-                draft.recipeByNameExtraListInfo = payload.extraListInfo;
+                draft.recipeByNameList = payload?.data;
+                draft.recipeByNameExtraListInfo = payload?.extraListInfo;
                 break;
             case RECIPE_GET_LIST_BY_NAME_FAILURE:
                 draft.isLoading = false;
@@ -124,6 +123,19 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
             case RECIPE_GET_COMMENT_REPORT_LIST_FAILURE:
                 draft.recipeCommentReport.isLoading = false;
                 draft.recipeCommentReport.error = payload;
+                break;
+            case RECIPE_GET_FAVOURITE_LIST:
+                draft.isLoading = true;
+                draft.error = null;
+                break;
+            case RECIPE_GET_FAVOURITE_LIST_SUCCESS:
+                draft.isLoading = false;
+                draft.favouriteRecipeList = payload?.data;
+                draft.favouriteRecipeExtraListInfo = payload.extraListInfo;
+                break;
+            case RECIPE_GET_FAVOURITE_LIST_FAILURE:
+                draft.isLoading = false;
+                draft.error = payload;
                 break;
             default:
                 break;

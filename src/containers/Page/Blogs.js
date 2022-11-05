@@ -23,7 +23,7 @@ import AuthContext from '../../context/auth-context';
 import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
 
-const SearchBlog = ({ search, setSearch, callback, emptySearchCallback }) => {
+export const SearchDataList = ({ search, setSearch, callback, emptySearchCallback }) => {
     const handleChange = (e) => {
         const { value } = e.target;
         setSearch(value);
@@ -282,7 +282,7 @@ const Blogs = () => {
         <section className="client-blog__list-container">
             <div className="custom-page__container">
                 <div className="d-flex justify-content-end mb-3 gap-3">
-                    <SearchBlog
+                    <SearchDataList
                         search={search}
                         setSearch={setSearch}
                         callback={() => {
@@ -312,8 +312,8 @@ const Blogs = () => {
                     ))}
                 </ul>
                 {isLoading && (
-                    <div className="blog-list__loader-container">
-                        <LoadingOutlined className="blog-list__loader-icon" />
+                    <div className="global-list__loader-container">
+                        <LoadingOutlined className="global-list__loader-icon" />
                     </div>
                 )}
                 {!isLoading && list.length === 0 && (

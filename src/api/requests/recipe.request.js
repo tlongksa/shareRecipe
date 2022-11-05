@@ -94,6 +94,13 @@ const getListReportRecipeCommentRequest = (page, search) =>
         },
     });
 
+const getFavouriteRecipeListRequest = (page = 1, search = '') =>
+    axios.get(`/getFavoriteRecipes?pageIndex=${page}&searchData=${search}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
@@ -114,4 +121,5 @@ export {
     reportRecipeCommentRequest,
     deleteRecipeCommentRequest,
     getListReportRecipeCommentRequest,
+    getFavouriteRecipeListRequest,
 };

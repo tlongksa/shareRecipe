@@ -42,7 +42,13 @@ const AdminHeader = () => {
                             </CDropdownToggle>
                             <CDropdownMenu>
                                 <CDropdownItem onClick={() => {}}>Thông tin cá nhân cá nhân</CDropdownItem>
-                                <CDropdownItem onClick={() => {}}>Yêu thích</CDropdownItem>
+                                <CDropdownItem
+                                    onClick={() => {
+                                        navigate(`/favourite-recipes`);
+                                    }}
+                                >
+                                    Yêu thích
+                                </CDropdownItem>
                                 <CDropdownItem
                                     onClick={() => {
                                         navigate(`/change-password`);

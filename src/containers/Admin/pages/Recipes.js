@@ -38,11 +38,6 @@ const Recipes = () => {
 
     return (
         <section className={`account-list__container ${isLoading || isProcessing ? 'divDisabled' : ''}`}>
-            {isLoading && (
-                <div className="global-list__loader-container">
-                    <LoadingOutlined className="global-list__loader-icon" />
-                </div>
-            )}
             <div className="d-flex justify-content-end mb-3 gap-3 sm:flex-col">
                 <form
                     className="global-list_search shadow rounded-3"
@@ -96,6 +91,11 @@ const Recipes = () => {
                 }}
                 onEdit={(id) => navigate(`/admin/recipe-form?step=1&id=${id}`)}
             />
+            {isLoading && (
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
+                </div>
+            )}
         </section>
     );
 };

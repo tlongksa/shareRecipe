@@ -284,7 +284,7 @@ const BmiInfo = () => {
                 )}
                 <ul className="mt-4">
                     {recipeList?.map((item, index) => (
-                        <li className="bmi-recipe__list-item mb-4" key={item.dishID + index}>
+                        <li className="global-recipe__list-item mb-4" key={item.dishID + index}>
                             <div className="d-flex gap-3">
                                 <img
                                     src={item?.dishImageList?.[0]?.url || IMAGE_PLACEHODLER_URI}
