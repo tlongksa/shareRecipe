@@ -93,6 +93,13 @@ const reportBlogCommentRequest = (id) =>
         },
     });
 
+const approveBlogCommentRequest = (id) =>
+    axios.post(`/admin/approveBlogComment?blogCommentId=${id}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListBlogRequest,
     getBlogDetailRequest,
@@ -109,4 +116,5 @@ export {
     deleteBlogCommentRequest,
     getListBlogCommentReportRequest,
     reportBlogCommentRequest,
+    approveBlogCommentRequest,
 };

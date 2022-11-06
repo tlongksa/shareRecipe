@@ -1,6 +1,6 @@
 import styles from './data-list.module.css';
 import { useMediaQuery } from 'react-responsive';
-import { SettingOutlined, DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import Paginator from '../common/Paginator';
 
 function MobileCard({ item, no, onEdit, onDelete }) {
@@ -10,14 +10,6 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                 <div className="custom-col">
                     <strong />
                     <div className="d-flex align-items-center mw-60-px gap-2">
-                        <SettingOutlined
-                            style={{
-                                cursor: 'pointer',
-                                fontSize: 16,
-                                color: '#289AE7',
-                            }}
-                            onClick={() => onEdit(item.blogCommentID)}
-                        />
                         <DeleteOutlined
                             style={{
                                 cursor: 'pointer',
@@ -25,6 +17,14 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                                 color: '#f53838',
                             }}
                             onClick={() => onDelete(item.blogCommentID)}
+                        />
+                        <CloseCircleOutlined
+                            style={{
+                                cursor: 'pointer',
+                                fontSize: 16,
+                                color: '#289AE7',
+                            }}
+                            onClick={() => onEdit(item.blogCommentID)}
                         />
                     </div>
                 </div>
@@ -75,14 +75,6 @@ const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPag
             <span>{item.flag}</span>
             <span>
                 <div className="d-flex align-items-center mw-60-px gap-sm">
-                    <SettingOutlined
-                        style={{
-                            cursor: 'pointer',
-                            fontSize: 18,
-                            color: '#289AE7',
-                        }}
-                        onClick={() => onEdit(item.blogCommentID)}
-                    />
                     <DeleteOutlined
                         style={{
                             cursor: 'pointer',
@@ -90,6 +82,14 @@ const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPag
                             color: '#f53838',
                         }}
                         onClick={() => onDelete(item.blogCommentID)}
+                    />
+                    <CloseCircleOutlined
+                        style={{
+                            cursor: 'pointer',
+                            fontSize: 18,
+                            color: '#289AE7',
+                        }}
+                        onClick={() => onEdit(item.blogCommentID)}
                     />
                 </div>
             </span>
