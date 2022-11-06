@@ -193,3 +193,12 @@
 .mh-85vh {
     min-height: 85vh;
 }
+.mh-90vh {
+    min-height: 90vh;
+}
+.w-150px {
+    width: 150px;
+    @media (max-width: 768px) {
+        width: 90px;
+    }
+}

@@ -1,7 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, useReducer } from 'react';
+import { getAccountProfileRequest } from '../../api/requests';
 import { USER_INFO_STORAGE_KEY } from '../../constants';
-import { authSuccessAction, authLogoutAction } from './actions';
+import {
+    authSuccessAction,
+    authLogoutAction,
+    authGetProfileAction,
+    authGetProfileSuccessAction,
+    authGetProfileFailureAction,
+    authUpdateProfileSuccessAction,
+} from './actions';
 import authReducer from './reducer';
 
 export const defaultValues = {
@@ -16,6 +24,11 @@ export const defaultValues = {
           },
     isLoading: false,
     error: null,
+    profile: {
+        isLoading: false,
+        error: null,
+        dataResponse: {},
+    },
 };
 
 const AuthContext = createContext(defaultValues);
@@ -23,12 +36,25 @@ const AuthContext = createContext(defaultValues);
 export const AuthProvider = ({ children }) => {
     const [state, dispatchContext] = useReducer(authReducer, defaultValues);
 
+    const fetchProfileDetail = (id) => {
+        dispatchContext(authGetProfileAction());
+        getAccountProfileRequest(id)
+            .then(({ data }) => {
+                dispatchContext(authGetProfileSuccessAction(data));
+            })
+            .catch((err) => {
+                dispatchContext(authGetProfileFailureAction(err?.message));
+            });
+    };
+
     return (
         <AuthContext.Provider
             value={{
                 ...state,
                 onLoginSuccess: (userInfo) => dispatchContext(authSuccessAction(userInfo)),
                 onLogoutSuccess: () => dispatchContext(authLogoutAction()),
+                onFetchProfile: (id) => fetchProfileDetail(id),
+                onUpdateProfile: (updatedInfo) => dispatchContext(authUpdateProfileSuccessAction(updatedInfo)),
             }}
         >
             {children}

@@ -19,6 +19,7 @@ const Input = ({
     className,
     inputClassName,
     textAreaRows = 6,
+    errorNormalPosition,
 }) => {
     let input = (
         <input
@@ -72,7 +73,7 @@ const Input = ({
                 )}
                 {input}
             </div>
-            {error && touched && <p className="error-message">{error}</p>}
+            {error && touched && <p className={`error-message ${errorNormalPosition ? 'normal' : ''}`}>{error}</p>}
         </div>
     );
 };

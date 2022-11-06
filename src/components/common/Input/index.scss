@@ -52,6 +52,9 @@
     .error-message {
         position: relative;
         top: -20px;
+        &.normal {
+            top: 0;
+        }
     }
     &.row {
         .error-message {

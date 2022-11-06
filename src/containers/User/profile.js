@@ -1,68 +1,245 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import DefaultUserPic from '../../assets/img/team-male.jpg';
-import './index.css';
-import { getAccountProfileRequest } from '../../api/requests';
+import topBanner from '../../assets/img/profile_background.png';
+import './index.scss';
+import AuthContext from '../../context/auth-context';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Form, Formik } from 'formik';
+import { updateAccountProfileRequest } from '../../api/requests';
+import Input from '../../components/common/Input/Input';
+import { ProfileSchema } from '../../validators';
 
-const UserProfile = () => {
-    const { id } = useParams();
-    const [user, setUser] = useState({});
-    const [loading, setLoading] = useState(false);
+const EditProfileForm = ({ item, callback }) => {
+    const [isProcessing, setIsProcessing] = useState(false);
 
-    useEffect(() => {
-        setLoading(true);
-        getAccountProfileRequest(id)
+    const onSubmit = (values) => {
+        setIsProcessing(true);
+        updateAccountProfileRequest(item.profileId, {
+            phone: values.phone,
+            high: values.high,
+            weight: values.weight,
+            address: values.address,
+            name: item?.name,
+            gender: values.gender,
+            dob: values.dob,
+            avatarImage: item.avatarImage,
+            email: item.email,
+        })
             .then(({ data }) => {
-                setLoading(false);
-                setUser(data);
+                setIsProcessing(false);
+                callback(values);
             })
-            .catch((error) => {
-                setLoading(false);
-                console.log(error);
+            .catch((err) => {
+                setIsProcessing(false);
+                console.log(err);
             });
-    }, [id]);
-
-    const Loading = () => {
-        return <>Loading.....</>;
-    };
-
-    const ShowProfile = () => {
-        return (
-            <>
-                <Container className="body-profile">
-                    <Row>
-                        <>
-                            <Col>
-                                <img src={DefaultUserPic} alt="profils pic" />
-                                <Form.Control className="profileImage" type="file" name="profileImage" />
-                                <Button className="btn-profile" variant="primary">
-                                    Update Profile
-                                </Button>
-                            </Col>
-
-                            <Col className="col-profile" key={user.profileId}>
-                                <h1 className="text-title">User Profile</h1>
-                                <div className="txt-profile">Name: {user.name}</div>
-                                <div className="txt-profile">Email: {user.email}</div>
-                                <div className="txt-profile">Date Of Birth : {user.dob}</div>
-                                <div className="txt-profile">Số diện thoại: {user.phone}</div>
-                                <div className="txt-profile">Địa chỉ: {user.address}</div>
-                                <div className="txt-profile">Chiều cao: {user.high}</div>
-                            </Col>
-                        </>
-                    </Row>
-                </Container>
-            </>
-        );
     };
 
     return (
-        <>
-            <div className="container">
-                <div className="row">{loading ? <Loading /> : <ShowProfile />}</div>
+        <div className={`bmi-form__info p-4 bg-gray-custom flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
+            <Formik
+                initialValues={{
+                    high: item?.high || 0,
+                    weight: item?.weight || 0,
+                    dob: item?.dob || '',
+                    gender: item?.gender || '',
+                    phone: item?.phone || '',
+                    address: item?.address || '',
+                }}
+                onSubmit={onSubmit}
+                validationSchema={ProfileSchema}
+            >
+                {({ errors, touched, values, handleChange }) => (
+                    <Form>
+                        <div className="d-flex gap-4 align-items-center mb-3">
+                            <p className="w-150px">Ngày sinh: </p>
+                            <Input
+                                type="date"
+                                name="dob"
+                                onChange={handleChange}
+                                placeholder="Vui lòng nhập chiều cao của bạn "
+                                value={values.dob}
+                                error={errors.dob}
+                                touched={touched.dob}
+                                containerNoMarginBottom
+                                className="flex-fill"
+                                errorNormalPosition
+                                inputClassName="w-50"
+                            />
+                        </div>
+                        <div className="d-flex gap-4 align-items-center mb-3">
+                            <p className="w-150px">Giới tính: </p>
+                            <Input
+                                type="select"
+                                name="gender"
+                                onChange={handleChange}
+                                value={values.gender}
+                                error={errors.gender}
+                                touched={touched.gender}
+                                containerNoMarginBottom
+                                className="flex-fill"
+                                errorNormalPosition
+                            >
+                                {['Nam', 'Nữ'].map((value) => (
+                                    <option value={value} key={value}>
+                                        {value}
+                                    </option>
+                                ))}
+                            </Input>
+                        </div>
+                        <div className="d-flex gap-4 align-items-center mb-3">
+                            <p className="w-150px">Chiều cao : </p>
+                            <Input
+                                name="high"
+                                onChange={handleChange}
+                                placeholder="Vui lòng nhập chiều cao của bạn "
+                                value={values.high}
+                                error={errors.high}
+                                touched={touched.high}
+                                containerNoMarginBottom
+                                className="flex-fill"
+                                errorNormalPosition
+                                inputClassName="w-50"
+                            />
+                        </div>
+                        <div className="d-flex gap-4 align-items-center mb-3">
+                            <p className="w-150px">Cân nặng : </p>
+                            <Input
+                                name="weight"
+                                onChange={handleChange}
+                                placeholder="Vui lòng nhập cân nặng của bạn "
+                                value={values.weight}
+                                error={errors.weight}
+                                touched={touched.weight}
+                                containerNoMarginBottom
+                                className="flex-fill"
+                                errorNormalPosition
+                                inputClassName="w-50"
+                            />
+                        </div>
+                        <div className="d-flex gap-4 align-items-center mb-3">
+                            <p className="w-150px">Số điện thoại: </p>
+                            <Input
+                                name="phone"
+                                onChange={handleChange}
+                                value={values.phone}
+                                error={errors.phone}
+                                touched={touched.phone}
+                                containerNoMarginBottom
+                                className="flex-fill"
+                                errorNormalPosition
+                                inputClassName="w-50"
+                            />
+                        </div>
+                        <div className="d-flex gap-4 align-items-center mb-3">
+                            <p className="w-150px">Địa chỉ: </p>
+                            <Input
+                                name="address"
+                                onChange={handleChange}
+                                value={values.address}
+                                error={errors.address}
+                                touched={touched.address}
+                                containerNoMarginBottom
+                                className="flex-fill"
+                                errorNormalPosition
+                            />
+                        </div>
+                        {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
+                        <div className="d-flex justify-content-end">
+                            <button className="button button-sm" type="submit" disabled={item?.messContent}>
+                                Lưu
+                            </button>
+                        </div>
+                    </Form>
+                )}
+            </Formik>
+        </div>
+    );
+};
+
+const UserProfile = () => {
+    const { id } = useParams();
+    const {
+        profile: { dataResponse, isLoading, error },
+        onFetchProfile,
+        onUpdateProfile,
+    } = useContext(AuthContext);
+    const [shouldUpdate, setShouldUpdate] = useState(false);
+
+    useEffect(() => {
+        if (id) {
+            onFetchProfile(id);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
+
+    if (isLoading) {
+        return (
+            <div className="mh-90vh">
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
+                </div>
             </div>
-        </>
+        );
+    }
+
+    if (!isLoading && error) {
+        return <p className="error-message">Something went wrong!</p>;
+    }
+
+    return (
+        <div className="mh-90vh">
+            <div className="profile__banner-top">
+                <img src={topBanner} alt="" className="w-100" />
+                <img src={dataResponse?.avatarImage} alt="" className="profile-avatar" />
+            </div>
+            <div className="custom-page__container">
+                <div className="profile-name__container mt-5 pt-4 mb-4">
+                    <h3 className="text-center mt-5">{dataResponse?.name}</h3>
+                </div>
+                <div className="bg-gray-custom p-4 rounded-2">
+                    {shouldUpdate ? (
+                        <EditProfileForm
+                            item={dataResponse}
+                            callback={(newValues) => {
+                                setShouldUpdate(false);
+                                onUpdateProfile(newValues);
+                            }}
+                        />
+                    ) : (
+                        <>
+                            <div className="mb-3">
+                                <strong>Ngày sinh: </strong> {dataResponse?.dob}
+                            </div>
+                            <div className="mb-3">
+                                <strong>Giới tính: </strong> {dataResponse?.gender}
+                            </div>
+                            <div className="mb-3">
+                                <strong>Cân nặng: </strong> {dataResponse?.weight}
+                            </div>
+                            <div className="mb-3">
+                                <strong>Chiều cao: </strong> {dataResponse?.high}
+                            </div>
+                            <div className="mb-3">
+                                <strong>Số điện thoại: </strong> {dataResponse?.phone}
+                            </div>
+                            <div className="mb-3">
+                                <strong>Địa chỉ: </strong> {dataResponse?.address}
+                            </div>
+                            <div className="d-flex justify-content-end">
+                                <button
+                                    className="button button-sm"
+                                    type="button"
+                                    onClick={() => setShouldUpdate(true)}
+                                >
+                                    Cập nhật thông tin
+                                </button>
+                            </div>
+                        </>
+                    )}
+                </div>
+            </div>
+        </div>
     );
 };
 

@@ -32,7 +32,14 @@ const deleteAccountRequest = (id) =>
     });
 
 const getAccountProfileRequest = (id) =>
-    axios.get(`/getprofile/${id}`, {
+    axios.get(`/getprofile?profile_id=${id}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
+const updateAccountProfileRequest = (id, data) =>
+    axios.put(`/updateprofile?profile_id=${id}`, data, {
         headers: {
             authorization: `Bearer ${token || ''}`,
         },
@@ -44,4 +51,5 @@ export {
     deleteAccountRequest,
     updateAccountRoleRequest,
     getAccountProfileRequest,
+    updateAccountProfileRequest,
 };
