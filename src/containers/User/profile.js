@@ -8,6 +8,7 @@ import { Form, Formik } from 'formik';
 import { updateAccountProfileRequest } from '../../api/requests';
 import Input from '../../components/common/Input/Input';
 import { ProfileSchema } from '../../validators';
+import FavouriteRecipes from './FavouriteRecipes';
 
 const EditProfileForm = ({ item, callback }) => {
     const [isProcessing, setIsProcessing] = useState(false);
@@ -238,6 +239,7 @@ const UserProfile = () => {
                         </>
                     )}
                 </div>
+                <FavouriteRecipes />
             </div>
         </div>
     );
