@@ -20,7 +20,7 @@ const ListTopWeek = (props) => {
         <>
             <p className="home-list__title">Top With Week</p>
             <p className="error-message">{errMsg}</p>
-            <section className="home__list-category__container">
+            <section className="home__list-recipe__container">
                 {ListTopWeek.map((item) => (
                     <HomeRecipeItem key={item.dishID || item.dishId} item={item} navigateTo={navigateTo} />
                 ))}

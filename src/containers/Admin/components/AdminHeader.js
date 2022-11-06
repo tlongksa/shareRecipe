@@ -1,17 +1,12 @@
 import React, { useContext, useState } from 'react';
 import './index.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import Avatar from '../../../components/common/Avatar';
-import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import AuthContext from '../../../context/auth-context';
-import { NavMenuCenter } from '../../../components/NavBar';
+import { NavMenuCenter, ProfileTogglerMenu } from '../../../components/NavBar';
 import { Bars } from '../../../components/NavBar/NavbarElement';
 
 const AdminHeader = () => {
-    const {
-        onLogoutSuccess,
-        userInfo: { avatarImage },
-    } = useContext(AuthContext);
+    const { onLogoutSuccess } = useContext(AuthContext);
     const navigate = useNavigate();
     const [showSidebar, setShowSidebar] = useState(false);
 
@@ -30,35 +25,7 @@ const AdminHeader = () => {
                     </Link>
                     <NavMenuCenter className={`${showSidebar ? 'show' : ''}`} />
                     <div className="d-flex gap-2">
-                        <CDropdown className="profile_toggler-menu">
-                            <CDropdownToggle
-                                color="white"
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <Avatar imgSrc={avatarImage || ''} />
-                            </CDropdownToggle>
-                            <CDropdownMenu>
-                                <CDropdownItem onClick={() => {}}>Thông tin cá nhân cá nhân</CDropdownItem>
-                                <CDropdownItem
-                                    onClick={() => {
-                                        navigate(`/favourite-recipes`);
-                                    }}
-                                >
-                                    Yêu thích
-                                </CDropdownItem>
-                                <CDropdownItem
-                                    onClick={() => {
-                                        navigate(`/change-password`);
-                                    }}
-                                >
-                                    Đổi mật khẩu
-                                </CDropdownItem>
-                                <CDropdownItem onClick={handleLogout}>Đăng xuất</CDropdownItem>
-                            </CDropdownMenu>
-                        </CDropdown>
+                        <ProfileTogglerMenu handleLogout={handleLogout} />
                         <Bars onClick={() => setShowSidebar((prevState) => !prevState)} />
                     </div>
                 </nav>

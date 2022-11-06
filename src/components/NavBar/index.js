@@ -1,15 +1,19 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate, NavLink as NavLinkRoot, useLocation } from 'react-router-dom';
-import { CAvatar, CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
+import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink, NavRight } from './NavbarElement';
-import img from '../../assets/img/logoDoAn.png';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import './index.scss';
 import AuthContext from '../../context/auth-context';
+import Avatar from '../common/Avatar';
+import { ROLES } from '../../App';
 
 export const NavMenuCenter = ({ className }) => {
     const { pathname } = useLocation();
+    const {
+        userInfo: { accessToken },
+    } = useContext(AuthContext);
 
     return (
         <NavMenu className={`${className || ''}`}>
@@ -24,19 +28,77 @@ export const NavMenuCenter = ({ className }) => {
             <NavLink to="/blogs" className="ps-4">
                 Blog
             </NavLink>
-            <NavLink to="/favourite-recipes" className="ps-4">
-                Yêu thích
-            </NavLink>
+            {accessToken && (
+                <NavLink to="/favourite-recipes" className="ps-4">
+                    Yêu thích
+                </NavLink>
+            )}
             <NavLink to="/save" className="ps-4">
                 Save
             </NavLink>
             <NavLink to="/contact" className="ps-4">
                 Contact
             </NavLink>
-            <NavLink to="/bmi" className="ps-4">
-                BMI
-            </NavLink>
+            {accessToken && (
+                <NavLink to="/bmi" className="ps-4">
+                    BMI
+                </NavLink>
+            )}
         </NavMenu>
+    );
+};
+
+export const ProfileTogglerMenu = ({ handleLogout }) => {
+    const {
+        userInfo: { id, avatarImage, roles },
+    } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    return (
+        <CDropdown className="profile_toggler-menu">
+            <CDropdownToggle
+                color="white"
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                }}
+            >
+                <Avatar imgSrc={avatarImage || ''} />
+            </CDropdownToggle>
+            <CDropdownMenu>
+                <CDropdownItem
+                    onClick={() => {
+                        navigate(`/profile/${id}`);
+                    }}
+                >
+                    Thông tin cá nhân cá nhân
+                </CDropdownItem>
+                <CDropdownItem
+                    onClick={() => {
+                        navigate(`/favourite-recipes`);
+                    }}
+                >
+                    Yêu thích
+                </CDropdownItem>
+                <CDropdownItem
+                    onClick={() => {
+                        navigate(`/change-password`);
+                    }}
+                >
+                    Đổi mật khẩu
+                </CDropdownItem>
+                {roles !== ROLES.user && (
+                    <CDropdownItem
+                        onClick={() => {
+                            navigate(`/admin/accounts`);
+                        }}
+                    >
+                        Quản trị
+                    </CDropdownItem>
+                )}
+                <CDropdownItem onClick={handleLogout}>Đăng xuất</CDropdownItem>
+            </CDropdownMenu>
+        </CDropdown>
     );
 };
 
@@ -44,7 +106,7 @@ const Navbar = () => {
     const navigateTo = useNavigate();
     const {
         onLogoutSuccess,
-        userInfo: { accessToken, id },
+        userInfo: { accessToken },
     } = useContext(AuthContext);
     const [showSidebar, setShowSidebar] = useState(false);
 
@@ -86,41 +148,7 @@ const Navbar = () => {
                     </div>
                 ) : (
                     <NavRight>
-                        <CDropdown>
-                            <CDropdownToggle
-                                color="white"
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <CAvatar src={img} />
-                            </CDropdownToggle>
-                            <CDropdownMenu>
-                                <CDropdownItem
-                                    onClick={() => {
-                                        navigateTo(`/profile/${id}`);
-                                    }}
-                                >
-                                    Trang cá nhân
-                                </CDropdownItem>
-                                <CDropdownItem
-                                    onClick={() => {
-                                        navigateTo(`/favourite-recipes`);
-                                    }}
-                                >
-                                    Yêu thích
-                                </CDropdownItem>
-                                <CDropdownItem
-                                    onClick={() => {
-                                        navigateTo(`/change-password`);
-                                    }}
-                                >
-                                    Đổi mật khẩu
-                                </CDropdownItem>
-                                <CDropdownItem onClick={handleLogout}>Đăng xuất</CDropdownItem>
-                            </CDropdownMenu>
-                        </CDropdown>
+                        <ProfileTogglerMenu handleLogout={handleLogout} />
                     </NavRight>
                 )}
             </Nav>

@@ -9,6 +9,7 @@ import { updateAccountProfileRequest } from '../../api/requests';
 import Input from '../../components/common/Input/Input';
 import { ProfileSchema } from '../../validators';
 import FavouriteRecipes from './FavouriteRecipes';
+import { IMAGE_PLACEHODLER_URI } from '../../constants';
 
 const EditProfileForm = ({ item, callback }) => {
     const [isProcessing, setIsProcessing] = useState(false);
@@ -192,7 +193,7 @@ const UserProfile = () => {
         <div className="mh-90vh">
             <div className="profile__banner-top">
                 <img src={topBanner} alt="" className="w-100" />
-                <img src={dataResponse?.avatarImage} alt="" className="profile-avatar" />
+                <img src={dataResponse?.avatarImage || IMAGE_PLACEHODLER_URI} alt="" className="profile-avatar" />
             </div>
             <div className="custom-page__container">
                 <div className="profile-name__container mt-5 pt-4 mb-4">

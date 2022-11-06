@@ -26,10 +26,7 @@
 .view-week {
     background-color: #d8e2dc;
     border-radius: 14px;
-    width: 240px;
-    height: 365px;
     align-items: center;
-    margin: 16px 16px 16px 0;
     justify-content: center;
 }
 .view-top {
@@ -123,4 +120,24 @@
 }
 .recipe-info__text-view {
     padding: 0 1.5rem 1rem 1.5rem;
+}
+.home__list-recipe__container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    @media (max-width: 991px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 600px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 325px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    @media (max-width: 500px) {
+        gap: 0.5rem;
+    }
 }
