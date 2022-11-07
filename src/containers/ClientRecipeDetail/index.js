@@ -76,7 +76,7 @@ const ClientRecipeDetail = () => {
     }, [dataResponse]);
 
     if (!isLoading && error) {
-        return <p className="error-message">{error || 'Something went wrong!'}</p>;
+        return <p className="error-message">{error?.message || 'Something went wrong!'}</p>;
     }
 
     return isLoading ? (

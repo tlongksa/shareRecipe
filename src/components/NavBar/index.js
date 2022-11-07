@@ -13,7 +13,7 @@ import MainLogo from '../common/Logo';
 export const NavMenuCenter = ({ className }) => {
     const { pathname } = useLocation();
     const {
-        userInfo: { accessToken },
+        userInfo: { accessToken, roles },
     } = useContext(AuthContext);
 
     return (
@@ -32,6 +32,11 @@ export const NavMenuCenter = ({ className }) => {
             {accessToken && (
                 <NavLink to="/favourite-recipes" className="ps-4">
                     Yêu thích
+                </NavLink>
+            )}
+            {accessToken && (
+                <NavLink to="/my-recipes" className="ps-4">
+                    Các công thức
                 </NavLink>
             )}
             {/* <NavLink to="/save" className="ps-4">

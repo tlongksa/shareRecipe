@@ -58,7 +58,7 @@ const RecipeCommentReports = () => {
     };
 
     if (!isLoading && error) {
-        return <p className="error-message">Something went wrong!</p>;
+        return <p className="error-message">{error?.message || 'Something went wrong!'}</p>;
     }
 
     return (
