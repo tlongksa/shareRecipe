@@ -228,7 +228,14 @@ const UserProfile = () => {
                             <div className="mb-3">
                                 <strong>Địa chỉ: </strong> {dataResponse?.address}
                             </div>
-                            <div className="d-flex justify-content-end">
+                            <div className="d-flex justify-content-end gap-2">
+                                <button
+                                    className="button button-sm button-secondary"
+                                    type="button"
+                                    onClick={() => setShouldUpdate(false)}
+                                >
+                                    Hủy
+                                </button>
                                 <button
                                     className="button button-sm"
                                     type="button"

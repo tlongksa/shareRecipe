@@ -71,6 +71,7 @@ export const ProfileTogglerMenu = ({ handleLogout }) => {
                     onClick={() => {
                         navigate(`/profile/${id}`);
                     }}
+                    className="cursor-pointer"
                 >
                     Thông tin cá nhân cá nhân
                 </CDropdownItem>
@@ -78,6 +79,7 @@ export const ProfileTogglerMenu = ({ handleLogout }) => {
                     onClick={() => {
                         navigate(`/favourite-recipes`);
                     }}
+                    className="cursor-pointer"
                 >
                     Yêu thích
                 </CDropdownItem>
@@ -85,6 +87,7 @@ export const ProfileTogglerMenu = ({ handleLogout }) => {
                     onClick={() => {
                         navigate(`/change-password`);
                     }}
+                    className="cursor-pointer"
                 >
                     Đổi mật khẩu
                 </CDropdownItem>
@@ -93,11 +96,14 @@ export const ProfileTogglerMenu = ({ handleLogout }) => {
                         onClick={() => {
                             navigate(`/admin/accounts`);
                         }}
+                        className="cursor-pointer"
                     >
                         Quản trị
                     </CDropdownItem>
                 )}
-                <CDropdownItem onClick={handleLogout}>Đăng xuất</CDropdownItem>
+                <CDropdownItem onClick={handleLogout} className="cursor-pointer">
+                    Đăng xuất
+                </CDropdownItem>
             </CDropdownMenu>
         </CDropdown>
     );

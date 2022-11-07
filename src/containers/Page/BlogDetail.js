@@ -121,6 +121,8 @@ const BlogDetail = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
+    console.log(isProcessing);
+
     const onCommentSubmit = (e) => {
         e.preventDefault();
         setIsProcessing(true);
@@ -162,7 +164,7 @@ const BlogDetail = () => {
     const onLikeBlogCmtHandler = (blogCmtId) => {
         likeBlogCommentRequest(blogCmtId)
             .then(() => {
-                // onLikeItemDetail();
+                onFetchComments(id, comments.extraListInfo.pageIndex);
             })
             .catch((err) => {
                 console.log(err);
@@ -172,7 +174,7 @@ const BlogDetail = () => {
     const onDislikeBlogCmtHandler = (blogCmtId) => {
         dislikeBlogCommentRequest(blogCmtId)
             .then(() => {
-                // onDislikeItemDetail();
+                onFetchComments(id, comments.extraListInfo.pageIndex);
             })
             .catch((err) => {
                 console.log(err);
@@ -206,7 +208,7 @@ const BlogDetail = () => {
     const onReportBlogCommentHandler = (blogCmtId) => {
         reportBlogCommentRequest(blogCmtId)
             .then(() => {
-                // onLikeItemDetail();
+                onFetchComments(id, comments.extraListInfo.pageIndex);
             })
             .catch((err) => {
                 console.log(err);
@@ -218,7 +220,7 @@ const BlogDetail = () => {
     }
 
     return (
-        <section className={`client-blog-detail__container ${isProcessing ? 'divDisabled' : ''}`}>
+        <section className={`client-blog-detail__container`}>
             <div className="custom-page__container">
                 {isLoading ? (
                     <div className="blog-detail__loader-container">
