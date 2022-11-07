@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, startTransition } from 'react';
 import './index.scss';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Step1 from './Step1';
@@ -33,62 +33,64 @@ const RecipeForm = () => {
     const {
         recipeDetail: { dataResponse, isLoading, error },
         onFetchDetail,
-        onClearDetail,
+        // onClearDetail,
     } = useContext(RecipeContext);
 
     useEffect(() => {
         if (id) {
             onFetchDetail(id);
         }
-        return () => {
-            onClearDetail();
-        };
+        // return () => {
+        //     onClearDetail();
+        // };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     useEffect(() => {
-        if (!isLoading && dataResponse?.dishID) {
-            setRecipeFormData({
-                name: dataResponse?.dishName,
-                description: dataResponse?.formulaDescribe,
-                numberPeopleForDish: dataResponse?.numberPeopleForDish,
-                Level: dataResponse?.level,
-                time: dataResponse?.time,
-                idDishCategory: dataResponse?.idDishCategory,
-                mainIngredients: dataResponse?.ingredientDetailList
-                    ?.filter((it) => it.mainIngredient === 1)
-                    .map((mappedItem) => ({
-                        calo: mappedItem.calo,
-                        mainIngredient: 1,
-                        name: mappedItem.name,
-                        quantity: mappedItem.quantity,
-                        unit: mappedItem.unit,
-                        id: mappedItem.ingredientDetailId,
-                    })),
-                extraIngredients: dataResponse?.ingredientDetailList
-                    ?.filter((it) => it.mainIngredient === 0)
-                    .map((mappedItem) => ({
-                        calo: mappedItem.calo,
-                        mainIngredient: 0,
-                        name: mappedItem.name,
-                        quantity: mappedItem.quantity,
-                        unit: mappedItem.unit,
-                        id: mappedItem.ingredientDetailId,
-                        ingredientChangeList:
-                            mappedItem?.ingredientChangeVoList?.map((nestedItem) => ({
-                                name: nestedItem.name,
-                                quantity: nestedItem.quantity,
-                                unit: nestedItem.unit,
-                                calo: nestedItem.calo,
-                                id: nestedItem.ingredientChangeId,
-                            })) || [],
-                    })),
-                video: dataResponse?.video,
-                listDishImage: dataResponse?.dishImageList,
-                listStep: dataResponse?.stepList,
+        if (id && dataResponse?.dishName) {
+            startTransition(() => {
+                setRecipeFormData({
+                    name: dataResponse.dishName,
+                    description: dataResponse.formulaDescribe,
+                    numberPeopleForDish: dataResponse.numberPeopleForDish,
+                    Level: dataResponse.level,
+                    time: dataResponse.time,
+                    idDishCategory: dataResponse.idDishCategory,
+                    mainIngredients: dataResponse.ingredientDetailList
+                        ?.filter((it) => it.mainIngredient === 1)
+                        .map((mappedItem) => ({
+                            calo: mappedItem.calo,
+                            mainIngredient: 1,
+                            name: mappedItem.name,
+                            quantity: mappedItem.quantity,
+                            unit: mappedItem.unit,
+                            id: mappedItem.ingredientDetailId,
+                        })),
+                    extraIngredients: dataResponse?.ingredientDetailList
+                        ?.filter((it) => it.mainIngredient === 0)
+                        .map((mappedItem) => ({
+                            calo: mappedItem.calo,
+                            mainIngredient: 0,
+                            name: mappedItem.name,
+                            quantity: mappedItem.quantity,
+                            unit: mappedItem.unit,
+                            id: mappedItem.ingredientDetailId,
+                            ingredientChangeList:
+                                mappedItem?.ingredientChangeVoList?.map((nestedItem) => ({
+                                    name: nestedItem.name,
+                                    quantity: nestedItem.quantity,
+                                    unit: nestedItem.unit,
+                                    calo: nestedItem.calo,
+                                    id: nestedItem.ingredientChangeId,
+                                })) || [],
+                        })),
+                    video: dataResponse.video,
+                    listDishImage: dataResponse.dishImageList,
+                    listStep: dataResponse.stepList,
+                });
             });
         }
-    }, [dataResponse, isLoading]);
+    }, [id, dataResponse]);
 
     useEffect(() => {
         if (!step || (step !== '1' && step !== '2' && step !== '3')) {
@@ -212,15 +214,8 @@ const RecipeForm = () => {
     return (
         <section className={`recipe-form__container pb-4 ${isUploading || isCreating ? 'divDisabled' : ''}`}>
             {fileError && <p className="error-message">{fileError}</p>}
-            {step === '1' && <Step1 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} id={id} />}
-            {step === '2' && (
-                <Step2
-                    recipeFormData={recipeFormData}
-                    setRecipeFormData={setRecipeFormData}
-                    initialData={dataResponse}
-                    id={id}
-                />
-            )}
+            <Step1 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} id={id} step={step} />
+            {step === '2' && <Step2 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} id={id} />}
             {step === '3' && (
                 <Step3
                     recipeFormData={recipeFormData}

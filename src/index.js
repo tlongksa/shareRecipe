@@ -1,37 +1,9 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.scss';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import Login from './containers/Auth/Login';
-import Register from './containers/Auth/Register';
-import HomePage from './containers/Home/HomePage';
-import About from './containers/Page/about';
-import Contact from './containers/Page/contact';
-import BmiInfo from './containers/Page/BmiInfo';
-import Save from './containers/Page/save';
-import ForgotPassword from './containers/Auth/forgotPassword';
-import Profile from './containers/User/profile';
-import RecipesByCategory from './components/List/RecipesByCategory';
-
-import NotFound from './components/Error/NotFound';
-import SearchBar from './components/Search/SearchBar';
-import ChangePassword from './containers/Auth/ChangePassword';
-import ClientRecipeDetail from './containers/ClientRecipeDetail';
-import NewPassword from './containers/Auth/NewPassword';
-import Blogs from './containers/Page/Blogs';
-import BlogDetail from './containers/Page/BlogDetail';
-import AdminLayout from './containers/Admin/AdminLayout';
-import Accounts from './containers/Admin/pages/Accounts';
-import Recipes from './containers/Admin/pages/Recipes';
-import RecipesByName from './components/List/RecipesByName';
-import PendingBlogs from './containers/Admin/pages/PendingBlogs';
-import RecipeForm from './containers/Admin/pages/RecipeForms';
-import BlogCommentReports from './containers/Admin/pages/BlogCommentReports';
-import RecipeCommentReports from './containers/Admin/pages/RecipeCommentReports';
-import RecipeCategories from './containers/Admin/pages/RecipeCategories';
 
 // contexts
 import { BlogProvider } from './context/blog-context';
@@ -39,9 +11,50 @@ import { RecipeProvider } from './context/recipe-context';
 import { AccountProvider } from './context/account-context';
 import { AuthProvider } from './context/auth-context';
 import { BmiProvider } from './context/bmi-context';
-import FavouriteRecipes from './containers/FavouriteRecipes';
+import { LoadingOutlined } from '@ant-design/icons';
+import AdminLayout from './containers/Admin/AdminLayout';
+
+const Login = lazy(() => import('./containers/Auth/Login'));
+const Register = lazy(() => import('./containers/Auth/Register'));
+const HomePage = lazy(() => import('./containers/Home/HomePage'));
+const About = lazy(() => import('./containers/Page/about'));
+const Contact = lazy(() => import('./containers/Page/contact'));
+const BmiInfo = lazy(() => import('./containers/Page/BmiInfo'));
+const Save = lazy(() => import('./containers/Page/save'));
+const ForgotPassword = lazy(() => import('./containers/Auth/forgotPassword'));
+const Profile = lazy(() => import('./containers/User/profile'));
+const RecipesByCategory = lazy(() => import('./components/List/RecipesByCategory'));
+
+const NotFound = lazy(() => import('./components/Error/NotFound'));
+const SearchBar = lazy(() => import('./components/Search/SearchBar'));
+const ChangePassword = lazy(() => import('./containers/Auth/ChangePassword'));
+const ClientRecipeDetail = lazy(() => import('./containers/ClientRecipeDetail'));
+const NewPassword = lazy(() => import('./containers/Auth/NewPassword'));
+const Blogs = lazy(() => import('./containers/Page/Blogs'));
+const BlogDetail = lazy(() => import('./containers/Page/BlogDetail'));
+const Accounts = lazy(() => import('./containers/Admin/pages/Accounts'));
+const Recipes = lazy(() => import('./containers/Admin/pages/Recipes'));
+const RecipesByName = lazy(() => import('./components/List/RecipesByName'));
+const PendingBlogs = lazy(() => import('./containers/Admin/pages/PendingBlogs'));
+const RecipeForm = lazy(() => import('./containers/Admin/pages/RecipeForms'));
+const BlogCommentReports = lazy(() => import('./containers/Admin/pages/BlogCommentReports'));
+const RecipeCommentReports = lazy(() => import('./containers/Admin/pages/RecipeCommentReports'));
+const RecipeCategories = lazy(() => import('./containers/Admin/pages/RecipeCategories'));
+const FavouriteRecipes = lazy(() => import('./containers/FavouriteRecipes'));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const SuspenseWrapper = ({ children }) => (
+    <Suspense
+        fallback={
+            <div className="global-list__loader-container">
+                <LoadingOutlined className="global-list__loader-icon" />
+            </div>
+        }
+    >
+        {children}
+    </Suspense>
+);
 
 root.render(
     <AuthProvider>
@@ -52,33 +65,216 @@ root.render(
                         <BrowserRouter>
                             <Routes>
                                 <Route path="/" element={<App />}>
-                                    <Route path="/home" exact element={<HomePage />} />
-                                    <Route path="/test" element={<homeTest />} />
-                                    <Route path="/about" element={<About />} />
-                                    <Route path="/blogs/:id" element={<BlogDetail />} />
-                                    <Route path="/blogs" element={<Blogs />} />
-                                    <Route path="/save" element={<Save />} />
-                                    <Route path="/contact" element={<Contact />} />
-                                    <Route path="/bmi" element={<BmiInfo />} />
-                                    <Route path="/favourite-recipes" element={<FavouriteRecipes />} />
-                                    <Route path="/signin" element={<Login />} />
-                                    <Route path="/profile/:id" element={<Profile />} />
-                                    <Route path="/sign-up" element={<Register />} />
-                                    <Route path="/forgot-password" element={<ForgotPassword />} />
-                                    <Route path="/change-password" element={<ChangePassword />} />
-                                    <Route path="/new-password" element={<NewPassword />} />
-                                    <Route path="/list-recipe-by-category/:id" element={<RecipesByCategory />} />
-                                    <Route path="/list-recipe-by-name" element={<RecipesByName />} />
-                                    <Route path="/recipe-detail/:dishId" element={<ClientRecipeDetail />} />
-                                    <Route path="/search/:searchTitle" element={<SearchBar />} />
+                                    <Route
+                                        path="/home"
+                                        exact
+                                        element={
+                                            <SuspenseWrapper>
+                                                <HomePage />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/test"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <homeTest />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/about"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <About />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/blogs/:id"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <BlogDetail />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/blogs"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <Blogs />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/save"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <Save />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/contact"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <Contact />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/bmi"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <BmiInfo />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/favourite-recipes"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <FavouriteRecipes />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/signin"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <Login />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/profile/:id"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <Profile />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/sign-up"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <Register />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/forgot-password"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <ForgotPassword />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/change-password"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <ChangePassword />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/new-password"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <NewPassword />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/list-recipe-by-category/:id"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <RecipesByCategory />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/list-recipe-by-name"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <RecipesByName />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/recipe-detail/:dishId"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <ClientRecipeDetail />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/search/:searchTitle"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <SearchBar />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
                                     <Route path="/admin" element={<AdminLayout />}>
-                                        <Route path="accounts" element={<Accounts />} />
-                                        <Route path="recipes" element={<Recipes />} />
-                                        <Route path="approve-blogs" element={<PendingBlogs />} />
-                                        <Route path="recipe-form" element={<RecipeForm />} />
-                                        <Route path="recipe-categories" element={<RecipeCategories />} />
-                                        <Route path="blog-comment-reports" element={<BlogCommentReports />} />
-                                        <Route path="recipe-comment-reports" element={<RecipeCommentReports />} />
+                                        <Route
+                                            path="accounts"
+                                            element={
+                                                <SuspenseWrapper>
+                                                    <Accounts />
+                                                </SuspenseWrapper>
+                                            }
+                                        />
+                                        <Route
+                                            path="recipes"
+                                            element={
+                                                <SuspenseWrapper>
+                                                    <Recipes />
+                                                </SuspenseWrapper>
+                                            }
+                                        />
+                                        <Route
+                                            path="approve-blogs"
+                                            element={
+                                                <SuspenseWrapper>
+                                                    <PendingBlogs />
+                                                </SuspenseWrapper>
+                                            }
+                                        />
+                                        <Route
+                                            path="recipe-form"
+                                            element={
+                                                <SuspenseWrapper>
+                                                    <RecipeForm />
+                                                </SuspenseWrapper>
+                                            }
+                                        />
+                                        <Route
+                                            path="recipe-categories"
+                                            element={
+                                                <SuspenseWrapper>
+                                                    <RecipeCategories />
+                                                </SuspenseWrapper>
+                                            }
+                                        />
+                                        <Route
+                                            path="blog-comment-reports"
+                                            element={
+                                                <SuspenseWrapper>
+                                                    <BlogCommentReports />
+                                                </SuspenseWrapper>
+                                            }
+                                        />
+                                        <Route
+                                            path="recipe-comment-reports"
+                                            element={
+                                                <SuspenseWrapper>
+                                                    <RecipeCommentReports />
+                                                </SuspenseWrapper>
+                                            }
+                                        />
                                     </Route>
                                     <Route path="*" element={<NotFound />} />
                                     <Route index element={<HomePage />} />

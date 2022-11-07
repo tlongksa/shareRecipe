@@ -8,6 +8,7 @@ import './index.scss';
 import AuthContext from '../../context/auth-context';
 import Avatar from '../common/Avatar';
 import { ROLES } from '../../App';
+import MainLogo from '../common/Logo';
 
 export const NavMenuCenter = ({ className }) => {
     const { pathname } = useLocation();
@@ -131,10 +132,7 @@ const Navbar = () => {
     return (
         <div className="custom-page__container custom-page__container-no__margin">
             <Nav className="bg-white border-bottom">
-                <NavLink to="/" className="d-flex align-items-center gap-2">
-                    <img src={require('../../assets/img/logoDoAn1.png')} alt="logo" />
-                    <strong className="main-logo__name">iShii</strong>
-                </NavLink>
+                <MainLogo />
                 <Bars onClick={() => setShowSidebar((prevState) => !prevState)} />
                 <NavMenuCenter className={`${showSidebar ? 'show' : ''}`} />
                 {!accessToken ? (

@@ -1,4 +1,4 @@
-export default {
+const API_URLS = {
     LOGIN_URL: '/login',
     REGISTER_URL: '/signup',
     LOGOUT_URL: '/signout',
@@ -19,3 +19,5 @@ export default {
     Admin_GetListRecipe_URL: '/admin/listRecipe',
     Admin_GetAccount_URL: '',
 };
+
+export default API_URLS;
