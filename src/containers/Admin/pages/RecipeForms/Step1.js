@@ -1,22 +1,16 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import { Form, Formik } from 'formik';
-import React, { useContext, useEffect, useState, startTransition } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../../../components/common/Input/Input';
 import { RECIPE_LEVELS } from '../../../../constants';
 import RecipeContext from '../../../../context/recipe-context';
 import { RecipeStep1Schema } from '../../../../validators';
 
-const Step1 = ({ recipeFormData, setRecipeFormData, id, step }) => {
+const Step1 = ({ recipeFormData, setRecipeFormData, id, step, isLoading, initialValues }) => {
     const { onFetchRecipeCategories, categories } = useContext(RecipeContext);
     const navigate = useNavigate();
     const [idDishCategory, setIdDishCategory] = useState([]);
-    const initialValues = {
-        name: recipeFormData.name || '',
-        description: recipeFormData.description || '',
-        Level: recipeFormData?.Level || '',
-        numberPeopleForDish: recipeFormData.numberPeopleForDish || 0,
-        time: recipeFormData?.time || 0,
-    };
 
     useEffect(() => {
         if (recipeFormData?.idDishCategory) {
@@ -47,14 +41,25 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, step }) => {
         navigate(`/admin/recipe-form?step=2${id ? `&id=${id}` : ''}`);
     };
 
-    console.log(recipeFormData);
-
     if (step !== '1') {
         return null;
     }
 
+    if (isLoading) {
+        return (
+            <div className="global-list__loader-container">
+                <LoadingOutlined className="global-list__loader-icon" />
+            </div>
+        );
+    }
+
     return (
-        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={RecipeStep1Schema}>
+        <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={RecipeStep1Schema}
+            enableReinitialize={true}
+        >
             {({ errors, touched, values, handleChange }) => (
                 <Form>
                     <Input

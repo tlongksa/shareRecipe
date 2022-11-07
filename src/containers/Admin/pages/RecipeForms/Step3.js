@@ -67,7 +67,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                 onChange={(e) => setFiles(e.target.files)}
             />
             {imgError && <p className="error-message">{imgError}</p>}
-            <div className="d-flex justify-content-between align-items-center mb-3">
+            <div className="d-flex-custom mb-3">
                 <h4>Ảnh chụp mô tả cách làm của món ăn : </h4>
                 <button
                     className="button button-sm d-flex align-items-center gap-2"
@@ -94,7 +94,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                     </div>
                 ))}
             </div>
-            <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
+            <div className="d-flex-custom mb-3 mt-3">
                 <h4>Dán link video mô tả cách làm của món ăn : </h4>
                 <button
                     className="button button-sm d-flex align-items-center gap-2"
@@ -139,6 +139,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                                     ),
                                 );
                                 setDescribe('');
+                                setSelectedStep({});
                                 return;
                             }
                             setListStep((prevState) => [
@@ -151,8 +152,9 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                             setDescribe('');
                         }}
                         type="button"
+                        disabled={!describe.trim()}
                     >
-                        Tạo Bước
+                        {selectedStep?.title ? 'Cập Nhật' : 'Tạo Bước'}
                     </button>
                 </div>
                 <div className="mt-3">

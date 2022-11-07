@@ -108,6 +108,13 @@ const approveRecipeCommentRequest = (dishCommentId) =>
         },
     });
 
+const editRecipeRequest = (id, data) =>
+    axios.put(`/mod/editrecipe?recipe_id=${id}`, data, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
@@ -130,4 +137,5 @@ export {
     getListReportRecipeCommentRequest,
     getFavouriteRecipeListRequest,
     approveRecipeCommentRequest,
+    editRecipeRequest,
 };

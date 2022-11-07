@@ -6,15 +6,10 @@ import Step2 from './Step2';
 import Step3 from './Step3';
 import AuthContext from '../../../../context/auth-context';
 import { fileUploadHandler } from '../../../../hooks/useFileUpload';
-import { createRecipeRequest } from '../../../../api/requests';
-// import { RECIPE_FORM_DATA } from '../../../../constants';
+import { createRecipeRequest, editRecipeRequest } from '../../../../api/requests';
 import RecipeContext from '../../../../context/recipe-context';
 import { LoadingOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
-
-// const initialRecipeFormData = localStorage.getItem(RECIPE_FORM_DATA)
-//     ? JSON.parse(localStorage.getItem(RECIPE_FORM_DATA))
-//     : null;
 
 const RecipeForm = () => {
     const { userInfo } = useContext(AuthContext);
@@ -33,16 +28,16 @@ const RecipeForm = () => {
     const {
         recipeDetail: { dataResponse, isLoading, error },
         onFetchDetail,
-        // onClearDetail,
+        onClearDetail,
     } = useContext(RecipeContext);
 
     useEffect(() => {
         if (id) {
             onFetchDetail(id);
         }
-        // return () => {
-        //     onClearDetail();
-        // };
+        return () => {
+            onClearDetail();
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
@@ -107,28 +102,59 @@ const RecipeForm = () => {
     }, [shouldFinish]);
 
     useEffect(() => {
-        if (!fileError && video && listDishImage.length > 0 && listDishImage.length === recipeFormData?.files?.length) {
+        if (
+            !fileError &&
+            video &&
+            listDishImage.length > 0 &&
+            (id ? true : listDishImage.length === recipeFormData?.files?.length)
+        ) {
             createRecipeHandler();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [recipeFormData?.files, fileError, video, listDishImage.length]);
 
     function uploadRecipeAssetsHandler() {
-        fileUploadHandler(
-            recipeFormData.videoFile,
-            setIsUploading,
-            setProgress,
-            setFileError,
-            (videoUrl) => {
-                setVideo(videoUrl);
+        if (id) {
+            if (!recipeFormData?.videoFile) {
+                setVideo(dataResponse?.video);
+            } else {
+                fileUploadHandler(
+                    recipeFormData.videoFile,
+                    setIsUploading,
+                    setProgress,
+                    setFileError,
+                    (videoUrl) => {
+                        setVideo(videoUrl);
+                    },
+                    'videos/',
+                );
+            }
+            if (![...recipeFormData.files].length) {
+                setListDishImage(dataResponse?.dishImageList.map(({ url, note }) => ({ url, note })));
+            } else {
                 [...recipeFormData.files].forEach((file) => {
                     fileUploadHandler(file, setIsUploading, setProgress, setFileError, (url) => {
                         setListDishImage((prevState) => [...prevState, { url, note: '' }]);
                     });
                 });
-            },
-            'videos/',
-        );
+            }
+        } else {
+            fileUploadHandler(
+                recipeFormData.videoFile,
+                setIsUploading,
+                setProgress,
+                setFileError,
+                (videoUrl) => {
+                    setVideo(videoUrl);
+                },
+                'videos/',
+            );
+            [...recipeFormData.files].forEach((file) => {
+                fileUploadHandler(file, setIsUploading, setProgress, setFileError, (url) => {
+                    setListDishImage((prevState) => [...prevState, { url, note: '' }]);
+                });
+            });
+        }
     }
 
     function createRecipeHandler() {
@@ -146,7 +172,7 @@ const RecipeForm = () => {
             formulaId: {
                 describe: recipeFormData.description,
                 summary: '',
-                listStep: recipeFormData.listStep.map((step, index) => ({
+                listStep: recipeFormData?.listStep.map((step, index) => ({
                     describe: step.describe,
                     title: index + 1,
                 })),
@@ -178,7 +204,20 @@ const RecipeForm = () => {
                 })),
             ],
         };
-        // localStorage.setItem(RECIPE_FORM_DATA, JSON.stringify(payloadToSubmit));
+        if (id) {
+            return editRecipeRequest(id, payloadToSubmit)
+                .then(({ data }) => {
+                    setIsCreating(false);
+                    notification.open({
+                        message: data,
+                    });
+                    navigate('/admin/recipes');
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setIsCreating(false);
+                });
+        }
         createRecipeRequest(payloadToSubmit)
             .then(({ data }) => {
                 setIsCreating(false);
@@ -214,7 +253,20 @@ const RecipeForm = () => {
     return (
         <section className={`recipe-form__container pb-4 ${isUploading || isCreating ? 'divDisabled' : ''}`}>
             {fileError && <p className="error-message">{fileError}</p>}
-            <Step1 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} id={id} step={step} />
+            <Step1
+                recipeFormData={recipeFormData}
+                setRecipeFormData={setRecipeFormData}
+                id={id}
+                step={step}
+                isLoading={isLoading}
+                initialValues={{
+                    name: recipeFormData.name || '',
+                    description: recipeFormData.description || '',
+                    Level: recipeFormData?.Level || '',
+                    numberPeopleForDish: recipeFormData.numberPeopleForDish || 0,
+                    time: recipeFormData?.time || 0,
+                }}
+            />
             {step === '2' && <Step2 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} id={id} />}
             {step === '3' && (
                 <Step3
