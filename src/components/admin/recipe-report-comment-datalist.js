@@ -1,6 +1,6 @@
 import styles from './data-list.module.css';
 import { useMediaQuery } from 'react-responsive';
-import { SettingOutlined, DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import Paginator from '../common/Paginator';
 
 function MobileCard({ item, no, onEdit, onDelete }) {
@@ -10,14 +10,6 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                 <div className="custom-col">
                     <strong />
                     <div className="d-flex align-items-center mw-60-px gap-2">
-                        <SettingOutlined
-                            style={{
-                                cursor: 'pointer',
-                                fontSize: 16,
-                                color: '#289AE7',
-                            }}
-                            onClick={() => onEdit(item.dishCommentID)}
-                        />
                         <DeleteOutlined
                             style={{
                                 cursor: 'pointer',
@@ -25,6 +17,14 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                                 color: '#f53838',
                             }}
                             onClick={() => onDelete(item.dishCommentID)}
+                        />
+                        <CloseCircleOutlined
+                            style={{
+                                cursor: 'pointer',
+                                fontSize: 18,
+                                color: '#289AE7',
+                            }}
+                            onClick={() => onEdit(item.blogCommentID)}
                         />
                     </div>
                 </div>
@@ -34,7 +34,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                 </div>
                 <div className="custom-col">
                     <strong>Mô tả nội dung</strong>
-                    <p>{item.content}</p>
+                    <p>{item.content?.substr(0, 45)}</p>
                 </div>
                 <div className="custom-col">
                     <strong>Ngày tạo</strong>
@@ -67,7 +67,7 @@ const RecipeReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxP
     let listRecipeCommentReportMarkup = list.map((item, index) => (
         <li key={item.dishCommentID} className={styles.dataItem}>
             <span className={styles.no}>{index + 1}</span>
-            <span>{item.content}</span>
+            <span>{item.content?.substr(0, 45)}</span>
             <span>{item?.createDate || '-'}</span>
             <span>{item.accountUserName}</span>
             <span>{item.totalLike}</span>
@@ -75,14 +75,6 @@ const RecipeReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxP
             <span>{item.flag}</span>
             <span>
                 <div className="d-flex align-items-center mw-60-px gap-sm">
-                    <SettingOutlined
-                        style={{
-                            cursor: 'pointer',
-                            fontSize: 18,
-                            color: '#289AE7',
-                        }}
-                        onClick={() => onEdit(item.dishCommentID)}
-                    />
                     <DeleteOutlined
                         style={{
                             cursor: 'pointer',
@@ -90,6 +82,14 @@ const RecipeReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxP
                             color: '#f53838',
                         }}
                         onClick={() => onDelete(item.dishCommentID)}
+                    />
+                    <CloseCircleOutlined
+                        style={{
+                            cursor: 'pointer',
+                            fontSize: 18,
+                            color: '#289AE7',
+                        }}
+                        onClick={() => onEdit(item.blogCommentID)}
                     />
                 </div>
             </span>

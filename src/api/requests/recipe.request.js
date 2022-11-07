@@ -101,6 +101,13 @@ const getFavouriteRecipeListRequest = (page = 1, search = '') =>
         },
     });
 
+const approveRecipeCommentRequest = (dishCommentId) =>
+    axios.post(`/approveDishComment?dishCommentId=${dishCommentId}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
@@ -122,4 +129,5 @@ export {
     deleteRecipeCommentRequest,
     getListReportRecipeCommentRequest,
     getFavouriteRecipeListRequest,
+    approveRecipeCommentRequest,
 };

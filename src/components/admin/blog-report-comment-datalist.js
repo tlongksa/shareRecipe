@@ -34,7 +34,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                 </div>
                 <div className="custom-col">
                     <strong>Mô tả nội dung</strong>
-                    <p>{item.content}</p>
+                    <p>{item.content?.substr(0, 45)}</p>
                 </div>
                 <div className="custom-col">
                     <strong>Ngày tạo</strong>
@@ -67,7 +67,7 @@ const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPag
     let listBlogCommentReportMarkup = list.map((item, index) => (
         <li key={item.blogCommentID} className={styles.dataItem}>
             <span className={styles.no}>{index + 1}</span>
-            <span>{item.content}</span>
+            <span>{item.content?.substr(0, 45)}</span>
             <span>{item?.createDate || '-'}</span>
             <span>{item.accountUserName}</span>
             <span>{item.totalLike}</span>
