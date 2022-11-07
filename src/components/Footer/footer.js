@@ -3,7 +3,7 @@ import { Box, Flex, Text, VStack } from '@chakra-ui/react';
 
 export default function Footer() {
     return (
-        <Flex p={10} justifyContent="center" boxShadow="inner" >
+        <Flex p={10} justifyContent="center" boxShadow="inner">
             <VStack w="75%">
                 <Box p={5}>
                     <Text fontWeight="bold">Made with love ❤️</Text>

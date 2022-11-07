@@ -1,8 +1,7 @@
-import { CheckCircleTwoTone } from "@ant-design/icons";
-import { notification } from "antd";
+import { CheckCircleTwoTone } from '@ant-design/icons';
+import { notification } from 'antd';
 
 export default function openNotification(message) {
-
     notification.open({
         message: message,
         icon: (
@@ -13,4 +12,4 @@ export default function openNotification(message) {
             />
         ),
     });
-};
+}

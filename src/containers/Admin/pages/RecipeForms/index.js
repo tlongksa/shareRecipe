@@ -19,7 +19,6 @@ const RecipeForm = () => {
     const [recipeFormData, setRecipeFormData] = useState({});
     const [shouldFinish, setShouldFinish] = useState(false);
     const navigate = useNavigate();
-    const [_, setProgress] = useState(0);
     const [isUploading, setIsUploading] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
     const [fileError, setFileError] = useState('');
@@ -121,7 +120,6 @@ const RecipeForm = () => {
                 fileUploadHandler(
                     recipeFormData.videoFile,
                     setIsUploading,
-                    setProgress,
                     setFileError,
                     (videoUrl) => {
                         setVideo(videoUrl);
@@ -133,7 +131,7 @@ const RecipeForm = () => {
                 setListDishImage(dataResponse?.dishImageList.map(({ url, note }) => ({ url, note })));
             } else {
                 [...recipeFormData.files].forEach((file) => {
-                    fileUploadHandler(file, setIsUploading, setProgress, setFileError, (url) => {
+                    fileUploadHandler(file, setIsUploading, setFileError, (url) => {
                         setListDishImage((prevState) => [...prevState, { url, note: '' }]);
                     });
                 });
@@ -142,7 +140,6 @@ const RecipeForm = () => {
             fileUploadHandler(
                 recipeFormData.videoFile,
                 setIsUploading,
-                setProgress,
                 setFileError,
                 (videoUrl) => {
                     setVideo(videoUrl);
@@ -150,7 +147,7 @@ const RecipeForm = () => {
                 'videos/',
             );
             [...recipeFormData.files].forEach((file) => {
-                fileUploadHandler(file, setIsUploading, setProgress, setFileError, (url) => {
+                fileUploadHandler(file, setIsUploading, setFileError, (url) => {
                     setListDishImage((prevState) => [...prevState, { url, note: '' }]);
                 });
             });
