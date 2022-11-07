@@ -148,3 +148,15 @@ p {
         }
     }
 }
+.slick-next {
+    right: 5px !important;
+}
+.slick-prev {
+    left: 5px !important;
+    z-index: 5 !important;
+}
+.slick-next:before,
+.slick-prev:before {
+    font-size: 26px !important;
+    color: #1871c2 !important;
+}

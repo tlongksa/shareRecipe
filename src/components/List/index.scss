@@ -1,16 +1,9 @@
-.home__list-category__container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-top: 1rem;
-    padding: 10px 0;
-    padding-left: 0.6rem;
-}
 .home-category-list__title,
 .home-list__title {
     font-size: 24px;
     font-weight: bold;
     font-style: italic;
+    margin: 1rem 0;
 }
 .category-list__item {
     background-color: #d8e2dc;
@@ -117,6 +110,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 2; /* number of lines to show */
     -webkit-box-orient: vertical;
+    height: 48px;
 }
 .recipe-info__text-view {
     padding: 0 1.5rem 1rem 1.5rem;
