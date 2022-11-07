@@ -41,6 +41,7 @@ const BlogCommentReports = lazy(() => import('./containers/Admin/pages/BlogComme
 const RecipeCommentReports = lazy(() => import('./containers/Admin/pages/RecipeCommentReports'));
 const RecipeCategories = lazy(() => import('./containers/Admin/pages/RecipeCategories'));
 const FavouriteRecipes = lazy(() => import('./containers/FavouriteRecipes'));
+const MyRecipes = lazy(() => import('./containers/mod/MyRecipes'));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -135,6 +136,14 @@ root.render(
                                         element={
                                             <SuspenseWrapper>
                                                 <FavouriteRecipes />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
+                                        path="/my-recipes"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <MyRecipes />
                                             </SuspenseWrapper>
                                         }
                                     />

@@ -50,7 +50,7 @@ export const AccountProvider = ({ children }) => {
                 );
             })
             .catch((err) => {
-                dispatchContext(accountGetListFailureAction(err?.message));
+                dispatchContext(accountGetListFailureAction(err?.response?.data));
             });
     };
 
@@ -61,7 +61,7 @@ export const AccountProvider = ({ children }) => {
                 dispatchContext(accountGetDetailSuccessAction(data));
             })
             .catch((err) => {
-                dispatchContext(accountGetDetailFailureAction(err?.message));
+                dispatchContext(accountGetDetailFailureAction(err?.response?.data));
             });
     };
 

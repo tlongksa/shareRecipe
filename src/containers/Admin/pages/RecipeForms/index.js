@@ -10,9 +10,12 @@ import { createRecipeRequest, editRecipeRequest } from '../../../../api/requests
 import RecipeContext from '../../../../context/recipe-context';
 import { LoadingOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
+import { ROLES } from '../../../../App';
 
 const RecipeForm = () => {
-    const { userInfo } = useContext(AuthContext);
+    const {
+        userInfo: { roles, username },
+    } = useContext(AuthContext);
     const [searchParams] = useSearchParams();
     const step = searchParams.get('step');
     const id = searchParams.get('id');
@@ -29,6 +32,8 @@ const RecipeForm = () => {
         onFetchDetail,
         onClearDetail,
     } = useContext(RecipeContext);
+
+    const isMod = roles === ROLES.mod;
 
     useEffect(() => {
         if (id) {
@@ -174,7 +179,7 @@ const RecipeForm = () => {
                     title: index + 1,
                 })),
                 account: {
-                    userName: userInfo?.username,
+                    userName: username,
                 },
             },
             listIngredientDetail: [
@@ -208,7 +213,7 @@ const RecipeForm = () => {
                     notification.open({
                         message: data,
                     });
-                    navigate('/admin/recipes');
+                    navigate(isMod ? '/my-recipes' : '/admin/recipes');
                 })
                 .catch((err) => {
                     console.log(err);
@@ -221,7 +226,7 @@ const RecipeForm = () => {
                 notification.open({
                     message: data,
                 });
-                navigate('/admin/recipes');
+                navigate(isMod ? '/my-recipes' : '/admin/recipes');
             })
             .catch((err) => {
                 console.log(err);
@@ -263,6 +268,7 @@ const RecipeForm = () => {
                     numberPeopleForDish: recipeFormData.numberPeopleForDish || 0,
                     time: recipeFormData?.time || 0,
                 }}
+                isMod={isMod}
             />
             {step === '2' && <Step2 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} id={id} />}
             {step === '3' && (

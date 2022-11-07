@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
                 dispatchContext(authGetProfileSuccessAction(data));
             })
             .catch((err) => {
-                dispatchContext(authGetProfileFailureAction(err?.message));
+                dispatchContext(authGetProfileFailureAction(err?.response?.data));
             });
     };
 

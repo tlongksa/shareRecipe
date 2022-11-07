@@ -50,7 +50,7 @@ export const BmiProvider = ({ children }) => {
                 dispatchContext(bmiGetDetailSuccessAction(data));
             })
             .catch((err) => {
-                dispatchContext(bmiGetDetailFailureAction(err?.message));
+                dispatchContext(bmiGetDetailFailureAction(err?.response?.data));
             });
     };
 
@@ -61,7 +61,7 @@ export const BmiProvider = ({ children }) => {
                 dispatchContext(bmiGetRecipeListSuccessAction(data));
             })
             .catch((err) => {
-                dispatchContext(bmiGetRecipeListFailureAction(err?.message));
+                dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
             });
     };
 
@@ -72,7 +72,7 @@ export const BmiProvider = ({ children }) => {
                 dispatchContext(bmiGetRecipeListSuccessAction([data]));
             })
             .catch((err) => {
-                dispatchContext(bmiGetRecipeListFailureAction(err?.message));
+                dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
             });
     };
 
@@ -83,7 +83,7 @@ export const BmiProvider = ({ children }) => {
                 dispatchContext(bmiGetMainIngredientsSuccessAction(data));
             })
             .catch((err) => {
-                dispatchContext(bmiGetMainIngredientsFailureAction(err?.message));
+                dispatchContext(bmiGetMainIngredientsFailureAction(err?.response?.data));
             });
     };
 

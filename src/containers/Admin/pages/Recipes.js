@@ -3,8 +3,10 @@ import { notification } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteRecipeRequest } from '../../../api/requests';
+import { ROLES } from '../../../App';
 import RecipeDataList from '../../../components/admin/recipe-datalist';
 import Input from '../../../components/common/Input/Input';
+import AuthContext from '../../../context/auth-context';
 import RecipeContext from '../../../context/recipe-context';
 
 const Recipes = () => {
@@ -13,6 +15,9 @@ const Recipes = () => {
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
+    const {
+        userInfo: { roles },
+    } = useContext(AuthContext);
 
     useEffect(() => {
         onAdminFetchMore(1);
@@ -96,6 +101,13 @@ const Recipes = () => {
                     onAdminFetchMore(page, search || '');
                 }}
                 onEdit={(id) => navigate(`/admin/recipe-form?step=1&id=${id}`)}
+                onView={
+                    roles === ROLES.mod
+                        ? (id) => {
+                              navigate(`/recipe-detail/${id}`);
+                          }
+                        : null
+                }
             />
             {isLoading && (
                 <div className="global-list__loader-container">

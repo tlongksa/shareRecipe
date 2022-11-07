@@ -34,7 +34,7 @@ export const NavMenuCenter = ({ className }) => {
                     Yêu thích
                 </NavLink>
             )}
-            {accessToken && (
+            {roles === ROLES.mod && (
                 <NavLink to="/my-recipes" className="ps-4">
                     Các công thức
                 </NavLink>
@@ -96,7 +96,7 @@ export const ProfileTogglerMenu = ({ handleLogout }) => {
                 >
                     Đổi mật khẩu
                 </CDropdownItem>
-                {roles !== ROLES.user && (
+                {roles === ROLES.admin && (
                     <CDropdownItem
                         onClick={() => {
                             navigate(`/admin/accounts`);

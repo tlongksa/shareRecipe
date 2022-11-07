@@ -21,6 +21,12 @@ const adminGetRecipeListRequest = (page = 1, search = '') =>
             authorization: `Bearer ${token || ''}`,
         },
     });
+const modeGetRecipeListRequest = (creator, page = 1, search = '') =>
+    axios.get(`/mod/listRecipeOfCreater?creator=${creator}&pageIndex=${page}&searchData=${search}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
 
 const getListRecipeByNameRequest = (name, page = 1, search = '') =>
     axios.get(`/searchdishbyname?name=${name}&pageIndex=${page}&searchData=${search}`);
@@ -146,4 +152,5 @@ export {
     approveRecipeCommentRequest,
     editRecipeRequest,
     deleteCategoryRequest,
+    modeGetRecipeListRequest,
 };

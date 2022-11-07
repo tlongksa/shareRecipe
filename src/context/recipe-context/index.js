@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { createContext, useReducer } from 'react';
+import { createContext, useContext, useReducer } from 'react';
 import {
     recipeGetListAction,
     recipeGetListSuccessAction,
@@ -36,7 +36,10 @@ import {
     getListRecipeCategoriesRequest,
     getListReportRecipeCommentRequest,
     getFavouriteRecipeListRequest,
+    modeGetRecipeListRequest,
 } from '../../api/requests';
+import AuthContext from '../auth-context';
+import { ROLES } from '../../App';
 
 export const defaultValues = {
     list: [],
@@ -86,6 +89,9 @@ const RecipeContext = createContext(defaultValues);
 
 export const RecipeProvider = ({ children }) => {
     const [state, dispatchContext] = useReducer(recipeReducer, defaultValues);
+    const {
+        userInfo: { roles, username },
+    } = useContext(AuthContext);
 
     const fetchRecipeListByCategory = (categoryId, page, search = '') => {
         dispatchContext(recipeGetListAction());
@@ -103,7 +109,7 @@ export const RecipeProvider = ({ children }) => {
                 );
             })
             .catch((err) => {
-                dispatchContext(recipeGetListFailureAction(err?.message));
+                dispatchContext(recipeGetListFailureAction(err?.response?.data));
             });
     };
 
@@ -114,13 +120,18 @@ export const RecipeProvider = ({ children }) => {
                 dispatchContext(recipeGetDetailSuccessAction(data));
             })
             .catch((err) => {
-                dispatchContext(recipeGetDetailFailureAction(err?.message));
+                dispatchContext(recipeGetDetailFailureAction(err?.response?.data));
             });
     };
 
     const fetchAdminRecipeList = (page, search = '') => {
         dispatchContext(recipeAdminGetListAction());
-        adminGetRecipeListRequest(page, search)
+        console.log(roles);
+        const promise =
+            roles === ROLES.mod
+                ? modeGetRecipeListRequest(username, page, search)
+                : adminGetRecipeListRequest(page, search);
+        promise
             .then(({ data }) => {
                 const { dishFormulaVoList = [], pageIndex, numOfPages } = data;
                 dispatchContext(
@@ -134,7 +145,7 @@ export const RecipeProvider = ({ children }) => {
                 );
             })
             .catch((err) => {
-                dispatchContext(recipeAdminGetListFailureAction(err?.message));
+                dispatchContext(recipeAdminGetListFailureAction(err?.response?.data));
             });
     };
 
@@ -154,7 +165,7 @@ export const RecipeProvider = ({ children }) => {
                 );
             })
             .catch((err) => {
-                dispatchContext(recipeGetListByNameFailureAction(err?.message));
+                dispatchContext(recipeGetListByNameFailureAction(err?.response?.data));
             });
     };
 
@@ -165,7 +176,7 @@ export const RecipeProvider = ({ children }) => {
                 dispatchContext(recipeGetListCategorySuccessAction(data));
             })
             .catch((err) => {
-                dispatchContext(recipeGetListCategoryFailureAction(err?.message));
+                dispatchContext(recipeGetListCategoryFailureAction(err?.response?.data));
             });
     };
 
@@ -185,7 +196,7 @@ export const RecipeProvider = ({ children }) => {
                 );
             })
             .catch((err) => {
-                dispatchContext(recipeGetCommentReportListFailureAction(err?.message));
+                dispatchContext(recipeGetCommentReportListFailureAction(err?.response?.data));
             });
     };
 
@@ -205,7 +216,7 @@ export const RecipeProvider = ({ children }) => {
                 );
             })
             .catch((err) => {
-                dispatchContext(recipeGetFavouriteListFailureAction(err?.message));
+                dispatchContext(recipeGetFavouriteListFailureAction(err?.response?.data));
             });
     };
 

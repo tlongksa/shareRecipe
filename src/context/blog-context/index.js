@@ -91,7 +91,7 @@ export const BlogProvider = ({ children }) => {
                 );
             })
             .catch((err) => {
-                dispatchContext(blogGetListFailureAction(err?.message));
+                dispatchContext(blogGetListFailureAction(err?.response?.data));
             });
     };
 
@@ -102,7 +102,7 @@ export const BlogProvider = ({ children }) => {
                 dispatchContext(blogGetDetailSuccessAction(data));
             })
             .catch((err) => {
-                dispatchContext(blogGetDetailFailureAction(err?.message));
+                dispatchContext(blogGetDetailFailureAction(err?.response?.data));
             });
     };
 
@@ -121,7 +121,7 @@ export const BlogProvider = ({ children }) => {
                 );
             })
             .catch((err) => {
-                dispatchContext(blogGetCommentsFailureAction(err?.message));
+                dispatchContext(blogGetCommentsFailureAction(err?.response?.data));
             });
     };
 
@@ -141,7 +141,7 @@ export const BlogProvider = ({ children }) => {
                 );
             })
             .catch((err) => {
-                dispatchContext(blogGetListPendingFailureAction(err?.message));
+                dispatchContext(blogGetListPendingFailureAction(err?.response?.data));
             });
     };
 
@@ -161,7 +161,7 @@ export const BlogProvider = ({ children }) => {
                 );
             })
             .catch((err) => {
-                dispatchContext(blogGetCommentReportListFailureAction(err?.message));
+                dispatchContext(blogGetCommentReportListFailureAction(err?.response?.data));
             });
     };
 

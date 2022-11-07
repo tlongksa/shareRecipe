@@ -1,9 +1,9 @@
 import styles from './data-list.module.css';
 import { useMediaQuery } from 'react-responsive';
-import { SettingOutlined, DeleteOutlined } from '@ant-design/icons';
+import { SettingOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import Paginator from '../common/Paginator';
 
-function MobileCard({ item, no, onEdit, onDelete }) {
+function MobileCard({ item, no, onEdit, onDelete, onView }) {
     return (
         <div className="custom-card">
             <div className="custom-row">
@@ -26,6 +26,16 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                             }}
                             onClick={() => onDelete(item.dishID)}
                         />
+                        {onView && (
+                            <EyeOutlined
+                                style={{
+                                    cursor: 'pointer',
+                                    fontSize: 18,
+                                    color: '#f53838',
+                                }}
+                                onClick={() => onView(item.dishID)}
+                            />
+                        )}
                     </div>
                 </div>
                 <div className="custom-col">
@@ -57,7 +67,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
     );
 }
 
-const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCallback }) => {
+const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCallback, onView }) => {
     const isMobile = useMediaQuery({ query: `(max-width: 768px)` });
 
     let listRecipeMarkup = list.map((item, index) => (
@@ -86,6 +96,16 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
                         }}
                         onClick={() => onDelete(item.dishID)}
                     />
+                    {onView && (
+                        <EyeOutlined
+                            style={{
+                                cursor: 'pointer',
+                                fontSize: 18,
+                                color: '#f53838',
+                            }}
+                            onClick={() => onView(item.dishID)}
+                        />
+                    )}
                 </div>
             </span>
         </li>
@@ -93,7 +113,14 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
 
     if (isMobile) {
         listRecipeMarkup = list.map((item, index) => (
-            <MobileCard no={index + 1} key={item.dishID} item={item} onEdit={onEdit} onDelete={onDelete} />
+            <MobileCard
+                no={index + 1}
+                key={item.dishID}
+                item={item}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                onView={onView}
+            />
         ));
     }
 
