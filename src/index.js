@@ -17,12 +17,12 @@ import AdminLayout from './containers/Admin/AdminLayout';
 const Login = lazy(() => import('./containers/Auth/Login'));
 const Register = lazy(() => import('./containers/Auth/Register'));
 const HomePage = lazy(() => import('./containers/Home/HomePage'));
-const About = lazy(() => import('./containers/Page/about'));
-const Contact = lazy(() => import('./containers/Page/contact'));
+const About = lazy(() => import('./containers/Page/About'));
+const Contact = lazy(() => import('./containers/Page/Contact'));
 const BmiInfo = lazy(() => import('./containers/Page/BmiInfo'));
-const Save = lazy(() => import('./containers/Page/save'));
+const Save = lazy(() => import('./containers/Page/Save'));
 const ForgotPassword = lazy(() => import('./containers/Auth/forgotPassword'));
-const Profile = lazy(() => import('./containers/User/profile'));
+const Profile = lazy(() => import('./containers/User/UserProfile'));
 const RecipesByCategory = lazy(() => import('./components/List/RecipesByCategory'));
 
 const NotFound = lazy(() => import('./components/Error/NotFound'));
