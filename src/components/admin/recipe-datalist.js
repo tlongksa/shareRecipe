@@ -9,7 +9,7 @@ function MobileCard({ item, no, onEdit, onDelete, onView }) {
             <div className="custom-row">
                 <div className="custom-col">
                     <strong />
-                    <div className="d-flex align-items-center mw-60-px gap-2">
+                    <div className="d-flex align-items-center mw-80-px gap-2">
                         <SettingOutlined
                             style={{
                                 cursor: 'pointer',
@@ -31,7 +31,6 @@ function MobileCard({ item, no, onEdit, onDelete, onView }) {
                                 style={{
                                     cursor: 'pointer',
                                     fontSize: 18,
-                                    color: '#f53838',
                                 }}
                                 onClick={() => onView(item.dishID)}
                             />
@@ -52,7 +51,7 @@ function MobileCard({ item, no, onEdit, onDelete, onView }) {
                 </div>
                 <div className="custom-col">
                     <strong>Mô tả</strong>
-                    <p>{item.formulaDescribe}</p>
+                    <p>{item.formulaDescribe?.substr(0, 45)}</p>
                 </div>
                 <div className="custom-col">
                     <strong>Ngày tạo</strong>
@@ -75,11 +74,11 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
             <span className={styles.no}>{index + 1}</span>
             <span>{item.dishID}</span>
             <span>{item.dishName || '-'}</span>
-            <span>{item.formulaDescribe || '-'}</span>
+            <span>{item.formulaDescribe?.substr(0, 45) || '-'}</span>
             <span>{item?.createDate || '-'}</span>
             <span>{item.verifier}</span>
             <span>
-                <div className="d-flex align-items-center mw-60-px gap-sm">
+                <div className="d-flex align-items-center mw-80-px gap-sm">
                     <SettingOutlined
                         style={{
                             cursor: 'pointer',
@@ -101,7 +100,6 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
                             style={{
                                 cursor: 'pointer',
                                 fontSize: 18,
-                                color: '#f53838',
                             }}
                             onClick={() => onView(item.dishID)}
                         />

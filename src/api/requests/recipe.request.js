@@ -22,7 +22,7 @@ const adminGetRecipeListRequest = (page = 1, search = '') =>
         },
     });
 const modeGetRecipeListRequest = (creator, page = 1, search = '') =>
-    axios.get(`/mod/listRecipeOfCreater?creator=${creator}&pageIndex=${page}&searchData=${search}`, {
+    axios.get(`/mod/listRecipeOfCreater?creater=${creator}&pageIndex=${page}&searchData=${search}`, {
         headers: {
             authorization: `Bearer ${token || ''}`,
         },

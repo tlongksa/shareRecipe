@@ -71,7 +71,7 @@ const Login = () => {
     return (
         <div className="custom-page__container">
             <form onSubmit={handleSubmit} className="background">
-                <h2 className="login__page-title">Wellcome to OiShii</h2>
+                <h2 className="login__page-title mb-3">Wellcome to OiShii</h2>
                 <div className="login-form__container">
                     <div className="left"></div>
                     <div className="right-login bg-gray-custom">

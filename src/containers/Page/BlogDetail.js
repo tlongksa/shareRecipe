@@ -4,7 +4,6 @@ import BlogContext from '../../context/blog-context';
 import { BlogForm, BlogItem } from './Blogs';
 import './blogs.scss';
 import {
-    LoadingOutlined,
     EllipsisOutlined,
     LikeOutlined,
     DislikeOutlined,
@@ -98,8 +97,6 @@ const BlogDetail = () => {
         onFetchDetail,
         onFetchComments,
         onClearDetail,
-        onLikeItemDetail,
-        onDislikeItemDetail,
     } = useContext(BlogContext);
     const dataFetchedRef = useRef(false);
     const {
@@ -122,8 +119,6 @@ const BlogDetail = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
-    console.log(isProcessing);
-
     const onCommentSubmit = (e) => {
         e.preventDefault();
         setIsProcessing(true);
@@ -145,7 +140,7 @@ const BlogDetail = () => {
     const onLikeBlogHandler = (blogId) => {
         likeBlogRequest(blogId)
             .then(() => {
-                onLikeItemDetail();
+                onFetchDetail(id);
             })
             .catch((err) => {
                 console.log(err);
@@ -155,7 +150,7 @@ const BlogDetail = () => {
     const onDislikeBlogHandler = (blogId) => {
         dislikeBlogRequest(blogId)
             .then(() => {
-                onDislikeItemDetail();
+                onFetchDetail(id);
             })
             .catch((err) => {
                 console.log(err);
@@ -214,7 +209,10 @@ const BlogDetail = () => {
 
     const onReportBlogCommentHandler = (blogCmtId) => {
         reportBlogCommentRequest(blogCmtId)
-            .then(() => {
+            .then(({ data }) => {
+                notification.open({
+                    message: data?.messContent,
+                });
                 onFetchComments(id, comments.extraListInfo.pageIndex);
             })
             .catch((err) => {
@@ -227,68 +225,60 @@ const BlogDetail = () => {
     }
 
     return (
-        <section className={`client-blog-detail__container`}>
+        <section className={`client-blog-detail__container ${isProcessing ? 'divDisabled' : ''}`}>
             <div className="custom-page__container">
-                {isLoading ? (
-                    <div className="blog-detail__loader-container">
-                        <LoadingOutlined className="blog-detail__loader-icon" />
-                    </div>
-                ) : (
-                    <>
-                        <BlogItem
-                            item={dataResponse}
-                            isAuthenticated={isAuthenticated}
-                            onLike={onLikeBlogHandler}
-                            onDislike={onDislikeBlogHandler}
-                            onDelete={onDeleteBlogHandler}
-                            username={username}
-                            hideDeleteIcon
-                            onEdit={(blog) => {
-                                setShowEditBlog(true);
-                            }}
-                        />
-                        <div className={`blog-comments__list-container`}>
-                            <div className="blog-comments__list">
-                                {comments.dataResponse.map((item) => (
-                                    <BlogCommentItem
-                                        key={item.blogCommentID}
-                                        item={item}
-                                        isAuthenticated={isAuthenticated}
-                                        username={username}
-                                        onDelete={onDeleteBlogCommentHandler}
-                                        onLike={onLikeBlogCmtHandler}
-                                        onDislike={onDislikeBlogCmtHandler}
-                                        onReport={onReportBlogCommentHandler}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                        <div className="d-flex justify-content-end">
-                            <Paginator
-                                isLoading={isLoading}
-                                maxPage={comments.extraListInfo.numOfPages}
-                                curPage={comments.extraListInfo.pageIndex}
-                                scrollAfterClicking={false}
-                                callback={(page) => onFetchComments(id, page)}
+                <BlogItem
+                    item={dataResponse}
+                    isAuthenticated={isAuthenticated}
+                    onLike={onLikeBlogHandler}
+                    onDislike={onDislikeBlogHandler}
+                    onDelete={onDeleteBlogHandler}
+                    username={username}
+                    hideDeleteIcon
+                    onEdit={(blog) => {
+                        setShowEditBlog(true);
+                    }}
+                />
+                <div className={`blog-comments__list-container`}>
+                    <div className="blog-comments__list">
+                        {comments.dataResponse.map((item) => (
+                            <BlogCommentItem
+                                key={item.blogCommentID}
+                                item={item}
+                                isAuthenticated={isAuthenticated}
+                                username={username}
+                                onDelete={onDeleteBlogCommentHandler}
+                                onLike={onLikeBlogCmtHandler}
+                                onDislike={onDislikeBlogCmtHandler}
+                                onReport={onReportBlogCommentHandler}
                             />
+                        ))}
+                    </div>
+                </div>
+                <div className="d-flex justify-content-end">
+                    <Paginator
+                        isLoading={isLoading}
+                        maxPage={comments.extraListInfo.numOfPages}
+                        curPage={comments.extraListInfo.pageIndex}
+                        scrollAfterClicking={false}
+                        callback={(page) => onFetchComments(id, page)}
+                    />
+                </div>
+                <div className="comment-form__container">
+                    <form onSubmit={onCommentSubmit} className="comment-form__inner">
+                        <Input
+                            type="textarea"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            placeholder="Bình luận ..."
+                        />
+                        <div className="d-flex justify-content-end">
+                            <button className="button button-sm" type="submit" disabled={!content.trim()}>
+                                Post
+                            </button>
                         </div>
-                        <div className="comment-form__container">
-                            <form onSubmit={onCommentSubmit} className="comment-form__inner">
-                                <Input
-                                    type="textarea"
-                                    value={content}
-                                    onChange={(e) => setContent(e.target.value)}
-                                    placeholder="Bình luận ..."
-                                />
-                                <div className="d-flex justify-content-end">
-                                    <button className="button button-sm" type="submit" disabled={!content.trim()}>
-                                        Post
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </>
-                )}
+                    </form>
+                </div>
             </div>
             <BlogForm
                 show={showEditBlog}

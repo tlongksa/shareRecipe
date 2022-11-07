@@ -126,7 +126,6 @@ export const RecipeProvider = ({ children }) => {
 
     const fetchAdminRecipeList = (page, search = '') => {
         dispatchContext(recipeAdminGetListAction());
-        console.log(roles);
         const promise =
             roles === ROLES.mod
                 ? modeGetRecipeListRequest(username, page, search)
