@@ -3,8 +3,6 @@ import { useMediaQuery } from 'react-responsive';
 import { SettingOutlined, DeleteOutlined } from '@ant-design/icons';
 import Paginator from '../common/Paginator';
 
-export const MAX_ITEMS = 5;
-
 function MobileCard({ item, no, onEdit, onDelete }) {
     return (
         <div className="custom-card">
@@ -35,6 +33,10 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                     <p>{no}</p>
                 </div>
                 <div className="custom-col">
+                    <strong>Id</strong>
+                    <p>{item.dishID}</p>
+                </div>
+                <div className="custom-col">
                     <strong>Tên công thức</strong>
                     <p>{item.dishName}</p>
                 </div>
@@ -60,7 +62,8 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
 
     let listRecipeMarkup = list.map((item, index) => (
         <li key={item.dishID} className={styles.dataItem}>
-            <span className={styles.no}>{index + 1 + (currentPage - 1) * MAX_ITEMS}</span>
+            <span className={styles.no}>{index + 1}</span>
+            <span>{item.dishID}</span>
             <span>{item.dishName || '-'}</span>
             <span>{item.formulaDescribe || '-'}</span>
             <span>{item?.createDate || '-'}</span>
@@ -100,6 +103,7 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
                 {!isMobile && (
                     <li className={[styles.dataItem, styles.dataItemHead].join(' ')}>
                         <strong className={styles.no}>No</strong>
+                        <strong>Id</strong>
                         <strong>Tên công thức</strong>
                         <strong>Mô tả</strong>
                         <strong>Ngày tạo </strong>

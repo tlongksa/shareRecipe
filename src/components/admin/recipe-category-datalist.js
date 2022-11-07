@@ -35,6 +35,10 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                     <p>{no}</p>
                 </div>
                 <div className="custom-col">
+                    <strong>Id</strong>
+                    <p>{item.dishCategoryID}</p>
+                </div>
+                <div className="custom-col">
                     <strong>Tên thể loại</strong>
                     <p>{item.name}</p>
                 </div>
@@ -56,6 +60,7 @@ const RecipeCategoryDatalist = ({ list, onEdit, onDelete }) => {
     let listRecipeCategoryMarkup = list.slice((curPage - 1) * MAX_ITEMS, curPage * MAX_ITEMS).map((item, index) => (
         <li key={item.dishCategoryID} className={styles.dataItem}>
             <span className={styles.no}>{index + 1}</span>
+            <span>{item.dishCategoryID}</span>
             <span>{item.name || '-'}</span>
             <span>
                 <img src={item.dishCategoryImage} alt="" width={80} />
@@ -96,6 +101,7 @@ const RecipeCategoryDatalist = ({ list, onEdit, onDelete }) => {
                 {!isMobile && (
                     <li className={[styles.dataItem, styles.dataItemHead].join(' ')}>
                         <strong className={styles.no}>No</strong>
+                        <strong>Id</strong>
                         <strong>Tên thể loại</strong>
                         <strong>Ảnh mô tả</strong>
                         <strong />

@@ -13,12 +13,12 @@ const RecipeCategories = () => {
 
     return (
         <>
+            <RecipeCategoryDatalist list={categories.list} />
             {categories.isLoading && (
                 <div className="global-list__loader-container">
                     <LoadingOutlined className="global-list__loader-icon" />
                 </div>
             )}
-            <RecipeCategoryDatalist list={categories.list} />
         </>
     );
 };

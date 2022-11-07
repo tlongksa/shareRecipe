@@ -5,8 +5,6 @@ import Paginator from '../common/Paginator';
 import { mapRoleKeyToText, role_options } from '../../constants';
 import Input from '../common/Input/Input';
 
-export const MAX_ITEMS = 5;
-
 function MobileCard({ item, no, onEdit, onDelete, onChangeRole }) {
     return (
         <div className="custom-card">
@@ -35,6 +33,10 @@ function MobileCard({ item, no, onEdit, onDelete, onChangeRole }) {
                 <div className="custom-col">
                     <strong>No</strong>
                     <p>{no}</p>
+                </div>
+                <div className="custom-col">
+                    <strong>Id</strong>
+                    <p>{item.accountId}</p>
                 </div>
                 <div className="custom-col">
                     <strong>Họ và tên</strong>
@@ -79,7 +81,8 @@ const UserDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCa
 
     let listUserMarkup = list.map((item, index) => (
         <li key={item.accountId} className={styles.dataItem}>
-            <span className={styles.no}>{index + 1 + (currentPage - 1) * MAX_ITEMS}</span>
+            <span className={styles.no}>{index + 1}</span>
+            <span>{item.accountId}</span>
             <span>{item.userName || '-'}</span>
             <span>{item.userName || '-'}</span>
             <span>{item?.createDate?.substr(0, 10) || '-'}</span>
@@ -136,6 +139,7 @@ const UserDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCa
                 {!isMobile && (
                     <li className={[styles.dataItem, styles.dataItemHead].join(' ')}>
                         <strong className={styles.no}>No</strong>
+                        <strong>Id</strong>
                         <strong>Họ và tên</strong>
                         <strong>Tên đăng nhập</strong>
                         <strong>Ngày Tháng Năm</strong>

@@ -87,11 +87,6 @@ const Accounts = () => {
                     />
                 </form>
             </div>
-            {isLoading && (
-                <div className="global-list__loader-container">
-                    <LoadingOutlined className="global-list__loader-icon" />
-                </div>
-            )}
             <UserDataList
                 list={list}
                 maxPage={extraListInfo.numOfPages}
@@ -102,6 +97,11 @@ const Accounts = () => {
                 onChangeRole={onChangeUserRoleHandler}
                 onDelete={onRemoveUserHandler}
             />
+            {isLoading && (
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
+                </div>
+            )}
         </section>
     );
 };

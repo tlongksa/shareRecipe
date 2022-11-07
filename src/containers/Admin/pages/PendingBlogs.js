@@ -91,11 +91,6 @@ const PendingBlogs = () => {
                     />
                 </form>
             </div>
-            {isLoading && (
-                <div className="global-list__loader-container">
-                    <LoadingOutlined className="global-list__loader-icon" />
-                </div>
-            )}
             <ul className="blog-list_items">
                 {listPendingBlog.map((item, index) => (
                     <BlogItem
@@ -115,6 +110,11 @@ const PendingBlogs = () => {
                 scrollAfterClicking={false}
                 callback={(page) => onFetchMorePendingList(page, search || '')}
             />
+            {isLoading && (
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
+                </div>
+            )}
         </section>
     );
 };
