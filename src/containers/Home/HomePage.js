@@ -39,8 +39,8 @@ const HomePage = (props) => {
         <div key={'home-page__key'}>
             <Carousel activeIndex={index} onSelect={handleSelect}>
                 {carousels.map(({ imgSrc, desc, title }) => (
-                    <Carousel.Item className="img" key={title}>
-                        <img className="d-block w-100 h-10" src={imgSrc} alt={title} />
+                    <Carousel.Item key={title}>
+                        <img className="d-block w-100 h-10 home-carousel__banner-img" src={imgSrc} alt={title} />
                         <Carousel.Caption>
                             <h3>{title}</h3>
                             <p>{desc}</p>
