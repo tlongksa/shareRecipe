@@ -1,7 +1,7 @@
 import './App.css';
 import Navbar from './components/NavBar';
 import { Outlet, useLocation } from 'react-router-dom';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import Footer from './components/Footer/footer';
 import AuthContext from './context/auth-context';
 
@@ -27,15 +27,17 @@ function App() {
     }, [roles, pathname]);
 
     return (
-        <>
+        <Fragment>
             {!hideHeaderAndFooter && (
                 <div className="header">
                     <Navbar />
                 </div>
             )}
-            <Outlet />
+            <div className="main-app__content-container">
+                <Outlet />
+            </div>
             {!hideHeaderAndFooter && <Footer />}
-        </>
+        </Fragment>
     );
 }
 

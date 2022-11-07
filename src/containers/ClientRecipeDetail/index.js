@@ -1,17 +1,63 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.scss';
 import ViewComments from './ViewComment';
-import { Button, Checkbox, Divider } from 'antd';
-import { getRecipeIngredientChangeRequest } from '../../api/requests';
+import { Divider } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import RecipeContext from '../../context/recipe-context';
+import Slider from '../../components/common/Slider';
+
+const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg }) => {
+    return (
+        <div className="top-info__container">
+            <div className="left-view">
+                <img src={bigRecipeImg} alt={dataResponse?.dishName} className="img-view-detail" />
+                <div
+                    style={{
+                        maxWidth: 300,
+                    }}
+                >
+                    <Slider slidesToShow={3}>
+                        {dataResponse?.dishImageList?.map((listImg) => (
+                            <div key={listImg.dishImageID}>
+                                <img
+                                    className="img-view-show"
+                                    src={listImg.url}
+                                    alt="img"
+                                    onClick={() => setBigRecipeImg(listImg.url)}
+                                />
+                            </div>
+                        ))}
+                    </Slider>
+                </div>
+            </div>
+            <div className="right-view flex-fill">
+                <h3 className="mb-2">{dataResponse.dishName}</h3>
+                <div className="mb-2">
+                    <strong>Tổng quan:</strong> {dataResponse.summary || '-'}
+                </div>
+                <div className="mb-2">
+                    <strong>Mô tả:</strong> {dataResponse.formulaDescribe}
+                </div>
+                <div className="mb-2">
+                    <strong>Tổng kalo:</strong> {dataResponse.totalCalo}
+                </div>
+                <div className="mb-2">
+                    <strong>Mức độ:</strong> {dataResponse.level}
+                </div>
+                <div className="mb-2">
+                    <strong>Số người đánh giá:</strong> {dataResponse.numberPeopleForDish}
+                </div>
+                <div className="mb-2">
+                    <strong>Tạo ngày:</strong> {dataResponse.createDate} bởi {dataResponse.verifier}
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const ClientRecipeDetail = () => {
     const { dishId } = useParams();
-    const [replacementIngredientList, setReplacementIngredientList] = useState([]);
-    const [checkedIngredientList, setCheckedIngredientList] = useState([]);
-    const [checkAll, setCheckAll] = useState(false);
     const [bigRecipeImg, setBigRecipeImg] = useState('');
     const {
         recipeDetail: { dataResponse, isLoading, error },
@@ -29,18 +75,6 @@ const ClientRecipeDetail = () => {
         }
     }, [dataResponse]);
 
-    const mapReplacementIngredient = (rootIngId) => {
-        return replacementIngredientList.find((item) => item.ingredientDetailId === rootIngId);
-    };
-
-    const changeIngredient = () => {
-        getRecipeIngredientChangeRequest(checkedIngredientList.join(','))
-            .then((response) => {
-                setReplacementIngredientList(response.data);
-            })
-            .catch((error) => console.log(error));
-    };
-
     if (!isLoading && error) {
         return <p className="error-message">{error || 'Something went wrong!'}</p>;
     }
@@ -54,101 +88,45 @@ const ClientRecipeDetail = () => {
     ) : (
         <div className="recipe-detail__container">
             <div className="custom-page__container">
-                <div className="top-info__container">
-                    <div className="left-view">
-                        <img src={bigRecipeImg} alt={dataResponse?.dishName} className="img-view-detail" />
-                        <div className="flex-full d-flex flex-wrap">
-                            {dataResponse?.dishImageList?.map((listImg) => (
-                                <div key={listImg.dishImageID}>
-                                    <img
-                                        className="img-view-show"
-                                        src={listImg.url}
-                                        alt="img"
-                                        onClick={() => setBigRecipeImg(listImg.url)}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="right-view flex-fill">
-                        <h3 className="mb-3">{dataResponse.dishName}</h3>
-                        <div className="mb-3">Tổng quan:{dataResponse.summary}</div>
-                        <div className="mb-3">Mô tả: {dataResponse.formulaDescribe}</div>
-                        <div className="mb-3">Tổng kalo: {dataResponse.totalCalo} </div>
-                        <div className="mb-3">Mức độ: {dataResponse.level}</div>
-                        <div className="mb-3">Số người đánh giá: {dataResponse.numberPeopleForDish}</div>
-                        <div className="mb-3">
-                            Tạo ngày: {dataResponse.createDate} bởi {dataResponse.verifier}
-                        </div>
-                    </div>
-                </div>
+                <TopRecipeInfo
+                    bigRecipeImg={bigRecipeImg}
+                    dataResponse={dataResponse}
+                    setBigRecipeImg={setBigRecipeImg}
+                />
                 <div className="view-comment">
                     <hr />
-                    <h3 className="view-title">Nguyên liệu:</h3>
-                    <Checkbox
-                        onChange={(e) => {
-                            if (e.target.checked) {
-                                setCheckedIngredientList(
-                                    dataResponse?.ingredientDetailList?.map((ing) => ing.ingredientDetailId),
-                                );
-                            } else {
-                                setCheckedIngredientList([]);
-                            }
-                            setCheckAll(e.target.checked);
-                        }}
-                        checked={checkAll}
-                    >
-                        Check all
-                    </Checkbox>
-                    <br /> <br />
-                    {dataResponse?.ingredientDetailList?.map((listIngredient) => (
-                        <div className="view-ingredient" key={listIngredient.ingredientDetailId}>
-                            <Checkbox
-                                checked={checkedIngredientList.includes(listIngredient.ingredientDetailId)}
-                                onChange={(e) => {
-                                    if (e.target.checked) {
-                                        setCheckedIngredientList((prevState) => [
-                                            ...prevState,
-                                            listIngredient.ingredientDetailId,
-                                        ]);
-                                    } else {
-                                        setCheckedIngredientList((prevState) =>
-                                            prevState.filter((item) => item !== listIngredient.ingredientDetailId),
-                                        );
-                                    }
-                                }}
-                            >
-                                {listIngredient.name}: {listIngredient.quantity} {listIngredient.unit}{' '}
-                                {replacementIngredientList.length > 0 &&
-                                    `${
-                                        mapReplacementIngredient(listIngredient.ingredientDetailId)?.ingredientChangeId
-                                            ? ` - được thay thế bởi ${
-                                                  mapReplacementIngredient(listIngredient.ingredientDetailId)?.name
-                                              } ${
-                                                  mapReplacementIngredient(listIngredient.ingredientDetailId)?.quantity
-                                              } ${mapReplacementIngredient(listIngredient.ingredientDetailId)?.unit}`
-                                            : ' - Không tìm thấy nguyên liệu thay thế cho nguyên liệu này'
-                                    }`}
-                            </Checkbox>
-                        </div>
-                    ))}
-                    <br />
-                    <div className="d-flex justify-content-between align-items-center">
-                        <h3>Nguyên liệu thay thế:</h3>
-                        <Button
-                            style={{ borderRadius: '5px' }}
-                            type="primary"
-                            onClick={() => changeIngredient()}
-                            checked={checkAll}
-                        >
-                            Tìm kiếm
-                        </Button>
-                    </div>
-                    {replacementIngredientList?.map((list) => (
-                        <div key={list.ingredientDetailId}>
-                            {list.name} {list.quantity} {list.unit}
-                        </div>
-                    ))}
+                    <h3 className="view-title">Nguyên liệu chính:</h3>
+                    <ul className="ms-5">
+                        {dataResponse?.ingredientDetailList
+                            ?.filter((it) => it.mainIngredient === 1)
+                            .map((mappedItem) => (
+                                <li key={mappedItem.ingredientDetailId} className="list-bullet">
+                                    {mappedItem.name}
+                                </li>
+                            ))}
+                    </ul>
+                    <h3 className="view-title">Nguyên liệu phụ:</h3>
+                    <ul className="ms-5">
+                        {dataResponse?.ingredientDetailList
+                            ?.filter((it) => it.mainIngredient !== 1)
+                            .map((mappedItem) => (
+                                <Fragment key={mappedItem.ingredientDetailId}>
+                                    <li className="list-bullet">{mappedItem.name}</li>
+                                    {mappedItem.ingredientChangeVoList.length > 0 && (
+                                        <div className="ms-3">
+                                            <p>Có thể thay thế bằng : </p>
+                                            <div className="ms-5">
+                                                {mappedItem.ingredientChangeVoList.map((mappedItem) => (
+                                                    <li key={mappedItem.ingredientChangeId} className="list-bullet">
+                                                        {mappedItem.name}
+                                                    </li>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </Fragment>
+                            ))}
+                    </ul>
                     <Divider />
                     <h3 className="view-title">Cách làm :</h3>
                     <ul>

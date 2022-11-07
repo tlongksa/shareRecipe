@@ -16,7 +16,7 @@ import {
 import Input from '../../components/common/Input/Input';
 import { Link } from 'react-router-dom';
 import Paginator from '../../components/common/Paginator';
-import { dislikeBlogRequest, likeBlogRequest, createBlogRequest } from '../../api/requests';
+import { createBlogRequest } from '../../api/requests';
 import Modal from 'react-bootstrap/Modal';
 import { notification } from 'antd';
 import AuthContext from '../../context/auth-context';
@@ -129,11 +129,11 @@ export const BlogItem = ({
                             isAuthenticated ? '' : 'divDisabled'
                         } ${hideBottomActions ? 'd-none' : ''}`}
                     >
-                        <button onClick={() => onLike(item.blogID)}>
+                        <button onClick={() => onLike && onLike(item.blogID)}>
                             <LikeOutlined />
                             <span>{item.totalLike}</span>
                         </button>
-                        <button onClick={() => onDislike(item.blogID)}>
+                        <button onClick={() => onDislike && onDislike(item.blogID)}>
                             <DislikeOutlined />
                             <span>{item.totalDisLike}</span>
                         </button>
@@ -186,7 +186,6 @@ export const BlogForm = ({ show, setShow, blogData, callback }) => {
                 setIsProcessing(false);
             });
     };
-
     return (
         <Modal
             show={show}
@@ -232,8 +231,7 @@ export const BlogForm = ({ show, setShow, blogData, callback }) => {
 };
 
 const Blogs = () => {
-    const { list, error, isLoading, extraListInfo, onFetchMore, onClearList, onLikeItem, onDislikeItem } =
-        useContext(BlogContext);
+    const { list, error, isLoading, extraListInfo, onFetchMore, onClearList } = useContext(BlogContext);
     const dataFetchedRef = useRef(false);
     const [search, setSearch] = useState('');
     const [showNewBlog, setShowNewBlog] = useState(false);
@@ -253,26 +251,6 @@ const Blogs = () => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const onLikeBLogHandler = (blogId) => {
-        likeBlogRequest(blogId)
-            .then(() => {
-                onLikeItem(blogId);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
-    const onDislikeBLogHandler = (blogId) => {
-        dislikeBlogRequest(blogId)
-            .then(() => {
-                onDislikeItem(blogId);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
 
     if (!isLoading && error) {
         return <p className="error-message">Something went wrong!</p>;
@@ -302,13 +280,7 @@ const Blogs = () => {
                 </div>
                 <ul className="blog-list_items">
                     {list.map((item, index) => (
-                        <BlogItem
-                            key={`${item.blogID}-${index}`}
-                            item={item}
-                            isAuthenticated={isAuthenticated}
-                            onLike={onLikeBLogHandler}
-                            onDislike={onDislikeBLogHandler}
-                        />
+                        <BlogItem key={`${item.blogID}-${index}`} item={item} isAuthenticated={isAuthenticated} />
                     ))}
                 </ul>
                 {isLoading && (

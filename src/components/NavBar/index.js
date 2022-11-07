@@ -34,12 +34,12 @@ export const NavMenuCenter = ({ className }) => {
                     Yêu thích
                 </NavLink>
             )}
-            <NavLink to="/save" className="ps-4">
+            {/* <NavLink to="/save" className="ps-4">
                 Save
             </NavLink>
             <NavLink to="/contact" className="ps-4">
                 Contact
-            </NavLink>
+            </NavLink> */}
             {accessToken && (
                 <NavLink to="/bmi" className="ps-4">
                     BMI

@@ -121,7 +121,7 @@ const BlogDetail = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
-    const onCommentSubmit = async (e) => {
+    const onCommentSubmit = (e) => {
         e.preventDefault();
         setIsProcessing(true);
         commentOnBlogRequest({
@@ -131,6 +131,7 @@ const BlogDetail = () => {
             .then(({ data }) => {
                 setIsProcessing(false);
                 setContent('');
+                onFetchComments(id);
             })
             .catch((err) => {
                 setIsProcessing(false);

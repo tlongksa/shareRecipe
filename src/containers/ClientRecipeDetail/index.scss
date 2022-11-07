@@ -3,6 +3,9 @@
     .top-info__container {
         display: flex;
         gap: 1rem;
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
     }
     .img-view-detail {
         width: 300px;
@@ -21,7 +24,7 @@
         font-size: 20px;
     }
     .view-title {
-        margin: 1.5rem 0;
+        margin: 1rem 0;
     }
     .view-video {
         background-color: aqua;

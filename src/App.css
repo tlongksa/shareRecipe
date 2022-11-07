@@ -19,3 +19,6 @@
     opacity: 1;
     border: 1px solid lightseagreen;
 }
+.main-app__content-container {
+    min-height: 90vh;
+}
