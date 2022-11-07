@@ -1,11 +1,28 @@
 .profile__banner-top {
-    position: relative;
-    .profile-avatar {
-        position: absolute;
-        width: 20%;
-        left: 40%;
-        bottom: -35%;
-        border-radius: 100%;
+    .profile-avatar__container {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        .profile-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 100%;
+            position: relative;
+            top: -90px;
+            @media (max-width: 768px) {
+                width: 90px;
+                height: 90px;
+                top: -45px;
+            }
+        }
+        .profile-avatar__upload {
+            position: relative;
+            top: -85px;
+            @media (max-width: 768px) {
+                top: -40px;
+            }
+        }
     }
 }
 .profile-favourite__recipes {

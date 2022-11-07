@@ -9,7 +9,11 @@ const HomeRecipeItem = ({ item, navigateTo }) => {
             className="home-dish__item"
         >
             <div className="view-week">
-                <img className="view-img" src={item.urlImage || 'https://via.placeholder.com/150'} alt="img" />
+                <img
+                    className="view-img"
+                    src={item.urlImage || item.image || 'https://via.placeholder.com/150'}
+                    alt="img"
+                />
                 <div className="recipe-info__text-view">
                     <h5 className="home-recipe__item-name">{item.name} </h5>
                     <div className="view-top">Độ khó: {item.level}</div>

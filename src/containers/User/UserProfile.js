@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import topBanner from '../../assets/img/profile_background.png';
 import './index.scss';
 import AuthContext from '../../context/auth-context';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, EditOutlined } from '@ant-design/icons';
 import { Form, Formik } from 'formik';
 import { updateAccountProfileRequest } from '../../api/requests';
 import Input from '../../components/common/Input/Input';
@@ -11,7 +11,7 @@ import { ProfileSchema } from '../../validators';
 import FavouriteRecipes from './FavouriteRecipes';
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
 
-const EditProfileForm = ({ item, callback }) => {
+const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const onSubmit = (values) => {
@@ -147,7 +147,14 @@ const EditProfileForm = ({ item, callback }) => {
                             />
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
-                        <div className="d-flex justify-content-end">
+                        <div className="d-flex justify-content-end gap-2">
+                            <button
+                                className="button button-sm button-secondary"
+                                type="button"
+                                onClick={() => setShouldUpdate(false)}
+                            >
+                                Hủy
+                            </button>
                             <button className="button button-sm" type="submit" disabled={item?.messContent}>
                                 Lưu
                             </button>
@@ -193,11 +200,22 @@ const UserProfile = () => {
         <div className="mh-90vh">
             <div className="profile__banner-top">
                 <img src={topBanner} alt="" className="w-100" />
-                <img src={dataResponse?.avatarImage || IMAGE_PLACEHODLER_URI} alt="" className="profile-avatar" />
+                <div className="profile-avatar__container">
+                    <img src={dataResponse?.avatarImage || IMAGE_PLACEHODLER_URI} alt="" className="profile-avatar" />
+                    <EditOutlined
+                        style={{
+                            cursor: 'pointer',
+                            fontSize: 18,
+                            color: '#289AE7',
+                        }}
+                        className="profile-avatar__upload"
+                        onClick={() => {}}
+                    />
+                </div>
             </div>
-            <div className="custom-page__container">
-                <div className="profile-name__container mt-5 pt-4 mb-4">
-                    <h3 className="text-center mt-5">{dataResponse?.name}</h3>
+            <div className="custom-page__container custom-page__container-no__margin-top">
+                <div className="profile-name__container mb-4">
+                    <h3 className="text-center">{dataResponse?.name}</h3>
                 </div>
                 <div className="bg-gray-custom p-4 rounded-2">
                     {shouldUpdate ? (
@@ -207,6 +225,7 @@ const UserProfile = () => {
                                 setShouldUpdate(false);
                                 onUpdateProfile(newValues);
                             }}
+                            setShouldUpdate={setShouldUpdate}
                         />
                     ) : (
                         <>
@@ -228,14 +247,7 @@ const UserProfile = () => {
                             <div className="mb-3">
                                 <strong>Địa chỉ: </strong> {dataResponse?.address}
                             </div>
-                            <div className="d-flex justify-content-end gap-2">
-                                <button
-                                    className="button button-sm button-secondary"
-                                    type="button"
-                                    onClick={() => setShouldUpdate(false)}
-                                >
-                                    Hủy
-                                </button>
+                            <div className="d-flex justify-content-end">
                                 <button
                                     className="button button-sm"
                                     type="button"
