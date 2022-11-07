@@ -5,6 +5,7 @@ import Input from '../../../components/common/Input/Input';
 import RecipeContext from '../../../context/recipe-context';
 import Modal from 'react-bootstrap/Modal';
 import { approveRecipeCommentRequest, deleteRecipeCommentRequest } from '../../../api/requests';
+import { notification } from 'antd';
 
 const RecipeCommentReports = () => {
     const {
@@ -44,7 +45,9 @@ const RecipeCommentReports = () => {
                 .then(({ data }) => {
                     setIsProcessing(false);
                     setSelectedDeleteId('');
-                    console.log(data);
+                    notification.open({
+                        message: data?.messContent,
+                    });
                     onFetchMoreRecipeCommentReport(1);
                 })
                 .catch((err) => {

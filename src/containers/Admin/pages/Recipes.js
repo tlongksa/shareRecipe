@@ -1,4 +1,5 @@
 import { LoadingOutlined, PlusCircleOutlined, SearchOutlined } from '@ant-design/icons';
+import { notification } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteRecipeRequest } from '../../../api/requests';
@@ -7,7 +8,8 @@ import Input from '../../../components/common/Input/Input';
 import RecipeContext from '../../../context/recipe-context';
 
 const Recipes = () => {
-    const { adminRecipeList, isLoading, error, onAdminFetchMore, adminRecipeExtraListInfo } = useContext(RecipeContext);
+    const { adminRecipeList, isLoading, error, onAdminFetchMore, adminRecipeExtraListInfo, onRemoveItemFromList } =
+        useContext(RecipeContext);
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
@@ -22,6 +24,10 @@ const Recipes = () => {
         deleteRecipeRequest(id)
             .then(({ data }) => {
                 setIsProcessing(false);
+                onRemoveItemFromList(id);
+                notification.open({
+                    message: data?.messContent,
+                });
                 if (adminRecipeList.length === 0) {
                     onAdminFetchMore(1);
                 }

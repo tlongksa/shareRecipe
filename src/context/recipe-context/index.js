@@ -24,6 +24,8 @@ import {
     recipeGetFavouriteListAction,
     recipeGetFavouriteListSuccessAction,
     recipeGetFavouriteListFailureAction,
+    removeCategoryItemFromList,
+    removeRecipeItemFromList,
 } from './actions';
 import recipeReducer from './reducer';
 import {
@@ -214,6 +216,7 @@ export const RecipeProvider = ({ children }) => {
                 onFetchMoreByCategory: (categoryId, page, search) =>
                     fetchRecipeListByCategory(categoryId, page, search),
                 onClearList: () => dispatchContext(recipeClearListAction()),
+                onRemoveItemFromList: (id) => dispatchContext(removeRecipeItemFromList(id)),
                 onFetchDetail: (id) => fetchRecipeDetail(id),
                 onAdminFetchMore: (page, search) => fetchAdminRecipeList(page, search),
                 onFetchMoreByName: (name, page, search) => fetchRecipeListByName(name, page, search),
@@ -221,6 +224,7 @@ export const RecipeProvider = ({ children }) => {
                 onClearDetail: () => dispatchContext(recipeClearDetailAction()),
                 onFetchMoreRecipeCommentReport: (page, search) => fetchRecipeCommentReportList(page, search),
                 onFetchFavouriteMore: (page, search) => fetchFavouriteRecipeList(page, search),
+                onRemoveCategoryFromList: (id) => dispatchContext(removeCategoryItemFromList(id)),
             }}
         >
             {children}

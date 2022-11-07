@@ -22,6 +22,8 @@ import {
     RECIPE_GET_FAVOURITE_LIST,
     RECIPE_GET_FAVOURITE_LIST_SUCCESS,
     RECIPE_GET_FAVOURITE_LIST_FAILURE,
+    RECIPE_REMOVE_CATEGORY_FROM_LIST_FAILURE,
+    RECIPE_REMOVE_FROM_LIST_FAILURE,
 } from './types';
 
 const recipeGetListAction = () => ({
@@ -130,6 +132,16 @@ const recipeGetFavouriteListFailureAction = (error) => ({
     payload: error,
 });
 
+const removeCategoryItemFromList = (payload) => ({
+    type: RECIPE_REMOVE_CATEGORY_FROM_LIST_FAILURE,
+    payload,
+});
+
+const removeRecipeItemFromList = (payload) => ({
+    type: RECIPE_REMOVE_FROM_LIST_FAILURE,
+    payload,
+});
+
 export {
     recipeGetListAction,
     recipeGetListSuccessAction,
@@ -154,4 +166,6 @@ export {
     recipeGetFavouriteListAction,
     recipeGetFavouriteListSuccessAction,
     recipeGetFavouriteListFailureAction,
+    removeCategoryItemFromList,
+    removeRecipeItemFromList,
 };

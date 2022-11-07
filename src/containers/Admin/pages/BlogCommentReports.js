@@ -5,6 +5,7 @@ import BlogReportCommentDataList from '../../../components/admin/blog-report-com
 import Input from '../../../components/common/Input/Input';
 import BlogContext from '../../../context/blog-context';
 import Modal from 'react-bootstrap/Modal';
+import { notification } from 'antd';
 
 const BlogCommentReports = () => {
     const {
@@ -44,7 +45,9 @@ const BlogCommentReports = () => {
                 .then(({ data }) => {
                     setIsProcessing(false);
                     setSelectedDeleteId('');
-                    console.log(data);
+                    notification.open({
+                        message: data?.messContent,
+                    });
                     onFetchMoreBlogCommentReport(1);
                 })
                 .catch((err) => {

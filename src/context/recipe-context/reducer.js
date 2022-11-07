@@ -22,6 +22,8 @@ import {
     RECIPE_GET_FAVOURITE_LIST,
     RECIPE_GET_FAVOURITE_LIST_SUCCESS,
     RECIPE_GET_FAVOURITE_LIST_FAILURE,
+    RECIPE_REMOVE_FROM_LIST_FAILURE,
+    RECIPE_REMOVE_CATEGORY_FROM_LIST_FAILURE,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -136,6 +138,12 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
             case RECIPE_GET_FAVOURITE_LIST_FAILURE:
                 draft.isLoading = false;
                 draft.error = payload;
+                break;
+            case RECIPE_REMOVE_FROM_LIST_FAILURE:
+                draft.adminRecipeList = draft.adminRecipeList.filter((item) => item.dishID !== payload);
+                break;
+            case RECIPE_REMOVE_CATEGORY_FROM_LIST_FAILURE:
+                draft.categories.list = draft.categories.list.filter((item) => item.dishCategoryID !== payload);
                 break;
             default:
                 break;

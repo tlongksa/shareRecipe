@@ -27,6 +27,7 @@ import AuthContext from '../../context/auth-context';
 import Paginator from '../../components/common/Paginator';
 import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
+import { notification } from 'antd';
 
 export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onLike, onDislike, onEdit, onReport }) => {
     return (
@@ -184,8 +185,11 @@ const BlogDetail = () => {
     const onDeleteBlogCommentHandler = (id) => {
         setIsProcessing(true);
         deleteBlogCommentRequest(id)
-            .then(() => {
+            .then(({ data }) => {
                 setIsProcessing(false);
+                notification.open({
+                    message: data?.messContent,
+                });
             })
             .catch((err) => {
                 setIsProcessing(false);
@@ -195,8 +199,11 @@ const BlogDetail = () => {
     const onDeleteBlogHandler = (id) => {
         setIsProcessing(true);
         deleteBlogRequest(id)
-            .then(() => {
+            .then(({ data }) => {
                 setIsProcessing(false);
+                notification.open({
+                    message: data?.messContent,
+                });
                 navigate('/blogs');
             })
             .catch((err) => {

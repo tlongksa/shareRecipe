@@ -115,6 +115,13 @@ const editRecipeRequest = (id, data) =>
         },
     });
 
+const deleteCategoryRequest = (id) =>
+    axios.post(`/admin/deleteCategory?categoryId=${id}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
@@ -138,4 +145,5 @@ export {
     getFavouriteRecipeListRequest,
     approveRecipeCommentRequest,
     editRecipeRequest,
+    deleteCategoryRequest,
 };

@@ -1,4 +1,5 @@
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { notification } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { deleteAccountRequest, updateAccountRoleRequest } from '../../../api/requests';
 import UserDataList from '../../../components/admin/user-datalist';
@@ -19,9 +20,12 @@ const Accounts = () => {
     const onRemoveUserHandler = (userId) => {
         setIsProcessing(true);
         deleteAccountRequest(userId)
-            .then(() => {
+            .then(({ data }) => {
                 setIsProcessing(false);
                 onRemoveItem(userId);
+                notification.open({
+                    message: data?.messContent,
+                });
                 if (list.length === 0) {
                     onFetchMore(1);
                 }

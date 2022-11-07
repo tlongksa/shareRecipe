@@ -1,4 +1,5 @@
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { notification } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { approvePendingBlogRequest, deleteBlogRequest } from '../../../api/requests';
 import Input from '../../../components/common/Input/Input';
@@ -39,8 +40,11 @@ const PendingBlogs = () => {
 
     const onDelete = (id) => {
         deleteBlogRequest(id)
-            .then(() => {
+            .then(({ data }) => {
                 onRemoveFromPendingList(id);
+                notification.open({
+                    message: data?.messContent,
+                });
                 if (listPendingBlog.length === 0) {
                     onFetchMorePendingList(1);
                 }
