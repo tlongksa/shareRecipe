@@ -30,7 +30,10 @@ const PendingBlogs = () => {
 
     const onApprove = (id) => {
         approvePendingBlogRequest(id)
-            .then(() => {
+            .then(({ data }) => {
+                notification.open({
+                    message: data?.messContent,
+                });
                 onRemoveFromPendingList(id);
             })
             .catch((err) => {
@@ -58,7 +61,7 @@ const PendingBlogs = () => {
         return <p className="error-message">{error?.message || 'Something went wrong!'}</p>;
     }
     return (
-        <section className="pending-blogs__container">
+        <section className="pending-blogs__container pb-4">
             <div className="d-flex justify-content-end mb-3 gap-3 sm:flex-col">
                 <form
                     className="global-list_search shadow rounded-3"
