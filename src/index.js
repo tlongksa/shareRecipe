@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.scss';
-import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // contexts
@@ -14,6 +13,7 @@ import { BmiProvider } from './context/bmi-context';
 import { LoadingOutlined } from '@ant-design/icons';
 import AdminLayout from './containers/Admin/AdminLayout';
 
+const App = lazy(() => import('./App'));
 const Login = lazy(() => import('./containers/Auth/Login'));
 const Register = lazy(() => import('./containers/Auth/Register'));
 const HomePage = lazy(() => import('./containers/Home/HomePage'));
@@ -65,7 +65,14 @@ root.render(
                     <BlogProvider>
                         <BrowserRouter>
                             <Routes>
-                                <Route path="/" element={<App />}>
+                                <Route
+                                    path="/"
+                                    element={
+                                        <SuspenseWrapper>
+                                            <App />
+                                        </SuspenseWrapper>
+                                    }
+                                >
                                     <Route
                                         path="/home"
                                         exact

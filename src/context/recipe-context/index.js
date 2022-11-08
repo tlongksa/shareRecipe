@@ -26,6 +26,9 @@ import {
     recipeGetFavouriteListFailureAction,
     removeCategoryItemFromList,
     removeRecipeItemFromList,
+    recipeGetDetailCommentsAction,
+    recipeGetDetailCommentsSuccessAction,
+    recipeGetDetailCommentsFailureAction,
 } from './actions';
 import recipeReducer from './reducer';
 import {
@@ -37,6 +40,7 @@ import {
     getListReportRecipeCommentRequest,
     getFavouriteRecipeListRequest,
     modeGetRecipeListRequest,
+    getRecipeCommentsRequest,
 } from '../../api/requests';
 import AuthContext from '../auth-context';
 import { ROLES } from '../../App';
@@ -53,6 +57,15 @@ export const defaultValues = {
         dataResponse: {},
         isLoading: false,
         error: null,
+        comments: {
+            list: [],
+            isLoading: false,
+            error: null,
+            extraListInfo: {
+                pageIndex: 1,
+                numOfPages: 0,
+            },
+        },
     },
     adminRecipeList: [],
     adminRecipeExtraListInfo: {
@@ -121,6 +134,26 @@ export const RecipeProvider = ({ children }) => {
             })
             .catch((err) => {
                 dispatchContext(recipeGetDetailFailureAction(err?.response?.data));
+            });
+    };
+
+    const fetchRecipeCommentList = (id, page) => {
+        dispatchContext(recipeGetDetailCommentsAction());
+        getRecipeCommentsRequest(id, page)
+            .then(({ data }) => {
+                const { dishCommentAccountVoList = [], pageIndex, numOfPages } = data;
+                dispatchContext(
+                    recipeGetDetailCommentsSuccessAction({
+                        data: dishCommentAccountVoList,
+                        extraListInfo: {
+                            pageIndex,
+                            numOfPages,
+                        },
+                    }),
+                );
+            })
+            .catch((err) => {
+                dispatchContext(recipeGetDetailCommentsFailureAction(err?.response?.data));
             });
     };
 
@@ -235,6 +268,7 @@ export const RecipeProvider = ({ children }) => {
                 onFetchMoreRecipeCommentReport: (page, search) => fetchRecipeCommentReportList(page, search),
                 onFetchFavouriteMore: (page, search) => fetchFavouriteRecipeList(page, search),
                 onRemoveCategoryFromList: (id) => dispatchContext(removeCategoryItemFromList(id)),
+                onFetchRecipeComments: (id, page) => fetchRecipeCommentList(id, page),
             }}
         >
             {children}

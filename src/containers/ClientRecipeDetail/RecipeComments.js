@@ -1,62 +1,56 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { Pagination } from 'antd';
 import { Rating, Stack } from '@mui/material';
-import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import MyComment from './MyComment';
+import CommentItem from './CommentItem';
 import AuthContext from '../../context/auth-context';
-import { createRecipeCommentRequest, getRecipeCommentsAuthRequest, getRecipeCommentsRequest } from '../../api/requests';
+import { createRecipeCommentRequest, getRecipeCommentsAuthRequest } from '../../api/requests';
+import RecipeContext from '../../context/recipe-context';
+import Paginator from '../../components/common/Paginator';
 
-const ViewComments = () => {
-    const { dishId } = useParams();
+const RecipeComments = ({ dishId }) => {
     const [content, setContent] = useState('');
     const [star, setStar] = useState(3);
-    const [changed, setChanged] = useState(1);
-    const [comment, setComment] = useState([]);
-    const [commentList, setCommentList] = useState([]);
     const {
         userInfo: { accessToken },
     } = useContext(AuthContext);
-    const [index, setIndex] = useState(1);
-
-    const getData = () => {
-        getRecipeCommentsRequest(dishId)
-            .then(({ data }) => {
-                setComment(data);
-                setCommentList(data?.dishCommentAccountVoList);
-            })
-            .catch((error) => console.log(error));
-    };
+    const [index] = useState(1);
+    const {
+        recipeDetail: {
+            comments: { list, isLoading, extraListInfo },
+        },
+        onFetchRecipeComments,
+    } = useContext(RecipeContext);
 
     useEffect(() => {
-        getData();
-    }, []);
+        onFetchRecipeComments(dishId, 1);
+    }, [dishId]);
 
     const getListComment = () => {
         getRecipeCommentsAuthRequest(dishId, index)
             .then(({ data }) => {
-                setCommentList(data?.dishCommentAccountVoList);
+                // setCommentList(data?.dishCommentAccountVoList);
             })
             .catch((err) => console.log(err));
     };
 
-    const AddComment = async (e) => {
+    const addCommentHandler = (e) => {
         e.preventDefault();
         if (accessToken && star) {
-            await createRecipeCommentRequest({ dishId, content: content, starRate: star })
+            createRecipeCommentRequest({ dishId, content: content, starRate: star })
                 .then(() => {
-                    setChanged(comment.length);
+                    onFetchRecipeComments(dishId, extraListInfo.pageIndex);
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     };
 
     return (
-        <>
-            <div className="view-cmt" key={commentList.dishId}>
-                <Form onSubmit={AddComment} autoComplete={'off'}>
+        <section className={`${isLoading ? 'divDisabled' : ''}`}>
+            <div className="view-cmt">
+                <Form onSubmit={addCommentHandler} autoComplete={'off'}>
                     <Form.Group className="mb-3" controlId="commentContent">
                         <Form.Label>Bình luận</Form.Label>
                         <Form.Control
@@ -78,33 +72,33 @@ const ViewComments = () => {
                         />
                     </Stack>
                     <hr />
-                    <Button className="cmt" variant="info" type="submit">
+                    <button className="button button-sm" type="submit">
                         Thêm bình luận
-                    </Button>
+                    </button>
                 </Form>
                 <br />
             </div>
             <div>
-                {commentList?.map((listCmt, index) => (
-                    <MyComment
+                {list.map((comment, index) => (
+                    <CommentItem
                         key={index}
-                        comment={listCmt}
-                        changed={changed}
+                        comment={comment}
                         cmtContent={content}
                         onDelete={getListComment}
+                        onFetch={() => onFetchRecipeComments(dishId, extraListInfo.pageIndex)}
                     />
                 ))}
+                <Paginator
+                    curPage={extraListInfo.pageIndex}
+                    maxPage={extraListInfo.numOfPages}
+                    scrollAfterClicking={false}
+                    isLoading={false}
+                    callback={(page) => {
+                        onFetchRecipeComments(dishId, page);
+                    }}
+                />
             </div>
-            <Pagination
-                className="page-cmt"
-                size="small"
-                total={comment.numOfPages * 10}
-                onChange={(value) => {
-                    setIndex(value);
-                    getListComment();
-                }}
-            />
-        </>
+        </section>
     );
 };
-export default ViewComments;
+export default RecipeComments;

@@ -161,9 +161,9 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                     {listStep.map((item, index) => (
                         <li className="step__list-item mt-3" key={`step__item-${item.title}`}>
                             <div className="d-flex justify-content-between align-items-center gap-5">
-                                <strong>
-                                    Bước {index + 1}: {item.describe}
-                                </strong>
+                                <p>
+                                    <strong>Bước {index + 1} :</strong> {item.describe}
+                                </p>
                                 <span className="d-flex gap-3 align-items-center">
                                     <EditOutlined
                                         className="cursor-pointer"

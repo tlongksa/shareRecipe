@@ -49,7 +49,7 @@ const deleteRecipeRequest = (id) =>
 
 const getRecipeIngredientChangeRequest = (ids) => axios.get(`/getIngredientChange?ingredientDetailId=${ids}`);
 
-const getRecipeCommentsRequest = (id) => axios.get(`/getListCommentOfRecipe?dishId=${id}`);
+const getRecipeCommentsRequest = (id, page) => axios.get(`/getListCommentOfRecipe?dishId=${id}&pageIndex=${page}`);
 
 const getRecipeCommentsAuthRequest = (dishId, index) =>
     axios.get(`/getListCommentOfRecipe?dishId=${dishId}&pageIndex=${index}`, {

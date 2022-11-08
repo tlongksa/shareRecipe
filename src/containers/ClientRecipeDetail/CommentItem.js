@@ -26,8 +26,8 @@ import {
     deleteRecipeCommentRequest,
 } from '../../api/requests';
 
-const MyComment = (props) => {
-    const { comment, cmtContent, onDelete } = props;
+const CommentItem = (props) => {
+    const { comment, cmtContent, onDelete, onFetch } = props;
     const { dishId } = useParams();
     const [isEdit, setIsEdit] = useState(false);
     const [action, setAction] = useState(null);
@@ -50,6 +50,7 @@ const MyComment = (props) => {
         if (accessToken) {
             likeRecipeCommentRequest(comment.dishCommentID, { commentContent })
                 .then((response) => {
+                    onFetch();
                     onDelete();
                     if (action === 'liked') {
                         setAction('');
@@ -57,14 +58,17 @@ const MyComment = (props) => {
                         setAction('liked');
                     }
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     };
 
     const dislike = () => {
         if (accessToken) {
-            dislikeRecipeCommentRequest()
+            dislikeRecipeCommentRequest(comment.dishCommentID)
                 .then((response) => {
+                    onFetch();
                     if (action === 'disliked') {
                         setAction('');
                     } else {
@@ -80,6 +84,7 @@ const MyComment = (props) => {
         if (accessToken) {
             reportRecipeCommentRequest(comment.dishCommentID, { commentContent })
                 .then((response) => {
+                    onFetch();
                     setAction('flaged');
                 })
                 .catch((err) => {});
@@ -98,6 +103,7 @@ const MyComment = (props) => {
                     dishCommentId: dishCommentID,
                 })
                     .then(() => {
+                        onFetch();
                         setIsEdit(false);
                         onDelete();
                         openNotification('Sửa bình luận thành công!');
@@ -121,6 +127,7 @@ const MyComment = (props) => {
                 .catch((err) => {});
         }
     }
+
     function openNotification(message) {
         notification.open({
             message: message,
@@ -133,9 +140,11 @@ const MyComment = (props) => {
             ),
         });
     }
+
     const Cancel = (value) => {
         setIsEdit(!isEdit);
     };
+
     const handleChangeEditComment = (value) => {
         setIsEdit(!isEdit);
         setCommentContent(comment.content);
@@ -143,23 +152,60 @@ const MyComment = (props) => {
 
     const actions = [
         <Tooltip key="comment-basic-like" title="Thích">
-            <span onClick={like}>
-                {React.createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
-                <span className="comment-action">{comment.totalLike}</span>
-            </span>
+            <div className="d-flex align-items-center gap-1 me-3 cursor-pointer" onClick={like}>
+                {action === 'liked' ? (
+                    <LikeFilled
+                        style={{
+                            fontSize: 18,
+                        }}
+                    />
+                ) : (
+                    <LikeOutlined
+                        style={{
+                            fontSize: 18,
+                        }}
+                    />
+                )}
+                <span className="comment-action__count">{comment.totalLike}</span>
+            </div>
         </Tooltip>,
         <Tooltip key="comment-basic-dislike" title="Không thích">
-            <span onClick={dislike}>
-                {React.createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
-                <span className="comment-action">{comment.totalDisLike}</span>
-            </span>
+            <div className="d-flex align-items-center gap-1 me-3 cursor-pointer" onClick={dislike}>
+                {action === 'disliked' ? (
+                    <DislikeFilled
+                        style={{
+                            fontSize: 18,
+                        }}
+                    />
+                ) : (
+                    <DislikeOutlined
+                        style={{
+                            fontSize: 18,
+                        }}
+                    />
+                )}
+                <span className="comment-action__count">{comment.totalDisLike}</span>
+            </div>
         </Tooltip>,
         <Tooltip key="comment-basic-flag" title="Đánh giá sao"></Tooltip>,
 
         <Tooltip key="comment-basic-flag" title="Báo cáo">
-            <span onClick={flag} className="comment-action">
-                {React.createElement(action === 'flaged' ? FlagFilled : FlagOutlined)}
-            </span>
+            <div onClick={flag} className="cursor-pointer d-flex align-items-center">
+                {action === 'flaged' ? (
+                    <FlagFilled
+                        style={{
+                            fontSize: 18,
+                        }}
+                    />
+                ) : (
+                    <FlagOutlined
+                        style={{
+                            fontSize: 18,
+                        }}
+                    />
+                )}
+                <span></span>
+            </div>
         </Tooltip>,
     ];
 
@@ -167,7 +213,7 @@ const MyComment = (props) => {
         <div className="my-comment">
             <Comment
                 actions={actions}
-                author={<p>{comment.accountUserName}</p>}
+                author={<strong>{comment.accountUserName}</strong>}
                 avatar={<Avatar src={comment.avatarImage} alt={comment.accountUserName} />}
                 content={
                     <div>
@@ -182,14 +228,9 @@ const MyComment = (props) => {
                                 className="styles-icon hidden"
                             />
                         </div>
-                        <div style={{ fontSize: '16px' }}>
-                            Đánh giá :
-                            <Rating
-                                style={{ marginTop: '10px', fontSize: '16px' }}
-                                name="read-only"
-                                value={comment.startRate}
-                                readOnly
-                            />
+                        <div className="d-flex align-items-center gap-2">
+                            <strong>Đánh giá :</strong>
+                            <Rating style={{ fontSize: '16px' }} name="read-only" value={comment.startRate} readOnly />
                         </div>
                     </div>
                 }
@@ -230,4 +271,4 @@ const MyComment = (props) => {
     );
 };
 
-export default MyComment;
+export default CommentItem;

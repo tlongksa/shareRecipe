@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.scss';
-import ViewComments from './ViewComment';
+import RecipeComments from './RecipeComments';
 import { Divider } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import RecipeContext from '../../context/recipe-context';
@@ -34,22 +34,22 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg }) => {
             <div className="right-view flex-fill">
                 <h3 className="mb-2">{dataResponse.dishName}</h3>
                 <div className="mb-2">
-                    <strong>Tổng quan:</strong> {dataResponse.summary || '-'}
+                    <strong>Tổng quan :</strong> {dataResponse.summary || '-'}
                 </div>
                 <div className="mb-2">
-                    <strong>Mô tả:</strong> {dataResponse.formulaDescribe}
+                    <strong>Mô tả :</strong> {dataResponse.formulaDescribe}
                 </div>
                 <div className="mb-2">
-                    <strong>Tổng kalo:</strong> {dataResponse.totalCalo}
+                    <strong>Tổng kalo :</strong> {dataResponse.totalCalo}
                 </div>
                 <div className="mb-2">
-                    <strong>Mức độ:</strong> {dataResponse.level}
+                    <strong>Mức độ :</strong> {dataResponse.level}
                 </div>
                 <div className="mb-2">
-                    <strong>Số người đánh giá:</strong> {dataResponse.numberPeopleForDish}
+                    <strong>Số người đánh giá :</strong> {dataResponse.numberPeopleForDish}
                 </div>
                 <div className="mb-2">
-                    <strong>Tạo ngày:</strong> {dataResponse.createDate} bởi {dataResponse.verifier}
+                    <strong>Tạo ngày :</strong> {dataResponse.createDate} bởi <strong>{dataResponse.verifier}</strong>
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@ const ClientRecipeDetail = () => {
                             ?.filter((it) => it.mainIngredient === 1)
                             .map((mappedItem) => (
                                 <li key={mappedItem.ingredientDetailId} className="list-bullet">
-                                    {mappedItem.name}
+                                    {mappedItem.name} {mappedItem.quantity} {mappedItem.unit}
                                 </li>
                             ))}
                     </ul>
@@ -111,14 +111,16 @@ const ClientRecipeDetail = () => {
                             ?.filter((it) => it.mainIngredient !== 1)
                             .map((mappedItem) => (
                                 <Fragment key={mappedItem.ingredientDetailId}>
-                                    <li className="list-bullet">{mappedItem.name}</li>
+                                    <li className="list-bullet">
+                                        {mappedItem.name} {mappedItem.quantity} {mappedItem.unit}
+                                    </li>
                                     {mappedItem.ingredientChangeVoList.length > 0 && (
                                         <div className="ms-3">
                                             <p>Có thể thay thế bằng : </p>
                                             <div className="ms-5">
                                                 {mappedItem.ingredientChangeVoList.map((mappedItem) => (
                                                     <li key={mappedItem.ingredientChangeId} className="list-bullet">
-                                                        {mappedItem.name}
+                                                        {mappedItem.name} {mappedItem.quantity} {mappedItem.unit}
                                                     </li>
                                                 ))}
                                             </div>
@@ -132,18 +134,15 @@ const ClientRecipeDetail = () => {
                     <ul>
                         {dataResponse?.stepList?.map((item, index) => (
                             <li className="step__list-item mt-3" key={`step__item-${item.stepID}`}>
-                                <div className="">
-                                    <strong>
-                                        Bước {index + 1}: {item.describe}
-                                    </strong>
-                                </div>
+                                <strong>Bước {index + 1} : </strong>
+                                <span>{item.describe}</span>
                             </li>
                         ))}
                     </ul>
                     <h3 className="view-title">Video Hướng Dẫn :</h3>
                     <video src={dataResponse?.video} width="100%" controls></video>
                     <hr />
-                    <ViewComments />
+                    <RecipeComments dishId={dishId} />
                 </div>
             </div>
         </div>
