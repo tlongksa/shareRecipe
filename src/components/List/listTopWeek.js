@@ -18,7 +18,7 @@ const ListTopWeek = (props) => {
 
     return (
         <>
-            <p className="home-list__title">Top With Week</p>
+            <div className="home-list__title">Top With Week</div>
             <p className="error-message">{errMsg}</p>
             <section className="home__list-recipe__container">
                 {ListTopWeek.map((item) => (

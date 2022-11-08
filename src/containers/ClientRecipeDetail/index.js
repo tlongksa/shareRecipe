@@ -17,18 +17,33 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg }) => {
                         maxWidth: 300,
                     }}
                 >
-                    <Slider slidesToShow={3}>
-                        {dataResponse?.dishImageList?.map((listImg) => (
-                            <div key={listImg.dishImageID}>
-                                <img
-                                    className="img-view-show"
-                                    src={listImg.url}
-                                    alt="img"
-                                    onClick={() => setBigRecipeImg(listImg.url)}
-                                />
-                            </div>
-                        ))}
-                    </Slider>
+                    {dataResponse?.dishImageList?.length > 3 ? (
+                        <Slider slidesToShow={3}>
+                            {dataResponse?.dishImageList?.map((listImg) => (
+                                <div key={listImg.dishImageID}>
+                                    <img
+                                        className="img-recipe__gallery-item"
+                                        src={listImg.url}
+                                        alt="img"
+                                        onClick={() => setBigRecipeImg(listImg.url)}
+                                    />
+                                </div>
+                            ))}
+                        </Slider>
+                    ) : (
+                        <div className="flex-full d-flex">
+                            {dataResponse?.dishImageList?.map((listImg) => (
+                                <div key={listImg.dishImageID}>
+                                    <img
+                                        className="img-recipe__gallery-item"
+                                        src={listImg.url}
+                                        alt="img"
+                                        onClick={() => setBigRecipeImg(listImg.url)}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="right-view flex-fill">
