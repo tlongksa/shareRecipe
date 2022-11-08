@@ -31,7 +31,7 @@ const Recipes = () => {
                 setIsProcessing(false);
                 onRemoveItemFromList(id);
                 notification.open({
-                    message: data?.messContent,
+                    message: data,
                 });
                 if (adminRecipeList.length === 0) {
                     onAdminFetchMore(1);

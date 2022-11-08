@@ -1,15 +1,18 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import topBanner from '../../assets/img/profile_background.png';
 import './index.scss';
 import AuthContext from '../../context/auth-context';
 import { LoadingOutlined, EditOutlined } from '@ant-design/icons';
 import { Form, Formik } from 'formik';
-import { updateAccountProfileRequest } from '../../api/requests';
+import { updateAccountProfileRequest, updateProfileImageRequest } from '../../api/requests';
 import Input from '../../components/common/Input/Input';
 import { ProfileSchema } from '../../validators';
 import FavouriteRecipes from './FavouriteRecipes';
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
+import { generateImageUrl } from '../../utils';
+import { fileUploadHandler } from '../../hooks/useFileUpload';
+import { notification } from 'antd';
 
 const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
     const [isProcessing, setIsProcessing] = useState(false);
@@ -174,6 +177,11 @@ const UserProfile = () => {
         onUpdateProfile,
     } = useContext(AuthContext);
     const [shouldUpdate, setShouldUpdate] = useState(false);
+    const [file, setFile] = useState(null);
+    const profileImageRef = useRef();
+    const [imgError, setImgError] = useState('');
+    const [isUploading, setIsUploading] = useState(false);
+    const [fileError, setFileError] = useState('');
 
     useEffect(() => {
         if (id) {
@@ -181,6 +189,27 @@ const UserProfile = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
+
+    const uploadProfileImage = () => {
+        fileUploadHandler(file, setIsUploading, setFileError, (url) => {
+            setIsUploading(true);
+            updateProfileImageRequest(id, url)
+                .then(({ data }) => {
+                    onFetchProfile(id);
+                    notification.open({
+                        message: data,
+                    });
+                    setFile(null);
+                    setImgError('');
+                    setFileError('');
+                    setIsUploading(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setIsUploading(false);
+                });
+        });
+    };
 
     if (isLoading) {
         return (
@@ -201,18 +230,38 @@ const UserProfile = () => {
             <div className="profile__banner-top">
                 <img src={topBanner} alt="" className="w-100" />
                 <div className="profile-avatar__container">
-                    <img src={dataResponse?.avatarImage || IMAGE_PLACEHODLER_URI} alt="" className="profile-avatar" />
-                    <EditOutlined
-                        style={{
-                            cursor: 'pointer',
-                            fontSize: 18,
-                            color: '#289AE7',
-                        }}
-                        className="profile-avatar__upload"
-                        onClick={() => {}}
+                    <img
+                        src={
+                            file
+                                ? generateImageUrl(file, setImgError)
+                                : dataResponse?.avatarImage || IMAGE_PLACEHODLER_URI
+                        }
+                        alt=""
+                        className="profile-avatar"
                     />
+                    {!imgError && file && generateImageUrl(file, setImgError) ? (
+                        <button
+                            className={`button button-sm profile-avatar__upload ${isUploading ? 'divDisabled' : ''}`}
+                            onClick={uploadProfileImage}
+                        >
+                            Upload
+                        </button>
+                    ) : (
+                        <EditOutlined
+                            style={{
+                                cursor: 'pointer',
+                                fontSize: 18,
+                                color: '#289AE7',
+                            }}
+                            className="profile-avatar__upload"
+                            onClick={() => {
+                                profileImageRef.current?.click();
+                            }}
+                        />
+                    )}
                 </div>
             </div>
+            {fileError && <p className="error-message text-center">{fileError}</p>}
             <div className="custom-page__container custom-page__container-no__margin-top">
                 <div className="profile-name__container mb-4">
                     <h3 className="text-center">{dataResponse?.name}</h3>
@@ -261,6 +310,12 @@ const UserProfile = () => {
                 </div>
                 <FavouriteRecipes />
             </div>
+            <input
+                type="file"
+                className="d-none"
+                ref={profileImageRef}
+                onChange={(e) => setFile(e.target?.files?.[0])}
+            />
         </div>
     );
 };
