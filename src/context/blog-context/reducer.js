@@ -22,6 +22,7 @@ import {
     BLOG_GET_COMMENT_REPORT_LIST,
     BLOG_GET_COMMENT_REPORT_LIST_SUCCESS,
     BLOG_GET_COMMENT_REPORT_LIST_FAILURE,
+    BLOG_UPDATE_COMMENT_CONTENT,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -147,6 +148,14 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
             case BLOG_GET_COMMENT_REPORT_LIST_FAILURE:
                 draft.blogCommentReport.isLoading = false;
                 draft.blogCommentReport.error = payload;
+                break;
+            case BLOG_UPDATE_COMMENT_CONTENT:
+                const blogCmtIdx = draft.blogDetail.comments.dataResponse.findIndex(
+                    (it) => it.blogCommentID === payload.blogCommentId,
+                );
+                if (blogCmtIdx >= 0) {
+                    draft.blogDetail.comments.dataResponse[blogCmtIdx].content = payload.content;
+                }
                 break;
             default:
                 break;

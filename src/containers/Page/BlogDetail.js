@@ -27,6 +27,7 @@ import Paginator from '../../components/common/Paginator';
 import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
 import { notification } from 'antd';
+import EditComment from '../../components/common/EditComment';
 
 export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onLike, onDislike, onEdit, onReport }) => {
     return (
@@ -97,6 +98,7 @@ const BlogDetail = () => {
         onFetchDetail,
         onFetchComments,
         onClearDetail,
+        onUpdateComment,
     } = useContext(BlogContext);
     const dataFetchedRef = useRef(false);
     const {
@@ -107,6 +109,7 @@ const BlogDetail = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate();
     const [showEditBlog, setShowEditBlog] = useState(false);
+    const [selectedComment, setSelectedComment] = useState(null);
 
     useEffect(() => {
         if (dataFetchedRef.current) return;
@@ -239,7 +242,7 @@ const BlogDetail = () => {
                         setShowEditBlog(true);
                     }}
                 />
-                <div className={`blog-comments__list-container`}>
+                <div className="blog-comments__list-container">
                     <div className="blog-comments__list">
                         {comments.dataResponse.map((item) => (
                             <BlogCommentItem
@@ -251,6 +254,9 @@ const BlogDetail = () => {
                                 onLike={onLikeBlogCmtHandler}
                                 onDislike={onDislikeBlogCmtHandler}
                                 onReport={onReportBlogCommentHandler}
+                                onEdit={(cmtItem) => {
+                                    setSelectedComment(cmtItem);
+                                }}
                             />
                         ))}
                     </div>
@@ -285,6 +291,16 @@ const BlogDetail = () => {
                 setShow={setShowEditBlog}
                 blogData={dataResponse}
                 callback={() => onFetchDetail(id)}
+            />
+            <EditComment
+                show={!!selectedComment}
+                setShow={setSelectedComment}
+                blogId={id}
+                formData={selectedComment}
+                promise={commentOnBlogRequest}
+                callback={(content) => {
+                    onUpdateComment({ blogCommentId: selectedComment.blogCommentID, content });
+                }}
             />
         </section>
     );

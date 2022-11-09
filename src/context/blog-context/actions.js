@@ -22,6 +22,7 @@ import {
     BLOG_GET_COMMENT_REPORT_LIST,
     BLOG_GET_COMMENT_REPORT_LIST_SUCCESS,
     BLOG_GET_COMMENT_REPORT_LIST_FAILURE,
+    BLOG_UPDATE_COMMENT_CONTENT,
 } from './types';
 
 const blogGetListAction = () => ({
@@ -129,6 +130,11 @@ const blogGetCommentReportListFailureAction = (error) => ({
     payload: error,
 });
 
+const blogUpdateCommentContentAction = (payload) => ({
+    type: BLOG_UPDATE_COMMENT_CONTENT,
+    payload,
+});
+
 export {
     blogGetListAction,
     blogGetListSuccessAction,
@@ -153,4 +159,5 @@ export {
     blogGetCommentReportListAction,
     blogGetCommentReportListSuccessAction,
     blogGetCommentReportListFailureAction,
+    blogUpdateCommentContentAction,
 };
