@@ -7,8 +7,13 @@ import { LoadingOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import RecipeContext from '../../context/recipe-context';
 import Slider from '../../components/common/Slider';
 import { addRecipeToFavouriteList } from '../../api/requests';
+import AuthContext from '../../context/auth-context';
 
 const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFavourite }) => {
+    const {
+        userInfo: { accessToken },
+    } = useContext(AuthContext);
+
     return (
         <div className="top-info__container">
             <div className="left-view">
@@ -50,10 +55,12 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
             <div className="right-view flex-fill">
                 <div className="d-flex justify-content-between gap-3">
                     <h3 className="mb-2">{dataResponse.dishName}</h3>
-                    <button className="button button-sm d-flex align-items-center gap-2" onClick={onAddToFavourite}>
-                        <PlusCircleOutlined />
-                        <span>Yêu thích</span>
-                    </button>
+                    {accessToken && (
+                        <button className="button button-sm d-flex align-items-center gap-2" onClick={onAddToFavourite}>
+                            <PlusCircleOutlined />
+                            <span>Yêu thích</span>
+                        </button>
+                    )}
                 </div>
                 <div className="mb-2">
                     <strong>Tổng quan :</strong> {dataResponse.summary || '-'}

@@ -253,7 +253,13 @@ const Blogs = () => {
     }, []);
 
     if (!isLoading && error) {
-        return <p className="error-message">{error?.message || 'Something went wrong!'}</p>;
+        return (
+            <section className="client-blog__list-container">
+                <div className="custom-page__container">
+                    <p className="error-message">{error?.message || 'Something went wrong!'}</p>
+                </div>
+            </section>
+        );
     }
 
     return (
@@ -270,13 +276,15 @@ const Blogs = () => {
                         }}
                         emptySearchCallback={() => onFetchMore(1, '')}
                     />
-                    <button
-                        className="button button-sm d-flex align-items-center gap-2"
-                        onClick={() => setShowNewBlog(true)}
-                    >
-                        <PlusCircleOutlined />
-                        <span>Thêm blog</span>
-                    </button>
+                    {isAuthenticated && (
+                        <button
+                            className="button button-sm d-flex align-items-center gap-2"
+                            onClick={() => setShowNewBlog(true)}
+                        >
+                            <PlusCircleOutlined />
+                            <span>Thêm blog</span>
+                        </button>
+                    )}
                 </div>
                 <ul className="blog-list_items">
                     {list.map((item, index) => (
