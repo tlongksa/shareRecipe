@@ -24,6 +24,7 @@ import { notification } from 'antd';
 import AuthContext from '../../context/auth-context';
 import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
+import { ROLES } from '../../App';
 
 export const SearchDataList = ({ search, setSearch, callback, emptySearchCallback }) => {
     const handleChange = (e) => {
@@ -234,7 +235,7 @@ const Blogs = () => {
     const [search, setSearch] = useState('');
     const [showNewBlog, setShowNewBlog] = useState(false);
     const {
-        userInfo: { accessToken },
+        userInfo: { accessToken, roles },
     } = useContext(AuthContext);
     const isAuthenticated = !!accessToken;
 
@@ -305,7 +306,15 @@ const Blogs = () => {
                     callback={(page) => onFetchMore(page, search || '')}
                 />
             </div>
-            <BlogForm show={showNewBlog} setShow={setShowNewBlog} />
+            <BlogForm
+                show={showNewBlog}
+                setShow={setShowNewBlog}
+                callback={() => {
+                    if (roles === ROLES.admin) {
+                        onFetchMore(1, search);
+                    }
+                }}
+            />
         </section>
     );
 };
