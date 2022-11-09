@@ -7,7 +7,7 @@ import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
 import './index.scss';
 
-const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
+export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
     <li className="recipe-list_item mb-4">
         <div className="d-flex gap-3">
             <img src={item.image || IMAGE_PLACEHODLER_URI} alt="" className="recipe-list_item-avatar" />
@@ -18,7 +18,7 @@ const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
                     </h5>
                     <p>{item.description}</p>
                 </div>
-                <p className="d-flex align-items-center gap-1">
+                <p className="d-flex align-items-center gap-1 mb-2">
                     <strong>By {item.verifier}</strong>
                     <span className="text-muted">{item.createDate}</span>
                 </p>
@@ -51,22 +51,43 @@ const RecipesByCategory = () => {
     const isAuthenticated = !!accessToken;
 
     useEffect(() => {
-        onFetchMoreByCategory(id, 1, search);
+        onFetchMoreByCategory(id, 1, '');
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     if (!isLoading && error) {
-        return <p className="error-message">Something went wrong</p>;
+        return (
+            <section className="recipes-by__category-container">
+                <div className="custom-page__container">
+                    <p className="error-message">{error?.message || 'Something went wrong!'}</p>
+                </div>
+            </section>
+        );
     }
 
     return (
         <section className="recipes-by__category-container">
             <div className="custom-page__container">
                 <div className="d-flex justify-content-end mb-4">
-                    <form className="global-list_search shadow rounded-3">
-                        <SearchOutlined className="global-list_search-icon" />
+                    <form
+                        className="global-list_search shadow rounded-3"
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            onFetchMoreByCategory(id, 1, search.trim());
+                        }}
+                    >
+                        <SearchOutlined
+                            className="global-list_search-icon cursor-pointer"
+                            onClick={() => onFetchMoreByCategory(id, 1, search.trim())}
+                        />
                         <Input
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) => {
+                                const { value } = e.target;
+                                setSearch(value);
+                                if (!value.trim()) {
+                                    onFetchMoreByCategory(id, 1, '');
+                                }
+                            }}
                             placeholder="Tìm  kiếm công  thức ..."
                             value={search}
                             error={null}

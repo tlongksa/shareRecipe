@@ -128,6 +128,13 @@ const deleteCategoryRequest = (id) =>
         },
     });
 
+const addRecipeToFavouriteList = (id) =>
+    axios.post(`/addFavoriteRecipes?dishId=${id}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
@@ -153,4 +160,5 @@ export {
     editRecipeRequest,
     deleteCategoryRequest,
     modeGetRecipeListRequest,
+    addRecipeToFavouriteList,
 };

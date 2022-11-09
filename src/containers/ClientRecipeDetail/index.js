@@ -2,12 +2,13 @@ import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import './index.scss';
 import RecipeComments from './RecipeComments';
-import { Divider } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Divider, notification } from 'antd';
+import { LoadingOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import RecipeContext from '../../context/recipe-context';
 import Slider from '../../components/common/Slider';
+import { addRecipeToFavouriteList } from '../../api/requests';
 
-const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg }) => {
+const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFavourite }) => {
     return (
         <div className="top-info__container">
             <div className="left-view">
@@ -47,7 +48,13 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg }) => {
                 </div>
             </div>
             <div className="right-view flex-fill">
-                <h3 className="mb-2">{dataResponse.dishName}</h3>
+                <div className="d-flex justify-content-between gap-3">
+                    <h3 className="mb-2">{dataResponse.dishName}</h3>
+                    <button className="button button-sm d-flex align-items-center gap-2" onClick={onAddToFavourite}>
+                        <PlusCircleOutlined />
+                        <span>Yêu thích</span>
+                    </button>
+                </div>
                 <div className="mb-2">
                     <strong>Tổng quan :</strong> {dataResponse.summary || '-'}
                 </div>
@@ -90,6 +97,16 @@ const ClientRecipeDetail = () => {
         }
     }, [dataResponse]);
 
+    const onAddToFavouriteListHandler = () => {
+        addRecipeToFavouriteList(dishId)
+            .then(({ data }) => {
+                notification.open({
+                    message: data?.messContent,
+                });
+            })
+            .catch((err) => console.log(err));
+    };
+
     if (!isLoading && error) {
         return <p className="error-message">{error?.message || 'Something went wrong!'}</p>;
     }
@@ -107,6 +124,7 @@ const ClientRecipeDetail = () => {
                     bigRecipeImg={bigRecipeImg}
                     dataResponse={dataResponse}
                     setBigRecipeImg={setBigRecipeImg}
+                    onAddToFavourite={onAddToFavouriteListHandler}
                 />
                 <div className="view-comment">
                     <hr />

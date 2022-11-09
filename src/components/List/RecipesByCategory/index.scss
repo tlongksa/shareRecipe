@@ -4,9 +4,12 @@
 .recipe-list_item {
     .recipe-list_item-avatar {
         width: 180px;
+        height: 180px;
+        object-fit: contain;
         border-radius: 1rem;
         @media (max-width: 500px) {
             width: 40px;
+            height: 40px;
         }
     }
     .recipe-list_item-actions_icon {

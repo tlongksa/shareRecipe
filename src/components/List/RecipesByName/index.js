@@ -1,45 +1,11 @@
-import { DislikeOutlined, LikeOutlined, LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { IMAGE_PLACEHODLER_URI } from '../../../constants';
+import { useSearchParams } from 'react-router-dom';
 import AuthContext from '../../../context/auth-context';
 import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
+import { RecipeByCategoryItem } from '../RecipesByCategory';
 import './index.scss';
-
-const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
-    <li className="recipe-list_item mb-4">
-        <div className="d-flex gap-3">
-            <img src={item.image || IMAGE_PLACEHODLER_URI} alt="" className="recipe-list_item-avatar" />
-            <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
-                <div className="recipe-list_item-content">
-                    <h5>
-                        <Link to={`/recipe-detail/${item.recipeID}`}>{item.name}</Link>
-                    </h5>
-                    <p>{item.description}</p>
-                </div>
-                <p className="d-flex align-items-center gap-1">
-                    <strong>By {item.verifier}</strong>
-                    <span className="text-muted">{item.createDate}</span>
-                </p>
-                <div
-                    className={`recipe-list_item-actions d-flex gap-3 align-items-center ${
-                        isAuthenticated ? '' : 'divDisabled'
-                    }`}
-                >
-                    <button>
-                        <LikeOutlined />
-                        <span>{item.totalLike}</span>
-                    </button>
-                    <button>
-                        <DislikeOutlined />
-                        <span>{item.totalDisLike}</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </li>
-);
 
 const RecipesByName = () => {
     const { recipeByNameList, isLoading, error, onFetchMoreByName } = useContext(RecipeContext);
@@ -49,25 +15,46 @@ const RecipesByName = () => {
         userInfo: { accessToken },
     } = useContext(AuthContext);
     const isAuthenticated = !!accessToken;
-
     const name = searchParams.get('name');
 
     useEffect(() => {
-        onFetchMoreByName(name, 1, search);
+        onFetchMoreByName(name, 1, '');
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [name]);
 
     if (!isLoading && error) {
-        return <p className="error-message">Something went wrong</p>;
+        return (
+            <section className="recipes-by__category-container">
+                <div className="custom-page__container">
+                    <p className="error-message">{error?.message || 'Something went wrong!'}</p>
+                </div>
+            </section>
+        );
     }
+
     return (
         <section className="recipes-by__category-container">
             <div className="custom-page__container">
                 <div className="d-flex justify-content-end mb-4">
-                    <form className="global-list_search shadow rounded-3">
-                        <SearchOutlined className="global-list_search-icon" />
+                    <form
+                        className="global-list_search shadow rounded-3"
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            onFetchMoreByName(name, 1, search.trim());
+                        }}
+                    >
+                        <SearchOutlined
+                            className="global-list_search-icon cursor-pointer"
+                            onClick={() => onFetchMoreByName(name, 1, search.trim())}
+                        />
                         <Input
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) => {
+                                const { value } = e.target;
+                                setSearch(value);
+                                if (!value.trim()) {
+                                    onFetchMoreByName(name, 1, '');
+                                }
+                            }}
                             placeholder="Tìm  kiếm công  thức ..."
                             value={search}
                             error={null}
