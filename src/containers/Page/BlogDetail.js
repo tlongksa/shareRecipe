@@ -30,6 +30,7 @@ import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreu
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
 import { notification } from 'antd';
 import EditComment from '../../components/common/EditComment';
+import DeleteItemModal from '../../components/common/DeleteItemModal';
 
 export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onLike, onDislike, onEdit, onReport }) => {
     return (
@@ -112,6 +113,7 @@ const BlogDetail = () => {
     const navigate = useNavigate();
     const [showEditBlog, setShowEditBlog] = useState(false);
     const [selectedComment, setSelectedComment] = useState(null);
+    const [selectedDeleteId, setSelectedDeleteId] = useState('');
 
     useEffect(() => {
         if (dataFetchedRef.current) return;
@@ -190,6 +192,8 @@ const BlogDetail = () => {
                 notification.open({
                     message: data?.messContent,
                 });
+                setSelectedDeleteId('');
+                onFetchComments(id, comments.extraListInfo.pageIndex);
             })
             .catch((err) => {
                 setIsProcessing(false);
@@ -252,7 +256,7 @@ const BlogDetail = () => {
                                 item={item}
                                 isAuthenticated={isAuthenticated}
                                 username={username}
-                                onDelete={onDeleteBlogCommentHandler}
+                                onDelete={(id) => setSelectedDeleteId(id)}
                                 onLike={onLikeBlogCmtHandler}
                                 onDislike={onDislikeBlogCmtHandler}
                                 onReport={onReportBlogCommentHandler}
@@ -303,6 +307,13 @@ const BlogDetail = () => {
                 callback={(content) => {
                     onUpdateComment({ blogCommentId: selectedComment.blogCommentID, content });
                 }}
+            />
+            <DeleteItemModal
+                title="bình luận"
+                show={!!selectedDeleteId}
+                onHide={() => setSelectedDeleteId('')}
+                isProcessing={isProcessing}
+                onConfirm={onDeleteBlogCommentHandler}
             />
         </section>
     );

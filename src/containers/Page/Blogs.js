@@ -188,13 +188,9 @@ export const BlogForm = ({ show, setShow, blogData, callback }) => {
                 setIsProcessing(false);
             });
     };
+
     return (
-        <Modal
-            show={show}
-            fullscreen={true}
-            onHide={() => setShow(false)}
-            className={`${isProcessing ? 'divDisabled' : ''}`}
-        >
+        <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>Tạo mới blog</Modal.Title>
             </Modal.Header>

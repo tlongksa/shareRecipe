@@ -6,6 +6,7 @@ import RecipeContext from '../../../context/recipe-context';
 import Modal from 'react-bootstrap/Modal';
 import { approveRecipeCommentRequest, deleteRecipeCommentRequest } from '../../../api/requests';
 import { notification } from 'antd';
+import DeleteItemModal from '../../../components/common/DeleteItemModal';
 
 const RecipeCommentReports = () => {
     const {
@@ -14,7 +15,7 @@ const RecipeCommentReports = () => {
     } = useContext(RecipeContext);
     const [search, setSearch] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
-    const [selectedId, setSelectedId] = useState('');
+    const [selectedApproveId, setSelectedApproveId] = useState('');
     const [selectedDeleteId, setSelectedDeleteId] = useState('');
 
     useEffect(() => {
@@ -22,14 +23,16 @@ const RecipeCommentReports = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const onApproveBlogCommentHandler = () => {
-        if (selectedId) {
+    const onApproveRecipeCommentHandler = () => {
+        if (selectedApproveId) {
             setIsProcessing(true);
-            approveRecipeCommentRequest(selectedId)
+            approveRecipeCommentRequest(selectedApproveId)
                 .then(({ data }) => {
                     setIsProcessing(false);
-                    setSelectedId('');
-                    console.log(data);
+                    setSelectedApproveId('');
+                    notification.open({
+                        message: data?.messContent,
+                    });
                     onFetchMoreRecipeCommentReport(1);
                 })
                 .catch((err) => {
@@ -39,7 +42,7 @@ const RecipeCommentReports = () => {
         }
     };
 
-    const onDeleteBlogCommentHandler = () => {
+    const onDeleteRecipeCommentHandler = () => {
         if (selectedDeleteId) {
             deleteRecipeCommentRequest(selectedDeleteId)
                 .then(({ data }) => {
@@ -106,20 +109,15 @@ const RecipeCommentReports = () => {
                 paginateCallback={(page) => {
                     onFetchMoreRecipeCommentReport(page);
                 }}
-                onEdit={(id) => setSelectedId(id)}
-                onDelete={(id) => setSelectedId(id)}
+                onEdit={(id) => setSelectedApproveId(id)}
+                onDelete={(id) => setSelectedDeleteId(id)}
             />
             {isLoading && (
                 <div className="global-list__loader-container">
                     <LoadingOutlined className="global-list__loader-icon" />
                 </div>
             )}
-            <Modal
-                show={!!selectedId}
-                fullscreen={'md-down'}
-                onHide={() => setSelectedId('')}
-                className={`${isProcessing ? 'divDisabled' : ''}`}
-            >
+            <Modal show={!!selectedApproveId} fullscreen={'md-down'} onHide={() => setSelectedApproveId('')}>
                 <Modal.Header closeButton>
                     <Modal.Title>Bạn có muốn tiếp tục ?</Modal.Title>
                 </Modal.Header>
@@ -129,7 +127,7 @@ const RecipeCommentReports = () => {
                             className="button button-sm"
                             type="button"
                             disabled={isProcessing}
-                            onClick={onApproveBlogCommentHandler}
+                            onClick={onApproveRecipeCommentHandler}
                         >
                             Xác nhận
                         </button>
@@ -137,43 +135,20 @@ const RecipeCommentReports = () => {
                             className="button button-sm"
                             type="button"
                             disabled={isProcessing}
-                            onClick={() => setSelectedId('')}
+                            onClick={() => setSelectedApproveId('')}
                         >
                             Hủy
                         </button>
                     </div>
                 </Modal.Body>
             </Modal>
-            <Modal
+            <DeleteItemModal
+                title="bình luận"
                 show={!!selectedDeleteId}
-                fullscreen={'md-down'}
                 onHide={() => setSelectedDeleteId('')}
-                className={`${isProcessing ? 'divDisabled' : ''}`}
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Bạn có muốn xóa bình luận ?</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="d-flex gap-2 align-items-center py-3">
-                        <button
-                            className="button button-sm"
-                            type="button"
-                            disabled={isProcessing}
-                            onClick={onDeleteBlogCommentHandler}
-                        >
-                            Xác nhận
-                        </button>
-                        <button
-                            className="button button-sm"
-                            type="button"
-                            disabled={isProcessing}
-                            onClick={() => setSelectedDeleteId('')}
-                        >
-                            Hủy
-                        </button>
-                    </div>
-                </Modal.Body>
-            </Modal>
+                isProcessing={isProcessing}
+                onConfirm={onDeleteRecipeCommentHandler}
+            />
         </section>
     );
 };

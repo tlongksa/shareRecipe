@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { deleteRecipeRequest } from '../../../api/requests';
 import { ROLES } from '../../../App';
 import RecipeDataList from '../../../components/admin/recipe-datalist';
+import DeleteItemModal from '../../../components/common/DeleteItemModal';
 import Input from '../../../components/common/Input/Input';
 import AuthContext from '../../../context/auth-context';
 import RecipeContext from '../../../context/recipe-context';
@@ -18,21 +19,23 @@ const Recipes = () => {
     const {
         userInfo: { roles },
     } = useContext(AuthContext);
+    const [selectedDeleteId, setSelectedDeleteId] = useState('');
 
     useEffect(() => {
         onAdminFetchMore(1);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const deleteRecipeHandler = (id) => {
+    const deleteRecipeHandler = () => {
         setIsProcessing(true);
-        deleteRecipeRequest(id)
+        deleteRecipeRequest(selectedDeleteId)
             .then(({ data }) => {
                 setIsProcessing(false);
-                onRemoveItemFromList(id);
+                onRemoveItemFromList(selectedDeleteId);
                 notification.open({
                     message: data,
                 });
+                setSelectedDeleteId('');
                 if (adminRecipeList.length === 0) {
                     onAdminFetchMore(1);
                 }
@@ -96,7 +99,7 @@ const Recipes = () => {
                 list={adminRecipeList}
                 maxPage={adminRecipeExtraListInfo.numOfPages}
                 currentPage={adminRecipeExtraListInfo.pageIndex}
-                onDelete={(id) => deleteRecipeHandler(id)}
+                onDelete={(id) => setSelectedDeleteId(id)}
                 paginateCallback={(page) => {
                     onAdminFetchMore(page, search || '');
                 }}
@@ -114,6 +117,13 @@ const Recipes = () => {
                     <LoadingOutlined className="global-list__loader-icon" />
                 </div>
             )}
+            <DeleteItemModal
+                title="công thức"
+                show={!!selectedDeleteId}
+                onHide={() => setSelectedDeleteId('')}
+                isProcessing={isProcessing}
+                onConfirm={deleteRecipeHandler}
+            />
         </section>
     );
 };

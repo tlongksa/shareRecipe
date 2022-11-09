@@ -2,6 +2,7 @@ import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { approvePendingBlogRequest, deleteBlogRequest } from '../../../api/requests';
+import DeleteItemModal from '../../../components/common/DeleteItemModal';
 import Input from '../../../components/common/Input/Input';
 import Paginator from '../../../components/common/Paginator';
 import BlogContext from '../../../context/blog-context';
@@ -19,6 +20,8 @@ const PendingBlogs = () => {
         onRemoveFromPendingList,
     } = useContext(BlogContext);
     const [search, setSearch] = useState('');
+    const [selectedDeleteId, setSelectedDeleteId] = useState('');
+    const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
         onFetchMorePendingList(1);
@@ -41,18 +44,22 @@ const PendingBlogs = () => {
             });
     };
 
-    const onDelete = (id) => {
-        deleteBlogRequest(id)
+    const onDeletePendingBlogHandler = () => {
+        setIsProcessing(true);
+        deleteBlogRequest(selectedDeleteId)
             .then(({ data }) => {
-                onRemoveFromPendingList(id);
+                setIsProcessing(false);
+                onRemoveFromPendingList(selectedDeleteId);
                 notification.open({
                     message: data?.messContent,
                 });
+                setSelectedDeleteId('');
                 if (listPendingBlog.length === 0) {
                     onFetchMorePendingList(1);
                 }
             })
             .catch((err) => {
+                setIsProcessing(false);
                 console.log(err);
             });
     };
@@ -106,7 +113,7 @@ const PendingBlogs = () => {
                         isAuthenticated={true}
                         hideBottomActions
                         onApprove={onApprove}
-                        onDelete={onDelete}
+                        onDelete={(id) => setSelectedDeleteId(id)}
                     />
                 ))}
             </ul>
@@ -122,6 +129,13 @@ const PendingBlogs = () => {
                     <LoadingOutlined className="global-list__loader-icon" />
                 </div>
             )}
+            <DeleteItemModal
+                title="account"
+                show={!!selectedDeleteId}
+                onHide={() => setSelectedDeleteId('')}
+                isProcessing={isProcessing}
+                onConfirm={onDeletePendingBlogHandler}
+            />
         </section>
     );
 };

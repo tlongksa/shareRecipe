@@ -6,6 +6,7 @@ import Input from '../../../components/common/Input/Input';
 import BlogContext from '../../../context/blog-context';
 import Modal from 'react-bootstrap/Modal';
 import { notification } from 'antd';
+import DeleteItemModal from '../../../components/common/DeleteItemModal';
 
 const BlogCommentReports = () => {
     const {
@@ -14,7 +15,7 @@ const BlogCommentReports = () => {
     } = useContext(BlogContext);
     const [search, setSearch] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
-    const [selectedId, setSelectedId] = useState('');
+    const [selectedApproveId, setSelectedApproveId] = useState('');
     const [selectedDeleteId, setSelectedDeleteId] = useState('');
 
     useEffect(() => {
@@ -23,14 +24,18 @@ const BlogCommentReports = () => {
     }, []);
 
     const onApproveBlogCommentHandler = () => {
-        if (selectedId) {
+        if (selectedApproveId) {
             setIsProcessing(true);
-            approveBlogCommentRequest(selectedId)
+            approveBlogCommentRequest(selectedApproveId)
                 .then(({ data }) => {
                     setIsProcessing(false);
-                    setSelectedId('');
-                    console.log(data);
-                    onFetchMoreBlogCommentReport(1);
+                    notification.open({
+                        message: data?.messContent,
+                    });
+                    setSelectedApproveId('');
+                    if (list.length === 0) {
+                        onFetchMoreBlogCommentReport(1);
+                    }
                 })
                 .catch((err) => {
                     setIsProcessing(false);
@@ -44,11 +49,13 @@ const BlogCommentReports = () => {
             deleteBlogCommentRequest(selectedDeleteId)
                 .then(({ data }) => {
                     setIsProcessing(false);
-                    setSelectedDeleteId('');
                     notification.open({
                         message: data?.messContent,
                     });
-                    onFetchMoreBlogCommentReport(1);
+                    setSelectedDeleteId('');
+                    if (list.length === 0) {
+                        onFetchMoreBlogCommentReport(1);
+                    }
                 })
                 .catch((err) => {
                     setIsProcessing(false);
@@ -106,20 +113,15 @@ const BlogCommentReports = () => {
                 paginateCallback={(page) => {
                     onFetchMoreBlogCommentReport(page, search || '');
                 }}
-                onEdit={(id) => setSelectedId(id)}
-                onDelete={(id) => setSelectedId(id)}
+                onEdit={(id) => setSelectedApproveId(id)}
+                onDelete={(id) => setSelectedDeleteId(id)}
             />
             {isLoading && (
                 <div className="global-list__loader-container">
                     <LoadingOutlined className="global-list__loader-icon" />
                 </div>
             )}
-            <Modal
-                show={!!selectedId}
-                fullscreen={'md-down'}
-                onHide={() => setSelectedId('')}
-                className={`${isProcessing ? 'divDisabled' : ''}`}
-            >
+            <Modal show={!!selectedApproveId} fullscreen={'md-down'} onHide={() => setSelectedApproveId('')}>
                 <Modal.Header closeButton>
                     <Modal.Title>Bạn có muốn tiếp tục ?</Modal.Title>
                 </Modal.Header>
@@ -137,43 +139,20 @@ const BlogCommentReports = () => {
                             className="button button-sm"
                             type="button"
                             disabled={isProcessing}
-                            onClick={() => setSelectedId('')}
+                            onClick={() => setSelectedApproveId('')}
                         >
                             Hủy
                         </button>
                     </div>
                 </Modal.Body>
             </Modal>
-            <Modal
+            <DeleteItemModal
+                title="bình luận"
                 show={!!selectedDeleteId}
-                fullscreen={'md-down'}
                 onHide={() => setSelectedDeleteId('')}
-                className={`${isProcessing ? 'divDisabled' : ''}`}
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Bạn có muốn xóa bình luận ?</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="d-flex gap-2 align-items-center py-3">
-                        <button
-                            className="button button-sm"
-                            type="button"
-                            disabled={isProcessing}
-                            onClick={onDeleteBlogCommentHandler}
-                        >
-                            Xác nhận
-                        </button>
-                        <button
-                            className="button button-sm"
-                            type="button"
-                            disabled={isProcessing}
-                            onClick={() => setSelectedDeleteId('')}
-                        >
-                            Hủy
-                        </button>
-                    </div>
-                </Modal.Body>
-            </Modal>
+                isProcessing={isProcessing}
+                onConfirm={onDeleteBlogCommentHandler}
+            />
         </section>
     );
 };

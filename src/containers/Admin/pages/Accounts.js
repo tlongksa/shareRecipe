@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { deleteAccountRequest, updateAccountRoleRequest } from '../../../api/requests';
 import UserDataList from '../../../components/admin/user-datalist';
+import DeleteItemModal from '../../../components/common/DeleteItemModal';
 import Input from '../../../components/common/Input/Input';
 import AccountContext from '../../../context/account-context';
 
@@ -11,21 +12,23 @@ const Accounts = () => {
         useContext(AccountContext);
     const [isProcessing, setIsProcessing] = useState(false);
     const [search, setSearch] = useState('');
+    const [selectedDeleteId, setSelectedDeleteId] = useState('');
 
     useEffect(() => {
         onFetchMore(1);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const onRemoveUserHandler = (userId) => {
+    const onRemoveUserHandler = () => {
         setIsProcessing(true);
-        deleteAccountRequest(userId)
+        deleteAccountRequest(selectedDeleteId)
             .then(({ data }) => {
                 setIsProcessing(false);
-                onRemoveItem(userId);
+                onRemoveItem(selectedDeleteId);
                 notification.open({
                     message: data?.messContent,
                 });
+                setSelectedDeleteId('');
                 if (list.length === 0) {
                     onFetchMore(1);
                 }
@@ -99,13 +102,20 @@ const Accounts = () => {
                     onFetchMore(page, search || '');
                 }}
                 onChangeRole={onChangeUserRoleHandler}
-                onDelete={onRemoveUserHandler}
+                onDelete={(id) => setSelectedDeleteId(id)}
             />
             {isLoading && (
                 <div className="global-list__loader-container">
                     <LoadingOutlined className="global-list__loader-icon" />
                 </div>
             )}
+            <DeleteItemModal
+                title="account"
+                show={!!selectedDeleteId}
+                onHide={() => setSelectedDeleteId('')}
+                isProcessing={isProcessing}
+                onConfirm={onRemoveUserHandler}
+            />
         </section>
     );
 };

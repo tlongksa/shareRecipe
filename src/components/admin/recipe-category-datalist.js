@@ -18,7 +18,7 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                                 fontSize: 16,
                                 color: '#289AE7',
                             }}
-                            onClick={() => onEdit(item.dishCategoryID)}
+                            onClick={() => onEdit(item)}
                         />
                         <DeleteOutlined
                             style={{
@@ -73,7 +73,7 @@ const RecipeCategoryDatalist = ({ list, onEdit, onDelete }) => {
                             fontSize: 18,
                             color: '#289AE7',
                         }}
-                        onClick={() => onEdit(item.dishCategoryID)}
+                        onClick={() => onEdit(item)}
                     />
                     <DeleteOutlined
                         style={{
@@ -95,6 +95,7 @@ const RecipeCategoryDatalist = ({ list, onEdit, onDelete }) => {
                 <MobileCard no={index + 1} key={item.dishCategoryID} item={item} onEdit={onEdit} onDelete={onDelete} />
             ));
     }
+
     return (
         <div>
             <ul className={styles.dataList}>
