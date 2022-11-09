@@ -31,8 +31,19 @@ import { IMAGE_PLACEHODLER_URI } from '../../constants';
 import { notification } from 'antd';
 import EditComment from '../../components/common/EditComment';
 import DeleteItemModal from '../../components/common/DeleteItemModal';
+import { ROLES } from '../../App';
 
-export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onLike, onDislike, onEdit, onReport }) => {
+export const BlogCommentItem = ({
+    item,
+    isAuthenticated,
+    username,
+    onDelete,
+    onLike,
+    onDislike,
+    onEdit,
+    onReport,
+    isAdmin,
+}) => {
     return (
         <li className="blog-list_item mb-4">
             <div className="d-flex gap-3">
@@ -47,7 +58,9 @@ export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onL
                             <strong>{item.accountUserName}</strong>
                             <span className="text-muted">{item?.createDate}</span>
                         </p>
-                        <CDropdown className={`${username && item.accountUserName === username ? '' : 'd-none'}`}>
+                        <CDropdown
+                            className={`${(username && item.accountUserName === username) || isAdmin ? '' : 'd-none'}`}
+                        >
                             <CDropdownToggle
                                 color="white"
                                 style={{
@@ -59,7 +72,10 @@ export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onL
                                 <EllipsisOutlined className="blog-list_item-actions_icon" />
                             </CDropdownToggle>
                             <CDropdownMenu>
-                                <CDropdownItem onClick={() => onEdit(item)}>
+                                <CDropdownItem
+                                    onClick={() => onEdit(item)}
+                                    className={`${username && item.accountUserName === username ? '' : 'd-none'}`}
+                                >
                                     <EditOutlined className="blog-list_item-actions_icon" /> <span>Sửa</span>
                                 </CDropdownItem>
                                 <CDropdownItem onClick={() => onDelete(item.blogCommentID)}>
@@ -105,9 +121,10 @@ const BlogDetail = () => {
     } = useContext(BlogContext);
     const dataFetchedRef = useRef(false);
     const {
-        userInfo: { accessToken, username },
+        userInfo: { accessToken, username, roles },
     } = useContext(AuthContext);
     const isAuthenticated = !!accessToken;
+    const isAdmin = roles === ROLES.admin;
     const [content, setContent] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate();
@@ -184,9 +201,9 @@ const BlogDetail = () => {
             });
     };
 
-    const onDeleteBlogCommentHandler = (id) => {
+    const onDeleteBlogCommentHandler = () => {
         setIsProcessing(true);
-        deleteBlogCommentRequest(id)
+        deleteBlogCommentRequest(selectedDeleteId)
             .then(({ data }) => {
                 setIsProcessing(false);
                 notification.open({
@@ -263,6 +280,7 @@ const BlogDetail = () => {
                                 onEdit={(cmtItem) => {
                                     setSelectedComment(cmtItem);
                                 }}
+                                isAdmin={isAdmin}
                             />
                         ))}
                     </div>
