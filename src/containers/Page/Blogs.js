@@ -12,6 +12,8 @@ import {
     CheckSquareOutlined,
     DeleteOutlined,
     EditOutlined,
+    LikeFilled,
+    DislikeFilled,
 } from '@ant-design/icons';
 import Input from '../../components/common/Input/Input';
 import { Link } from 'react-router-dom';
@@ -130,11 +132,11 @@ export const BlogItem = ({
                         } ${hideBottomActions ? 'd-none' : ''}`}
                     >
                         <button onClick={() => onLike && onLike(item.blogID)}>
-                            <LikeOutlined />
+                            {item?.checkLike ? <LikeFilled /> : <LikeOutlined />}
                             <span>{item.totalLike}</span>
                         </button>
                         <button onClick={() => onDislike && onDislike(item.blogID)}>
-                            <DislikeOutlined />
+                            {item?.checkDislike ? <DislikeFilled /> : <DislikeOutlined />}
                             <span>{item.totalDisLike}</span>
                         </button>
                         <button>

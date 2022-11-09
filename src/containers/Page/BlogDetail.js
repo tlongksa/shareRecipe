@@ -10,6 +10,8 @@ import {
     EditOutlined,
     DeleteOutlined,
     FlagOutlined,
+    LikeFilled,
+    DislikeFilled,
 } from '@ant-design/icons';
 import Input from '../../components/common/Input/Input';
 import {
@@ -74,11 +76,11 @@ export const BlogCommentItem = ({ item, isAuthenticated, username, onDelete, onL
                         }`}
                     >
                         <button onClick={() => onLike(item.blogCommentID)}>
-                            <LikeOutlined />
+                            {item?.checkLike ? <LikeFilled /> : <LikeOutlined />}
                             <span>{item.totalLike}</span>
                         </button>
                         <button onClick={() => onDislike(item.blogCommentID)}>
-                            <DislikeOutlined />
+                            {item?.checkDislike ? <DislikeFilled /> : <DislikeOutlined />}
                             <span>{item.totalDisLike}</span>
                         </button>
                         <button onClick={() => onReport(item.blogCommentID)}>

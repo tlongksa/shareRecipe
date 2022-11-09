@@ -5,9 +5,19 @@ const token = getAccessToken();
 
 const getListBlogRequest = (page = 1, search = '') => axios.get(`/getListBlog?pageIndex=${page}&searchData=${search}`);
 
-const getBlogDetailRequest = (id) => axios.get(`/getBlogDetail?blogId=${id}`);
+const getBlogDetailRequest = (id) =>
+    axios.get(`/getBlogDetail?blogId=${id}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
 
-const getBlogCommentsRequest = (id, page = 1) => axios.get(`/getBlogComment?blogId=${id}&pageIndex=${page}`);
+const getBlogCommentsRequest = (id, page = 1) =>
+    axios.get(`/getBlogComment?blogId=${id}&pageIndex=${page}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
 
 const getListPendingBlogRequest = (page = 1, search = '') =>
     axios.get(`/admin/listBlogPending?pageIndex=${page}&searchData=${search}`, {
