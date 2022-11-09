@@ -1,14 +1,22 @@
-import { DislikeOutlined, LikeOutlined, LoadingOutlined } from '@ant-design/icons';
+import { DeleteOutlined, DislikeOutlined, LikeOutlined, LoadingOutlined } from '@ant-design/icons';
+import { notification } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { removeRecipeFromFavouriteList } from '../../api/requests';
 import Paginator from '../../components/common/Paginator';
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
 import RecipeContext from '../../context/recipe-context';
 import { SearchDataList } from '../Page/Blogs';
 
 const FavouriteRecipes = () => {
-    const { favouriteRecipeList, isLoading, error, onFetchFavouriteMore, favouriteRecipeExtraListInfo } =
-        useContext(RecipeContext);
+    const {
+        favouriteRecipeList,
+        isLoading,
+        error,
+        onFetchFavouriteMore,
+        favouriteRecipeExtraListInfo,
+        onRemoveItemFromFavouriteList,
+    } = useContext(RecipeContext);
     const [search, setSearch] = useState('');
 
     useEffect(() => {
@@ -16,8 +24,28 @@ const FavouriteRecipes = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const onRemoveRecipeHandler = (id) => {
+        removeRecipeFromFavouriteList(id)
+            .then(({ data }) => {
+                notification.open({
+                    message: data?.messContent,
+                });
+                onRemoveItemFromFavouriteList(id);
+                if (favouriteRecipeList.length === 0) {
+                    onFetchFavouriteMore(1);
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+
     if (!isLoading && error) {
-        return <p className="error-message">{error?.message || 'Something went wrong!'}</p>;
+        return (
+            <section className="mh-85vh">
+                <div className="custom-page__container">
+                    <p className="error-message">{error?.message || 'Something went wrong!'}</p>
+                </div>
+            </section>
+        );
     }
 
     return (
@@ -42,7 +70,7 @@ const FavouriteRecipes = () => {
                                 <img
                                     src={item?.urlImage || IMAGE_PLACEHODLER_URI}
                                     alt=""
-                                    className="rounded-circle recipe-list_item-avatar"
+                                    className="rounded-2 recipe-list_item-avatar"
                                 />
                                 <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
                                     <div className="recipe-list_item-content mb-2">
@@ -63,6 +91,9 @@ const FavouriteRecipes = () => {
                                         <button onClick={() => {}}>
                                             <DislikeOutlined />
                                             <span>{item.totalDisLike}</span>
+                                        </button>
+                                        <button onClick={() => onRemoveRecipeHandler(item.dishId)}>
+                                            <DeleteOutlined />
                                         </button>
                                     </div>
                                 </div>

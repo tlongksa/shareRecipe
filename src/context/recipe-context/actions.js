@@ -23,10 +23,11 @@ import {
     RECIPE_GET_FAVOURITE_LIST_SUCCESS,
     RECIPE_GET_FAVOURITE_LIST_FAILURE,
     RECIPE_REMOVE_CATEGORY_FROM_LIST_FAILURE,
-    RECIPE_REMOVE_FROM_LIST_FAILURE,
+    RECIPE_REMOVE_FROM_LIST,
     RECIPE_GET_DETAIL_COMMENTS,
     RECIPE_GET_DETAIL_COMMENTS_SUCCESS,
     RECIPE_GET_DETAIL_COMMENTS_FAILURE,
+    RECIPE_REMOVE_FROM_FAVOURITE_LIST,
 } from './types';
 
 const recipeGetListAction = () => ({
@@ -141,7 +142,7 @@ const removeCategoryItemFromList = (payload) => ({
 });
 
 const removeRecipeItemFromList = (payload) => ({
-    type: RECIPE_REMOVE_FROM_LIST_FAILURE,
+    type: RECIPE_REMOVE_FROM_LIST,
     payload,
 });
 
@@ -157,6 +158,11 @@ const recipeGetDetailCommentsSuccessAction = (payload) => ({
 const recipeGetDetailCommentsFailureAction = (error) => ({
     type: RECIPE_GET_DETAIL_COMMENTS_FAILURE,
     payload: error,
+});
+
+const recipeRemoveItemFromFavouriteListAction = (payload) => ({
+    type: RECIPE_REMOVE_FROM_FAVOURITE_LIST,
+    payload,
 });
 
 export {
@@ -188,4 +194,5 @@ export {
     recipeGetDetailCommentsAction,
     recipeGetDetailCommentsSuccessAction,
     recipeGetDetailCommentsFailureAction,
+    recipeRemoveItemFromFavouriteListAction,
 };

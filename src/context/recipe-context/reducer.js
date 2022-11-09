@@ -22,11 +22,12 @@ import {
     RECIPE_GET_FAVOURITE_LIST,
     RECIPE_GET_FAVOURITE_LIST_SUCCESS,
     RECIPE_GET_FAVOURITE_LIST_FAILURE,
-    RECIPE_REMOVE_FROM_LIST_FAILURE,
+    RECIPE_REMOVE_FROM_LIST,
     RECIPE_REMOVE_CATEGORY_FROM_LIST_FAILURE,
     RECIPE_GET_DETAIL_COMMENTS,
     RECIPE_GET_DETAIL_COMMENTS_SUCCESS,
     RECIPE_GET_DETAIL_COMMENTS_FAILURE,
+    RECIPE_REMOVE_FROM_FAVOURITE_LIST,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -142,7 +143,7 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
                 draft.isLoading = false;
                 draft.error = payload;
                 break;
-            case RECIPE_REMOVE_FROM_LIST_FAILURE:
+            case RECIPE_REMOVE_FROM_LIST:
                 draft.adminRecipeList = draft.adminRecipeList.filter((item) => item.dishID !== payload);
                 break;
             case RECIPE_REMOVE_CATEGORY_FROM_LIST_FAILURE:
@@ -160,6 +161,9 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
             case RECIPE_GET_DETAIL_COMMENTS_FAILURE:
                 draft.recipeDetail.comments.isLoading = false;
                 draft.recipeDetail.comments.error = payload;
+                break;
+            case RECIPE_REMOVE_FROM_FAVOURITE_LIST:
+                draft.favouriteRecipeList = draft.favouriteRecipeList.filter((item) => item.dishId !== payload);
                 break;
             default:
                 break;

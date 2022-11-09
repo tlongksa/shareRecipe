@@ -29,6 +29,7 @@ import {
     recipeGetDetailCommentsAction,
     recipeGetDetailCommentsSuccessAction,
     recipeGetDetailCommentsFailureAction,
+    recipeRemoveItemFromFavouriteListAction,
 } from './actions';
 import recipeReducer from './reducer';
 import {
@@ -269,6 +270,7 @@ export const RecipeProvider = ({ children }) => {
                 onFetchFavouriteMore: (page, search) => fetchFavouriteRecipeList(page, search),
                 onRemoveCategoryFromList: (id) => dispatchContext(removeCategoryItemFromList(id)),
                 onFetchRecipeComments: (id, page) => fetchRecipeCommentList(id, page),
+                onRemoveItemFromFavouriteList: (id) => dispatchContext(recipeRemoveItemFromFavouriteListAction(id)),
             }}
         >
             {children}
