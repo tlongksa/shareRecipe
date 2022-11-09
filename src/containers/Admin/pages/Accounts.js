@@ -13,6 +13,7 @@ const Accounts = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [search, setSearch] = useState('');
     const [selectedDeleteId, setSelectedDeleteId] = useState('');
+    const [selectedEditItem, setSelectedEditItem] = useState('');
 
     useEffect(() => {
         onFetchMore(1);
@@ -45,6 +46,7 @@ const Accounts = () => {
             .then(() => {
                 setIsProcessing(false);
                 onUpdateRole(userId, newRole);
+                setSelectedEditItem('');
             })
             .catch((err) => {
                 console.log(err);
@@ -103,6 +105,8 @@ const Accounts = () => {
                 }}
                 onChangeRole={onChangeUserRoleHandler}
                 onDelete={(id) => setSelectedDeleteId(id)}
+                onEdit={(id) => setSelectedEditItem(id)}
+                selectedEditItem={selectedEditItem}
             />
             {isLoading && (
                 <div className="global-list__loader-container">

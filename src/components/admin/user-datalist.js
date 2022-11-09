@@ -5,7 +5,7 @@ import Paginator from '../common/Paginator';
 import { mapRoleKeyToText, role_options } from '../../constants';
 import Input from '../common/Input/Input';
 
-function MobileCard({ item, no, onEdit, onDelete, onChangeRole }) {
+function MobileCard({ item, no, onEdit, onDelete, onChangeRole, selectedEditItem }) {
     return (
         <div className="custom-card">
             <div className="custom-row">
@@ -53,22 +53,26 @@ function MobileCard({ item, no, onEdit, onDelete, onChangeRole }) {
                 <div className="custom-col">
                     <strong>Chức vụ</strong>
                     <p className="text-capitalize">
-                        <Input
-                            type="select"
-                            onChange={(e) => {
-                                onChangeRole(item.accountId, e.target.value);
-                            }}
-                            value={mapRoleKeyToText(item.role)}
-                            touched={true}
-                            containerNoMarginBottom
-                            inputClassName="w-100"
-                        >
-                            {role_options.map((r) => (
-                                <option key={r} value={r} className="text-capitalize">
-                                    {r}
-                                </option>
-                            ))}
-                        </Input>
+                        {selectedEditItem === item.accountId ? (
+                            <Input
+                                type="select"
+                                onChange={(e) => {
+                                    onChangeRole(item.accountId, e.target.value);
+                                }}
+                                value={mapRoleKeyToText(item.role)}
+                                touched={true}
+                                containerNoMarginBottom
+                                className="w-100"
+                            >
+                                {role_options.map((r) => (
+                                    <option className="text-capitalize" key={r} value={r}>
+                                        {r}
+                                    </option>
+                                ))}
+                            </Input>
+                        ) : (
+                            mapRoleKeyToText(item.role)
+                        )}
                     </p>
                 </div>
             </div>
@@ -76,7 +80,16 @@ function MobileCard({ item, no, onEdit, onDelete, onChangeRole }) {
     );
 }
 
-const UserDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCallback, onChangeRole }) => {
+const UserDataList = ({
+    list,
+    onEdit,
+    onDelete,
+    currentPage,
+    maxPage,
+    paginateCallback,
+    onChangeRole,
+    selectedEditItem,
+}) => {
     const isMobile = useMediaQuery({ query: `(max-width: 768px)` });
 
     let listUserMarkup = list.map((item, index) => (
@@ -86,23 +99,27 @@ const UserDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCa
             <span>{item.userName || '-'}</span>
             <span>{item.userName || '-'}</span>
             <span>{item?.createDate?.substr(0, 10) || '-'}</span>
-            <span>
-                <Input
-                    type="select"
-                    onChange={(e) => {
-                        onChangeRole(item.accountId, e.target.value);
-                    }}
-                    value={mapRoleKeyToText(item.role)}
-                    touched={true}
-                    containerNoMarginBottom
-                    className="w-100"
-                >
-                    {role_options.map((r) => (
-                        <option className="text-capitalize" key={r} value={r}>
-                            {r}
-                        </option>
-                    ))}
-                </Input>
+            <span className="text-capitalize">
+                {selectedEditItem === item.accountId ? (
+                    <Input
+                        type="select"
+                        onChange={(e) => {
+                            onChangeRole(item.accountId, e.target.value);
+                        }}
+                        value={mapRoleKeyToText(item.role)}
+                        touched={true}
+                        containerNoMarginBottom
+                        className="w-100"
+                    >
+                        {role_options.map((r) => (
+                            <option className="text-capitalize" key={r} value={r}>
+                                {r}
+                            </option>
+                        ))}
+                    </Input>
+                ) : (
+                    mapRoleKeyToText(item.role)
+                )}
             </span>
             <span>
                 <div className="d-flex align-items-center mw-60-px gap-sm">
@@ -129,7 +146,14 @@ const UserDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginateCa
 
     if (isMobile) {
         listUserMarkup = list.map((item, index) => (
-            <MobileCard no={index + 1} key={item.accountId} item={item} onEdit={onEdit} onDelete={onDelete} />
+            <MobileCard
+                no={index + 1}
+                key={item.accountId}
+                item={item}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                selectedEditItem={selectedEditItem}
+            />
         ));
     }
 
