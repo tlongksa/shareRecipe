@@ -69,7 +69,7 @@ const BlogCommentReports = () => {
     }
 
     return (
-        <section className={`account-list__container ${isLoading || isProcessing ? 'divDisabled' : ''}`}>
+        <section className={`account-list__container pb-3 ${isLoading || isProcessing ? 'divDisabled' : ''}`}>
             <div className="d-flex justify-content-end mb-3 gap-3 sm:flex-col">
                 <form
                     className="global-list_search shadow rounded-3"

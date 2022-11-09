@@ -25,7 +25,7 @@ const RecipeCategories = () => {
     useEffect(() => {
         if (selectedCategory?.dishCategoryID) {
             setCategoryName(selectedCategory?.name);
-            setCategoryImage(selectedCategory?.content);
+            setCategoryImage(selectedCategory?.dishCategoryImage);
         }
     }, [selectedCategory]);
 
@@ -91,7 +91,10 @@ const RecipeCategories = () => {
             <RecipeCategoryDatalist
                 list={categories.list}
                 onDelete={(id) => setSelectedDeleteId(id)}
-                onEdit={(item) => setSelectedCategory(item)}
+                onEdit={(item) => {
+                    setSelectedCategory(item);
+                    setShowNewCategory(true);
+                }}
             />
             {categories.isLoading && (
                 <div className="global-list__loader-container">
@@ -114,7 +117,7 @@ const RecipeCategories = () => {
                 }}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Tạo mới blog</Modal.Title>
+                    <Modal.Title>{selectedCategory ? 'Cập nhật' : 'Thêm'} loại công thức</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={onSubmit}>
@@ -128,8 +131,7 @@ const RecipeCategories = () => {
                             className="flex-fill"
                         />
                         <Input
-                            type="textarea"
-                            label="Category Image"
+                            label="Category Image Url"
                             value={categoryImage}
                             onChange={(e) => setCategoryImage(e.target.value)}
                             placeholder="Category Image ..."
