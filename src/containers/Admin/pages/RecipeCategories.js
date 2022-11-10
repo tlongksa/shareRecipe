@@ -7,6 +7,9 @@ import DeleteItemModal from '../../../components/common/DeleteItemModal';
 import RecipeContext from '../../../context/recipe-context';
 import Modal from 'react-bootstrap/Modal';
 import Input from '../../../components/common/Input/Input';
+import './index.scss';
+import { generateImageUrl } from '../../../utils';
+import { fileUploadHandler } from '../../../hooks/useFileUpload';
 
 const RecipeCategories = () => {
     const { onFetchRecipeCategories, categories, onRemoveCategoryFromList } = useContext(RecipeContext);
@@ -15,7 +18,9 @@ const RecipeCategories = () => {
     const [showNewCategory, setShowNewCategory] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [categoryName, setCategoryName] = useState('');
-    const [categoryImage, setCategoryImage] = useState('');
+    const [categoryImage, setCategoryImage] = useState(null);
+    const [categoryImageUrl, setCategoryImageUrl] = useState('');
+    const [imgError, setImgError] = useState('');
 
     useEffect(() => {
         onFetchRecipeCategories();
@@ -23,9 +28,15 @@ const RecipeCategories = () => {
     }, []);
 
     useEffect(() => {
+        if (categoryImage) {
+            setCategoryImageUrl(generateImageUrl(categoryImage, setImgError));
+        }
+    }, [categoryImage]);
+
+    useEffect(() => {
         if (selectedCategory?.dishCategoryID) {
             setCategoryName(selectedCategory?.name);
-            setCategoryImage(selectedCategory?.dishCategoryImage);
+            setCategoryImageUrl(selectedCategory?.dishCategoryImage);
         }
     }, [selectedCategory]);
 
@@ -51,30 +62,33 @@ const RecipeCategories = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        setIsProcessing(true);
-        const payloadToSubmit = {
-            categoryName,
-            categoryImage,
-        };
-        if (selectedCategory?.dishCategoryID) {
-            payloadToSubmit.categoryId = selectedCategory?.dishCategoryID;
-        }
-        createCategoryRequest(payloadToSubmit)
-            .then(({ data }) => {
-                setCategoryImage('');
-                setCategoryName('');
-                setShowNewCategory(false);
-                setIsProcessing(false);
-                setSelectedCategory(null);
-                notification.open({
-                    message: data?.messContent,
+        fileUploadHandler(categoryImage, setIsProcessing, setImgError, (url) => {
+            setIsProcessing(true);
+            const payloadToSubmit = {
+                categoryName,
+                categoryImage: categoryImageUrl,
+            };
+            if (selectedCategory?.dishCategoryID) {
+                payloadToSubmit.categoryId = selectedCategory?.dishCategoryID;
+            }
+            createCategoryRequest(payloadToSubmit)
+                .then(({ data }) => {
+                    setCategoryImageUrl('');
+                    setCategoryName('');
+                    setCategoryImage(null);
+                    setShowNewCategory(false);
+                    setIsProcessing(false);
+                    setSelectedCategory(null);
+                    notification.open({
+                        message: data?.messContent,
+                    });
+                    onFetchRecipeCategories();
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setIsProcessing(false);
                 });
-                onFetchRecipeCategories();
-            })
-            .catch((err) => {
-                console.log(err);
-                setIsProcessing(false);
-            });
+        });
     };
 
     return (
@@ -131,17 +145,21 @@ const RecipeCategories = () => {
                             className="flex-fill"
                         />
                         <Input
-                            label="Category Image Url"
-                            value={categoryImage}
-                            onChange={(e) => setCategoryImage(e.target.value)}
-                            placeholder="Category Image ..."
-                            textAreaRows={15}
+                            type="file"
+                            label="Category Image "
+                            onChange={(e) => setCategoryImage(e.target?.files?.[0])}
                         />
+                        {categoryImageUrl && (
+                            <div className="category-image__preview">
+                                <img src={categoryImageUrl} alt="" />
+                            </div>
+                        )}
+                        {imgError && <p className="error-message">{imgError}</p>}
                         <div className="d-flex justify-content-end">
                             <button
                                 className="button button-sm"
                                 type="submit"
-                                disabled={!categoryImage.trim() || !categoryName.trim() || isProcessing}
+                                disabled={!categoryImageUrl || !categoryName.trim() || isProcessing}
                             >
                                 Post
                             </button>

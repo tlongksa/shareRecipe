@@ -262,6 +262,7 @@ const UserProfile = () => {
                 </div>
             </div>
             {fileError && <p className="error-message text-center">{fileError}</p>}
+            {imgError && <p className="error-message text-center">{imgError}</p>}
             <div className="custom-page__container custom-page__container-no__margin-top">
                 <div className="profile-name__container mb-4">
                     <h3 className="text-center">{dataResponse?.name}</h3>

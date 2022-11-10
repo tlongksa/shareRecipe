@@ -4,3 +4,9 @@
 .pending-blogs__container {
     min-height: 700px;
 }
+.category-image__preview {
+    margin-top: 1.5rem;
+    img {
+        max-width: 100%;
+    }
+}
