@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import './Login.scss';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import showPwdImg from '../../assets/img/show-password.png';
 import hidePwdImg from '../../assets/img/hide-.svg';
 import { notification } from 'antd';
@@ -12,14 +12,13 @@ import { loginRequest } from '../../api/requests';
 
 const Login = () => {
     const { onLoginSuccess } = useContext(AuthContext);
-
-    const location = useLocation();
-    const from = location.state?.from?.pathname || '/';
+    const [searchParams] = useSearchParams();
     const [isProcessing, setIsProcessing] = useState(false);
     const [username, setUser] = useState('');
     const [password, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [isRevealPwd, setIsRevealPwd] = useState(false);
+    const redirectUrl = searchParams.get('redirectUrl');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -48,12 +47,15 @@ const Login = () => {
                     />
                 ),
             });
+            if (redirectUrl) {
+                window.location.replace(redirectUrl);
+                return;
+            }
             if (roles === ROLES.admin) {
                 window.location.replace('/admin/accounts');
                 return;
             }
             window.location.replace('/');
-            window.location.replace(from);
         } catch (err) {
             setIsProcessing(false);
             if (!err?.response) {

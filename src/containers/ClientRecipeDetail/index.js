@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './index.scss';
 import RecipeComments from './RecipeComments';
 import { Divider, notification } from 'antd';
@@ -9,10 +9,11 @@ import Slider from '../../components/common/Slider';
 import { addRecipeToFavouriteList } from '../../api/requests';
 import AuthContext from '../../context/auth-context';
 
-const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFavourite }) => {
+const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFavourite, dishId }) => {
     const {
         userInfo: { accessToken },
     } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     return (
         <div className="top-info__container">
@@ -55,12 +56,15 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
             <div className="right-view flex-fill">
                 <div className="d-flex justify-content-between gap-3">
                     <h3 className="mb-2">{dataResponse.dishName}</h3>
-                    {accessToken && (
-                        <button className="button button-sm d-flex align-items-center gap-2" onClick={onAddToFavourite}>
-                            <PlusCircleOutlined />
-                            <span>Yêu thích</span>
-                        </button>
-                    )}
+                    <button
+                        className="button button-sm d-flex align-items-center gap-2"
+                        onClick={() => {
+                            accessToken ? onAddToFavourite() : navigate(`/signin?redirectUrl=/recipe-detail/${dishId}`);
+                        }}
+                    >
+                        <PlusCircleOutlined />
+                        <span>Yêu thích</span>
+                    </button>
                 </div>
                 <div className="mb-2">
                     <strong>Tổng quan :</strong> {dataResponse.summary || '-'}
@@ -132,6 +136,7 @@ const ClientRecipeDetail = () => {
                     dataResponse={dataResponse}
                     setBigRecipeImg={setBigRecipeImg}
                     onAddToFavourite={onAddToFavouriteListHandler}
+                    dishId={dishId}
                 />
                 <div className="view-comment">
                     <hr />
