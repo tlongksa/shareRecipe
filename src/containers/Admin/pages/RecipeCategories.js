@@ -60,35 +60,55 @@ const RecipeCategories = () => {
             });
     };
 
+    const onSubmitHandler = (payloadToSubmit) => {
+        setIsProcessing(true);
+        createCategoryRequest(payloadToSubmit)
+            .then(({ data }) => {
+                setCategoryImageUrl('');
+                setCategoryName('');
+                setCategoryImage(null);
+                setShowNewCategory(false);
+                setIsProcessing(false);
+                setSelectedCategory(null);
+                notification.open({
+                    message: data?.messContent,
+                });
+                onFetchRecipeCategories();
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsProcessing(false);
+            });
+    };
+
     const onSubmit = (e) => {
         e.preventDefault();
-        fileUploadHandler(categoryImage, setIsProcessing, setImgError, (url) => {
-            setIsProcessing(true);
-            const payloadToSubmit = {
-                categoryName,
-                categoryImage: categoryImageUrl,
-            };
-            if (selectedCategory?.dishCategoryID) {
-                payloadToSubmit.categoryId = selectedCategory?.dishCategoryID;
-            }
-            createCategoryRequest(payloadToSubmit)
-                .then(({ data }) => {
-                    setCategoryImageUrl('');
-                    setCategoryName('');
-                    setCategoryImage(null);
-                    setShowNewCategory(false);
-                    setIsProcessing(false);
-                    setSelectedCategory(null);
-                    notification.open({
-                        message: data?.messContent,
-                    });
-                    onFetchRecipeCategories();
-                })
-                .catch((err) => {
-                    console.log(err);
-                    setIsProcessing(false);
-                });
-        });
+        if (categoryImage) {
+            return fileUploadHandler(categoryImage, setIsProcessing, setImgError, (url) => {
+                const payloadToSubmit = {
+                    categoryName,
+                    categoryImage: url,
+                };
+                if (selectedCategory?.dishCategoryID) {
+                    payloadToSubmit.categoryId = selectedCategory?.dishCategoryID;
+                }
+                onSubmitHandler(payloadToSubmit);
+            });
+        }
+
+        if (!categoryImage && !categoryImageUrl) {
+            setImgError('Please choose an image');
+            return;
+        }
+
+        const payloadToSubmit = {
+            categoryName,
+            categoryImage: categoryImageUrl,
+        };
+        if (selectedCategory?.dishCategoryID) {
+            payloadToSubmit.categoryId = selectedCategory?.dishCategoryID;
+        }
+        onSubmitHandler(payloadToSubmit);
     };
 
     return (
@@ -146,8 +166,11 @@ const RecipeCategories = () => {
                         />
                         <Input
                             type="file"
-                            label="Category Image "
-                            onChange={(e) => setCategoryImage(e.target?.files?.[0])}
+                            label="Category Image"
+                            onChange={(e) => {
+                                setImgError('');
+                                setCategoryImage(e.target?.files?.[0]);
+                            }}
                         />
                         {categoryImageUrl && (
                             <div className="category-image__preview">
