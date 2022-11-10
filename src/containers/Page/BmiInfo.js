@@ -10,6 +10,7 @@ import { BmiInfoSchema } from '../../validators';
 import { IMAGE_PLACEHODLER_URI } from '.././../constants';
 import { updateUserBmiInfoRequest } from '../../api/requests';
 import { Link } from 'react-router-dom';
+import { SearchDataList } from './Blogs';
 
 export const mobilityOptions = [
     {
@@ -181,6 +182,7 @@ const BmiInfo = () => {
     const [recipeType, setRecipeType] = useState('total');
     const [meal, setMeal] = useState('');
     const [mainIngredient, setMainIngredient] = useState('');
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         if (userInfo?.username) {
@@ -256,6 +258,17 @@ const BmiInfo = () => {
                             ))}
                         </div>
                         <h5 className="mb-4">Chọn nguyên liệu chính</h5>
+                        <SearchDataList
+                            search={search}
+                            setSearch={setSearch}
+                            callback={() => {
+                                if (search.trim()) {
+                                    onFetchMainIngredients(search);
+                                }
+                            }}
+                            emptySearchCallback={() => onFetchMainIngredients('')}
+                        />
+                        <br />
                         <div className="main-ingredient__list mb-3">
                             {mainIngredientList?.map((value) => (
                                 <label key={value} className="custom-radio__container">

@@ -31,6 +31,13 @@ const getMainIngredientListRequest = () =>
         },
     });
 
+const searchMainIngredientListRequest = (ingredient) =>
+    axios.get(`/searchMainIngredient?ingredient=${ingredient}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 const updateUserBmiInfoRequest = (data) =>
     axios.put(`/UpdateProfileBMI`, data, {
         headers: {
@@ -47,4 +54,5 @@ export {
     updateUserBmiInfoRequest,
     getUserBmiRecipeByFavouriteRequest,
     getUserBmiListRequest,
+    searchMainIngredientListRequest,
 };

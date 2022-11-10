@@ -18,6 +18,7 @@ import {
     getUserBmiRecipeListRequest,
     getMainIngredientListRequest,
     getUserBmiRecipeByFavouriteRequest,
+    searchMainIngredientListRequest,
 } from '../../api/requests';
 
 export const defaultValues = {
@@ -76,11 +77,16 @@ export const BmiProvider = ({ children }) => {
             });
     };
 
-    const fetchMainIngredients = () => {
+    const fetchMainIngredients = (ing = '') => {
         dispatchContext(bmiGetMainIngredientsAction());
-        getMainIngredientListRequest()
+        const promise = ing ? searchMainIngredientListRequest(ing) : getMainIngredientListRequest();
+        promise
             .then(({ data }) => {
-                dispatchContext(bmiGetMainIngredientsSuccessAction(data));
+                const ingArr = [];
+                if (typeof data === 'string') {
+                    ingArr.push(data);
+                }
+                dispatchContext(bmiGetMainIngredientsSuccessAction(typeof data === 'object' ? data : ingArr));
             })
             .catch((err) => {
                 dispatchContext(bmiGetMainIngredientsFailureAction(err?.response?.data));
@@ -94,7 +100,7 @@ export const BmiProvider = ({ children }) => {
                 onFetchDetail: (name) => fetchBmiDetail(name),
                 onClearDetail: () => dispatchContext(clearBmiDetailAction()),
                 onFetchRecipes: (totalCalo) => fetchBmiRecipeList(totalCalo),
-                onFetchMainIngredients: () => fetchMainIngredients(),
+                onFetchMainIngredients: (ing) => fetchMainIngredients(ing),
                 onFetchRecipesByFavourite: (totalCalo, meal, mainIngredient) =>
                     fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient),
             }}
