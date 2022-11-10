@@ -85,7 +85,7 @@ const RecipeCategories = () => {
                     onClick={() => setShowNewCategory(true)}
                 >
                     <PlusCircleOutlined />
-                    <span>Thêm loại công thức</span>
+                    <span>Thêm thể loại công thức</span>
                 </button>
             </div>
             <RecipeCategoryDatalist
@@ -117,7 +117,7 @@ const RecipeCategories = () => {
                 }}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{selectedCategory ? 'Cập nhật' : 'Thêm'} loại công thức</Modal.Title>
+                    <Modal.Title>{selectedCategory ? 'Cập nhật' : 'Thêm'} thể loại công thức</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={onSubmit}>

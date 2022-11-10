@@ -172,7 +172,7 @@ const BmiInfo = () => {
     const {
         bmiDetail: { dataResponse, isLoading },
         mainIngredients: { dataResponse: mainIngredientList },
-        recipes: { dataResponse: recipeList },
+        recipes: { dataResponse: recipeList, error },
         onFetchDetail,
         onFetchRecipes,
         onFetchMainIngredients,
@@ -235,6 +235,7 @@ const BmiInfo = () => {
                 >
                     Favourite
                 </button>
+                {error && <p className="error-message mt-4">{error?.messContent}</p>}
                 {recipeType === 'favourite' && (
                     <div className="p-4 bg-gray-custom rounded mt-4">
                         <h5 className="mb-4">Chọn bữa</h5>
