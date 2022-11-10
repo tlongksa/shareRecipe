@@ -1,4 +1,5 @@
 import React from 'react';
+import { showRecipeLevelText } from '../../../utils';
 
 const HomeRecipeItem = ({ item, navigateTo }) => {
     return (
@@ -16,9 +17,9 @@ const HomeRecipeItem = ({ item, navigateTo }) => {
                 />
                 <div className="recipe-info__text-view">
                     <h5 className="home-recipe__item-name">{item.name} </h5>
-                    <div className="view-top">Độ khó: {item.level}</div>
+                    <div className="view-top">Độ khó: {showRecipeLevelText(item.level)}</div>
                     <div className="view-top">Mô tả: {item.summary}</div>
-                    <div className="view-top">Thời gian: {item.time}</div>
+                    <div className="view-top">Thời gian: {item.time} phút</div>
                     <div className="view-top">Đánh giá: {item.avgStarRate} ⭐</div>
                 </div>
             </div>

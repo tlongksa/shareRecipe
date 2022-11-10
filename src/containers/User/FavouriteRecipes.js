@@ -11,7 +11,7 @@ const ProfileFavouriteRecipe = ({ item }) => {
                 {item.name}
             </Link>
             <img src={item.urlImage || 'https://via.placeholder.com/150'} alt="" />
-            <p>
+            <p className="mt-2">
                 By <strong>{item.verifier}</strong> <span className="text-muted">{item.createDate}</span>
             </p>
         </li>
