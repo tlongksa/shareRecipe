@@ -211,7 +211,7 @@ const RecipeForm = () => {
                 .then(({ data }) => {
                     setIsCreating(false);
                     notification.open({
-                        message: data,
+                        message: data?.message,
                     });
                     navigate(isMod ? '/my-recipes' : '/admin/recipes');
                 })
