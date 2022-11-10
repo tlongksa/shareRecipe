@@ -113,7 +113,7 @@ const getFavouriteRecipeListRequest = (page = 1, search = '') =>
     });
 
 const approveRecipeCommentRequest = (dishCommentId) =>
-    axios.post(`/approveDishComment?dishCommentId=${dishCommentId}`, null, {
+    axios.post(`/admin/approveDishComment?dishCommentId=${dishCommentId}`, null, {
         headers: {
             authorization: `Bearer ${token || ''}`,
         },
