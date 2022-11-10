@@ -4,17 +4,25 @@ import { Rating, Stack } from '@mui/material';
 import Form from 'react-bootstrap/Form';
 import CommentItem from './CommentItem';
 import AuthContext from '../../context/auth-context';
-import { createRecipeCommentRequest, getRecipeCommentsAuthRequest } from '../../api/requests';
+import {
+    createRecipeCommentRequest,
+    deleteRecipeCommentRequest,
+    dislikeRecipeCommentRequest,
+    likeRecipeCommentRequest,
+    reportRecipeCommentRequest,
+} from '../../api/requests';
 import RecipeContext from '../../context/recipe-context';
 import Paginator from '../../components/common/Paginator';
+import { ROLES } from '../../App';
+import { CheckCircleTwoTone } from '@ant-design/icons';
+import { notification } from 'antd';
 
 const RecipeComments = ({ dishId }) => {
     const [content, setContent] = useState('');
     const [star, setStar] = useState(3);
     const {
-        userInfo: { accessToken },
+        userInfo: { accessToken, roles, username },
     } = useContext(AuthContext);
-    const [index] = useState(1);
     const {
         recipeDetail: {
             comments: { list, isLoading, extraListInfo },
@@ -26,18 +34,23 @@ const RecipeComments = ({ dishId }) => {
         onFetchRecipeComments(dishId, 1);
     }, [dishId]);
 
-    const getListComment = () => {
-        getRecipeCommentsAuthRequest(dishId, index)
-            .then(({ data }) => {
-                // setCommentList(data?.dishCommentAccountVoList);
-            })
-            .catch((err) => console.log(err));
-    };
-
     const addCommentHandler = (e) => {
         e.preventDefault();
         if (accessToken && star) {
             createRecipeCommentRequest({ dishId, content: content, starRate: star })
+                .then(() => {
+                    setContent('');
+                    onFetchRecipeComments(dishId, extraListInfo.pageIndex);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    };
+
+    const onLikeRecipeCmtHandler = (dishCommentID, commentContent) => {
+        if (accessToken) {
+            likeRecipeCommentRequest(dishCommentID, { commentContent })
                 .then(() => {
                     onFetchRecipeComments(dishId, extraListInfo.pageIndex);
                 })
@@ -46,6 +59,50 @@ const RecipeComments = ({ dishId }) => {
                 });
         }
     };
+
+    const onDislikeRecipeCmtHandler = (dishCommentID) => {
+        if (accessToken) {
+            dislikeRecipeCommentRequest(dishCommentID, null)
+                .then((response) => {
+                    onFetchRecipeComments(dishId, extraListInfo.pageIndex);
+                })
+                .catch((err) => {});
+        }
+    };
+
+    const onFlagRecipeCmtHandler = (dishCommentID) => {
+        if (accessToken) {
+            reportRecipeCommentRequest(dishCommentID, null)
+                .then((response) => {
+                    onFetchRecipeComments(dishId, extraListInfo.pageIndex);
+                })
+                .catch((err) => {});
+        }
+    };
+
+    function onDeleteRecipeCmtHandler(id) {
+        if (accessToken) {
+            deleteRecipeCommentRequest(id)
+                .then((response) => {
+                    onFetchRecipeComments(dishId, extraListInfo.pageIndex);
+                    openNotification('Bình luận này đã được xóa');
+                })
+                .catch((err) => {});
+        }
+    }
+
+    function openNotification(message) {
+        notification.open({
+            message: message,
+            icon: (
+                <CheckCircleTwoTone
+                    style={{
+                        color: '#108ee9',
+                    }}
+                />
+            ),
+        });
+    }
 
     return (
         <section className={`${isLoading ? 'divDisabled' : ''}`}>
@@ -69,10 +126,11 @@ const RecipeComments = ({ dishId }) => {
                             precision={1}
                             value={star}
                             onChange={(e) => setStar(e.target.value)}
+                            disabled={!accessToken}
                         />
                     </Stack>
                     <hr />
-                    <button className="button button-sm" type="submit">
+                    <button className="button button-sm" type="submit" disabled={!accessToken}>
                         Thêm bình luận
                     </button>
                 </Form>
@@ -84,8 +142,14 @@ const RecipeComments = ({ dishId }) => {
                         key={index}
                         comment={comment}
                         cmtContent={content}
-                        onDelete={getListComment}
                         onFetch={() => onFetchRecipeComments(dishId, extraListInfo.pageIndex)}
+                        isAuth={!!accessToken}
+                        isAdmin={roles === ROLES.admin}
+                        username={username}
+                        onLike={onLikeRecipeCmtHandler}
+                        onDislike={onDislikeRecipeCmtHandler}
+                        onFlag={onFlagRecipeCmtHandler}
+                        onDelete={onDeleteRecipeCmtHandler}
                     />
                 ))}
                 <Paginator

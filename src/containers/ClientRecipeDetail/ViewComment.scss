@@ -21,10 +21,9 @@
 .icon-dislike.active {
     display: block;
 }
-.styles-icon {
-    float: right;
-    margin-left: 20px;
-    margin-top: 40px;
+.recipe-action__comment-icon {
+    font-size: 16px;
+    cursor: pointer;
 }
 .pagination {
     display: flex;
@@ -56,11 +55,4 @@
 }
 .page-cmt {
     text-align: center;
-}
-.actions-hover {
-    display: none;
-}
-.my-comment:hover .actions-hover {
-    display: inline-block;
-    float: right;
 }

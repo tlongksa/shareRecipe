@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
-    CheckCircleTwoTone,
     CloseCircleOutlined,
     DeleteOutlined,
     DislikeFilled,
@@ -11,26 +10,19 @@ import {
     LikeFilled,
     LikeOutlined,
 } from '@ant-design/icons';
-import { Avatar, Comment, notification, Tooltip } from 'antd';
+import { Avatar, Comment, Tooltip } from 'antd';
 import { useParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import { Rating, Stack } from '@mui/material';
 import './ViewComment.scss';
 import AuthContext from '../../context/auth-context';
-import {
-    likeRecipeCommentRequest,
-    dislikeRecipeCommentRequest,
-    reportRecipeCommentRequest,
-    createRecipeCommentRequest,
-    deleteRecipeCommentRequest,
-} from '../../api/requests';
+import { createRecipeCommentRequest } from '../../api/requests';
 
 const CommentItem = (props) => {
-    const { comment, cmtContent, onDelete, onFetch } = props;
+    const { comment, cmtContent, onDelete, onFetch, isAuth, isAdmin, username, onLike, onDislike, onFlag } = props;
     const { dishId } = useParams();
     const [isEdit, setIsEdit] = useState(false);
-    const [action, setAction] = useState(null);
     const [star, setStar] = useState(3);
     const {
         userInfo: { accessToken },
@@ -38,58 +30,10 @@ const CommentItem = (props) => {
     const [commentContent, setCommentContent] = useState(cmtContent);
 
     useEffect(() => {
-        if (comment && comment.checkLike) {
-            setAction('liked');
+        if (cmtContent) {
+            setCommentContent(cmtContent);
         }
-        if (comment && comment.checkDislike) {
-            setAction('disliked');
-        }
-    }, [comment]);
-
-    const like = () => {
-        if (accessToken) {
-            likeRecipeCommentRequest(comment.dishCommentID, { commentContent })
-                .then((response) => {
-                    onFetch();
-                    onDelete();
-                    if (action === 'liked') {
-                        setAction('');
-                    } else {
-                        setAction('liked');
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
-    };
-
-    const dislike = () => {
-        if (accessToken) {
-            dislikeRecipeCommentRequest(comment.dishCommentID)
-                .then((response) => {
-                    onFetch();
-                    if (action === 'disliked') {
-                        setAction('');
-                    } else {
-                        setAction('disliked');
-                    }
-                    onDelete();
-                })
-                .catch((err) => {});
-        }
-    };
-
-    const flag = () => {
-        if (accessToken) {
-            reportRecipeCommentRequest(comment.dishCommentID, { commentContent })
-                .then((response) => {
-                    onFetch();
-                    setAction('flaged');
-                })
-                .catch((err) => {});
-        }
-    };
+    }, [cmtContent]);
 
     const LoadEditComment = async (e) => {
         e.preventDefault();
@@ -106,40 +50,16 @@ const CommentItem = (props) => {
                         onFetch();
                         setIsEdit(false);
                         onDelete();
-                        openNotification('Sửa bình luận thành công!');
+                        // openNotification('Sửa bình luận thành công!');
                     })
                     .catch((err) => {});
             } else {
-                openNotification('Vui lòng đánh giá công thức nấu ăn trước khi bình luận!');
+                // openNotification('Vui lòng đánh giá công thức nấu ăn trước khi bình luận!');
             }
         } else {
-            openNotification('Vui lòng đăng nhập trước khi bình luận');
+            // openNotification('Vui lòng đăng nhập trước khi bình luận');
         }
     };
-
-    function handDelete(id) {
-        if (accessToken) {
-            deleteRecipeCommentRequest(id)
-                .then((response) => {
-                    onDelete();
-                    openNotification('Bình luận đã được xóa');
-                })
-                .catch((err) => {});
-        }
-    }
-
-    function openNotification(message) {
-        notification.open({
-            message: message,
-            icon: (
-                <CheckCircleTwoTone
-                    style={{
-                        color: '#108ee9',
-                    }}
-                />
-            ),
-        });
-    }
 
     const Cancel = (value) => {
         setIsEdit(!isEdit);
@@ -152,8 +72,11 @@ const CommentItem = (props) => {
 
     const actions = [
         <Tooltip key="comment-basic-like" title="Thích">
-            <div className="d-flex align-items-center gap-1 me-3 cursor-pointer" onClick={like}>
-                {action === 'liked' ? (
+            <div
+                className={`d-flex align-items-center gap-1 me-3 cursor-pointer ${isAuth ? '' : 'divDisabled'}`}
+                onClick={() => onLike(comment.dishCommentID)}
+            >
+                {comment.checkLike ? (
                     <LikeFilled
                         style={{
                             fontSize: 18,
@@ -170,8 +93,11 @@ const CommentItem = (props) => {
             </div>
         </Tooltip>,
         <Tooltip key="comment-basic-dislike" title="Không thích">
-            <div className="d-flex align-items-center gap-1 me-3 cursor-pointer" onClick={dislike}>
-                {action === 'disliked' ? (
+            <div
+                className={`d-flex align-items-center gap-1 me-3 cursor-pointer ${isAuth ? '' : 'divDisabled'}`}
+                onClick={() => onDislike(comment.dishCommentID)}
+            >
+                {comment.checkDislike ? (
                     <DislikeFilled
                         style={{
                             fontSize: 18,
@@ -188,10 +114,12 @@ const CommentItem = (props) => {
             </div>
         </Tooltip>,
         <Tooltip key="comment-basic-flag" title="Đánh giá sao"></Tooltip>,
-
         <Tooltip key="comment-basic-flag" title="Báo cáo">
-            <div onClick={flag} className="cursor-pointer d-flex align-items-center">
-                {action === 'flaged' ? (
+            <div
+                onClick={() => onFlag(comment.dishCommentID)}
+                className={`cursor-pointer d-flex align-items-center ${isAuth ? '' : 'divDisabled'}`}
+            >
+                {comment.flag ? (
                     <FlagFilled
                         style={{
                             fontSize: 18,
@@ -218,19 +146,30 @@ const CommentItem = (props) => {
                 content={
                     <div>
                         <h6> {comment.content}</h6>
-                        <div className="actions-hover">
+                        <div
+                            className={`d-flex gap-2 justify-content-end ${
+                                username === comment.accountUserName || isAdmin ? '' : 'd-none'
+                            }`}
+                        >
                             <DeleteOutlined
-                                onClick={() => handDelete(comment.dishCommentID)}
-                                className="styles-icon "
+                                className="recipe-action__comment-icon"
+                                onClick={() => onDelete(comment.dishCommentID)}
                             />
                             <EditOutlined
+                                className={`recipe-action__comment-icon ${
+                                    username === comment.accountUserName ? '' : 'd-none'
+                                }`}
                                 onClick={() => handleChangeEditComment(comment.dishCommentID)}
-                                className="styles-icon hidden"
                             />
                         </div>
                         <div className="d-flex align-items-center gap-2">
                             <strong>Đánh giá :</strong>
-                            <Rating style={{ fontSize: '16px' }} name="read-only" value={comment.startRate} readOnly />
+                            <Rating
+                                style={{ fontSize: 20, cursor: 'pointer' }}
+                                name="read-only"
+                                value={comment.startRate}
+                                readOnly
+                            />
                         </div>
                     </div>
                 }
@@ -243,7 +182,7 @@ const CommentItem = (props) => {
             {isEdit && (
                 <Form onSubmit={LoadEditComment} autoComplete={'off'}>
                     <Form.Group className="mb-3" controlId="commentContent">
-                        <CloseCircleOutlined onClick={() => Cancel(comment.dishCommentID)} style={{ float: 'right' }} />
+                        <CloseCircleOutlined onClick={() => Cancel(comment.dishCommentID)} />
                         <Form.Control
                             as="textarea"
                             rows={3}
@@ -261,7 +200,6 @@ const CommentItem = (props) => {
                             onChange={(e) => setStar(e.target.value)}
                         />
                     </Stack>
-
                     <Button className="cmt" variant="info" type="submit">
                         Lưu
                     </Button>

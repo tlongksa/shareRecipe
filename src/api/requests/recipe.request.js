@@ -49,12 +49,17 @@ const deleteRecipeRequest = (id) =>
 
 const getRecipeIngredientChangeRequest = (ids) => axios.get(`/getIngredientChange?ingredientDetailId=${ids}`);
 
-const getRecipeCommentsRequest = (id, page) => axios.get(`/getListCommentOfRecipe?dishId=${id}&pageIndex=${page}`);
+const getRecipeCommentsRequest = (id, page) =>
+    axios.get(`/getListCommentOfRecipe?dishId=${id}&pageIndex=${page}`, {
+        headers: {
+            Authorization: `Bearer ${token || ''}`,
+        },
+    });
 
 const getRecipeCommentsAuthRequest = (dishId, index) =>
     axios.get(`/getListCommentOfRecipe?dishId=${dishId}&pageIndex=${index}`, {
         headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token || ''}`,
         },
     });
 
