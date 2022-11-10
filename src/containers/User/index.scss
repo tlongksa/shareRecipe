@@ -38,9 +38,15 @@
         }
         a {
             font-weight: 400;
-            font-size: 30px;
-            line-height: 36px;
+            font-size: 24px;
+            line-height: 24px;
             color: #58af00;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* number of lines to show */
+            -webkit-box-orient: vertical;
+            height: 48px;
         }
     }
 }

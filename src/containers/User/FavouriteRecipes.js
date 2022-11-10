@@ -1,4 +1,4 @@
-import { LoadingOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import RecipeContext from '../../context/recipe-context';
@@ -10,13 +10,10 @@ const ProfileFavouriteRecipe = ({ item }) => {
             <Link to={`/recipe-detail/${item.dishId}`} className="d-block">
                 {item.name}
             </Link>
-            <img src={item.urlImage} alt="" />
+            <img src={item.urlImage || 'https://via.placeholder.com/150'} alt="" />
             <p>
                 By <strong>{item.verifier}</strong> <span className="text-muted">{item.createDate}</span>
             </p>
-            <div className="d-flex align-items-center gap-2">
-                <ShareAltOutlined /> <strong>{item.totalStarRate}</strong> <span>shares</span>
-            </div>
         </li>
     );
 };
