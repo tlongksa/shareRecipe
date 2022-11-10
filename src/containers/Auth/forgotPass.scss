@@ -24,4 +24,17 @@
             width: 100%;
         }
     }
+    .auth-input {
+        border: 1px solid #ccc;
+    }
+    .auth-input__container {
+        position: relative;
+        .auth-input__icon {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+    }
 }

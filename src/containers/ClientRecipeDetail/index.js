@@ -67,9 +67,6 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
                     </button>
                 </div>
                 <div className="mb-2">
-                    <strong>Tổng quan :</strong> {dataResponse.summary || '-'}
-                </div>
-                <div className="mb-2">
                     <strong>Mô tả :</strong> {dataResponse.formulaDescribe}
                 </div>
                 <div className="mb-2">

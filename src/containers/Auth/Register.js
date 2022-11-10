@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import { signupRequest } from '../../api/requests';
+
 const USER_REGEX = /^[A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^[A-z0-9-_].{0,16}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
