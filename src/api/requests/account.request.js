@@ -46,9 +46,10 @@ const updateAccountProfileRequest = (id, data) =>
     });
 
 const updateProfileImageRequest = (id, url) =>
-    axios.put(`/updateimage?profile_id=${id}&profile_image=${url}`, null, {
+    axios.put(`/updateimage?profile_id=${id}`, url, {
         headers: {
             authorization: `Bearer ${token || ''}`,
+            'Content-Type': 'text/plain',
         },
     });
 
