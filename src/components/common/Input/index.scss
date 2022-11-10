@@ -27,8 +27,11 @@
     }
     select.input {
         width: 50%;
-        &.-full {
+        &.full {
             width: 100%;
+        }
+        @media (max-width: 991px) {
+            width: 95%;
         }
     }
     textarea.input {

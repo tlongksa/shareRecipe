@@ -1,25 +1,36 @@
 import styles from './data-list.module.css';
 import { useMediaQuery } from 'react-responsive';
-import { SettingOutlined, DeleteOutlined } from '@ant-design/icons';
+import { SettingOutlined, DeleteOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import Paginator from '../common/Paginator';
 import { mapRoleKeyToText, role_options } from '../../constants';
 import Input from '../common/Input/Input';
 
-function MobileCard({ item, no, onEdit, onDelete, onChangeRole, selectedEditItem }) {
+function MobileCard({ item, no, onEdit, onDelete, onChangeRole, selectedEditItem, onCancelEdit }) {
     return (
         <div className="custom-card">
             <div className="custom-row">
                 <div className="custom-col">
                     <strong />
                     <div className="d-flex align-items-center mw-60-px gap-2">
-                        <SettingOutlined
-                            style={{
-                                cursor: 'pointer',
-                                fontSize: 16,
-                                color: '#289AE7',
-                            }}
-                            onClick={() => onEdit(item.accountId)}
-                        />
+                        {selectedEditItem === item.accountId ? (
+                            <CloseCircleOutlined
+                                style={{
+                                    cursor: 'pointer',
+                                    fontSize: 18,
+                                    color: '#289AE7',
+                                }}
+                                onClick={onCancelEdit}
+                            />
+                        ) : (
+                            <SettingOutlined
+                                style={{
+                                    cursor: 'pointer',
+                                    fontSize: 18,
+                                    color: '#289AE7',
+                                }}
+                                onClick={() => onEdit(item.accountId)}
+                            />
+                        )}
                         <DeleteOutlined
                             style={{
                                 cursor: 'pointer',
@@ -89,6 +100,7 @@ const UserDataList = ({
     paginateCallback,
     onChangeRole,
     selectedEditItem,
+    onCancelEdit,
 }) => {
     const isMobile = useMediaQuery({ query: `(max-width: 768px)` });
 
@@ -123,14 +135,25 @@ const UserDataList = ({
             </span>
             <span>
                 <div className="d-flex align-items-center mw-60-px gap-sm">
-                    <SettingOutlined
-                        style={{
-                            cursor: 'pointer',
-                            fontSize: 18,
-                            color: '#289AE7',
-                        }}
-                        onClick={() => onEdit(item.accountId)}
-                    />
+                    {selectedEditItem === item.accountId ? (
+                        <CloseCircleOutlined
+                            style={{
+                                cursor: 'pointer',
+                                fontSize: 18,
+                                color: '#289AE7',
+                            }}
+                            onClick={onCancelEdit}
+                        />
+                    ) : (
+                        <SettingOutlined
+                            style={{
+                                cursor: 'pointer',
+                                fontSize: 18,
+                                color: '#289AE7',
+                            }}
+                            onClick={() => onEdit(item.accountId)}
+                        />
+                    )}
                     <DeleteOutlined
                         style={{
                             cursor: 'pointer',
@@ -153,6 +176,7 @@ const UserDataList = ({
                 onEdit={onEdit}
                 onDelete={onDelete}
                 selectedEditItem={selectedEditItem}
+                onCancelEdit={onCancelEdit}
             />
         ));
     }

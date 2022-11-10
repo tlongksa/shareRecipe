@@ -107,6 +107,7 @@ const Accounts = () => {
                 onDelete={(id) => setSelectedDeleteId(id)}
                 onEdit={(id) => setSelectedEditItem(id)}
                 selectedEditItem={selectedEditItem}
+                onCancelEdit={() => setSelectedEditItem('')}
             />
             {isLoading && (
                 <div className="global-list__loader-container">
