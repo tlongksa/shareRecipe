@@ -12,6 +12,7 @@ const BlogCommentReports = () => {
     const {
         blogCommentReport: { list, isLoading, error, extraListInfo },
         onFetchMoreBlogCommentReport,
+        onRemoveBlogCommentReport,
     } = useContext(BlogContext);
     const [search, setSearch] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
@@ -28,6 +29,7 @@ const BlogCommentReports = () => {
             setIsProcessing(true);
             approveBlogCommentRequest(selectedApproveId)
                 .then(({ data }) => {
+                    onRemoveBlogCommentReport(selectedApproveId);
                     setIsProcessing(false);
                     notification.open({
                         message: data?.messContent,
@@ -48,6 +50,7 @@ const BlogCommentReports = () => {
         if (selectedDeleteId) {
             deleteBlogCommentRequest(selectedDeleteId)
                 .then(({ data }) => {
+                    onRemoveBlogCommentReport(selectedDeleteId);
                     setIsProcessing(false);
                     notification.open({
                         message: data?.messContent,

@@ -25,6 +25,7 @@ import {
     blogGetCommentReportListSuccessAction,
     blogGetCommentReportListFailureAction,
     blogUpdateCommentContentAction,
+    removeBlogCommentReportAction,
 } from './actions';
 import blogReducer from './reducer';
 import {
@@ -184,6 +185,7 @@ export const BlogProvider = ({ children }) => {
                 onRemoveFromPendingList: (id) => dispatchContext(removeItemFromPendingBlogList(id)),
                 onFetchMoreBlogCommentReport: (page, search) => fetchBlogCommentReportList(page, search),
                 onUpdateComment: (data) => dispatchContext(blogUpdateCommentContentAction(data)),
+                onRemoveBlogCommentReport: (id) => dispatchContext(removeBlogCommentReportAction(id)),
             }}
         >
             {children}

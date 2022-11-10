@@ -12,6 +12,7 @@ const RecipeCommentReports = () => {
     const {
         recipeCommentReport: { list, isLoading, error, extraListInfo },
         onFetchMoreRecipeCommentReport,
+        onRemoveRecipeCommentReport,
     } = useContext(RecipeContext);
     const [search, setSearch] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
@@ -29,11 +30,14 @@ const RecipeCommentReports = () => {
             approveRecipeCommentRequest(selectedApproveId)
                 .then(({ data }) => {
                     setIsProcessing(false);
+                    onRemoveRecipeCommentReport(selectedApproveId);
                     setSelectedApproveId('');
                     notification.open({
                         message: data?.messContent,
                     });
-                    onFetchMoreRecipeCommentReport(1);
+                    if (list.length === 0) {
+                        onFetchMoreRecipeCommentReport(1);
+                    }
                 })
                 .catch((err) => {
                     setIsProcessing(false);
@@ -47,11 +51,14 @@ const RecipeCommentReports = () => {
             deleteRecipeCommentRequest(selectedDeleteId)
                 .then(({ data }) => {
                     setIsProcessing(false);
+                    onRemoveRecipeCommentReport(selectedDeleteId);
                     setSelectedDeleteId('');
                     notification.open({
                         message: data?.messContent,
                     });
-                    onFetchMoreRecipeCommentReport(1);
+                    if (list.length) {
+                        onFetchMoreRecipeCommentReport(1);
+                    }
                 })
                 .catch((err) => {
                     setIsProcessing(false);
