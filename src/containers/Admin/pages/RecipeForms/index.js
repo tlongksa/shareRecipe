@@ -18,6 +18,7 @@ const RecipeForm = () => {
     } = useContext(AuthContext);
     const [searchParams] = useSearchParams();
     const step = searchParams.get('step');
+    const stepNum = +step;
     const id = searchParams.get('id');
     const [recipeFormData, setRecipeFormData] = useState({});
     const [shouldFinish, setShouldFinish] = useState(false);
@@ -34,8 +35,6 @@ const RecipeForm = () => {
     } = useContext(RecipeContext);
 
     const isMod = roles === ROLES.mod;
-
-    console.log(dataResponse);
 
     useEffect(() => {
         if (id) {
@@ -256,6 +255,23 @@ const RecipeForm = () => {
 
     return (
         <section className={`recipe-form__container pb-4 ${isUploading || isCreating ? 'divDisabled' : ''}`}>
+            <div className="recipe-form__steps">
+                <button
+                    className={`${stepNum === 1 ? 'active-step' : ''}`}
+                    onClick={() => navigate(`/admin/recipe-form?step=1${id ? `&id=${id}` : ''}`)}
+                >
+                    Step 1
+                </button>
+                <button
+                    className={`${stepNum === 2 ? 'active-step' : ''} ${stepNum < 2 ? 'divDisabled' : ''}`}
+                    onClick={() => navigate(`/admin/recipe-form?step=2${id ? `&id=${id}` : ''}`)}
+                >
+                    Step 2
+                </button>
+                <button className={`${stepNum === 3 ? 'active-step' : ''} ${stepNum < 3 ? 'divDisabled' : ''}`}>
+                    Step 3
+                </button>
+            </div>
             {fileError && <p className="error-message">{fileError}</p>}
             <Step1
                 recipeFormData={recipeFormData}
