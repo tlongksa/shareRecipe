@@ -26,15 +26,16 @@
     }
     .auth-input {
         border: 1px solid #ccc;
+        margin-bottom: 6px;
     }
     .auth-input__container {
         position: relative;
         .auth-input__icon {
             position: absolute;
-            right: 12px;
-            top: 12px;
+            right: 16px;
+            top: 18px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 20px;
         }
     }
 }
