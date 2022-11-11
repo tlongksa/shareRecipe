@@ -35,6 +35,8 @@ const RecipeForm = () => {
 
     const isMod = roles === ROLES.mod;
 
+    console.log(dataResponse);
+
     useEffect(() => {
         if (id) {
             onFetchDetail(id);
@@ -46,16 +48,16 @@ const RecipeForm = () => {
     }, [id]);
 
     useEffect(() => {
-        if (id && dataResponse?.dishName) {
+        if (id && dataResponse?.name) {
             startTransition(() => {
                 setRecipeFormData({
-                    name: dataResponse.dishName,
-                    description: dataResponse.formulaDescribe,
+                    name: dataResponse.name,
+                    description: dataResponse?.formula?.describe,
                     numberPeopleForDish: dataResponse.numberPeopleForDish,
                     Level: dataResponse.level,
                     time: dataResponse.time,
-                    idDishCategory: dataResponse.idDishCategory,
-                    mainIngredients: dataResponse.ingredientDetailList
+                    idDishCategory: dataResponse.dishCategory,
+                    mainIngredients: dataResponse.listIngredientDetail
                         ?.filter((it) => it.mainIngredient === 1)
                         .map((mappedItem) => ({
                             calo: mappedItem.calo,
@@ -63,29 +65,29 @@ const RecipeForm = () => {
                             name: mappedItem.name,
                             quantity: mappedItem.quantity,
                             unit: mappedItem.unit,
-                            id: mappedItem.ingredientDetailId,
+                            id: mappedItem.ingredientDetailID,
                         })),
-                    extraIngredients: dataResponse?.ingredientDetailList
-                        ?.filter((it) => it.mainIngredient === 0)
+                    extraIngredients: dataResponse?.listIngredientDetail
+                        ?.filter((it) => !it.mainIngredient)
                         .map((mappedItem) => ({
                             calo: mappedItem.calo,
                             mainIngredient: 0,
                             name: mappedItem.name,
                             quantity: mappedItem.quantity,
                             unit: mappedItem.unit,
-                            id: mappedItem.ingredientDetailId,
+                            id: mappedItem.ingredientDetailID,
                             ingredientChangeList:
                                 mappedItem?.ingredientChangeVoList?.map((nestedItem) => ({
                                     name: nestedItem.name,
                                     quantity: nestedItem.quantity,
                                     unit: nestedItem.unit,
                                     calo: nestedItem.calo,
-                                    id: nestedItem.ingredientChangeId,
+                                    id: nestedItem.ingredientChangeID,
                                 })) || [],
                         })),
                     video: dataResponse.video,
-                    listDishImage: dataResponse.dishImageList,
-                    listStep: dataResponse.stepList,
+                    listDishImage: dataResponse.listDishImage,
+                    listStep: dataResponse.listStep,
                 });
             });
         }
@@ -133,7 +135,7 @@ const RecipeForm = () => {
                 );
             }
             if (![...recipeFormData.files].length) {
-                setListDishImage(dataResponse?.dishImageList.map(({ url, note }) => ({ url, note })));
+                setListDishImage(dataResponse?.listDishImage.map(({ url, note }) => ({ url, note })));
             } else {
                 [...recipeFormData.files].forEach((file) => {
                     fileUploadHandler(file, setIsUploading, setFileError, (url) => {
@@ -166,7 +168,7 @@ const RecipeForm = () => {
             listDishImage,
             name: recipeFormData.name,
             origin: 'vn',
-            Level: recipeFormData.Level,
+            Level: +recipeFormData.Level,
             calo: recipeFormData.calo,
             numberPeopleForDish: recipeFormData.numberPeopleForDish,
             time: recipeFormData.time,

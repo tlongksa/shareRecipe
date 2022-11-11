@@ -43,6 +43,7 @@ import {
     getFavouriteRecipeListRequest,
     modeGetRecipeListRequest,
     getRecipeCommentsRequest,
+    adminGetRecipeDetailRequest,
 } from '../../api/requests';
 import AuthContext from '../auth-context';
 import { ROLES } from '../../App';
@@ -130,7 +131,8 @@ export const RecipeProvider = ({ children }) => {
 
     const fetchRecipeDetail = (id) => {
         dispatchContext(recipeGetDetailAction());
-        getRecipeDetailRequest(id)
+        const promise = roles && roles !== ROLES.user ? adminGetRecipeDetailRequest(id) : getRecipeDetailRequest(id);
+        promise
             .then(({ data }) => {
                 dispatchContext(recipeGetDetailSuccessAction(data));
             })

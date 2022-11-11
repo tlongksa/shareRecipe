@@ -15,6 +15,13 @@ const getListRecipeByCategoryRequest = (categoryId, page = 1, search = '') =>
 
 const getRecipeDetailRequest = (id) => axios.get(`/getRecipeDetail?dishId=${id}`);
 
+const adminGetRecipeDetailRequest = (id) =>
+    axios.get(`/mod/getdishbyid?dish_id=${id}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 const adminGetRecipeListRequest = (page = 1, search = '') =>
     axios.get(`/admin/listRecipe?pageIndex=${page}&searchData=${search}`, {
         headers: {
@@ -182,4 +189,5 @@ export {
     addRecipeToFavouriteList,
     removeRecipeFromFavouriteList,
     createCategoryRequest,
+    adminGetRecipeDetailRequest,
 };
