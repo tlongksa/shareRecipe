@@ -8,12 +8,14 @@ import RecipeContext from '../../context/recipe-context';
 import Slider from '../../components/common/Slider';
 import { addRecipeToFavouriteList } from '../../api/requests';
 import AuthContext from '../../context/auth-context';
+import Modal from 'react-bootstrap/Modal';
 
 const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFavourite, dishId }) => {
     const {
         userInfo: { accessToken },
     } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [showFavouriteOptionModal, setShowFavouriteOptionModal] = useState(false);
 
     return (
         <div className="top-info__container">
@@ -59,7 +61,7 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
                     <button
                         className="button button-sm d-flex align-items-center gap-2"
                         onClick={() => {
-                            accessToken ? onAddToFavourite() : navigate(`/signin?redirectUrl=/recipe-detail/${dishId}`);
+                            accessToken ? onAddToFavourite() : setShowFavouriteOptionModal(true);
                         }}
                     >
                         <PlusCircleOutlined />
@@ -81,6 +83,36 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
                 <div className="mb-2">
                     <strong>Tạo ngày :</strong> {dataResponse.createDate} bởi <strong>{dataResponse.verifier}</strong>
                 </div>
+                <Modal
+                    show={showFavouriteOptionModal}
+                    fullscreen={'sm-down'}
+                    onHide={() => setShowFavouriteOptionModal(false)}
+                    centered
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Vui lòng đăng nhập để thêm vào danh sách yêu thích</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="d-flex gap-2 align-items-center py-3">
+                            <button
+                                className="button button-sm"
+                                type="button"
+                                onClick={() => {
+                                    navigate(`/signin?redirectUrl=/recipe-detail/${dishId}`);
+                                }}
+                            >
+                                Đăng nhập
+                            </button>
+                            <button
+                                className="button button-sm"
+                                type="button"
+                                onClick={() => setShowFavouriteOptionModal(false)}
+                            >
+                                Hủy
+                            </button>
+                        </div>
+                    </Modal.Body>
+                </Modal>
             </div>
         </div>
     );
