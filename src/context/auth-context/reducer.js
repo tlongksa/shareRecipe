@@ -5,9 +5,11 @@ import {
     AUTH_GET_PROFILE_SUCCESS,
     AUTH_GET_PROFILE_FAILURE,
     AUTH_UPDATE_PROFILE_SUCCESS,
+    AUTH_UPDATE_PROFILE_IMAGE_URL,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
+import { USER_INFO_STORAGE_KEY } from '../../constants';
 
 const authReducer = (state = defaultValues, { type, payload }) =>
     produce(state, (draft) => {
@@ -38,6 +40,10 @@ const authReducer = (state = defaultValues, { type, payload }) =>
                 draft.profile.dataResponse.gender = payload.gender;
                 draft.profile.dataResponse.phone = payload.phone;
                 draft.profile.dataResponse.address = payload.address;
+                break;
+            case AUTH_UPDATE_PROFILE_IMAGE_URL:
+                draft.userInfo.avatarImage = payload;
+                localStorage.setItem(USER_INFO_STORAGE_KEY, JSON.stringify(draft.userInfo));
                 break;
             default:
                 break;

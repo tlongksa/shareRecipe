@@ -9,6 +9,7 @@ import {
     authGetProfileSuccessAction,
     authGetProfileFailureAction,
     authUpdateProfileSuccessAction,
+    updateProfileImageUrl,
 } from './actions';
 import authReducer from './reducer';
 
@@ -55,6 +56,7 @@ export const AuthProvider = ({ children }) => {
                 onLogoutSuccess: () => dispatchContext(authLogoutAction()),
                 onFetchProfile: (id) => fetchProfileDetail(id),
                 onUpdateProfile: (updatedInfo) => dispatchContext(authUpdateProfileSuccessAction(updatedInfo)),
+                onUpdateAvatarUrl: (url) => dispatchContext(updateProfileImageUrl(url)),
             }}
         >
             {children}

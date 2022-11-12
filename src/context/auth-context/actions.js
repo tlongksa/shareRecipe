@@ -5,6 +5,7 @@ import {
     AUTH_GET_PROFILE_SUCCESS,
     AUTH_GET_PROFILE_FAILURE,
     AUTH_UPDATE_PROFILE_SUCCESS,
+    AUTH_UPDATE_PROFILE_IMAGE_URL,
 } from './types';
 
 const authSuccessAction = (payload) => ({
@@ -35,6 +36,11 @@ const authUpdateProfileSuccessAction = (payload) => ({
     payload,
 });
 
+const updateProfileImageUrl = (payload) => ({
+    type: AUTH_UPDATE_PROFILE_IMAGE_URL,
+    payload,
+});
+
 export {
     authSuccessAction,
     authLogoutAction,
@@ -42,4 +48,5 @@ export {
     authGetProfileSuccessAction,
     authGetProfileFailureAction,
     authUpdateProfileSuccessAction,
+    updateProfileImageUrl,
 };

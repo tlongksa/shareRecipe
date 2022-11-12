@@ -175,6 +175,7 @@ const UserProfile = () => {
         profile: { dataResponse, isLoading, error },
         onFetchProfile,
         onUpdateProfile,
+        onUpdateAvatarUrl,
     } = useContext(AuthContext);
     const [shouldUpdate, setShouldUpdate] = useState(false);
     const [file, setFile] = useState(null);
@@ -182,6 +183,7 @@ const UserProfile = () => {
     const [imgError, setImgError] = useState('');
     const [isUploading, setIsUploading] = useState(false);
     const [fileError, setFileError] = useState('');
+    const [showEditAvatar, setShowEditAvatar] = useState(false);
 
     useEffect(() => {
         if (id) {
@@ -195,6 +197,7 @@ const UserProfile = () => {
             setIsUploading(true);
             updateProfileImageRequest(id, url)
                 .then(({ data }) => {
+                    onUpdateAvatarUrl(url);
                     onFetchProfile(id);
                     notification.open({
                         message: data,
@@ -238,6 +241,7 @@ const UserProfile = () => {
                         }
                         alt=""
                         className="profile-avatar"
+                        onMouseEnter={() => setShowEditAvatar(true)}
                     />
                     {!imgError && file && generateImageUrl(file, setImgError) ? (
                         <button
@@ -253,7 +257,7 @@ const UserProfile = () => {
                                 fontSize: 18,
                                 color: '#289AE7',
                             }}
-                            className="profile-avatar__upload"
+                            className={`profile-avatar__upload ${showEditAvatar ? '' : 'd-none'}`}
                             onClick={() => {
                                 profileImageRef.current?.click();
                             }}

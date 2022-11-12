@@ -8,8 +8,10 @@
             width: 180px;
             height: 180px;
             border-radius: 100%;
+            object-fit: cover;
             position: relative;
             top: -90px;
+            cursor: pointer;
             @media (max-width: 768px) {
                 width: 90px;
                 height: 90px;
