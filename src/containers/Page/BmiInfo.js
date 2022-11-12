@@ -78,7 +78,7 @@ const BmiForm = ({ item, userInfo }) => {
                     high: item?.high,
                     weight: item?.weight,
                     target: item?.target,
-                    mobility: item?.mobility,
+                    mobility: item?.mobility || 1,
                 }}
                 onSubmit={onSubmit}
                 validationSchema={BmiInfoSchema}
