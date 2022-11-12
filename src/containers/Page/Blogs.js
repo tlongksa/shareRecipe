@@ -26,7 +26,7 @@ import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreu
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
 import { ROLES } from '../../App';
 
-export const SearchDataList = ({ search, setSearch, callback, emptySearchCallback }) => {
+export const SearchDataList = ({ search, setSearch, callback, emptySearchCallback, className }) => {
     const handleChange = (e) => {
         const { value } = e.target;
         setSearch(value);
@@ -37,7 +37,7 @@ export const SearchDataList = ({ search, setSearch, callback, emptySearchCallbac
 
     return (
         <form
-            className="global-list_search shadow rounded-3"
+            className={`global-list_search shadow rounded-3 ${className || ''}`}
             onSubmit={(e) => {
                 e.preventDefault();
                 callback();

@@ -267,6 +267,7 @@ const BmiInfo = () => {
                                 }
                             }}
                             emptySearchCallback={() => onFetchMainIngredients('')}
+                            className="bg-white"
                         />
                         <br />
                         <div className="main-ingredient__list mb-3">

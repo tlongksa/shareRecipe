@@ -20,6 +20,7 @@ import {
     getUserBmiRecipeByFavouriteRequest,
     searchMainIngredientListRequest,
 } from '../../api/requests';
+import { notification } from 'antd';
 
 export const defaultValues = {
     bmiDetail: {
@@ -89,6 +90,9 @@ export const BmiProvider = ({ children }) => {
                 dispatchContext(bmiGetMainIngredientsSuccessAction(typeof data === 'object' ? data : ingArr));
             })
             .catch((err) => {
+                notification.open({
+                    message: err?.response?.data?.messContent,
+                });
                 dispatchContext(bmiGetMainIngredientsFailureAction(err?.response?.data));
             });
     };
