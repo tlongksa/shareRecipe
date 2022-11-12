@@ -53,9 +53,9 @@ const RecipeForm = () => {
                     name: dataResponse.name,
                     description: dataResponse?.formula?.describe,
                     numberPeopleForDish: dataResponse.numberPeopleForDish,
-                    Level: dataResponse.level,
+                    level: dataResponse.level,
                     time: dataResponse.time,
-                    idDishCategory: dataResponse.dishCategory,
+                    idDishCategory: dataResponse.listDishCategory,
                     mainIngredients: dataResponse.listIngredientDetail
                         ?.filter((it) => it.mainIngredient === 1)
                         .map((mappedItem) => ({
@@ -167,7 +167,7 @@ const RecipeForm = () => {
             listDishImage,
             name: recipeFormData.name,
             origin: 'vn',
-            Level: +recipeFormData.Level,
+            level: +recipeFormData.level,
             calo: recipeFormData.calo,
             numberPeopleForDish: recipeFormData.numberPeopleForDish,
             time: recipeFormData.time,
@@ -273,21 +273,22 @@ const RecipeForm = () => {
                 </button>
             </div>
             {fileError && <p className="error-message">{fileError}</p>}
-            <Step1
-                recipeFormData={recipeFormData}
-                setRecipeFormData={setRecipeFormData}
-                id={id}
-                step={step}
-                isLoading={isLoading}
-                initialValues={{
-                    name: recipeFormData.name || '',
-                    description: recipeFormData.description || '',
-                    Level: recipeFormData?.Level || '',
-                    numberPeopleForDish: recipeFormData.numberPeopleForDish || 0,
-                    time: recipeFormData?.time || 0,
-                }}
-                isMod={isMod}
-            />
+            {step === '1' && (
+                <Step1
+                    recipeFormData={recipeFormData}
+                    setRecipeFormData={setRecipeFormData}
+                    id={id}
+                    isLoading={isLoading}
+                    initialValues={{
+                        name: recipeFormData.name || '',
+                        description: recipeFormData.description || '',
+                        level: recipeFormData?.level?.toString() || '',
+                        numberPeopleForDish: recipeFormData.numberPeopleForDish || 0,
+                        time: recipeFormData?.time || 0,
+                    }}
+                    isMod={isMod}
+                />
+            )}
             {step === '2' && <Step2 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} id={id} />}
             {step === '3' && (
                 <Step3

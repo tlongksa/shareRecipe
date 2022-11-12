@@ -7,7 +7,7 @@ import { RECIPE_LEVELS } from '../../../../constants';
 import RecipeContext from '../../../../context/recipe-context';
 import { RecipeStep1Schema } from '../../../../validators';
 
-const Step1 = ({ recipeFormData, setRecipeFormData, id, step, isLoading, initialValues, isMod }) => {
+const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues, isMod }) => {
     const { onFetchRecipeCategories, categories } = useContext(RecipeContext);
     const navigate = useNavigate();
     const [idDishCategory, setIdDishCategory] = useState([]);
@@ -33,6 +33,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, step, isLoading, initial
     };
 
     const onSubmit = (values) => {
+        console.log(values);
         setRecipeFormData((prevState) => ({
             ...prevState,
             ...values,
@@ -40,10 +41,6 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, step, isLoading, initial
         }));
         navigate(`/admin/recipe-form?step=2${id ? `&id=${id}` : ''}`);
     };
-
-    if (step !== '1') {
-        return null;
-    }
 
     if (isLoading) {
         return (
@@ -104,12 +101,18 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, step, isLoading, initial
                             {RECIPE_LEVELS.map(({ value, label }) => (
                                 <label key={value} className="custom-radio__container">
                                     {label}
-                                    <input type="radio" name="Level" onChange={handleChange} value={value} />
+                                    <input
+                                        type="radio"
+                                        name="level"
+                                        onChange={handleChange}
+                                        value={value}
+                                        checked={value === values.level}
+                                    />
                                     <span className="radioCheckmark" />
                                 </label>
                             ))}
                         </div>
-                        {errors.Level && touched.Level && <p className="error-message">{errors.Level}</p>}
+                        {errors.level && touched.level && <p className="error-message">{errors.level}</p>}
                     </div>
                     <div className="mt-3 d-flex gap-5">
                         <Input
