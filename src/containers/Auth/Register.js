@@ -244,7 +244,7 @@ const Register = () => {
                                 </p>
 
                                 <button
-                                    className="register-btn__submit"
+                                    className="button button-full button-sm mt-4"
                                     disabled={!validName || !validPwd || !validMatch || isProcessing ? true : false}
                                 >
                                     Sign Up

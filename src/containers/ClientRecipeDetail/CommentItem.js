@@ -144,10 +144,10 @@ const CommentItem = (props) => {
                 author={<strong>{comment.accountUserName}</strong>}
                 avatar={<Avatar src={comment.avatarImage} alt={comment.accountUserName} />}
                 content={
-                    <div>
+                    <div className="comment-item__container">
                         <h6> {comment.content}</h6>
                         <div
-                            className={`d-flex gap-2 justify-content-end ${
+                            className={`d-flex gap-2 justify-content-end comment-item__change-actions ${
                                 username === comment.accountUserName || isAdmin ? '' : 'd-none'
                             }`}
                         >

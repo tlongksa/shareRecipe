@@ -30,4 +30,13 @@
 }
 .home-carousel__banner-img {
     height: 500px;
+    @media (max-width: 991px) {
+        height: 400px;
+    }
+    @media (max-width: 768px) {
+        height: 300px;
+    }
+    @media (max-width: 500px) {
+        height: 200px;
+    }
 }
