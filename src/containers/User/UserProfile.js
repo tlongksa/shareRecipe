@@ -225,7 +225,7 @@ const UserProfile = () => {
     }
 
     if (!isLoading && error) {
-        return <p className="error-message">{error?.message || 'Something went wrong!'}</p>;
+        return <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>;
     }
 
     return (

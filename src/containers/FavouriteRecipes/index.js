@@ -42,7 +42,7 @@ const FavouriteRecipes = () => {
         return (
             <section className="mh-85vh">
                 <div className="custom-page__container">
-                    <p className="error-message">{error?.message || 'Something went wrong!'}</p>
+                    <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>
                 </div>
             </section>
         );

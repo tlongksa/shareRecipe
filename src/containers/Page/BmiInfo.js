@@ -99,6 +99,7 @@ const BmiForm = ({ item, userInfo }) => {
                                     className="flex-fill"
                                 />
                             </div>
+                            <span>cm</span>
                         </div>
                         <div className="d-flex gap-4 align-items-center mb-3">
                             <p>Cân nặng : </p>
@@ -114,6 +115,7 @@ const BmiForm = ({ item, userInfo }) => {
                                     className="flex-fill"
                                 />
                             </div>
+                            <span>kg</span>
                         </div>
                         <div className="d-flex gap-4 align-items-center mb-3">
                             <p>Mục tiêu : </p>
@@ -304,7 +306,7 @@ const BmiInfo = () => {
                                 <img
                                     src={item?.dishImageList?.[0]?.url || IMAGE_PLACEHODLER_URI}
                                     alt=""
-                                    className="rounded-circle recipe-list_item-avatar"
+                                    className="rounded-2 recipe-list_item-avatar"
                                 />
                                 <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
                                     <div className="recipe-list_item-content mb-2">

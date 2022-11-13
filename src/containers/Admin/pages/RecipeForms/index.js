@@ -248,7 +248,7 @@ const RecipeForm = () => {
     if (!isLoading && error) {
         return (
             <div className="recipe-form__container">
-                <p className="error-message">{error || 'Something when wrong!'}</p>
+                <p className="error-message">{error || 'Lỗi xảy ra!'}</p>
             </div>
         );
     }

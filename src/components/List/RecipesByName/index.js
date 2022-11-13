@@ -26,7 +26,7 @@ const RecipesByName = () => {
         return (
             <section className="recipes-by__category-container">
                 <div className="custom-page__container">
-                    <p className="error-message">{error?.message || 'Something went wrong!'}</p>
+                    <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>
                 </div>
             </section>
         );
