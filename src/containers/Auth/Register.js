@@ -45,6 +45,7 @@ const Register = () => {
     useEffect(() => {
         setValidName(USER_REGEX.test(username));
     }, [username]);
+
     useEffect(() => {
         setValidEmail(EMAIL_REGEX.test(email));
     }, [email]);
@@ -152,7 +153,9 @@ const Register = () => {
                                 />
                                 <p
                                     id="uidnote"
-                                    className={userFocus && username && !validName ? 'instructions' : 'offscreen'}
+                                    className={`error-message ${
+                                        userFocus && username && !validName ? 'instructions' : 'offscreen'
+                                    }`}
                                 >
                                     <FontAwesomeIcon icon={faInfoCircle} />
                                     More characters.
@@ -181,7 +184,10 @@ const Register = () => {
                                     onBlur={() => setPwdFocus(false)}
                                 />
 
-                                <p id="pwdnote" className={pwdFocus && !validPwd ? 'instructions' : 'offscreen'}>
+                                <p
+                                    id="pwdnote"
+                                    className={`error-message ${pwdFocus && !validPwd ? 'instructions' : 'offscreen'}`}
+                                >
                                     <FontAwesomeIcon icon={faInfoCircle} />
                                     8 to 24 characters.
                                     <br />
@@ -213,7 +219,9 @@ const Register = () => {
                                 />
                                 <p
                                     id="confirmnote"
-                                    className={matchFocus && !validMatch ? 'instructions' : 'offscreen'}
+                                    className={`error-message ${
+                                        matchFocus && !validMatch ? 'instructions' : 'offscreen'
+                                    }`}
                                 >
                                     <FontAwesomeIcon icon={faInfoCircle} />
                                     Must match the first password input field.
@@ -237,7 +245,12 @@ const Register = () => {
                                     onFocus={() => setEmailFocus(true)}
                                     onBlur={() => setEmailFocus(false)}
                                 />
-                                <p id="emailnote" className={emailFocus && !validEmail ? 'instructions' : 'offscreen'}>
+                                <p
+                                    id="emailnote"
+                                    className={`error-message ${
+                                        emailFocus && !validEmail ? 'instructions' : 'offscreen'
+                                    }`}
+                                >
                                     <FontAwesomeIcon icon={faInfoCircle} />
                                     Must include @gmail.com
                                     <br />
