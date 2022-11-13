@@ -39,3 +39,17 @@
         }
     }
 }
+.forgot-password__container {
+    display: flex;
+    .bgr-fotgot-left {
+        background-image: url(../../assets/img/img4.jpg);
+        height: 700px;
+        width: 50%;
+    }
+    @media (max-width: 900px) {
+        flex-direction: column-reverse;
+        .bgr-fotgot-left {
+            width: 100%;
+        }
+    }
+}
