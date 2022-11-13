@@ -137,7 +137,7 @@ const RecipeComments = ({ dishId }) => {
                 <br />
             </div>
             <div>
-                {list.map((comment, index) => (
+                {list?.map((comment, index) => (
                     <CommentItem
                         key={index}
                         comment={comment}

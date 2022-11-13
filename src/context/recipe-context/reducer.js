@@ -112,11 +112,9 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
                 draft.categories.error = payload;
                 break;
             case RECIPE_CLEAR_DETAIL:
-                draft.recipeDetail = {
-                    dataResponse: {},
-                    isLoading: false,
-                    error: null,
-                };
+                draft.recipeDetail.dataResponse = {};
+                draft.recipeDetail.isLoading = false;
+                draft.recipeDetail.error = null;
                 break;
             case RECIPE_GET_COMMENT_REPORT_LIST:
                 draft.recipeCommentReport.isLoading = true;

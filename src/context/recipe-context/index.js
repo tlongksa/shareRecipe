@@ -131,7 +131,10 @@ export const RecipeProvider = ({ children }) => {
 
     const fetchRecipeDetail = (id) => {
         dispatchContext(recipeGetDetailAction());
-        const promise = roles && roles !== ROLES.user ? adminGetRecipeDetailRequest(id) : getRecipeDetailRequest(id);
+        const promise =
+            roles && roles !== ROLES.user && !window.location.pathname.includes('recipe-detail')
+                ? adminGetRecipeDetailRequest(id)
+                : getRecipeDetailRequest(id);
         promise
             .then(({ data }) => {
                 dispatchContext(recipeGetDetailSuccessAction(data));
