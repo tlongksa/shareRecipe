@@ -45,7 +45,15 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                 <div className="custom-col">
                     <strong>Ảnh mô tả</strong>
                     <p>
-                        <img src={item.dishCategoryImage} alt="" width={80} />
+                        <img
+                            src={item.dishCategoryImage}
+                            alt=""
+                            width={80}
+                            height={80}
+                            style={{
+                                objectFit: 'cover',
+                            }}
+                        />
                     </p>
                 </div>
             </div>
@@ -63,7 +71,15 @@ const RecipeCategoryDatalist = ({ list, onEdit, onDelete }) => {
             <span>{item.dishCategoryID}</span>
             <span>{item.name || '-'}</span>
             <span>
-                <img src={item.dishCategoryImage} alt="" width={80} />
+                <img
+                    src={item.dishCategoryImage}
+                    alt=""
+                    width={80}
+                    height={80}
+                    style={{
+                        objectFit: 'cover',
+                    }}
+                />
             </span>
             <span>
                 <div className="d-flex align-items-center mw-60-px gap-sm">
