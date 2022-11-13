@@ -37,6 +37,40 @@ export const mobilityOptions = [
 
 export const MEALS = ['Bữa sáng', 'Bữa trưa', 'Bữa tối'];
 
+const RecipeItem = ({ item }) => (
+    <li className="global-recipe__list-item mb-4">
+        <div className="d-flex gap-3">
+            <img
+                src={item?.dishImageList?.[0]?.url || IMAGE_PLACEHODLER_URI}
+                alt=""
+                className="rounded-2 recipe-list_item-avatar"
+            />
+            <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
+                <div className="recipe-list_item-content mb-2">
+                    <h5>
+                        <Link to={`/recipe-detail/${item.dishID}`}>{item.dishName}</Link>
+                    </h5>
+                    <p>{item.formulaDescribe}</p>
+                    <p className="d-flex align-items-center gap-3">
+                        <strong>By {item.verifier}</strong>
+                        <span className="text-muted">{item?.createDate || '-'}</span>
+                    </p>
+                </div>
+                <div className={`recipe-list_item-actions d-flex gap-3 align-items-center`}>
+                    <button onClick={() => {}}>
+                        <LikeOutlined />
+                        <span>{item.totalLike}</span>
+                    </button>
+                    <button onClick={() => {}}>
+                        <DislikeOutlined />
+                        <span>{item.totalDisLike}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </li>
+);
+
 const BmiForm = ({ item, userInfo }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
@@ -186,6 +220,11 @@ const BmiInfo = () => {
     const [mainIngredient, setMainIngredient] = useState('');
     const [search, setSearch] = useState('');
 
+    const breakfirstList = recipeList.filter((it) => it.dishCate === 'Bữa sáng');
+    const lunchList = recipeList.filter((it) => it.dishCate === 'Bữa trưa');
+    const dinnerList = recipeList.filter((it) => it.dishCate === 'Bữa tối');
+    const dessertList = recipeList.filter((it) => it.dishCate === 'Tráng miệng');
+
     useEffect(() => {
         if (userInfo?.username) {
             onFetchDetail(userInfo?.username);
@@ -299,39 +338,36 @@ const BmiInfo = () => {
                         </div>
                     </div>
                 )}
-                <ul className="mt-4">
-                    {recipeList?.map((item, index) => (
-                        <li className="global-recipe__list-item mb-4" key={item.dishID + index}>
-                            <div className="d-flex gap-3">
-                                <img
-                                    src={item?.dishImageList?.[0]?.url || IMAGE_PLACEHODLER_URI}
-                                    alt=""
-                                    className="rounded-2 recipe-list_item-avatar"
-                                />
-                                <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
-                                    <div className="recipe-list_item-content mb-2">
-                                        <h5>
-                                            <Link to={`/recipe-detail/${item.dishID}`}>{item.dishName}</Link>
-                                        </h5>
-                                        <p>{item.formulaDescribe}</p>
-                                        <p className="d-flex align-items-center gap-3">
-                                            <strong>By {item.verifier}</strong>
-                                            <span className="text-muted">{item?.createDate || '-'}</span>
-                                        </p>
-                                    </div>
-                                    <div className={`recipe-list_item-actions d-flex gap-3 align-items-center`}>
-                                        <button onClick={() => {}}>
-                                            <LikeOutlined />
-                                            <span>{item.totalLike}</span>
-                                        </button>
-                                        <button onClick={() => {}}>
-                                            <DislikeOutlined />
-                                            <span>{item.totalDisLike}</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                {breakfirstList?.length > 0 && (
+                    <h3 className="mt-3">Bữa sáng {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo</h3>
+                )}
+                <ul className="mt-2">
+                    {breakfirstList?.map((item, index) => (
+                        <RecipeItem key={item.dishID + index} item={item} />
+                    ))}
+                </ul>
+                {breakfirstList?.length > 0 && (
+                    <h3 className="mt-3">Bữa trưa {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo</h3>
+                )}
+                <ul className="mt-2">
+                    {lunchList?.map((item, index) => (
+                        <RecipeItem key={item.dishID + index} item={item} />
+                    ))}
+                </ul>
+                {breakfirstList?.length > 0 && (
+                    <h3 className="mt-3">Bữa tối {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo</h3>
+                )}
+                <ul className="mt-2">
+                    {dinnerList?.map((item, index) => (
+                        <RecipeItem key={item.dishID + index} item={item} />
+                    ))}
+                </ul>
+                {breakfirstList?.length > 0 && (
+                    <h3 className="mt-3">Tráng miệng {dessertList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo</h3>
+                )}
+                <ul className="mt-2">
+                    {breakfirstList?.map((item, index) => (
+                        <RecipeItem key={item.dishID + index} item={item} />
                     ))}
                 </ul>
             </div>
