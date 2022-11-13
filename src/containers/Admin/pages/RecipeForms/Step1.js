@@ -11,6 +11,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues
     const { onFetchRecipeCategories, categories } = useContext(RecipeContext);
     const navigate = useNavigate();
     const [idDishCategory, setIdDishCategory] = useState([]);
+    const [listCateError, setListCateError] = useState('');
 
     useEffect(() => {
         if (recipeFormData?.idDishCategory) {
@@ -24,6 +25,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues
     }, []);
 
     const onCheckRecipeCategory = (e) => {
+        setListCateError('');
         const value = parseInt(e.target.value);
         if (idDishCategory.find((item) => item.dishCategoryID === value)) {
             setIdDishCategory((prevState) => prevState.filter((item) => item.dishCategoryID !== value));
@@ -33,7 +35,10 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues
     };
 
     const onSubmit = (values) => {
-        console.log(values);
+        if (idDishCategory.length === 0) {
+            setListCateError('Vui lòng chọn ít nhất 1 thể loại món ăn');
+            return;
+        }
         setRecipeFormData((prevState) => ({
             ...prevState,
             ...values,
@@ -94,6 +99,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues
                                 </label>
                             ))}
                         </div>
+                        {listCateError && <p className="error-message">{listCateError}</p>}
                     </div>
                     <div className="recipe-level__container">
                         <h5 className="recipe-field__label">Độ khó của món ăn :</h5>

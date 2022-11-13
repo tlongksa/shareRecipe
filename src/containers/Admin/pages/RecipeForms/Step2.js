@@ -18,6 +18,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
     const [selectedMainIng, setSelectedMainIng] = useState({});
     const [selectedExtraIng, setSelectedExtraIng] = useState({});
     const [selectedExtraReplaceIng, setSelectedExtraReplaceIng] = useState({});
+    const [listIngredientError, setListIngredientError] = useState('');
 
     useEffect(() => {
         if (recipeFormData?.mainIngredients?.length) {
@@ -29,6 +30,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
     }, [recipeFormData]);
 
     const onSubmitMainIngredient = (values, { resetForm }) => {
+        setListIngredientError('');
         if (selectedMainIng?.id) {
             setMainIngredients((prevState) =>
                 prevState.map((item) =>
@@ -48,6 +50,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
     };
 
     const onSubmitExtraIngredient = (values, { resetForm }) => {
+        setListIngredientError('');
         if (selectedExtraIng?.id) {
             setExtraIngredients((prevState) =>
                 prevState.map((item) =>
@@ -112,6 +115,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
 
     return (
         <>
+            {listIngredientError && <p className="error-message mb-2">{listIngredientError}</p>}
             <Formik
                 initialValues={{
                     name: '',
@@ -356,6 +360,14 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                     className="button button-sm"
                     type="button"
                     onClick={() => {
+                        if (mainIngredients.length === 0) {
+                            setListIngredientError('Vui lòng nhập nguyên liệu chính');
+                            return;
+                        }
+                        if (extraIngredients.length === 0) {
+                            setListIngredientError('Vui lòng nhập nguyên liệu phụ');
+                            return;
+                        }
                         setRecipeFormData((prevState) => ({
                             ...prevState,
                             mainIngredients,

@@ -23,6 +23,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
     const [video, setVideo] = useState('');
     const [describe, setDescribe] = useState('');
     const [listStep, setListStep] = useState([]);
+    const [stepError, setStepError] = useState('');
     const [selectedStep, setSelectedStep] = useState({});
 
     useEffect(() => {
@@ -64,9 +65,11 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                 className="d-none"
                 multiple
                 ref={recipeImagesRef}
-                onChange={(e) => setFiles(e.target.files)}
+                onChange={(e) => {
+                    setImgError('');
+                    setFiles(e.target.files);
+                }}
             />
-            {imgError && <p className="error-message">{imgError}</p>}
             <div className="d-flex-custom mb-3">
                 <h4>Ảnh chụp mô tả cách làm của món ăn : </h4>
                 <button
@@ -80,6 +83,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                     <FileImageOutlined /> Thêm ảnh
                 </button>
             </div>
+            {imgError && <p className="error-message">{imgError}</p>}
             <div className="recipe-image__galerry mb-3">
                 {imageUrls.map((imgSrc, index) => (
                     <div className="recipe-image__galerry-item" key={imgSrc}>
@@ -111,7 +115,10 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                 type="file"
                 className="d-none"
                 ref={recipeVideoRef}
-                onChange={(e) => setVideoFile(e.target?.files?.[0])}
+                onChange={(e) => {
+                    setVideoError('');
+                    setVideoFile(e.target?.files?.[0]);
+                }}
             />
             {video && (
                 <div className="recipe-video__container">
@@ -120,6 +127,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
             )}
             <div className="steps-container mt-3">
                 <h4>Các bước thực hiện món ăn : </h4>
+                {stepError && <p className="error-message mb-2">{stepError}</p>}
                 <Input
                     type="textarea"
                     value={describe}
@@ -130,6 +138,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                     <button
                         className="button button-sm"
                         onClick={() => {
+                            setStepError('');
                             if (selectedStep?.title) {
                                 setListStep((prevState) =>
                                     prevState.map((it) =>
@@ -197,8 +206,20 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                 <button
                     className="button button-sm"
                     type="button"
-                    disabled={imgError || videoError}
+                    disabled={imgError || videoError || stepError}
                     onClick={() => {
+                        if (![...files].length && imageUrls.length === 0) {
+                            setImgError('Vui lòng chọn ảnh mô tả cách làm của món ăn');
+                            return;
+                        }
+                        if (!video && !videoFile) {
+                            setVideoError('Vui lòng chọn video mô tả cách làm của món ăn');
+                            return;
+                        }
+                        if (listStep.length === 0) {
+                            setStepError('Vui lòng nhập các bước thực hiện món ăn');
+                            return;
+                        }
                         setRecipeFormData((prevState) => ({
                             ...prevState,
                             listStep,
