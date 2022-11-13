@@ -54,12 +54,8 @@ function MobileCard({ item, no, onEdit, onDelete, onChangeRole, selectedEditItem
                     <p>{item.userName}</p>
                 </div>
                 <div className="custom-col">
-                    <strong>Tên đăng nhập</strong>
-                    <p>{item.userName}</p>
-                </div>
-                <div className="custom-col">
-                    <strong>Ngày Tháng năm </strong>
-                    <p>{item?.createDate?.substr(0, 10) || '-'}</p>
+                    <strong>E-mail </strong>
+                    <p>{item?.email}</p>
                 </div>
                 <div className="custom-col">
                     <strong>Chức vụ</strong>
@@ -109,8 +105,7 @@ const UserDataList = ({
             <span className={styles.no}>{index + 1}</span>
             <span>{item.accountId}</span>
             <span>{item.userName || '-'}</span>
-            <span>{item.userName || '-'}</span>
-            <span>{item?.createDate?.substr(0, 10) || '-'}</span>
+            <span>{item?.email}</span>
             <span className="text-capitalize">
                 {selectedEditItem === item.accountId ? (
                     <Input
@@ -189,8 +184,7 @@ const UserDataList = ({
                         <strong className={styles.no}>No</strong>
                         <strong>Id</strong>
                         <strong>Họ và tên</strong>
-                        <strong>Tên đăng nhập</strong>
-                        <strong>Ngày Tháng Năm</strong>
+                        <strong>E-mail</strong>
                         <strong>Chức vụ</strong>
                         <strong />
                     </li>
