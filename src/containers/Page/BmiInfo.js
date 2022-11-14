@@ -101,7 +101,7 @@ const BmiForm = ({ item, userInfo }) => {
                     <strong>Tên</strong> : {item?.name}
                 </p>
                 <p>
-                    <strong>Ngày sinh</strong> : 2000-11-14
+                    <strong>Ngày sinh</strong> : {item?.dob?.join('-')}
                 </p>
                 <p>
                     <strong>Giới tính</strong> : {item?.gender}
