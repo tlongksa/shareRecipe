@@ -9,7 +9,7 @@ import { SmileOutlined } from '@ant-design/icons';
 import { signupRequest } from '../../api/requests';
 
 const USER_REGEX = /^[A-z0-9-_]{3,23}$/;
-const PWD_REGEX = /^[A-z0-9-_].{0,16}$/;
+const PWD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const Register = () => {
