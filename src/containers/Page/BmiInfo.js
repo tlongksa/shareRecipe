@@ -339,7 +339,9 @@ const BmiInfo = () => {
                     </div>
                 )}
                 {breakfirstList?.length > 0 && (
-                    <h3 className="mt-3">Bữa sáng {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo</h3>
+                    <h4 className="mt-5 mb-3">
+                        Bữa sáng {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                    </h4>
                 )}
                 <ul className="mt-2">
                     {breakfirstList?.map((item, index) => (
@@ -347,7 +349,9 @@ const BmiInfo = () => {
                     ))}
                 </ul>
                 {breakfirstList?.length > 0 && (
-                    <h3 className="mt-3">Bữa trưa {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo</h3>
+                    <h4 className="mt-3 mb-3">
+                        Bữa trưa {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                    </h4>
                 )}
                 <ul className="mt-2">
                     {lunchList?.map((item, index) => (
@@ -355,7 +359,9 @@ const BmiInfo = () => {
                     ))}
                 </ul>
                 {breakfirstList?.length > 0 && (
-                    <h3 className="mt-3">Bữa tối {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo</h3>
+                    <h4 className="mt-3 mb-3">
+                        Bữa tối {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                    </h4>
                 )}
                 <ul className="mt-2">
                     {dinnerList?.map((item, index) => (
@@ -363,7 +369,9 @@ const BmiInfo = () => {
                     ))}
                 </ul>
                 {breakfirstList?.length > 0 && (
-                    <h3 className="mt-3">Tráng miệng {dessertList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo</h3>
+                    <h4 className="mt-3 mb-3">
+                        Tráng miệng {dessertList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                    </h4>
                 )}
                 <ul className="mt-2">
                     {breakfirstList?.map((item, index) => (

@@ -157,7 +157,9 @@ const BlogDetail = () => {
             })
             .catch((err) => {
                 setIsProcessing(false);
-                console.log(err);
+                notification.open({
+                    message: err?.response?.data?.message,
+                });
             });
     };
 
