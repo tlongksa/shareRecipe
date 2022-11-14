@@ -263,12 +263,15 @@ const RecipeForm = () => {
                     Step 1
                 </button>
                 <button
-                    className={`${stepNum === 2 ? 'active-step' : ''} ${stepNum < 2 ? 'divDisabled' : ''}`}
+                    className={`${stepNum === 2 ? 'active-step' : ''} ${stepNum >= 2 || id ? '' : 'divDisabled'}`}
                     onClick={() => navigate(`/admin/recipe-form?step=2${id ? `&id=${id}` : ''}`)}
                 >
                     Step 2
                 </button>
-                <button className={`${stepNum === 3 ? 'active-step' : ''} ${stepNum < 3 ? 'divDisabled' : ''}`}>
+                <button
+                    className={`${stepNum === 3 ? 'active-step' : ''} ${stepNum >= 3 || id ? '' : 'divDisabled'}`}
+                    onClick={() => navigate(`/admin/recipe-form?step=3${id ? `&id=${id}` : ''}`)}
+                >
                     Step 3
                 </button>
             </div>

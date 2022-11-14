@@ -109,9 +109,11 @@ const Register = () => {
             <div className="register-body">
                 {success ? (
                     <section>
-                        <h1>Success!</h1>
+                        <h1 className="mb-2">Success!</h1>
                         <p>
-                            <Link to="/signin">Sign In</Link>
+                            <Link className="button button-sm" to="/signin">
+                                Sign In
+                            </Link>
                         </p>
                     </section>
                 ) : (
