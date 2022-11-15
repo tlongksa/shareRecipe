@@ -19,6 +19,7 @@ import {
     getMainIngredientListRequest,
     getUserBmiRecipeByFavouriteRequest,
     searchMainIngredientListRequest,
+    getUserBmiAlternativeListRecipeRequest,
 } from '../../api/requests';
 import { notification } from 'antd';
 
@@ -97,6 +98,17 @@ export const BmiProvider = ({ children }) => {
             });
     };
 
+    const fetchBmiAlternativeRecipeList = (totalCalo, meal, mainIngredient) => {
+        dispatchContext(bmiGetRecipeListAction());
+        getUserBmiAlternativeListRecipeRequest(totalCalo, meal, mainIngredient)
+            .then(({ data }) => {
+                dispatchContext(bmiGetRecipeListSuccessAction([{ ...data }]));
+            })
+            .catch((err) => {
+                dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
+            });
+    };
+
     return (
         <BmiContext.Provider
             value={{
@@ -107,6 +119,8 @@ export const BmiProvider = ({ children }) => {
                 onFetchMainIngredients: (ing) => fetchMainIngredients(ing),
                 onFetchRecipesByFavourite: (totalCalo, meal, mainIngredient) =>
                     fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient),
+                onFetchAlternativeRecipes: (totalCalo, meal, mainIngredient) =>
+                    fetchBmiAlternativeRecipeList(totalCalo, meal, mainIngredient),
             }}
         >
             {children}

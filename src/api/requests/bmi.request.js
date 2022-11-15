@@ -24,6 +24,13 @@ const getUserBmiRecipeByFavouriteRequest = (totalCalo, meal, mainIngredient) =>
         },
     });
 
+const getUserBmiAlternativeListRecipeRequest = (totalCalo, meal, mainIngredient) =>
+    axios.get(`/searchDishByCaloBMI?meal=${meal}&mainIngredient=${mainIngredient}&calo=${totalCalo}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 const getMainIngredientListRequest = () =>
     axios.get(`/getMainIngredient`, {
         headers: {
@@ -55,4 +62,5 @@ export {
     getUserBmiRecipeByFavouriteRequest,
     getUserBmiListRequest,
     searchMainIngredientListRequest,
+    getUserBmiAlternativeListRecipeRequest,
 };
