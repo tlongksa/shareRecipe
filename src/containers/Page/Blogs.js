@@ -71,6 +71,7 @@ export const BlogItem = ({
     username,
     hideDeleteIcon,
     onEdit,
+    hideContent,
 }) => {
     return (
         <li className="blog-list_item mb-4">
@@ -128,6 +129,7 @@ export const BlogItem = ({
                             <Link to={`/blogs/${item.blogID}`}>{item.title}</Link>
                         </h5>
                         <div
+                            className={`blog-item__content ${hideContent ? 'hide-content' : ''}`}
                             dangerouslySetInnerHTML={{
                                 __html: item.content,
                             }}
@@ -305,7 +307,12 @@ const Blogs = () => {
                 </div>
                 <ul className="blog-list_items">
                     {list.map((item, index) => (
-                        <BlogItem key={`${item.blogID}-${index}`} item={item} isAuthenticated={isAuthenticated} />
+                        <BlogItem
+                            key={`${item.blogID}-${index}`}
+                            item={item}
+                            isAuthenticated={isAuthenticated}
+                            hideContent
+                        />
                     ))}
                 </ul>
                 {isLoading && (

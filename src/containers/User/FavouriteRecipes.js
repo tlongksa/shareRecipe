@@ -7,7 +7,16 @@ import './index.scss';
 const ProfileFavouriteRecipe = ({ item }) => {
     return (
         <li className="profile-favourite__recipe-item">
-            <Link to={`/recipe-detail/${item.dishId}`} className="d-block">
+            <Link
+                to={`/recipe-detail/${item.dishId}`}
+                className="d-block"
+                onClick={() =>
+                    window.scrollTo({
+                        top: 0,
+                        left: 0,
+                    })
+                }
+            >
                 {item.name}
             </Link>
             <img src={item.urlImage || 'https://via.placeholder.com/150'} alt="" />

@@ -14,7 +14,17 @@ export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
             <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
                 <div className="recipe-list_item-content">
                     <h5>
-                        <Link to={`/recipe-detail/${item.dishID}`}>{item.name}</Link>
+                        <Link
+                            to={`/recipe-detail/${item.dishID}`}
+                            onClick={() =>
+                                window.scrollTo({
+                                    top: 0,
+                                    left: 0,
+                                })
+                            }
+                        >
+                            {item.name}
+                        </Link>
                     </h5>
                     <p>{item.description}</p>
                 </div>

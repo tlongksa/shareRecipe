@@ -108,6 +108,10 @@ const Recipes = () => {
                     roles === ROLES.mod
                         ? (id) => {
                               navigate(`/recipe-detail/${id}`);
+                              window.scrollTo({
+                                  top: 0,
+                                  left: 0,
+                              });
                           }
                         : null
                 }

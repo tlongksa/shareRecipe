@@ -6,6 +6,10 @@ const HomeRecipeItem = ({ item, navigateTo }) => {
         <div
             onClick={() => {
                 navigateTo(`/recipe-detail/${item.dishID || item.dishId}`);
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                });
             }}
             className="home-dish__item"
         >
