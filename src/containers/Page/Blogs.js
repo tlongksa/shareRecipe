@@ -27,7 +27,225 @@ import { IMAGE_PLACEHODLER_URI } from '../../constants';
 import { ROLES } from '../../App';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { fileUploadHandler } from '../../hooks/useFileUpload';
 
+function uploadAdapter(loader) {
+    return {
+        upload: () => {
+            return new Promise((resolve, reject) => {
+                // const body = new FormData();
+                loader.file.then((file) => {
+                    fileUploadHandler(
+                        file,
+                        (isLoading) => {
+                            console.log(isLoading);
+                        },
+                        reject,
+                        (url) => {
+                            resolve({
+                                default: url,
+                            });
+                        },
+                    );
+                });
+            });
+        },
+    };
+}
+
+function uploadPlugin(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+        return uploadAdapter(loader);
+    };
+}
+
+export const BlogForm = ({ show, setShow, blogData, callback }) => {
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    useEffect(() => {
+        if (blogData?.blogID) {
+            setTitle(blogData?.title);
+            setContent(blogData?.content);
+        }
+    }, [blogData]);
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        setIsProcessing(true);
+        const payloadToSubmit = {
+            title,
+            content,
+        };
+        if (blogData?.blogID) {
+            payloadToSubmit.blogId = blogData?.blogID;
+        }
+        createBlogRequest(payloadToSubmit)
+            .then(({ data }) => {
+                setTitle('');
+                setContent('');
+                callback && callback();
+                setShow(false);
+                setIsProcessing(false);
+                notification.open({
+                    message: data?.messContent,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsProcessing(false);
+            });
+    };
+
+    return (
+        <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
+            <Modal.Header closeButton>
+                <Modal.Title>Tạo mới blog</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <form onSubmit={onSubmit}>
+                    <Input
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Title"
+                        label={'Title'}
+                        value={title}
+                        error={null}
+                        touched={true}
+                        className="flex-fill"
+                    />
+                    <div className="mb-3">
+                        <CKEditor
+                            editor={ClassicEditor}
+                            data={content}
+                            config={{ extraPlugins: [uploadPlugin] }}
+                            onReady={(editor) => {
+                                // You can store the "editor" and use when it is needed.
+                                console.log('Editor is ready to use!', editor);
+                            }}
+                            onChange={(event, editor) => {
+                                const data = editor.getData();
+                                setContent(data);
+                            }}
+                            onBlur={(event, editor) => {
+                                console.log('Blur.', editor);
+                            }}
+                            onFocus={(event, editor) => {
+                                console.log('Focus.', 762);
+                            }}
+                        />
+                    </div>
+                    <div className="d-flex justify-content-end">
+                        <button
+                            className="button button-sm"
+                            type="submit"
+                            disabled={!content.trim() || !title.trim() || isProcessing}
+                        >
+                            Post
+                        </button>
+                    </div>
+                </form>
+            </Modal.Body>
+        </Modal>
+    );
+};
+
+const Blogs = () => {
+    const { list, error, isLoading, extraListInfo, onFetchMore, onClearList } = useContext(BlogContext);
+    const dataFetchedRef = useRef(false);
+    const [search, setSearch] = useState('');
+    const [showNewBlog, setShowNewBlog] = useState(false);
+    const {
+        userInfo: { accessToken, roles },
+    } = useContext(AuthContext);
+    const isAuthenticated = !!accessToken;
+
+    useEffect(() => {
+        if (dataFetchedRef.current) return;
+        dataFetchedRef.current = true;
+        onFetchMore(1, search);
+        return () => {
+            // clean up
+            onClearList();
+            setSearch('');
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    if (!isLoading && error) {
+        return (
+            <section className="client-blog__list-container">
+                <div className="custom-page__container">
+                    <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>
+                </div>
+            </section>
+        );
+    }
+
+    return (
+        <section className="client-blog__list-container">
+            <div className="custom-page__container">
+                <div className="d-flex justify-content-end mb-3 gap-3">
+                    <SearchDataList
+                        search={search}
+                        setSearch={setSearch}
+                        callback={() => {
+                            if (search.trim()) {
+                                onFetchMore(1, search);
+                            }
+                        }}
+                        emptySearchCallback={() => onFetchMore(1, '')}
+                    />
+                    {isAuthenticated && (
+                        <button
+                            className="button button-sm d-flex align-items-center gap-2"
+                            onClick={() => setShowNewBlog(true)}
+                        >
+                            <PlusCircleOutlined />
+                            <span>Thêm blog</span>
+                        </button>
+                    )}
+                </div>
+                <ul className="blog-list_items">
+                    {list.map((item, index) => (
+                        <BlogItem
+                            key={`${item.blogID}-${index}`}
+                            item={item}
+                            isAuthenticated={isAuthenticated}
+                            hideContent
+                        />
+                    ))}
+                </ul>
+                {isLoading && (
+                    <div className="global-list__loader-container">
+                        <LoadingOutlined className="global-list__loader-icon" />
+                    </div>
+                )}
+                {!isLoading && list.length === 0 && (
+                    <p className="my-3 text-center error-message">Không có bài viết phù hơp</p>
+                )}
+                <Paginator
+                    isLoading={isLoading}
+                    maxPage={extraListInfo.numOfPages}
+                    curPage={extraListInfo.pageIndex}
+                    scrollAfterClicking={false}
+                    callback={(page) => onFetchMore(page, search || '')}
+                />
+            </div>
+            <BlogForm
+                show={showNewBlog}
+                setShow={setShowNewBlog}
+                callback={() => {
+                    if (roles === ROLES.admin) {
+                        onFetchMore(1, search);
+                    }
+                }}
+            />
+        </section>
+    );
+};
+
+export default Blogs;
 export const SearchDataList = ({ search, setSearch, callback, emptySearchCallback, className }) => {
     const handleChange = (e) => {
         const { value } = e.target;
@@ -158,190 +376,3 @@ export const BlogItem = ({
         </li>
     );
 };
-
-export const BlogForm = ({ show, setShow, blogData, callback }) => {
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [isProcessing, setIsProcessing] = useState(false);
-
-    useEffect(() => {
-        if (blogData?.blogID) {
-            setTitle(blogData?.title);
-            setContent(blogData?.content);
-        }
-    }, [blogData]);
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        setIsProcessing(true);
-        const payloadToSubmit = {
-            title,
-            content,
-        };
-        if (blogData?.blogID) {
-            payloadToSubmit.blogId = blogData?.blogID;
-        }
-        createBlogRequest(payloadToSubmit)
-            .then(({ data }) => {
-                setTitle('');
-                setContent('');
-                callback && callback();
-                setShow(false);
-                setIsProcessing(false);
-                notification.open({
-                    message: data?.messContent,
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-                setIsProcessing(false);
-            });
-    };
-
-    return (
-        <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
-            <Modal.Header closeButton>
-                <Modal.Title>Tạo mới blog</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <form onSubmit={onSubmit}>
-                    <Input
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Title"
-                        label={'Title'}
-                        value={title}
-                        error={null}
-                        touched={true}
-                        className="flex-fill"
-                    />
-                    <div className="mb-3">
-                        <CKEditor
-                            editor={ClassicEditor}
-                            data={content}
-                            onReady={(editor) => {
-                                // You can store the "editor" and use when it is needed.
-                                console.log('Editor is ready to use!', editor);
-                            }}
-                            onChange={(event, editor) => {
-                                const data = editor.getData();
-                                setContent(data);
-                            }}
-                            onBlur={(event, editor) => {
-                                console.log('Blur.', editor);
-                            }}
-                            onFocus={(event, editor) => {
-                                console.log('Focus.', 762);
-                            }}
-                        />
-                    </div>
-                    <div className="d-flex justify-content-end">
-                        <button
-                            className="button button-sm"
-                            type="submit"
-                            disabled={!content.trim() || !title.trim() || isProcessing}
-                        >
-                            Post
-                        </button>
-                    </div>
-                </form>
-            </Modal.Body>
-        </Modal>
-    );
-};
-
-const Blogs = () => {
-    const { list, error, isLoading, extraListInfo, onFetchMore, onClearList } = useContext(BlogContext);
-    const dataFetchedRef = useRef(false);
-    const [search, setSearch] = useState('');
-    const [showNewBlog, setShowNewBlog] = useState(false);
-    const {
-        userInfo: { accessToken, roles },
-    } = useContext(AuthContext);
-    const isAuthenticated = !!accessToken;
-
-    useEffect(() => {
-        if (dataFetchedRef.current) return;
-        dataFetchedRef.current = true;
-        onFetchMore(1, search);
-        return () => {
-            // clean up
-            onClearList();
-            setSearch('');
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    if (!isLoading && error) {
-        return (
-            <section className="client-blog__list-container">
-                <div className="custom-page__container">
-                    <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>
-                </div>
-            </section>
-        );
-    }
-
-    return (
-        <section className="client-blog__list-container">
-            <div className="custom-page__container">
-                <div className="d-flex justify-content-end mb-3 gap-3">
-                    <SearchDataList
-                        search={search}
-                        setSearch={setSearch}
-                        callback={() => {
-                            if (search.trim()) {
-                                onFetchMore(1, search);
-                            }
-                        }}
-                        emptySearchCallback={() => onFetchMore(1, '')}
-                    />
-                    {isAuthenticated && (
-                        <button
-                            className="button button-sm d-flex align-items-center gap-2"
-                            onClick={() => setShowNewBlog(true)}
-                        >
-                            <PlusCircleOutlined />
-                            <span>Thêm blog</span>
-                        </button>
-                    )}
-                </div>
-                <ul className="blog-list_items">
-                    {list.map((item, index) => (
-                        <BlogItem
-                            key={`${item.blogID}-${index}`}
-                            item={item}
-                            isAuthenticated={isAuthenticated}
-                            hideContent
-                        />
-                    ))}
-                </ul>
-                {isLoading && (
-                    <div className="global-list__loader-container">
-                        <LoadingOutlined className="global-list__loader-icon" />
-                    </div>
-                )}
-                {!isLoading && list.length === 0 && (
-                    <p className="my-3 text-center error-message">Không có bài viết phù hơp</p>
-                )}
-                <Paginator
-                    isLoading={isLoading}
-                    maxPage={extraListInfo.numOfPages}
-                    curPage={extraListInfo.pageIndex}
-                    scrollAfterClicking={false}
-                    callback={(page) => onFetchMore(page, search || '')}
-                />
-            </div>
-            <BlogForm
-                show={showNewBlog}
-                setShow={setShowNewBlog}
-                callback={() => {
-                    if (roles === ROLES.admin) {
-                        onFetchMore(1, search);
-                    }
-                }}
-            />
-        </section>
-    );
-};
-
-export default Blogs;
