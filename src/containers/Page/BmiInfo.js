@@ -296,6 +296,9 @@ const RecipeItem = ({ item }) => (
                         <strong>By {item.verifier}</strong>
                         <span className="text-muted">{item?.createDate || '-'}</span>
                     </p>
+                    <div>
+                        <strong>Calo : </strong> <span>{item.totalCalo}</span>
+                    </div>
                 </div>
                 <div className={`recipe-list_item-actions d-flex gap-3 align-items-center`}>
                     <button onClick={() => {}}>
