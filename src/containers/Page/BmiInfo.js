@@ -48,11 +48,13 @@ const BmiInfo = () => {
         onFetchMainIngredients,
         onFetchRecipesByFavourite,
         onFetchAlternativeRecipes,
+        onClearRecipeList,
     } = useContext(BmiContext);
     const [recipeType, setRecipeType] = useState('total');
     const [meal, setMeal] = useState('');
     const [mainIngredient, setMainIngredient] = useState('');
     const [search, setSearch] = useState('');
+    const [calo, setCalo] = useState(0);
 
     const breakfirstList = recipeList.filter((it) => it.dishCate === 'Bữa sáng');
     const lunchList = recipeList.filter((it) => it.dishCate === 'Bữa trưa');
@@ -98,10 +100,12 @@ const BmiInfo = () => {
                 <button
                     className={`button button-sm me-3 ${recipeType === 'total' ? '' : 'button-secondary'}`}
                     onClick={() => {
+                        onClearRecipeList();
                         onFetchRecipes(dataResponse?.totalCalo);
                         setRecipeType('total');
                         setMeal('');
                         setMainIngredient('');
+                        setCalo(0);
                     }}
                 >
                     Total calories
@@ -109,9 +113,11 @@ const BmiInfo = () => {
                 <button
                     className={`button button-sm me-3 ${recipeType === 'favourite' ? '' : 'button-secondary'}`}
                     onClick={() => {
+                        onClearRecipeList();
                         setRecipeType('favourite');
                         setMeal('');
                         setMainIngredient('');
+                        setCalo(0);
                     }}
                 >
                     Favourite
@@ -119,6 +125,7 @@ const BmiInfo = () => {
                 <button
                     className={`button button-sm ${recipeType === 'alternative' ? '' : 'button-secondary'}`}
                     onClick={() => {
+                        onClearRecipeList();
                         setRecipeType('alternative');
                         setMeal('');
                         setMainIngredient('');
@@ -177,13 +184,28 @@ const BmiInfo = () => {
                                 </label>
                             ))}
                         </div>
+                        {recipeType === 'alternative' && (
+                            <div className="d-flex align-items-center mb-3 gap-3">
+                                <h5 className="mb-0">Số calo bạn muốn cần:</h5>
+                                <Input
+                                    onChange={(e) => setCalo(e.target.value)}
+                                    type="number"
+                                    value={calo}
+                                    error={null}
+                                    touched={true}
+                                    containerNoMarginBottom
+                                    className="w-50"
+                                    inputClassName="border-0"
+                                />
+                            </div>
+                        )}
                         <div className="d-flex justify-content-end">
                             <button
                                 className="button button-sm"
                                 disabled={!meal || !mainIngredient}
                                 onClick={() => {
                                     if (recipeType === 'alternative') {
-                                        onFetchAlternativeRecipes(dataResponse?.totalCalo, meal, mainIngredient);
+                                        onFetchAlternativeRecipes(calo, meal, mainIngredient);
                                         return;
                                     }
                                     onFetchRecipesByFavourite(dataResponse?.totalCalo, meal, mainIngredient);
@@ -195,7 +217,7 @@ const BmiInfo = () => {
                     </div>
                 )}
                 {breakfirstList?.length > 0 && (
-                    <h4 className="mt-5 mb-3">
+                    <h4 className={`mt-5 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
                         Bữa sáng {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                     </h4>
                 )}
@@ -204,9 +226,9 @@ const BmiInfo = () => {
                         <RecipeItem key={item.dishID + index} item={item} />
                     ))}
                 </ul>
-                {breakfirstList?.length > 0 && (
-                    <h4 className="mt-3 mb-3">
-                        Bữa trưa {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                {lunchList?.length > 0 && (
+                    <h4 className={`mt-3 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
+                        Bữa trưa {lunchList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                     </h4>
                 )}
                 <ul className="mt-2">
@@ -214,9 +236,9 @@ const BmiInfo = () => {
                         <RecipeItem key={item.dishID + index} item={item} />
                     ))}
                 </ul>
-                {breakfirstList?.length > 0 && (
-                    <h4 className="mt-3 mb-3">
-                        Bữa tối {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                {dinnerList?.length > 0 && (
+                    <h4 className={`mt-3 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
+                        Bữa tối {dinnerList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                     </h4>
                 )}
                 <ul className="mt-2">
@@ -224,13 +246,13 @@ const BmiInfo = () => {
                         <RecipeItem key={item.dishID + index} item={item} />
                     ))}
                 </ul>
-                {breakfirstList?.length > 0 && (
-                    <h4 className="mt-3 mb-3">
+                {dessertList?.length > 0 && (
+                    <h4 className={`mt-3 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
                         Tráng miệng {dessertList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                     </h4>
                 )}
                 <ul className="mt-2">
-                    {breakfirstList?.map((item, index) => (
+                    {dessertList?.map((item, index) => (
                         <RecipeItem key={item.dishID + index} item={item} />
                     ))}
                 </ul>

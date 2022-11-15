@@ -11,6 +11,7 @@ import {
     bmiGetRecipeListAction,
     bmiGetRecipeListSuccessAction,
     bmiGetRecipeListFailureAction,
+    clearBmiRecipeListAction,
 } from './actions';
 import bmiReducer from './reducer';
 import {
@@ -121,6 +122,7 @@ export const BmiProvider = ({ children }) => {
                     fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient),
                 onFetchAlternativeRecipes: (totalCalo, meal, mainIngredient) =>
                     fetchBmiAlternativeRecipeList(totalCalo, meal, mainIngredient),
+                onClearRecipeList: () => dispatchContext(clearBmiRecipeListAction()),
             }}
         >
             {children}
