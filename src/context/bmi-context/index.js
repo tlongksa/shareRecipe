@@ -71,7 +71,7 @@ export const BmiProvider = ({ children }) => {
         dispatchContext(bmiGetRecipeListAction());
         getUserBmiRecipeByFavouriteRequest(totalCalo, meal, mainIngredient)
             .then(({ data }) => {
-                dispatchContext(bmiGetRecipeListSuccessAction([data]));
+                dispatchContext(bmiGetRecipeListSuccessAction(data));
             })
             .catch((err) => {
                 dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));

@@ -298,18 +298,20 @@ const BmiInfo = () => {
                                 </label>
                             ))}
                         </div>
-                        <h5 className="mb-4">Chọn nguyên liệu chính</h5>
-                        <SearchDataList
-                            search={search}
-                            setSearch={setSearch}
-                            callback={() => {
-                                if (search.trim()) {
-                                    onFetchMainIngredients(search);
-                                }
-                            }}
-                            emptySearchCallback={() => onFetchMainIngredients('')}
-                            className="bg-white"
-                        />
+                        <div className="d-flex align-items-center gap-3">
+                            <h5 className="mb-0">Chọn nguyên liệu chính</h5>
+                            <SearchDataList
+                                search={search}
+                                setSearch={setSearch}
+                                callback={() => {
+                                    if (search.trim()) {
+                                        onFetchMainIngredients(search);
+                                    }
+                                }}
+                                emptySearchCallback={() => onFetchMainIngredients('')}
+                                className="bg-white"
+                            />
+                        </div>
                         <br />
                         <div className="main-ingredient__list mb-3">
                             {mainIngredientList?.map((value) => (

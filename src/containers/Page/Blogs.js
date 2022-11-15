@@ -228,7 +228,7 @@ export const BlogForm = ({ show, setShow, blogData, callback }) => {
                                 console.log('Blur.', editor);
                             }}
                             onFocus={(event, editor) => {
-                                console.log('Focus.', editor);
+                                console.log('Focus.', 762);
                             }}
                         />
                     </div>
