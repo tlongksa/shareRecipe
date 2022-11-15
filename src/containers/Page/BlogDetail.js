@@ -305,7 +305,11 @@ const BlogDetail = () => {
                             placeholder="Bình luận ..."
                         />
                         <div className="d-flex justify-content-end">
-                            <button className="button button-sm" type="submit" disabled={!content.trim()}>
+                            <button
+                                className="button button-sm"
+                                type="submit"
+                                disabled={!content.trim() || !isAuthenticated}
+                            >
                                 Post
                             </button>
                         </div>
