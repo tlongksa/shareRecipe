@@ -11,6 +11,7 @@ import { IMAGE_PLACEHODLER_URI } from '.././../constants';
 import { updateUserBmiInfoRequest } from '../../api/requests';
 import { Link } from 'react-router-dom';
 import { SearchDataList } from './Blogs';
+import Slider from '../../components/common/Slider';
 
 export const mobilityOptions = [
     {
@@ -85,6 +86,34 @@ const BmiInfo = () => {
             </section>
         );
     }
+
+    const renderRecipeList = (list) => {
+        if (recipeType === 'total') {
+            if (list.length < 4) {
+                return (
+                    <div className="d-flex">
+                        {breakfirstList?.map((item, index) => (
+                            <BmiRecipeItem key={item.dishID + index} item={item} />
+                        ))}
+                    </div>
+                );
+            }
+            return (
+                <Slider slidesToShow={4}>
+                    {breakfirstList?.map((item, index) => (
+                        <BmiRecipeItem key={item.dishID + index} item={item} />
+                    ))}
+                </Slider>
+            );
+        }
+        return (
+            <ul className="mt-2">
+                {breakfirstList?.map((item, index) => (
+                    <RecipeItem key={item.dishID + index} item={item} />
+                ))}
+            </ul>
+        );
+    };
 
     return (
         <section className="client-bmi__info">
@@ -221,41 +250,25 @@ const BmiInfo = () => {
                         Bữa sáng {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                     </h4>
                 )}
-                <ul className="mt-2">
-                    {breakfirstList?.map((item, index) => (
-                        <RecipeItem key={item.dishID + index} item={item} />
-                    ))}
-                </ul>
+                <ul className="mt-2">{renderRecipeList(breakfirstList)}</ul>
                 {lunchList?.length > 0 && (
-                    <h4 className={`mt-3 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
+                    <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
                         Bữa trưa {lunchList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                     </h4>
                 )}
-                <ul className="mt-2">
-                    {lunchList?.map((item, index) => (
-                        <RecipeItem key={item.dishID + index} item={item} />
-                    ))}
-                </ul>
+                <ul className="mt-2">{renderRecipeList(lunchList)}</ul>
                 {dinnerList?.length > 0 && (
-                    <h4 className={`mt-3 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
+                    <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
                         Bữa tối {dinnerList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                     </h4>
                 )}
-                <ul className="mt-2">
-                    {dinnerList?.map((item, index) => (
-                        <RecipeItem key={item.dishID + index} item={item} />
-                    ))}
-                </ul>
+                <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
                 {dessertList?.length > 0 && (
-                    <h4 className={`mt-3 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
+                    <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
                         Tráng miệng {dessertList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                     </h4>
                 )}
-                <ul className="mt-2">
-                    {dessertList?.map((item, index) => (
-                        <RecipeItem key={item.dishID + index} item={item} />
-                    ))}
-                </ul>
+                <ul className="mt-2">{renderRecipeList(dessertList)}</ul>
                 {isLoadingRecipes && (
                     <div className="global-list__loader-container">
                         <LoadingOutlined className="global-list__loader-icon" />
@@ -447,3 +460,24 @@ const BmiForm = ({ item, userInfo }) => {
         </div>
     );
 };
+
+const BmiRecipeItem = ({ item }) => (
+    <li className="bmi-recipe__item">
+        <Link
+            to={`/recipe-detail/${item.dishID}`}
+            className="d-block"
+            onClick={() =>
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                })
+            }
+        >
+            {item.dishName}
+        </Link>
+        <img src={item?.dishImageList?.[0]?.url || 'https://via.placeholder.com/150'} alt="" />
+        <p className="mt-2">
+            By <strong>{item.verifier}</strong> <span className="text-muted">{item.createDate}</span>
+        </p>
+    </li>
+);

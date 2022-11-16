@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import RecipeContext from '../../context/recipe-context';
 import './index.scss';
 
-const ProfileFavouriteRecipe = ({ item }) => {
+export const ProfileFavouriteRecipe = ({ item }) => {
     return (
         <li className="profile-favourite__recipe-item">
             <Link
