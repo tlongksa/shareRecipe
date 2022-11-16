@@ -92,7 +92,7 @@ const BmiInfo = () => {
             if (list.length < 4) {
                 return (
                     <div className="d-flex">
-                        {breakfirstList?.map((item, index) => (
+                        {list?.map((item, index) => (
                             <BmiRecipeItem key={item.dishID + index} item={item} />
                         ))}
                     </div>
@@ -100,7 +100,7 @@ const BmiInfo = () => {
             }
             return (
                 <Slider slidesToShow={4}>
-                    {breakfirstList?.map((item, index) => (
+                    {list?.map((item, index) => (
                         <BmiRecipeItem key={item.dishID + index} item={item} />
                     ))}
                 </Slider>
@@ -108,7 +108,7 @@ const BmiInfo = () => {
         }
         return (
             <ul className="mt-2">
-                {breakfirstList?.map((item, index) => (
+                {list?.map((item, index) => (
                     <RecipeItem key={item.dishID + index} item={item} />
                 ))}
             </ul>
