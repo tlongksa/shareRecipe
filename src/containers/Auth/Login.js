@@ -9,6 +9,8 @@ import AuthContext from '../../context/auth-context';
 import { USER_INFO_STORAGE_KEY } from '../../constants';
 import { ROLES } from '../../App';
 import { loginRequest } from '../../api/requests';
+import Input from '../../components/common/Input/Input';
+import authBannerImgSrc from '../../assets/img/auth_banner.png';
 
 const Login = () => {
     const { onLoginSuccess } = useContext(AuthContext);
@@ -71,68 +73,66 @@ const Login = () => {
     };
 
     return (
-        <div className="custom-page__container">
-            <form onSubmit={handleSubmit} className="background">
-                <h2 className="login__page-title mb-4">Wellcome to OiShii</h2>
+        <section className="signin__container">
+            <form onSubmit={handleSubmit}>
                 <div className="login-form__container">
-                    <div className="left"></div>
-                    <div className="right-login bg-gray-custom">
-                        <div className="login-background">
-                            <div className="login-title">Login</div>
-                            <p className={'error-message text-center'}>{errMsg}</p>
-                            <div className="container-login">
-                                <label htmlFor="name" className="label">
-                                    User Name:{' '}
+                    <div className="main-login">
+                        <h3 className="login-title">Sign in</h3>
+                        <p className="login-desc">accompany us to create the best food</p>
+                        {errMsg && <p className="error-message">{errMsg}</p>}
+                        <div className="container-login">
+                            <Input
+                                type="text"
+                                name="username"
+                                placeholder="Enter your user name"
+                                onChange={(e) => setUser(e.target.value)}
+                                value={username}
+                                touched={true}
+                            />
+                            <div className="password-container">
+                                <Input
+                                    type={isRevealPwd ? 'text' : 'password'}
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    onChange={(e) => setPwd(e.target.value)}
+                                    value={password}
+                                    touched={true}
+                                />
+                                <img
+                                    className="toggle-password__type"
+                                    title={isRevealPwd ? 'Hide password' : 'Show password'}
+                                    src={isRevealPwd ? hidePwdImg : showPwdImg}
+                                    onClick={() => setIsRevealPwd((prevState) => !prevState)}
+                                    alt=""
+                                />
+                            </div>
+                            <div className="signin-remember d-flex align-items-center justify-content-between">
+                                <label className="checkboxContainer">
+                                    Remember for next time sign in
+                                    <input type="checkbox" />
+                                    <span className="checkmarkCheckbox" />
                                 </label>
-                                <div className="form-group">
-                                    <input
-                                        type="text"
-                                        name="username"
-                                        id="username"
-                                        placeholder="Enter your user name"
-                                        onChange={(e) => setUser(e.target.value)}
-                                        value={username}
-                                        required
-                                    />
-                                </div>
-                                <label htmlFor="password" className="label">
-                                    Password:{' '}
-                                </label>
-                                <div className="form-group">
-                                    <input
-                                        type={isRevealPwd ? 'text' : 'password'}
-                                        name="password"
-                                        id="password"
-                                        placeholder="Enter your password"
-                                        onChange={(e) => setPwd(e.target.value)}
-                                        value={password}
-                                        required
-                                    />
-                                    <img
-                                        className="imgEye"
-                                        title={isRevealPwd ? 'Hide password' : 'Show password'}
-                                        src={isRevealPwd ? hidePwdImg : showPwdImg}
-                                        onClick={() => setIsRevealPwd((prevState) => !prevState)}
-                                        alt=""
-                                    />
-                                </div>
-                                <button className="button button-sm button-full mt-3" disabled={isProcessing}>
-                                    Login
-                                </button>
-                                <div className="login-bottom__txt">
-                                    <Link to="/sign-up" className="nav-link">
-                                        Register
-                                    </Link>
-                                    <Link to="/forgot-password" className="nav-link">
-                                        Forgot your password?
-                                    </Link>
-                                </div>
+                                <Link to="/forgot-password" className="text-green text-underline">
+                                    Forgot your password?
+                                </Link>
+                            </div>
+                            <button className="button button-sm button-full button-green mt-4" disabled={isProcessing}>
+                                Sign In
+                            </button>
+                            <div className="login-bottom__txt">
+                                Don’t have account?{' '}
+                                <Link to="/sign-up" className="text-green text-underline">
+                                    Sign up now
+                                </Link>
                             </div>
                         </div>
                     </div>
+                    <div className="auth-banner">
+                        <img src={authBannerImgSrc} alt="" />
+                    </div>
                 </div>
             </form>
-        </div>
+        </section>
     );
 };
 export default Login;

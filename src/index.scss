@@ -11,6 +11,7 @@
     --blue-color: #1871c2;
     --green-badge-bg-color: #d2eed5;
     --yellow-color: #fdcc0d;
+    --green-color: #038c00;
 }
 
 * {
@@ -175,4 +176,13 @@ a {
 }
 .ck.ck-content.ck-editor__editable {
     min-height: 300px;
+}
+.auth-banner {
+    max-width: 50%;
+    img {
+        width: 100%;
+    }
+    @media (max-width: 900px) {
+        max-width: 100%;
+    }
 }

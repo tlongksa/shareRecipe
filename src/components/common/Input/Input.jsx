@@ -20,6 +20,7 @@ const Input = ({
     inputClassName,
     textAreaRows = 6,
     errorNormalPosition,
+    id,
 }) => {
     let input = (
         <input
@@ -31,6 +32,7 @@ const Input = ({
             placeholder={placeholder}
             readOnly={readOnly}
             autoComplete="off"
+            id={id || ''}
         />
     );
 
@@ -45,6 +47,7 @@ const Input = ({
                 value={value}
                 placeholder={placeholder}
                 readOnly={readOnly}
+                id={id || ''}
             />
         );
     }
@@ -57,6 +60,7 @@ const Input = ({
                 onChange={onChange}
                 value={value}
                 readOnly={readOnly}
+                id={id || ''}
             >
                 {children}
             </select>
