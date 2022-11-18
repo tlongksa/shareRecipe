@@ -102,7 +102,7 @@ const Register = () => {
     };
 
     return (
-        <div className="custom-page__container">
+        <section className="signup__container">
             <div className="register-body">
                 {success ? (
                     <section>
@@ -249,7 +249,7 @@ const Register = () => {
                     </section>
                 )}
             </div>
-        </div>
+        </section>
     );
 };
 
