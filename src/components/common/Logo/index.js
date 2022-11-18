@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from '../../NavBar/NavbarElement';
+import './index.scss';
 
-const MainLogo = () => {
+const MainLogo = ({ className }) => {
     return (
-        <NavLink to="/" className="d-flex align-items-center gap-2">
-            <img src={require('../../../assets/img/logoDoAn1.png')} alt="logo" />
-            <strong className="main-logo__name">iShii</strong>
+        <NavLink to="/" className={`main-logo__container d-flex align-items-center gap-0 ${className || ''}`}>
+            <span>Food</span>
+            <span className="text-green">Recipes</span>
         </NavLink>
     );
 };

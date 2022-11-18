@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Register.scss';
@@ -7,13 +7,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import { signupRequest } from '../../api/requests';
+import authBannerImgSrc from '../../assets/img/auth_banner.png';
+import Input from '../../components/common/Input/Input';
 
 const USER_REGEX = /^[A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const Register = () => {
-    const userRef = useRef();
     const [isProcessing, setIsProcessing] = useState(false);
     const [fullname, setFulName] = useState('');
 
@@ -37,10 +38,6 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        userRef.current.focus();
-    }, []);
 
     useEffect(() => {
         setValidName(USER_REGEX.test(username));
@@ -109,7 +106,7 @@ const Register = () => {
             <div className="register-body">
                 {success ? (
                     <section>
-                        <h1 className="mb-2">Success!</h1>
+                        <h1 className="mb-2">Sign Up Success!</h1>
                         <p>
                             <Link className="button button-sm" to="/signin">
                                 Sign In
@@ -118,44 +115,34 @@ const Register = () => {
                     </section>
                 ) : (
                     <section className="register-section__container">
-                        <div className="left"></div>
-                        <div className="right bg-gray-custom">
+                        <div className="main-register">
                             <p className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">
                                 {errMsg}
                             </p>
                             <h1 className="register-title">Register</h1>
+                            <p className="register-desc mb-3">accompany us to create the best food</p>
                             <form onSubmit={handleSubmit} className="register-form">
-                                <label htmlFor="fullname">Fullname:</label>
-                                <input
-                                    type="text"
-                                    id="fullname"
+                                <Input
+                                    label="Full Name"
                                     onChange={(e) => setFulName(e.target.value)}
                                     value={fullname}
                                 />
-                                <label htmlFor="username">
-                                    Username:
+                                <label className="register-form__label">
+                                    <span>User Name</span>
                                     <FontAwesomeIcon icon={faCheck} className={validName ? 'valid' : 'hide'} />
                                     <FontAwesomeIcon
                                         icon={faTimes}
                                         className={validName || !username ? 'hide' : 'invalid'}
                                     />
                                 </label>
-                                <input
-                                    type="text"
-                                    id="username"
-                                    ref={userRef}
-                                    autoComplete="off"
+                                <Input
                                     onChange={(e) => setUser(e.target.value)}
                                     value={username}
-                                    required
-                                    aria-invalid={validName ? 'false' : 'true'}
-                                    aria-describedby="uidnote"
                                     onFocus={() => setUserFocus(true)}
                                     onBlur={() => setUserFocus(false)}
                                 />
                                 <p
-                                    id="uidnote"
-                                    className={`error-message ${
+                                    className={`error-message mb-2 ${
                                         userFocus && username && !validName ? 'instructions' : 'offscreen'
                                     }`}
                                 >
@@ -166,29 +153,25 @@ const Register = () => {
                                     <br />
                                     Letters, numbers, underscores, hyphens allowed.
                                 </p>
-
-                                <label htmlFor="password">
-                                    Password:
+                                <label className="register-form__label">
+                                    <span>Password</span>
                                     <FontAwesomeIcon icon={faCheck} className={validPwd ? 'valid' : 'hide'} />
                                     <FontAwesomeIcon
                                         icon={faTimes}
                                         className={validPwd || !password ? 'hide' : 'invalid'}
                                     />
                                 </label>
-                                <input
+                                <Input
                                     type="password"
-                                    id="password"
                                     onChange={(e) => setPwd(e.target.value)}
                                     value={password}
-                                    required
-                                    aria-describedby="pwdnote"
                                     onFocus={() => setPwdFocus(true)}
                                     onBlur={() => setPwdFocus(false)}
                                 />
-
                                 <p
-                                    id="pwdnote"
-                                    className={`error-message ${pwdFocus && !validPwd ? 'instructions' : 'offscreen'}`}
+                                    className={`error-message mb-2 ${
+                                        pwdFocus && !validPwd ? 'instructions' : 'offscreen'
+                                    }`}
                                 >
                                     <FontAwesomeIcon icon={faInfoCircle} />
                                     8 to 24 characters.
@@ -197,8 +180,8 @@ const Register = () => {
                                     <br />
                                 </p>
 
-                                <label htmlFor="confirm_pwd">
-                                    Confirm Password:
+                                <label className="register-form__label">
+                                    <span>Confirm Password</span>
                                     <FontAwesomeIcon
                                         icon={faCheck}
                                         className={validMatch && matchPwd ? 'valid' : 'hide'}
@@ -208,20 +191,15 @@ const Register = () => {
                                         className={validMatch || !matchPwd ? 'hide' : 'invalid'}
                                     />
                                 </label>
-                                <input
+                                <Input
                                     type="password"
-                                    id="confirm_pwd"
                                     onChange={(e) => setMatchPwd(e.target.value)}
                                     value={matchPwd}
-                                    required
-                                    aria-invalid={validMatch ? 'false' : 'true'}
-                                    aria-describedby="confirmnote"
                                     onFocus={() => setMatchFocus(true)}
                                     onBlur={() => setMatchFocus(false)}
                                 />
                                 <p
-                                    id="confirmnote"
-                                    className={`error-message ${
+                                    className={`error-message mb-2 ${
                                         matchFocus && !validMatch ? 'instructions' : 'offscreen'
                                     }`}
                                 >
@@ -229,26 +207,22 @@ const Register = () => {
                                     Must match the first password input field.
                                 </p>
 
-                                <label htmlFor="email">
-                                    Email:
+                                <label className="register-form__label">
+                                    <span>Email</span>
                                     <FontAwesomeIcon icon={faCheck} className={validEmail ? 'valid' : 'hide'} />
                                     <FontAwesomeIcon
                                         icon={faTimes}
                                         className={validEmail || !email ? 'hide' : 'invalid'}
                                     />
                                 </label>
-                                <input
-                                    type="text"
-                                    id="email"
+                                <Input
+                                    type="email"
                                     onChange={(e) => setEmail(e.target.value)}
                                     value={email}
-                                    aria-invalid={validEmail ? 'false' : 'true'}
-                                    aria-describedby="emailnote"
                                     onFocus={() => setEmailFocus(true)}
                                     onBlur={() => setEmailFocus(false)}
                                 />
                                 <p
-                                    id="emailnote"
                                     className={`error-message ${
                                         emailFocus && !validEmail ? 'instructions' : 'offscreen'
                                     }`}
@@ -257,23 +231,20 @@ const Register = () => {
                                     Must include @gmail.com
                                     <br />
                                 </p>
-
                                 <button
-                                    className="button button-full button-sm mt-4"
+                                    type="submit"
+                                    className="button button-full button-sm button-green mt-2"
                                     disabled={!validName || !validPwd || !validMatch || isProcessing ? true : false}
                                 >
                                     Sign Up
                                 </button>
                             </form>
-                            <p>
-                                Already registered?
-                                <br />
-                                <span className="line">
-                                    <Link to="/signin" className="nav-link">
-                                        Login
-                                    </Link>
-                                </span>
-                            </p>
+                            <Link to="/signin" className="text-green text-underline text-center d-block">
+                                I already have account
+                            </Link>
+                        </div>
+                        <div className="auth-banner">
+                            <img src={authBannerImgSrc} alt="" />
                         </div>
                     </section>
                 )}

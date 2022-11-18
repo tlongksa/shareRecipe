@@ -36,14 +36,14 @@ export const NavLink = styled(Link)`
     padding: 0 1.5rem 0 0;
     height: 100%;
     cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
+    font-weight: 500;
+    font-size: 15px;
     &.active {
-        color: #667eea;
+        color: #038c00;
     }
     &:hover {
         transition: all 0.2s ease-in-out;
-        color: #667eea;
+        color: #038c00;
     }
 `;
 export const NavLinkRight = styled(Link)`
@@ -95,14 +95,6 @@ export const NavMenu = styled.div`
         &.show {
             transform: translateX(0);
         }
-    }
-`;
-
-export const NavBtn = styled.nav`
-    display: flex;
-    align-items: center;
-    @media screen and (max-width: 768px) {
-        display: none;
     }
 `;
 

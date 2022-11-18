@@ -5,41 +5,11 @@
 }
 .register-section__container {
     display: flex;
-    .left {
-        background-image: url(../../assets/img/img4.jpg);
-        height: 800px;
-        width: 50%;
-    }
-    @media (max-width: 900px) {
-        flex-direction: column-reverse;
-        .left {
-            width: 100%;
-        }
-    }
-    .right {
+    .main-register {
+        padding: 1rem;
+        max-width: 600px;
+        margin: auto;
         flex: 1;
-        height: 800px;
-        padding: 40px;
-        a,
-        a:visited {
-            color: rgb(0, 0, 0);
-        }
-
-        input[type='text'],
-        input[type='password'],
-        button,
-        textarea {
-            font-family: 'Nunito', sans-serif;
-            font-size: 18px;
-            border-radius: 5px;
-        }
-        label {
-            margin-top: 1rem;
-        }
-        input {
-            border: 1px solid #ccc;
-            padding: 7px 10px;
-        }
         .register-form {
             display: flex;
             flex-direction: column;
@@ -86,11 +56,6 @@
             padding: 5px;
             margin-bottom: 5px;
         }
-
-        .line {
-            display: inline-block;
-        }
-
         .row::after {
             content: '';
             clear: both;
@@ -99,7 +64,6 @@
         [class*='col-'] {
             width: 7%;
         }
-
         .imgEye {
             cursor: pointer;
             position: absolute;
@@ -112,9 +76,26 @@
             border: 1px solid #ccc;
             padding: 0.5rem;
         }
+        .register-form__label {
+            display: block;
+            margin-bottom: 0.5rem;
+            span {
+                font-size: 14px;
+                font-weight: 600;
+            }
+        }
+    }
+    @media (max-width: 900px) {
+        flex-direction: column;
+        .main-register {
+            max-width: 100%;
+            margin: 0;
+        }
     }
 }
 .register-title {
-    font-size: 50px;
-    margin-bottom: 0;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 48px;
+    margin-bottom: 0.5rem;
 }

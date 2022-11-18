@@ -85,6 +85,7 @@ const Login = () => {
                                 type="text"
                                 name="username"
                                 placeholder="Enter your user name"
+                                label="User Name"
                                 onChange={(e) => setUser(e.target.value)}
                                 value={username}
                                 touched={true}
@@ -93,6 +94,7 @@ const Login = () => {
                                 <Input
                                     type={isRevealPwd ? 'text' : 'password'}
                                     name="password"
+                                    label="Password"
                                     placeholder="Enter your password"
                                     onChange={(e) => setPwd(e.target.value)}
                                     value={password}
