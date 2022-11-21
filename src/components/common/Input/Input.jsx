@@ -23,6 +23,7 @@ const Input = ({
     id,
     onFocus,
     onBlur,
+    title,
 }) => {
     let input = (
         <input
@@ -37,6 +38,7 @@ const Input = ({
             id={id || ''}
             onFocus={onFocus}
             onBlur={onBlur}
+            title={title || ''}
         />
     );
 
@@ -54,6 +56,7 @@ const Input = ({
                 id={id || ''}
                 onFocus={onFocus}
                 onBlur={onBlur}
+                title={title || ''}
             />
         );
     }
@@ -69,6 +72,7 @@ const Input = ({
                 id={id || ''}
                 onFocus={onFocus}
                 onBlur={onBlur}
+                title={title || ''}
             >
                 {children}
             </select>

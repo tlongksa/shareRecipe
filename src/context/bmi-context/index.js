@@ -12,6 +12,7 @@ import {
     bmiGetRecipeListSuccessAction,
     bmiGetRecipeListFailureAction,
     clearBmiRecipeListAction,
+    bmiInsertRecipeToListAction,
 } from './actions';
 import bmiReducer from './reducer';
 import {
@@ -69,14 +70,21 @@ export const BmiProvider = ({ children }) => {
             });
     };
 
-    const fetchBmiRecipeListByFavourite = (totalCalo, meal, mainIngredient) => {
+    const fetchBmiRecipeListByFavourite = (totalCalo, meal, mainIngredient, isRemain) => {
         dispatchContext(bmiGetRecipeListAction());
         getUserBmiRecipeByFavouriteRequest(totalCalo, meal, mainIngredient)
             .then(({ data }) => {
+                if (isRemain) {
+                    dispatchContext(bmiInsertRecipeToListAction(data));
+                    return;
+                }
                 dispatchContext(bmiGetRecipeListSuccessAction(data));
             })
             .catch((err) => {
                 dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
+                notification.open({
+                    message: err?.response?.data?.message,
+                });
             });
     };
 
@@ -118,8 +126,8 @@ export const BmiProvider = ({ children }) => {
                 onClearDetail: () => dispatchContext(clearBmiDetailAction()),
                 onFetchRecipes: (totalCalo) => fetchBmiRecipeList(totalCalo),
                 onFetchMainIngredients: (ing) => fetchMainIngredients(ing),
-                onFetchRecipesByFavourite: (totalCalo, meal, mainIngredient) =>
-                    fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient),
+                onFetchRecipesByFavourite: (totalCalo, meal, mainIngredient, isRemain) =>
+                    fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient, isRemain),
                 onFetchAlternativeRecipes: (totalCalo, meal, mainIngredient) =>
                     fetchBmiAlternativeRecipeList(totalCalo, meal, mainIngredient),
                 onClearRecipeList: () => dispatchContext(clearBmiRecipeListAction()),

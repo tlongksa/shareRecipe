@@ -48,19 +48,19 @@ const BmiInfo = () => {
         onFetchRecipes,
         onFetchMainIngredients,
         onFetchRecipesByFavourite,
-        onFetchAlternativeRecipes,
         onClearRecipeList,
     } = useContext(BmiContext);
     const [recipeType, setRecipeType] = useState('total');
     const [meal, setMeal] = useState('');
     const [mainIngredient, setMainIngredient] = useState('');
     const [search, setSearch] = useState('');
-    const [calo, setCalo] = useState(0);
 
     const breakfirstList = recipeList.filter((it) => it.dishCate === 'Bữa sáng');
     const lunchList = recipeList.filter((it) => it.dishCate === 'Bữa trưa');
     const dinnerList = recipeList.filter((it) => it.dishCate === 'Bữa tối');
     const dessertList = recipeList.filter((it) => it.dishCate === 'Tráng miệng');
+
+    const remainCalo = recipeType === 'favourite' ? recipeList?.[recipeList?.length - 1]?.totalRemainingCalo : 0;
 
     useEffect(() => {
         if (userInfo?.username) {
@@ -134,7 +134,6 @@ const BmiInfo = () => {
                         setRecipeType('total');
                         setMeal('');
                         setMainIngredient('');
-                        setCalo(0);
                     }}
                 >
                     Total calories
@@ -146,24 +145,12 @@ const BmiInfo = () => {
                         setRecipeType('favourite');
                         setMeal('');
                         setMainIngredient('');
-                        setCalo(0);
                     }}
                 >
                     Favourite
                 </button>
-                <button
-                    className={`button button-sm ${recipeType === 'alternative' ? '' : 'button-secondary'}`}
-                    onClick={() => {
-                        onClearRecipeList();
-                        setRecipeType('alternative');
-                        setMeal('');
-                        setMainIngredient('');
-                    }}
-                >
-                    Alternative Recipe
-                </button>
                 {error && <p className="error-message mt-4">{error?.messContent}</p>}
-                {(recipeType === 'favourite' || recipeType === 'alternative') && (
+                {recipeType === 'favourite' && (
                     <div className="p-4 bg-gray-custom rounded mt-4">
                         <h5 className="mb-4">Chọn bữa</h5>
                         <div className="d-flex gap-4 align-items-center mb-3">
@@ -213,35 +200,30 @@ const BmiInfo = () => {
                                 </label>
                             ))}
                         </div>
-                        {recipeType === 'alternative' && (
-                            <div className="d-flex align-items-center mb-3 gap-3">
-                                <h5 className="mb-0">Số calo bạn muốn cần:</h5>
-                                <Input
-                                    onChange={(e) => setCalo(e.target.value)}
-                                    type="number"
-                                    value={calo}
-                                    error={null}
-                                    touched={true}
-                                    containerNoMarginBottom
-                                    className="w-50"
-                                    inputClassName="border-0"
-                                />
-                            </div>
-                        )}
                         <div className="d-flex justify-content-end">
                             <button
                                 className="button button-sm"
                                 disabled={!meal || !mainIngredient}
                                 onClick={() => {
-                                    if (recipeType === 'alternative') {
-                                        onFetchAlternativeRecipes(calo, meal, mainIngredient);
-                                        return;
-                                    }
                                     onFetchRecipesByFavourite(dataResponse?.totalCalo, meal, mainIngredient);
                                 }}
                             >
                                 Tìm kiếm
                             </button>
+                        </div>
+                    </div>
+                )}
+                {recipeType === 'favourite' && remainCalo && (
+                    <div className="d-flex align-items-center gap-3 mt-3">
+                        <p>Bạn còn thiếu : {remainCalo} calo, bạn có muốn hiển thị thêm công thức không ?</p>
+                        <div className="d-flex align-items-center gap-2">
+                            <button
+                                className="button button-sm"
+                                onClick={() => onFetchRecipesByFavourite(remainCalo, meal, mainIngredient, true)}
+                            >
+                                Có
+                            </button>
+                            <button className="button button-sm button-secondary">Không</button>
                         </div>
                     </div>
                 )}
@@ -436,6 +418,9 @@ const BmiForm = ({ item, userInfo }) => {
                                 touched={touched.mobility}
                                 containerNoMarginBottom
                                 className="flex-fill"
+                                title={
+                                    'Chỉ số khối cơ thể (BMI - Body mass index) là một phép tính dựa trên chiều cao và cân nặng, giúp xác định xem một người có cân nặng chuẩn, nhẹ cân, thừa cân hay béo phì.'
+                                }
                             >
                                 {mobilityOptions.map(({ value, label }) => (
                                     <option value={value} key={value}>
