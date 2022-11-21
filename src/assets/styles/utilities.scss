@@ -1,21 +1,22 @@
 .button {
     border: 2px solid var(--primary-color);
-    padding: 0.8rem 2rem;
+    padding: 1rem 2rem;
     border-radius: 4px;
     background-color: var(--primary-color);
     color: #fff;
     cursor: pointer;
-    font-weight: 700;
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: 600;
     font-family: 'Rubik', sans-serif;
     min-width: fit-content;
+    transition: all 0.2s ease;
     &.button-full {
         display: block;
         width: 100%;
         text-align: center;
     }
 }
-.button.button-outlined {
+.button-outlined {
     color: var(--primary-color);
     background-color: transparent;
     border-radius: 2rem;
@@ -31,18 +32,35 @@
         border-radius: 4px;
     }
 }
-.button.button-sm {
-    padding: 0.4rem 0.8rem;
+.button-sm {
+    padding: 0.6rem 1.2rem;
     font-size: 14px;
 }
 .button-secondary {
     background-color: #433d3d;
     border: 1px solid #433d3d;
 }
-.button.button-red {
+.button-red {
     background-color: var(--red-color);
     border: 1px solid var(--red-color);
     box-shadow: 0px 2px 2px 1px var(--red-color);
+}
+
+.button-green {
+    background-color: var(--green-color);
+    border: 1px solid var(--green-color);
+    box-shadow: 0px 2px 2px 1px var(--green-color);
+}
+
+.button-outlined-hover-green {
+    color: var(--green-color);
+    background-color: transparent;
+    border: 1px solid transparent;
+    &:hover,
+    &.active {
+        border: 1px solid var(--green-color);
+        color: var(--green-color);
+    }
 }
 
 .error-message {
@@ -93,7 +111,7 @@
 
 /* When the checkbox is checked, add a blue background */
 .checkboxContainer input:checked ~ .checkmarkCheckbox {
-    background-color: var(--primary-color);
+    background-color: var(--green-color);
 }
 
 /* Create the checkmarkCheckbox/indicator (hidden when not checked) */
@@ -151,13 +169,13 @@
     width: 16px;
     background-color: #eee;
     border-radius: 100%;
-    border: 1px solid var(--blue-color);
+    border: 1px solid var(--green-color);
 }
 
 /* When the radio button is checked, add a blue background */
 .custom-radio__container input:checked ~ .radioCheckmark {
     background-color: white;
-    border-color: var(--blue-color);
+    border-color: var(--green-color);
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -179,7 +197,7 @@
     width: 10px;
     height: 10px;
     border-radius: 100%;
-    background: var(--blue-color);
+    background: var(--green-color);
 }
 .cursor-pointer {
     cursor: pointer;
@@ -213,4 +231,10 @@
 }
 .list-bullet {
     list-style-type: circle;
+}
+.text-green {
+    color: var(--green-color) !important;
+}
+.text-underline {
+    text-decoration: underline !important;
 }

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate, NavLink as NavLinkRoot, useLocation } from 'react-router-dom';
 import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
-import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink, NavRight } from './NavbarElement';
+import { Nav, NavLink, Bars, NavMenu, NavRight } from './NavbarElement';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import './index.scss';
@@ -29,6 +29,12 @@ export const NavMenuCenter = ({ className }) => {
             <NavLink to="/blogs" className="ps-4">
                 Blog
             </NavLink>
+            <NavLink to="/about" className="ps-4">
+                About
+            </NavLink>
+            <NavLink to="/contact" className="ps-4">
+                Contact
+            </NavLink>
             {accessToken && (
                 <NavLink to="/favourite-recipes" className="ps-4">
                     Yêu thích
@@ -39,12 +45,6 @@ export const NavMenuCenter = ({ className }) => {
                     Các công thức
                 </NavLink>
             )}
-            {/* <NavLink to="/save" className="ps-4">
-                Save
-            </NavLink>
-            <NavLink to="/contact" className="ps-4">
-                Contact
-            </NavLink> */}
             {accessToken && (
                 <NavLink to="/bmi" className="ps-4">
                     BMI
@@ -143,23 +143,25 @@ const Navbar = () => {
     return (
         <div className="custom-page__container custom-page__container-no__margin">
             <Nav className="bg-white border-bottom">
-                <MainLogo />
-                <Bars onClick={() => setShowSidebar((prevState) => !prevState)} />
-                <NavMenuCenter className={`${showSidebar ? 'show' : ''}`} />
+                <div className="d-flex align-items-center gap-2">
+                    <MainLogo className="logo-md" />
+                    <NavMenuCenter className={`${showSidebar ? 'show' : ''}`} />
+                </div>
                 {!accessToken ? (
-                    <div className="d-flex align-items-center">
-                        <NavMenu>
-                            <NavBtnLink to="/sign-up">Sign Up</NavBtnLink>
-                        </NavMenu>
-                        <NavBtn buttonSignIn>
-                            <NavBtnLink to="signin">Sign In</NavBtnLink>
-                        </NavBtn>
+                    <div className="auth-links d-flex align-items-center gap-2">
+                        <NavLinkRoot className={`button button-outlined-hover-green button-sm`} to="/sign-up">
+                            Sign Up
+                        </NavLinkRoot>
+                        <NavLinkRoot className={`button button-outlined-hover-green button-sm`} to="/signin">
+                            Sign In
+                        </NavLinkRoot>
                     </div>
                 ) : (
                     <NavRight>
                         <ProfileTogglerMenu handleLogout={handleLogout} />
                     </NavRight>
                 )}
+                <Bars onClick={() => setShowSidebar((prevState) => !prevState)} />
             </Nav>
         </div>
     );
