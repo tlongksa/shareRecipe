@@ -359,7 +359,7 @@ const BmiForm = ({ item, userInfo }) => {
                 {({ errors, touched, values, handleChange }) => (
                     <Form>
                         <div className="d-flex gap-4 align-items-center mb-3">
-                            <p>Chiều cao : </p>
+                            <p className="min-width-120">Chiều cao : </p>
                             <div className="w-50">
                                 <Input
                                     name="high"
@@ -375,7 +375,7 @@ const BmiForm = ({ item, userInfo }) => {
                             <span>cm</span>
                         </div>
                         <div className="d-flex gap-4 align-items-center mb-3">
-                            <p>Cân nặng : </p>
+                            <p className="min-width-120">Cân nặng : </p>
                             <div className="w-50">
                                 <Input
                                     name="weight"
@@ -391,7 +391,7 @@ const BmiForm = ({ item, userInfo }) => {
                             <span>kg</span>
                         </div>
                         <div className="d-flex gap-4 align-items-center mb-3">
-                            <p>Mục tiêu : </p>
+                            <p className="min-width-120">Mục tiêu : </p>
                             <Input
                                 type="select"
                                 name="target"
@@ -408,7 +408,7 @@ const BmiForm = ({ item, userInfo }) => {
                             </Input>
                         </div>
                         <div className="d-flex gap-4 align-items-center mb-3">
-                            <p>Chỉ số R : </p>
+                            <p className="min-width-120">Chỉ số R : </p>
                             <Input
                                 type="select"
                                 name="mobility"
@@ -430,7 +430,7 @@ const BmiForm = ({ item, userInfo }) => {
                             </Input>
                         </div>
                         <div className="d-flex gap-4 align-items-center mb-3">
-                            <p>Tổng số calo: </p>
+                            <p className="min-width-120">Tổng số calo: </p>
                             <p>{item?.totalCalo} calo</p>
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
