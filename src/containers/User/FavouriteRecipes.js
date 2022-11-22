@@ -36,7 +36,7 @@ const FavouriteRecipes = () => {
     }, []);
 
     if (!isLoading && error) {
-        return <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>;
+        return <p className="error-message mt-3">{error?.message || 'Lỗi xảy ra!'}</p>;
     }
     return (
         <div className="mt-4">

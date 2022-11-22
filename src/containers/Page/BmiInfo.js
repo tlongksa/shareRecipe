@@ -12,6 +12,8 @@ import { updateUserBmiInfoRequest } from '../../api/requests';
 import { Link } from 'react-router-dom';
 import { SearchDataList } from './Blogs';
 import Slider from '../../components/common/Slider';
+import { useMediaQuery } from 'react-responsive';
+import { showNumOfBmiItemsBaseOnScreenSize } from '../../utils';
 
 export const mobilityOptions = [
     {
@@ -60,6 +62,11 @@ const BmiInfo = () => {
     const dinnerList = recipeList.filter((it) => it.dishCate === 'Bữa tối');
     const dessertList = recipeList.filter((it) => it.dishCate === 'Tráng miệng');
 
+    const isTablet = useMediaQuery({ query: '(max-width: 991px)' });
+    const isSmallTablet = useMediaQuery({ query: '(max-width: 768px)' });
+    const isExtraSmallTablet = useMediaQuery({ query: '(max-width: 630px)' });
+    const isMobile = useMediaQuery({ query: '(max-width: 465px)' });
+
     const remainCalo = recipeType === 'favourite' ? recipeList?.[recipeList?.length - 1]?.totalRemainingCalo : 0;
 
     useEffect(() => {
@@ -99,7 +106,14 @@ const BmiInfo = () => {
                 );
             }
             return (
-                <Slider slidesToShow={4}>
+                <Slider
+                    slidesToShow={showNumOfBmiItemsBaseOnScreenSize(
+                        isMobile,
+                        isExtraSmallTablet,
+                        isSmallTablet,
+                        isTablet,
+                    )}
+                >
                     {list?.map((item, index) => (
                         <BmiRecipeItem key={item.dishID + index} item={item} />
                     ))}

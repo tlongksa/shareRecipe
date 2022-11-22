@@ -30,12 +30,7 @@ export const NavMenuCenter = ({ className, onHide }) => {
             <NavLink to="/blogs" className="ps-4" onClick={onHide}>
                 Blog
             </NavLink>
-            <NavLink to="/about" className="ps-4" onClick={onHide}>
-                About
-            </NavLink>
-            <NavLink to="/contact" className="ps-4" onClick={onHide}>
-                Contact
-            </NavLink>
+
             {accessToken && (
                 <NavLink to="/favourite-recipes" className="ps-4" onClick={onHide}>
                     Yêu thích
@@ -51,6 +46,9 @@ export const NavMenuCenter = ({ className, onHide }) => {
                     BMI
                 </NavLink>
             )}
+            <NavLink to="/about" className="ps-4" onClick={onHide}>
+                Giới thiệu
+            </NavLink>
         </NavMenu>
     );
 };
