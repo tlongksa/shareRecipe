@@ -5,7 +5,7 @@ const About = () => {
     return (
         <section className="custom-page__container">
             <div className="mh-85vh">
-                <h1>About</h1>
+                <h1>Introduce</h1>
             </div>
         </section>
     );

@@ -12,4 +12,10 @@
         position: relative;
         right: 50px;
     }
+
+    &.keep-position {
+        @media screen and (max-width: 768px) {
+            right: 0;
+        }
+    }
 }

@@ -17,7 +17,7 @@ const App = lazy(() => import('./App'));
 const Login = lazy(() => import('./containers/Auth/Login'));
 const Register = lazy(() => import('./containers/Auth/Register'));
 const HomePage = lazy(() => import('./containers/Home/HomePage'));
-const About = lazy(() => import('./containers/Page/About'));
+const Introduce = lazy(() => import('./containers/Page/Introduce'));
 const Contact = lazy(() => import('./containers/Page/Contact'));
 const BmiInfo = lazy(() => import('./containers/Page/BmiInfo'));
 const Save = lazy(() => import('./containers/Page/Save'));
@@ -91,10 +91,10 @@ root.render(
                                         }
                                     />
                                     <Route
-                                        path="/about"
+                                        path="/introduce"
                                         element={
                                             <SuspenseWrapper>
-                                                <About />
+                                                <Introduce />
                                             </SuspenseWrapper>
                                         }
                                     />

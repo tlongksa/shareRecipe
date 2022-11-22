@@ -46,21 +46,21 @@ export const NavMenuCenter = ({ className, onHide }) => {
                     BMI
                 </NavLink>
             )}
-            <NavLink to="/about" className="ps-4" onClick={onHide}>
+            <NavLink to="/introduce" className="ps-4" onClick={onHide}>
                 Giới thiệu
             </NavLink>
         </NavMenu>
     );
 };
 
-export const ProfileTogglerMenu = ({ handleLogout }) => {
+export const ProfileTogglerMenu = ({ handleLogout, className }) => {
     const {
         userInfo: { id, avatarImage, roles },
     } = useContext(AuthContext);
     const navigate = useNavigate();
 
     return (
-        <CDropdown className="profile_toggler-menu">
+        <CDropdown className={`profile_toggler-menu ${className || ''}`}>
             <CDropdownToggle
                 color="white"
                 style={{
@@ -157,7 +157,7 @@ const Navbar = () => {
                     </div>
                 ) : (
                     <NavRight>
-                        <ProfileTogglerMenu handleLogout={handleLogout} />
+                        <ProfileTogglerMenu handleLogout={handleLogout} className="keep-position" />
                     </NavRight>
                 )}
                 <Bars onClick={() => setShowSidebar((prevState) => !prevState)} />
