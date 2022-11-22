@@ -10,7 +10,7 @@ import Avatar from '../common/Avatar';
 import { ROLES } from '../../App';
 import MainLogo from '../common/Logo';
 
-export const NavMenuCenter = ({ className }) => {
+export const NavMenuCenter = ({ className, onHide }) => {
     const { pathname } = useLocation();
     const {
         userInfo: { accessToken, roles },
@@ -23,30 +23,31 @@ export const NavMenuCenter = ({ className }) => {
                 className={({ isActive }) =>
                     isActive && pathname === '/' ? 'active ps-4 header-menu__link' : 'ps-4 header-menu__link'
                 }
+                onClick={onHide}
             >
                 Trang chủ
             </NavLinkRoot>
-            <NavLink to="/blogs" className="ps-4">
+            <NavLink to="/blogs" className="ps-4" onClick={onHide}>
                 Blog
             </NavLink>
-            <NavLink to="/about" className="ps-4">
+            <NavLink to="/about" className="ps-4" onClick={onHide}>
                 About
             </NavLink>
-            <NavLink to="/contact" className="ps-4">
+            <NavLink to="/contact" className="ps-4" onClick={onHide}>
                 Contact
             </NavLink>
             {accessToken && (
-                <NavLink to="/favourite-recipes" className="ps-4">
+                <NavLink to="/favourite-recipes" className="ps-4" onClick={onHide}>
                     Yêu thích
                 </NavLink>
             )}
             {roles === ROLES.mod && (
-                <NavLink to="/my-recipes" className="ps-4">
+                <NavLink to="/my-recipes" className="ps-4" onClick={onHide}>
                     Các công thức
                 </NavLink>
             )}
             {accessToken && (
-                <NavLink to="/bmi" className="ps-4">
+                <NavLink to="/bmi" className="ps-4" onClick={onHide}>
                     BMI
                 </NavLink>
             )}
@@ -145,7 +146,7 @@ const Navbar = () => {
             <Nav className="bg-white border-bottom">
                 <div className="d-flex align-items-center gap-2">
                     <MainLogo className="logo-md" />
-                    <NavMenuCenter className={`${showSidebar ? 'show' : ''}`} />
+                    <NavMenuCenter className={`${showSidebar ? 'show' : ''}`} onHide={() => setShowSidebar(false)} />
                 </div>
                 {!accessToken ? (
                     <div className="auth-links d-flex align-items-center gap-2">
