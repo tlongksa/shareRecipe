@@ -29,7 +29,7 @@ function App() {
     return (
         <Fragment>
             {!hideHeaderAndFooter && (
-                <div className="header">
+                <div className="header border-bottom">
                     <Navbar />
                 </div>
             )}
