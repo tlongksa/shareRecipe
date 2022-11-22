@@ -9,6 +9,7 @@ import AuthContext from '../../context/auth-context';
 import Avatar from '../common/Avatar';
 import { ROLES } from '../../App';
 import MainLogo from '../common/Logo';
+import { useMediaQuery } from 'react-responsive';
 
 export const NavMenuCenter = ({ className, onHide }) => {
     const { pathname } = useLocation();
@@ -120,6 +121,7 @@ const Navbar = () => {
         userInfo: { accessToken },
     } = useContext(AuthContext);
     const [showSidebar, setShowSidebar] = useState(false);
+    const isMobile = useMediaQuery({ query: '(max-width: 465px)' });
 
     const handleLogout = () => {
         onLogoutSuccess();
@@ -143,7 +145,7 @@ const Navbar = () => {
         <div className="custom-page__container custom-page__container-no__margin">
             <Nav className="bg-white border-bottom">
                 <div className="d-flex align-items-center gap-2">
-                    <MainLogo className="logo-md" />
+                    <MainLogo className={`logo-md ${isMobile ? 'logo-extra-sm' : ''}`} />
                     <NavMenuCenter className={`${showSidebar ? 'show' : ''}`} onHide={() => setShowSidebar(false)} />
                 </div>
                 {!accessToken ? (

@@ -24,4 +24,10 @@
         position: relative;
         right: 60px;
     }
+    @media (max-width: 400px) {
+        a {
+            font-size: 12px;
+            padding: 0.6rem 0.7rem;
+        }
+    }
 }

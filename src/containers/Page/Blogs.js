@@ -246,6 +246,7 @@ const Blogs = () => {
 };
 
 export default Blogs;
+
 export const SearchDataList = ({ search, setSearch, callback, emptySearchCallback, className }) => {
     const handleChange = (e) => {
         const { value } = e.target;
@@ -294,11 +295,13 @@ export const BlogItem = ({
     return (
         <li className="blog-list_item mb-4">
             <div className="d-flex gap-3">
-                <img
-                    src={item.avatarImage || IMAGE_PLACEHODLER_URI}
-                    alt=""
-                    className="rounded-circle blog-list_item-avatar"
-                />
+                <div className="blog-list_item-media">
+                    <img
+                        src={item.avatarImage || IMAGE_PLACEHODLER_URI}
+                        alt=""
+                        className="rounded-circle blog-list_item-avatar"
+                    />
+                </div>
                 <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
                     <div className="d-flex justify-content-between align-items-center">
                         <p className="d-flex align-items-center gap-3">

@@ -370,7 +370,7 @@ const BmiForm = ({ item, userInfo }) => {
 
     return (
         <div className={`bmi-form__info p-4 bg-gray-custom flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
-            <div className="d-flex justify-content-between align-items-center mb-3">
+            <div className="d-flex justify-content-between align-items-center mb-3 bmi-form__info-unedit">
                 <p>
                     <strong>Tên</strong> : {item?.name}
                 </p>
@@ -393,7 +393,7 @@ const BmiForm = ({ item, userInfo }) => {
             >
                 {({ errors, touched, values, handleChange }) => (
                     <Form>
-                        <div className="d-flex gap-4 align-items-center mb-3">
+                        <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row">
                             <p className="min-width-120">Chiều cao : </p>
                             <div className="w-50">
                                 <Input
@@ -409,7 +409,7 @@ const BmiForm = ({ item, userInfo }) => {
                             </div>
                             <span>cm</span>
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
+                        <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row">
                             <p className="min-width-120">Cân nặng : </p>
                             <div className="w-50">
                                 <Input
@@ -425,7 +425,7 @@ const BmiForm = ({ item, userInfo }) => {
                             </div>
                             <span>kg</span>
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
+                        <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row">
                             <p className="min-width-120">Mục tiêu : </p>
                             <Input
                                 type="select"
@@ -442,7 +442,7 @@ const BmiForm = ({ item, userInfo }) => {
                                 <option value="Tăng cân">Tăng cân</option>
                             </Input>
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
+                        <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row">
                             <p className="min-width-120">Chỉ số R : </p>
                             <Input
                                 type="select"

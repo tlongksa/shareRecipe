@@ -2,10 +2,17 @@
     min-height: 80vh;
 }
 .blog-list_item {
+    .blog-list_item-media {
+        width: 100px;
+        height: 100px;
+        @media (max-width: 500px) {
+            width: 40px;
+            height: 40px;
+        }
+    }
     .blog-list_item-avatar {
         width: 100px;
         height: 100px;
-        min-width: 100px;
         object-fit: cover;
         @media (max-width: 500px) {
             width: 40px;
@@ -64,5 +71,8 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+    img {
+        max-width: 100%;
     }
 }
