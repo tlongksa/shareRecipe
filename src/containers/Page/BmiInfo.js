@@ -56,6 +56,7 @@ const BmiInfo = () => {
     const [meal, setMeal] = useState('');
     const [mainIngredient, setMainIngredient] = useState('');
     const [search, setSearch] = useState('');
+    const [showFetchMoreFavouriteRecipes, setShowFetchMoreFavouriteRecipes] = useState(true);
 
     const breakfirstList = recipeList.filter((it) => it.dishCate === 'Bữa sáng');
     const lunchList = recipeList.filter((it) => it.dishCate === 'Bữa trưa');
@@ -96,7 +97,7 @@ const BmiInfo = () => {
 
     const renderRecipeList = (list) => {
         if (recipeType === 'total') {
-            if (list.length < 4) {
+            if (list.length < (isSmallTablet ? 3 : 4)) {
                 return (
                     <div className="d-flex">
                         {list?.map((item, index) => (
@@ -227,9 +228,24 @@ const BmiInfo = () => {
                         </div>
                     </div>
                 )}
-                {recipeType === 'favourite' && remainCalo && (
-                    <div className="d-flex align-items-center gap-3 mt-3">
-                        <p>Bạn còn thiếu : {remainCalo} calo, bạn có muốn hiển thị thêm công thức không ?</p>
+                {recipeType === 'favourite' && remainCalo && remainCalo > 0 && (
+                    <div
+                        className={`d-flex align-items-center gap-3 mt-3 ${
+                            showFetchMoreFavouriteRecipes ? '' : 'd-none'
+                        }`}
+                    >
+                        {remainCalo < 200 ? (
+                            <p>
+                                Hiện tại lượng calo còn lại của bạn là <strong>{remainCalo}</strong> đang dưới 200, bạn
+                                có muốn tìm món Tráng miệng hay không?
+                            </p>
+                        ) : (
+                            <p>
+                                Bạn còn thiếu : <strong>{remainCalo}</strong> calo, bạn có muốn hiển thị thêm công thức
+                                không ?
+                            </p>
+                        )}
+
                         <div className="d-flex align-items-center gap-2">
                             <button
                                 className="button button-sm"
@@ -237,7 +253,12 @@ const BmiInfo = () => {
                             >
                                 Có
                             </button>
-                            <button className="button button-sm button-secondary">Không</button>
+                            <button
+                                className="button button-sm button-secondary"
+                                onClick={() => setShowFetchMoreFavouriteRecipes(false)}
+                            >
+                                Không
+                            </button>
                         </div>
                     </div>
                 )}

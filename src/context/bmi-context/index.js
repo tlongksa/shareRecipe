@@ -22,6 +22,7 @@ import {
     getUserBmiRecipeByFavouriteRequest,
     searchMainIngredientListRequest,
     getUserBmiAlternativeListRecipeRequest,
+    getBmiRecipesByCaloRequest,
 } from '../../api/requests';
 import { notification } from 'antd';
 
@@ -72,20 +73,30 @@ export const BmiProvider = ({ children }) => {
 
     const fetchBmiRecipeListByFavourite = (totalCalo, meal, mainIngredient, isRemain) => {
         dispatchContext(bmiGetRecipeListAction());
-        getUserBmiRecipeByFavouriteRequest(totalCalo, meal, mainIngredient)
-            .then(({ data }) => {
-                if (isRemain) {
+
+        if (isRemain) {
+            getBmiRecipesByCaloRequest(totalCalo, meal, mainIngredient)
+                .then(({ data }) => {
                     dispatchContext(bmiInsertRecipeToListAction(data));
-                    return;
-                }
-                dispatchContext(bmiGetRecipeListSuccessAction(data));
-            })
-            .catch((err) => {
-                dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
-                notification.open({
-                    message: err?.response?.data?.message,
+                })
+                .catch((err) => {
+                    dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
+                    notification.open({
+                        message: err?.response?.data?.messContent,
+                    });
                 });
-            });
+        } else {
+            getUserBmiRecipeByFavouriteRequest(totalCalo, meal, mainIngredient)
+                .then(({ data }) => {
+                    dispatchContext(bmiGetRecipeListSuccessAction(data));
+                })
+                .catch((err) => {
+                    dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
+                    notification.open({
+                        message: err?.response?.data?.messContent,
+                    });
+                });
+        }
     };
 
     const fetchMainIngredients = (ing = '') => {
