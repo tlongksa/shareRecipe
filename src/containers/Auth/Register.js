@@ -58,6 +58,7 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrMsg('');
         setIsProcessing(true);
         const v1 = USER_REGEX.test(username);
         const v2 = PWD_REGEX.test(password);
@@ -77,8 +78,8 @@ const Register = () => {
             navigate('/signin');
         } catch (err) {
             setIsProcessing(false);
-            if (!err?.response) {
-                setErrMsg('No Server Response');
+            if (err?.response) {
+                setErrMsg(err?.response?.data?.message);
             } else if (err.response?.status === 409) {
                 setErrMsg('Username Taken');
             } else {

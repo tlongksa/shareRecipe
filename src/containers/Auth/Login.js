@@ -24,6 +24,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrMsg('');
         setIsProcessing(true);
         try {
             const { data } = await loginRequest({ username, password });
@@ -60,12 +61,8 @@ const Login = () => {
             window.location.replace('/');
         } catch (err) {
             setIsProcessing(false);
-            if (!err?.response) {
-                setErrMsg(err);
-            } else if (err.response?.status === 400) {
-                setErrMsg('Missing Username or Password (400)');
-            } else if (err.response?.status === 401) {
-                setErrMsg('user or password not value (401)');
+            if (err?.response) {
+                setErrMsg(err?.response?.data?.message);
             } else {
                 setErrMsg('Login Failed');
             }
