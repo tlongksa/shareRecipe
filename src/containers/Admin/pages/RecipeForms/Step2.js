@@ -209,6 +209,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                                                             unit: item.unit,
                                                             calo: item.calo,
                                                         });
+                                                        setShowNewMainIngredientForm(true);
                                                     }}
                                                 />
                                                 <DeleteOutlined
@@ -329,6 +330,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                                                             unit: item.unit,
                                                             calo: item.calo,
                                                         });
+                                                        setShowNewExtraIngredientForm(true);
                                                     }}
                                                 />
                                                 <DeleteOutlined
