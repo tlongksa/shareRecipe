@@ -209,7 +209,12 @@ const ClientRecipeDetail = () => {
                         {dataResponse?.stepList?.map((item, index) => (
                             <li className="step__list-item mt-3" key={`step__item-${item.stepID}`}>
                                 <strong>Bước {index + 1} : </strong>
-                                <span>{item.describe}</span>
+                                <div
+                                    className={`recipe-step-item__content`}
+                                    dangerouslySetInnerHTML={{
+                                        __html: item.describe,
+                                    }}
+                                />
                             </li>
                         ))}
                     </ul>

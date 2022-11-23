@@ -29,7 +29,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { fileUploadHandler } from '../../hooks/useFileUpload';
 
-function uploadAdapter(loader) {
+export function uploadAdapter(loader) {
     return {
         upload: () => {
             return new Promise((resolve, reject) => {
@@ -53,7 +53,7 @@ function uploadAdapter(loader) {
     };
 }
 
-function uploadPlugin(editor) {
+export function uploadPlugin(editor) {
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
         return uploadAdapter(loader);
     };

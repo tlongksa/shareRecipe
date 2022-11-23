@@ -6,10 +6,12 @@ import {
     VideoCameraAddOutlined,
 } from '@ant-design/icons';
 import React, { useRef, useState, useEffect } from 'react';
-import Input from '../../../../components/common/Input/Input';
 import { generateImageUrl, generateVideoUrl } from '../../../../utils';
 import { v4 as uuid_v4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { uploadPlugin } from '../../../Page/Blogs';
 
 const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
     const recipeImagesRef = useRef();
@@ -128,11 +130,24 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
             <div className="steps-container mt-3">
                 <h4>Các bước thực hiện món ăn : </h4>
                 {stepError && <p className="error-message mb-2">{stepError}</p>}
-                <Input
-                    type="textarea"
-                    value={describe}
-                    onChange={(e) => setDescribe(e.target.value)}
-                    placeholder="Vui lòng mô tả chi tiết các bước của công thức nấu ăn "
+                <CKEditor
+                    editor={ClassicEditor}
+                    data={describe}
+                    config={{ extraPlugins: [uploadPlugin] }}
+                    onReady={(editor) => {
+                        // You can store the "editor" and use when it is needed.
+                        console.log('Editor is ready to use!', editor);
+                    }}
+                    onChange={(event, editor) => {
+                        const data = editor.getData();
+                        setDescribe(data);
+                    }}
+                    onBlur={(event, editor) => {
+                        console.log('Blur.', editor);
+                    }}
+                    onFocus={(event, editor) => {
+                        console.log('Focus.', 762);
+                    }}
                 />
                 <div className="d-flex justify-content-end mb-3 mt-3">
                     <button
@@ -170,9 +185,15 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                     {listStep.map((item, index) => (
                         <li className="step__list-item mt-3" key={`step__item-${item.title}`}>
                             <div className="d-flex justify-content-between align-items-center gap-5">
-                                <p>
-                                    <strong>Bước {index + 1} :</strong> {item.describe}
-                                </p>
+                                <div>
+                                    <strong>Bước {index + 1} :</strong>
+                                    <div
+                                        className={`recipe-step-item__content`}
+                                        dangerouslySetInnerHTML={{
+                                            __html: item.describe,
+                                        }}
+                                    />
+                                </div>
                                 <span className="d-flex gap-3 align-items-center">
                                     <EditOutlined
                                         className="cursor-pointer"
