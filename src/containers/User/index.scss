@@ -58,6 +58,22 @@
             -webkit-line-clamp: 2; /* number of lines to show */
             -webkit-box-orient: vertical;
             height: 48px;
+            @media (max-width: 768px) {
+                font-size: 18px;
+            }
+            @media (max-width: 475px) {
+                font-size: 15px;
+            }
+        }
+    }
+}
+.edit-profile__field-row {
+    @media (max-width: 500px) {
+        flex-direction: column;
+        align-items: flex-start !important;
+        input,
+        select {
+            width: 100% !important;
         }
     }
 }

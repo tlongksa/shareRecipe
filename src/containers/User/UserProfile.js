@@ -41,7 +41,7 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
     };
 
     return (
-        <div className={`bmi-form__info p-4 bg-gray-custom flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
+        <div className={`bmi-form__info flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
             <Formik
                 initialValues={{
                     high: item?.high || 0,
@@ -56,7 +56,7 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
             >
                 {({ errors, touched, values, handleChange }) => (
                     <Form>
-                        <div className="d-flex gap-4 align-items-center mb-3">
+                        <div className="d-flex gap-4 align-items-center mb-3 edit-profile__field-row">
                             <p className="w-150px">Ngày sinh: </p>
                             <Input
                                 type="date"
@@ -72,7 +72,7 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
                                 inputClassName="w-50"
                             />
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
+                        <div className="d-flex gap-4 align-items-center mb-3 edit-profile__field-row">
                             <p className="w-150px">Giới tính: </p>
                             <Input
                                 type="select"
@@ -92,7 +92,7 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
                                 ))}
                             </Input>
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
+                        <div className="d-flex gap-4 align-items-center mb-3 edit-profile__field-row">
                             <p className="w-150px">Chiều cao : </p>
                             <Input
                                 name="high"
@@ -107,7 +107,7 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
                                 inputClassName="w-50"
                             />
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
+                        <div className="d-flex gap-4 align-items-center mb-3 edit-profile__field-row">
                             <p className="w-150px">Cân nặng : </p>
                             <Input
                                 name="weight"
@@ -122,7 +122,7 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
                                 inputClassName="w-50"
                             />
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
+                        <div className="d-flex gap-4 align-items-center mb-3 edit-profile__field-row">
                             <p className="w-150px">Số điện thoại: </p>
                             <Input
                                 name="phone"
@@ -136,7 +136,7 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
                                 inputClassName="w-50"
                             />
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
+                        <div className="d-flex gap-4 align-items-center mb-3 edit-profile__field-row">
                             <p className="w-150px">Địa chỉ: </p>
                             <Input
                                 name="address"

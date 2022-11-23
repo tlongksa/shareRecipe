@@ -184,7 +184,7 @@ const BmiInfo = () => {
                                 </label>
                             ))}
                         </div>
-                        <div className="d-flex align-items-center gap-3">
+                        <div className="d-flex align-items-center gap-3 bmi__choose-main-ing__row">
                             <h5 className="mb-0">Chọn nguyên liệu chính</h5>
                             <SearchDataList
                                 search={search}
