@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import Navbar from './components/NavBar';
 import { Outlet, useLocation } from 'react-router-dom';
 import React, { Fragment, useContext, useEffect, useState } from 'react';
