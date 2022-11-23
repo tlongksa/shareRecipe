@@ -78,6 +78,11 @@ export const BmiProvider = ({ children }) => {
             getBmiRecipesByCaloRequest(totalCalo, meal, mainIngredient)
                 .then(({ data }) => {
                     dispatchContext(bmiInsertRecipeToListAction(data));
+                    if (totalCalo < 200) {
+                        notification.open({
+                            message: 'Danh sách công thức món ăn của bạn đã hoàn thiện',
+                        });
+                    }
                 })
                 .catch((err) => {
                     dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
