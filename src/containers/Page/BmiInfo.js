@@ -249,7 +249,12 @@ const BmiInfo = () => {
                         <div className="d-flex align-items-center gap-2">
                             <button
                                 className="button button-sm"
-                                onClick={() => onFetchRecipesByFavourite(remainCalo, meal, mainIngredient, true)}
+                                onClick={() => {
+                                    if (remainCalo < 200) {
+                                        setShowFetchMoreFavouriteRecipes(false);
+                                    }
+                                    onFetchRecipesByFavourite(remainCalo, meal, mainIngredient, true);
+                                }}
                             >
                                 Có
                             </button>
