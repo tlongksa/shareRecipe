@@ -1,13 +1,25 @@
 import { MenuOutlined, CloseOutlined } from '@mui/icons-material';
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { ROLES } from '../../App';
 import ClickOutsideWrapper from '../../components/common/ClickOutsideWrapper';
+import AuthContext from '../../context/auth-context';
 import AdminHeader from './components/AdminHeader';
 import AdminSubMenu from './components/AdminSubMenu';
 import './index.scss';
 
 const AdminLayout = (props) => {
     const [isShowMenu, setIsShowMenu] = useState(false);
+    const {
+        userInfo: { roles },
+    } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (roles && roles !== ROLES.admin) {
+            navigate('/');
+        }
+    }, [roles, navigate]);
 
     return (
         <main className="main__admin-layout">
