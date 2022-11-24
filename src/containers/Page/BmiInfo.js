@@ -1,4 +1,4 @@
-import { DislikeOutlined, LikeOutlined, LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, StarOutlined } from '@ant-design/icons';
 import { Form, Formik } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
 import './index.scss';
@@ -335,16 +335,18 @@ const RecipeItem = ({ item }) => (
                         <strong>Calo : </strong> <span>{item.totalCalo}</span>
                     </div>
                 </div>
-                <div className={`recipe-list_item-actions d-flex gap-3 align-items-center`}>
-                    <button onClick={() => {}}>
-                        <LikeOutlined />
-                        <span>{item.totalLike}</span>
-                    </button>
-                    <button onClick={() => {}}>
-                        <DislikeOutlined />
-                        <span>{item.totalDisLike}</span>
-                    </button>
-                </div>
+                {item.avgStarRate === 0 ? (
+                    <p>Chưa có đánh giá</p>
+                ) : (
+                    <div className="d-flex align-items-center gap-2">
+                        Đánh giá công thức : {item.avgStarRate}{' '}
+                        <StarOutlined
+                            style={{
+                                color: '#fcdd0d',
+                            }}
+                        />
+                    </div>
+                )}
             </div>
         </div>
     </li>
