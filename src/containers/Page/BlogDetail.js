@@ -85,7 +85,12 @@ export const BlogCommentItem = ({
                         </CDropdown>
                     </div>
                     <div className="blog-list_item-content mb-2">
-                        <p>{item.content}</p>
+                        <div
+                            className="blog-list_item-content-text"
+                            dangerouslySetInnerHTML={{
+                                __html: item.content,
+                            }}
+                        />
                     </div>
                     <div
                         className={`blog-list_item-actions d-flex gap-3 align-items-center ${
