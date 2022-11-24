@@ -1,4 +1,4 @@
-import { DislikeOutlined, LikeOutlined, LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SearchOutlined, StarOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { IMAGE_PLACEHODLER_URI } from '../../../constants';
@@ -32,20 +32,18 @@ export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
                     <strong>By {item.verifier}</strong>
                     <span className="text-muted">{item.createDate}</span>
                 </p>
-                <div
-                    className={`recipe-list_item-actions d-flex gap-3 align-items-center ${
-                        isAuthenticated ? '' : 'divDisabled'
-                    }`}
-                >
-                    <button>
-                        <LikeOutlined />
-                        <span>{item.totalLike}</span>
-                    </button>
-                    <button>
-                        <DislikeOutlined />
-                        <span>{item.totalDisLike}</span>
-                    </button>
-                </div>
+                {item.avgStarRate === 0 ? (
+                    <p>Chưa có đánh giá</p>
+                ) : (
+                    <div className="d-flex align-items-center gap-2">
+                        Đánh giá công thức : {item.avgStarRate}{' '}
+                        <StarOutlined
+                            style={{
+                                color: '#fcdd0d',
+                            }}
+                        />
+                    </div>
+                )}
             </div>
         </div>
     </li>

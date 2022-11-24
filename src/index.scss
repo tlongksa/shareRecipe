@@ -149,13 +149,21 @@ p {
         font-size: 24px;
         cursor: pointer;
     }
-    .recipe-list_item-actions {
-        button {
-            background: none;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            border: none;
+    .global-recipe__list-item-info {
+        .recipe-list_item-actions {
+            display: none;
+            button {
+                background: none;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                border: none;
+            }
+        }
+        &:hover {
+            .recipe-list_item-actions {
+                display: block;
+            }
         }
     }
 }
