@@ -36,6 +36,12 @@ const RecipeComments = ({ dishId }) => {
 
     const addCommentHandler = (e) => {
         e.preventDefault();
+        if (!accessToken) {
+            notification.open({
+                message: 'Bạn cần đăng nhập trước khi thực hiện bình luận',
+            });
+            return;
+        }
         if (accessToken && star) {
             createRecipeCommentRequest({ dishId, content: content, starRate: star })
                 .then(() => {
@@ -130,7 +136,7 @@ const RecipeComments = ({ dishId }) => {
                         />
                     </Stack>
                     <hr />
-                    <button className="button button-sm" type="submit" disabled={!accessToken}>
+                    <button className="button button-sm" type="submit">
                         Thêm bình luận
                     </button>
                 </Form>
