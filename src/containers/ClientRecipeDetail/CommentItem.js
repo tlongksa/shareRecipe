@@ -117,7 +117,9 @@ const CommentItem = (props) => {
         <Tooltip key="comment-basic-flag" title="Báo cáo">
             <div
                 onClick={() => onFlag(comment.dishCommentID)}
-                className={`cursor-pointer d-flex align-items-center ${isAuth ? '' : 'divDisabled'}`}
+                className={`cursor-pointer d-flex align-items-center ${isAuth ? '' : 'divDisabled'} ${
+                    username === comment.accountUserName ? 'divDisabled' : ''
+                }`}
             >
                 {comment.flag ? (
                     <FlagFilled

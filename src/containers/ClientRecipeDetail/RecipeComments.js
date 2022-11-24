@@ -79,7 +79,10 @@ const RecipeComments = ({ dishId }) => {
     const onFlagRecipeCmtHandler = (dishCommentID) => {
         if (accessToken) {
             reportRecipeCommentRequest(dishCommentID, null)
-                .then((response) => {
+                .then(({data}) => {
+                    notification.open({
+                        message: data?.messContent,
+                    });
                     onFetchRecipeComments(dishId, extraListInfo.pageIndex);
                 })
                 .catch((err) => {});
