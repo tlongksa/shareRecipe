@@ -20,6 +20,7 @@ const Recipes = () => {
         userInfo: { roles },
     } = useContext(AuthContext);
     const [selectedDeleteId, setSelectedDeleteId] = useState('');
+    const isMod = roles === ROLES.mod;
 
     useEffect(() => {
         onAdminFetchMore(1);
@@ -103,7 +104,13 @@ const Recipes = () => {
                 paginateCallback={(page) => {
                     onAdminFetchMore(page, search || '');
                 }}
-                onEdit={(id) => navigate(`/admin/recipe-form?step=1&id=${id}`)}
+                onEdit={(id) => {
+                    if (isMod) {
+                        navigate(`/recipe-form?step=1&id=${id}`);
+                        return;
+                    }
+                    navigate(`/admin/recipe-form?step=1&id=${id}`);
+                }}
                 onView={
                     roles === ROLES.mod
                         ? (id) => {

@@ -13,7 +13,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { uploadPlugin } from '../../../Page/Blogs';
 
-const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
+const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }) => {
     const recipeImagesRef = useRef();
     const recipeVideoRef = useRef();
     const navigate = useNavigate();
@@ -220,7 +220,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                 <button
                     className="button button-sm button-secondary"
                     type="button"
-                    onClick={() => navigate(`/admin/recipe-form?step=2${id ? `&id=${id}` : ''}`)}
+                    onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=2${id ? `&id=${id}` : ''}`)}
                 >
                     Trở về
                 </button>

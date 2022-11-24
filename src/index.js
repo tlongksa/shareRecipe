@@ -234,6 +234,14 @@ root.render(
                                             </SuspenseWrapper>
                                         }
                                     />
+                                    <Route
+                                        path="recipe-form"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <RecipeForm />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
                                     <Route path="/admin" element={<AdminLayout />}>
                                         <Route
                                             path="accounts"

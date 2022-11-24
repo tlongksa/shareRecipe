@@ -8,7 +8,7 @@ import produce from 'immer';
 import { v4 as uuid_v4 } from 'uuid';
 import Modal from 'react-bootstrap/Modal';
 
-const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
+const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
     const navigate = useNavigate();
     const [showNewMainIngredientForm, setShowNewMainIngredientForm] = useState(false);
     const [showNewExtraIngredientForm, setShowNewExtraIngredientForm] = useState(false);
@@ -354,7 +354,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                 <button
                     className="button button-sm button-secondary"
                     type="button"
-                    onClick={() => navigate(`/admin/recipe-form?step=1${id ? `&id=${id}` : ''}`)}
+                    onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=1${id ? `&id=${id}` : ''}`)}
                 >
                     Trở về
                 </button>
@@ -375,7 +375,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                             mainIngredients,
                             extraIngredients,
                         }));
-                        navigate(`/admin/recipe-form?step=3${id ? `&id=${id}` : ''}`);
+                        navigate(`${isMod ? '' : '/admin'}/recipe-form?step=3${id ? `&id=${id}` : ''}`);
                     }}
                 >
                     Tiếp theo

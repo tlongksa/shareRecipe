@@ -44,7 +44,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues
             ...values,
             idDishCategory,
         }));
-        navigate(`/admin/recipe-form?step=2${id ? `&id=${id}` : ''}`);
+        navigate(`${isMod ? '' : '/admin'}/recipe-form?step=2${id ? `&id=${id}` : ''}`);
     };
 
     if (isLoading) {
