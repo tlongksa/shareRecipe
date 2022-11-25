@@ -78,4 +78,6 @@
 }
 .blog-list_item-content-text {
     line-break: auto;
+    word-break: break-all;
+    max-width: 100%;
 }

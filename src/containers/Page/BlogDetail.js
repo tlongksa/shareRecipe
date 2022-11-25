@@ -88,7 +88,7 @@ export const BlogCommentItem = ({
                         <div
                             className="blog-list_item-content-text"
                             dangerouslySetInnerHTML={{
-                                __html: item.content,
+                                __html: item.content?.replaceAll('\n', '<br />'),
                             }}
                         />
                     </div>
