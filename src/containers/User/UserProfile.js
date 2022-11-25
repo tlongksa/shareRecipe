@@ -47,7 +47,7 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
                     high: item?.high || 0,
                     weight: item?.weight || 0,
                     dob: item?.dob || '',
-                    gender: item?.gender || '',
+                    gender: item?.gender || 'Nam',
                     phone: item?.phone || '',
                     address: item?.address || '',
                 }}
