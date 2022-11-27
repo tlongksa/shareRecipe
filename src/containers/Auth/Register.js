@@ -107,10 +107,10 @@ const Register = () => {
             <div className="register-body">
                 {success ? (
                     <section>
-                        <h1 className="mb-2">Sign Up Success!</h1>
+                        <h1 className="mb-2">Đăng kí thành công!</h1>
                         <p>
                             <Link className="button button-sm" to="/signin">
-                                Sign In
+                                Đăng nhập
                             </Link>
                         </p>
                     </section>
@@ -120,7 +120,7 @@ const Register = () => {
                             <p className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">
                                 {errMsg}
                             </p>
-                            <h1 className="register-title">Register</h1>
+                            <h1 className="register-title">Đăng kí</h1>
                             <p className="register-desc mb-3">accompany us to create the best food</p>
                             <form onSubmit={handleSubmit} className="register-form">
                                 <Input

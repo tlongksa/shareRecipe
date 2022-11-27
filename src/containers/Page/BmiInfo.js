@@ -221,6 +221,7 @@ const BmiInfo = () => {
                                 disabled={!meal || !mainIngredient}
                                 onClick={() => {
                                     onFetchRecipesByFavourite(dataResponse?.totalCalo, meal, mainIngredient);
+                                    setShowFetchMoreFavouriteRecipes(true);
                                 }}
                             >
                                 Tìm kiếm

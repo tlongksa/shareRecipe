@@ -15,7 +15,7 @@ export default function SearchBar() {
                 placeholder="Tìm kiếm"
             />
             <button
-                className="button"
+                className="button button-green"
                 type="button"
                 onClick={() => navigate(`/list-recipe-by-name?name=${searchTitle.trim()}`)}
             >

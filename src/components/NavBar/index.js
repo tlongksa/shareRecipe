@@ -151,10 +151,10 @@ const Navbar = () => {
                 {!accessToken ? (
                     <div className="auth-links d-flex align-items-center gap-2">
                         <NavLinkRoot className={`button button-outlined-hover-green button-sm`} to="/sign-up">
-                            Sign Up
+                            Đăng kí
                         </NavLinkRoot>
                         <NavLinkRoot className={`button button-outlined-hover-green button-sm`} to="/signin">
-                            Sign In
+                            Đăng nhập
                         </NavLinkRoot>
                     </div>
                 ) : (
