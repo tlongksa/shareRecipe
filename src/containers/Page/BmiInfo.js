@@ -14,6 +14,7 @@ import { SearchDataList } from './Blogs';
 import Slider from '../../components/common/Slider';
 import { useMediaQuery } from 'react-responsive';
 import { showNumOfBmiItemsBaseOnScreenSize } from '../../utils';
+import BreakfastIcon, { LunchIcon, DinnerIcon } from '../../assets/svg-icons/breakfast';
 
 export const mobilityOptions = [
     {
@@ -58,7 +59,7 @@ const BmiInfo = () => {
     const [search, setSearch] = useState('');
     const [showFetchMoreFavouriteRecipes, setShowFetchMoreFavouriteRecipes] = useState(true);
 
-    const breakfirstList = recipeList.filter((it) => it.dishCate === 'Bữa sáng');
+    const breakfastList = recipeList.filter((it) => it.dishCate === 'Bữa sáng');
     const lunchList = recipeList.filter((it) => it.dishCate === 'Bữa trưa');
     const dinnerList = recipeList.filter((it) => it.dishCate === 'Bữa tối');
     const dessertList = recipeList.filter((it) => it.dishCate === 'Tráng miệng');
@@ -137,12 +138,18 @@ const BmiInfo = () => {
                     <img
                         src={userInfo?.avatarImage || IMAGE_PLACEHODLER_URI}
                         alt=""
-                        className="w-200px object-fit-contain align-self-baseline"
+                        className="object-fit-contain align-self-baseline rounded-4"
                     />
                     <BmiForm item={dataResponse} userInfo={userInfo} />
                 </div>
+                <div className="bmi-option__titles">
+                    <h3>💡Gợi ý cho bạn</h3>
+                    <p>Thực đơn sẽ được lọc theo chỉ số BMI của bạn</p>
+                </div>
                 <button
-                    className={`button button-sm me-3 ${recipeType === 'total' ? '' : 'button-secondary'}`}
+                    className={`button button-sm button-rounded-6 me-3 ${
+                        recipeType === 'total' ? 'button-outlined-hover-green has-border' : 'button-light'
+                    }`}
                     onClick={() => {
                         onClearRecipeList();
                         onFetchRecipes(dataResponse?.totalCalo);
@@ -151,10 +158,12 @@ const BmiInfo = () => {
                         setMainIngredient('');
                     }}
                 >
-                    Total calories
+                    {recipeType === 'total' ? '✅' : ''} Thực đơn phù hợp
                 </button>
                 <button
-                    className={`button button-sm me-3 ${recipeType === 'favourite' ? '' : 'button-secondary'}`}
+                    className={`button button-sm button-rounded-6 me-3 ${
+                        recipeType === 'favourite' ? 'button-outlined-hover-green has-border' : 'button-light'
+                    }`}
                     onClick={() => {
                         onClearRecipeList();
                         setRecipeType('favourite');
@@ -162,7 +171,7 @@ const BmiInfo = () => {
                         setMainIngredient('');
                     }}
                 >
-                    Favourite
+                    {recipeType === 'favourite' ? '✅' : ''} Thực đơn theo bữa
                 </button>
                 {error && <p className="error-message mt-4">{error?.messContent}</p>}
                 {recipeType === 'favourite' && (
@@ -217,7 +226,7 @@ const BmiInfo = () => {
                         </div>
                         <div className="d-flex justify-content-end">
                             <button
-                                className="button button-sm"
+                                className="button button-sm button-green"
                                 disabled={!meal || !mainIngredient}
                                 onClick={() => {
                                     onFetchRecipesByFavourite(dataResponse?.totalCalo, meal, mainIngredient);
@@ -249,7 +258,7 @@ const BmiInfo = () => {
 
                         <div className="d-flex align-items-center gap-2">
                             <button
-                                className="button button-sm"
+                                className="button button-sm button-green"
                                 onClick={() => {
                                     if (remainCalo < 200) {
                                         setShowFetchMoreFavouriteRecipes(false);
@@ -268,21 +277,21 @@ const BmiInfo = () => {
                         </div>
                     </div>
                 )}
-                {breakfirstList?.length > 0 && (
+                {breakfastList?.length > 0 && (
                     <h4 className={`mt-5 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                        Bữa sáng {breakfirstList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                        <BreakfastIcon /> Bữa sáng {breakfastList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                     </h4>
                 )}
-                <ul className="mt-2">{renderRecipeList(breakfirstList)}</ul>
+                <ul className="mt-2">{renderRecipeList(breakfastList)}</ul>
                 {lunchList?.length > 0 && (
                     <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                        Bữa trưa {lunchList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                        <LunchIcon /> Bữa trưa {lunchList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                     </h4>
                 )}
                 <ul className="mt-2">{renderRecipeList(lunchList)}</ul>
                 {dinnerList?.length > 0 && (
                     <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                        Bữa tối {dinnerList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                        <DinnerIcon /> Bữa tối {dinnerList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                     </h4>
                 )}
                 <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
@@ -377,7 +386,7 @@ const BmiForm = ({ item, userInfo }) => {
     };
 
     return (
-        <div className={`bmi-form__info p-4 bg-gray-custom flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
+        <div className={`bmi-form__info p-4 bg-green-blur flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
             <div className="d-flex justify-content-between align-items-center mb-3 bmi-form__info-unedit">
                 <p>
                     <strong>Tên</strong> : {item?.name}
@@ -478,7 +487,11 @@ const BmiForm = ({ item, userInfo }) => {
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
                         <div className="d-flex justify-content-end">
-                            <button className="button button-sm" type="submit" disabled={item?.messContent}>
+                            <button
+                                className="button button-sm button-green"
+                                type="submit"
+                                disabled={item?.messContent}
+                            >
                                 Lưu
                             </button>
                         </div>

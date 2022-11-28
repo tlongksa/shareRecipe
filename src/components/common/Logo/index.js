@@ -5,8 +5,8 @@ import './index.scss';
 const MainLogo = ({ className }) => {
     return (
         <NavLink to="/" className={`main-logo__container d-flex align-items-center gap-0 ${className || ''}`}>
-            <span>Food</span>
-            <span className="text-green">Recipes</span>
+            <span>Oi</span>
+            <span className="text-green">Shii</span>
         </NavLink>
     );
 };

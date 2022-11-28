@@ -15,6 +15,14 @@
         width: 100%;
         text-align: center;
     }
+    &.button-rounded-6 {
+        border-radius: 3rem;
+    }
+    &.button-light {
+        background-color: white;
+        color: #1f1f1f;
+        border: 1px solid #ddd;
+    }
 }
 .button-outlined {
     color: var(--primary-color);
@@ -60,6 +68,9 @@
     &.active {
         border: 1px solid var(--green-color);
         color: var(--green-color);
+    }
+    &.has-border {
+        border: 1px solid var(--green-color);
     }
 }
 

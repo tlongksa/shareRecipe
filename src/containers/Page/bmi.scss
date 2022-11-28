@@ -33,6 +33,9 @@
 }
 
 .bmi-form__wrapper {
+    img {
+        max-width: 350px;
+    }
     @media (max-width: 700px) {
         img {
             display: none;
@@ -56,5 +59,19 @@
     @media (max-width: 600px) {
         flex-direction: column;
         align-items: flex-start !important;
+    }
+}
+.bmi-option__titles {
+    h3 {
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 48px;
+        margin-bottom: 0;
+    }
+    p {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 1.5rem !important;
     }
 }
