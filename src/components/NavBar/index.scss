@@ -2,7 +2,7 @@
     color: #333;
 }
 .header-menu__link {
-    color: #000;
+    color: #fff;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -12,11 +12,11 @@
     font-weight: 500;
     font-size: 15px;
     &.active {
-        color: var(--green-color);
+        color: #000;
     }
     &:hover {
         transition: all 0.2s ease-in-out;
-        color: var(--green-color);
+        color: #000;
     }
 }
 .auth-links {

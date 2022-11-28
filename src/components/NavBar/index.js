@@ -143,7 +143,7 @@ const Navbar = () => {
 
     return (
         <div className="custom-page__container custom-page__container-no__margin">
-            <Nav className="bg-white">
+            <Nav>
                 <div className="d-flex align-items-center gap-2">
                     <MainLogo className={`logo-md ${isMobile ? 'logo-extra-sm' : ''}`} />
                     <NavMenuCenter className={`${showSidebar ? 'show' : ''}`} onHide={() => setShowSidebar(false)} />

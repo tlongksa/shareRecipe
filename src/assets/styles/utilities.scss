@@ -255,3 +255,9 @@
 .custom-shadow {
     box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
 }
+.bg-green-header {
+    background-color: var(--green-header-color) !important;
+}
+.bg-none {
+    background-color: transparent !important;
+}
