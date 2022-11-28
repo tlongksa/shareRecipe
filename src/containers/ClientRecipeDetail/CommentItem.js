@@ -147,7 +147,11 @@ const CommentItem = (props) => {
                 avatar={<Avatar src={comment.avatarImage} alt={comment.accountUserName} />}
                 content={
                     <div className="comment-item__container">
-                        <h6> {comment.content}</h6>
+                        <h6
+                            dangerouslySetInnerHTML={{
+                                __html: comment.content?.replaceAll('\n', '<br />'),
+                            }}
+                        />
                         <div
                             className={`d-flex gap-2 justify-content-end comment-item__change-actions ${
                                 username === comment.accountUserName || isAdmin ? '' : 'd-none'

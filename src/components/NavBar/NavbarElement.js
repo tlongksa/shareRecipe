@@ -35,8 +35,8 @@ export const NavLink = styled(Link)`
     padding: 0 1.5rem 0 0;
     height: 100%;
     cursor: pointer;
-    font-weight: 500;
-    font-size: 15px;
+    font-weight: 400;
+    font-size: 18px;
     &.active {
         color: #000;
     }
@@ -46,7 +46,7 @@ export const NavLink = styled(Link)`
     }
 `;
 export const NavLinkRight = styled(Link)`
-    color: #038c00;
+    color: #fff;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -57,7 +57,7 @@ export const NavLinkRight = styled(Link)`
 
 export const Bars = styled(FaBars)`
     display: none;
-    color: #038c00;
+    color: #fff;
     @media screen and (max-width: 768px) {
         display: block;
         position: absolute;

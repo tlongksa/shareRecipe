@@ -231,7 +231,7 @@ const Register = () => {
                                     }`}
                                 >
                                     <FontAwesomeIcon icon={faInfoCircle} />
-                                    Must include @gmail.com
+                                    Phải bao gồm @gmail.com
                                     <br />
                                 </p>
                                 <button
