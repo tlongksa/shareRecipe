@@ -1,11 +1,10 @@
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import AuthContext from '../../../context/auth-context';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
 import ListCategory from '../listCategory';
-import { RecipeByCategoryItem } from '../RecipesByCategory';
+import HomeRecipeItem from '../HomeRecipeItem';
 import './index.scss';
 import searchRecipeByNameResultsBannerImg from '../../../assets/img/search_recipe_by_name_results_banner.png';
 
@@ -13,11 +12,8 @@ const RecipesByName = () => {
     const { recipeByNameList, isLoading, error, onFetchMoreByName } = useContext(RecipeContext);
     const [search, setSearch] = useState('');
     const [searchParams] = useSearchParams();
-    const {
-        userInfo: { accessToken },
-    } = useContext(AuthContext);
-    const isAuthenticated = !!accessToken;
     const name = searchParams.get('name');
+    const navigate = useNavigate();
 
     useEffect(() => {
         onFetchMoreByName(name, 1, '');
@@ -39,7 +35,7 @@ const RecipesByName = () => {
             <img src={searchRecipeByNameResultsBannerImg} alt="" className="page-banner" />
             <div className="custom-page__container">
                 <ListCategory />
-                <div className="d-flex justify-content-between align-items-center mb-4 mt-5">
+                <div className="d-flex justify-content-between align-items-center mb-4 mt-5 should-stack-on-mobile">
                     <p className="search-result__text">
                         {recipeByNameList.length} kết quả tìm kiếm cho “{name}”
                     </p>
@@ -72,9 +68,9 @@ const RecipesByName = () => {
                         />
                     </form>
                 </div>
-                <div className="recipes-by__category-list">
+                <div className="home__list-recipe__container">
                     {recipeByNameList.map((item) => (
-                        <RecipeByCategoryItem item={item} key={item.dishID} isAuthenticated={isAuthenticated} />
+                        <HomeRecipeItem item={item} key={item.dishID} navigateTo={navigate} />
                     ))}
                 </div>
                 {isLoading && (

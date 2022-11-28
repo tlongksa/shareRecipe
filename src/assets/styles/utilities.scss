@@ -264,3 +264,11 @@
 .page-banner {
     max-width: 100%;
 }
+.should-stack-on-mobile {
+    @media (max-width: 768px) {
+        flex-direction: column;
+        &.align-items-center {
+            align-items: flex-start !important;
+        }
+    }
+}

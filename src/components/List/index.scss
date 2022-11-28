@@ -98,57 +98,5 @@
     text-overflow: ellipsis;
 }
 
-.home-dish__item {
-    cursor: pointer;
-    background: #ffffff;
-    box-shadow: 0px 8px 32px -8px rgba(0, 55, 12, 0.12);
-    border-radius: 12px;
-    .home-recipe__item-name {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2; /* number of lines to show */
-        -webkit-box-orient: vertical;
-        height: 44px;
-        font-size: 18px;
-        font-weight: 400;
-    }
-    .home-dish__item-img {
-        width: 100%;
-        height: 170px;
-        object-fit: cover;
-        flex-shrink: 0;
-        border-top-left-radius: 12px;
-        border-top-right-radius: 12px;
-        border-bottom: 1px solid #eee;
-    }
-    .recipe-info__text-view {
-        padding: 1.5rem 0.5rem;
-    }
-    .recipe-item__extra-info {
-        font-size: 11px;
-    }
-}
-
-.home__list-recipe__container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    @media (max-width: 991px) {
-        grid-template-columns: repeat(4, 1fr);
-    }
-    @media (max-width: 768px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    @media (max-width: 600px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    @media (max-width: 325px) {
-        grid-template-columns: repeat(1, 1fr);
-    }
-    @media (max-width: 500px) {
-        gap: 0.5rem;
-    }
-}
 .home-category__wrapper {
 }

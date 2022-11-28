@@ -120,16 +120,18 @@ const Register = () => {
                             <p className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">
                                 {errMsg}
                             </p>
-                            <h1 className="register-title">Đăng kí</h1>
-                            <p className="register-desc mb-3">accompany us to create the best food</p>
+                            <h1 className="register-title">Đăng ký</h1>
+                            <p className="register-desc mb-3">
+                                Đồng hành cùng chúng tôi để tạo ra những món ăn ngon nhất
+                            </p>
                             <form onSubmit={handleSubmit} className="register-form">
                                 <Input
-                                    label="Full Name"
+                                    label="Họ và tên"
                                     onChange={(e) => setFulName(e.target.value)}
                                     value={fullname}
                                 />
                                 <label className="register-form__label">
-                                    <span>User Name</span>
+                                    <span>Tên đăng nhập</span>
                                     <FontAwesomeIcon icon={faCheck} className={validName ? 'valid' : 'hide'} />
                                     <FontAwesomeIcon
                                         icon={faTimes}
@@ -155,7 +157,7 @@ const Register = () => {
                                     Letters, numbers, underscores, hyphens allowed.
                                 </p>
                                 <label className="register-form__label">
-                                    <span>Password</span>
+                                    <span>Nhập mật khẩu</span>
                                     <FontAwesomeIcon icon={faCheck} className={validPwd ? 'valid' : 'hide'} />
                                     <FontAwesomeIcon
                                         icon={faTimes}
@@ -182,7 +184,7 @@ const Register = () => {
                                 </p>
 
                                 <label className="register-form__label">
-                                    <span>Confirm Password</span>
+                                    <span>Xác nhận mật khẩu</span>
                                     <FontAwesomeIcon
                                         icon={faCheck}
                                         className={validMatch && matchPwd ? 'valid' : 'hide'}
@@ -209,7 +211,7 @@ const Register = () => {
                                 </p>
 
                                 <label className="register-form__label">
-                                    <span>Email</span>
+                                    <span>E-mail</span>
                                     <FontAwesomeIcon icon={faCheck} className={validEmail ? 'valid' : 'hide'} />
                                     <FontAwesomeIcon
                                         icon={faTimes}
@@ -237,11 +239,11 @@ const Register = () => {
                                     className="button button-full button-sm button-green mt-2"
                                     disabled={!validName || !validPwd || !validMatch || isProcessing ? true : false}
                                 >
-                                    Sign Up
+                                    Đăng ký
                                 </button>
                             </form>
                             <Link to="/signin" className="text-green text-underline text-center d-block">
-                                I already have account
+                                Bạn đã có tài khoản
                             </Link>
                         </div>
                         <div className="auth-banner">

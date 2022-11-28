@@ -20,6 +20,13 @@
     }
 }
 .auth-links {
+    a {
+        color: white;
+        &:hover {
+            color: white;
+            border: 1px solid #fff;
+        }
+    }
     @media (max-width: 768px) {
         position: relative;
         right: 60px;

@@ -74,15 +74,15 @@ const Login = () => {
             <form onSubmit={handleSubmit}>
                 <div className="login-form__container">
                     <div className="main-login">
-                        <h3 className="login-title">Sign in</h3>
-                        <p className="login-desc">accompany us to create the best food</p>
+                        <h3 className="login-title">Đăng nhập</h3>
+                        <p className="login-desc">Đồng hành cùng chúng tôi để tạo ra những món ăn ngon nhất</p>
                         {errMsg && <p className="error-message">{errMsg}</p>}
                         <div className="container-login">
                             <Input
                                 type="text"
                                 name="username"
-                                placeholder="Enter your user name"
-                                label="User Name"
+                                placeholder="Tên đăng nhập"
+                                label="Tên đăng nhập"
                                 onChange={(e) => setUser(e.target.value)}
                                 value={username}
                                 touched={true}
@@ -91,8 +91,8 @@ const Login = () => {
                                 <Input
                                     type={isRevealPwd ? 'text' : 'password'}
                                     name="password"
-                                    label="Password"
-                                    placeholder="Enter your password"
+                                    label="Mật khẩu"
+                                    placeholder="Mật khẩu"
                                     onChange={(e) => setPwd(e.target.value)}
                                     value={password}
                                     touched={true}
@@ -105,23 +105,18 @@ const Login = () => {
                                     alt=""
                                 />
                             </div>
-                            <div className="signin-remember d-flex align-items-center justify-content-between">
-                                <label className="checkboxContainer">
-                                    Remember for next time sign in
-                                    <input type="checkbox" />
-                                    <span className="checkmarkCheckbox" />
-                                </label>
+                            <div className="signin-remember d-flex justify-content-end">
                                 <Link to="/forgot-password" className="text-green text-underline">
-                                    Forgot your password?
+                                    Quên mật khẩu?
                                 </Link>
                             </div>
                             <button className="button button-sm button-full button-green mt-4" disabled={isProcessing}>
-                                Sign In
+                                Đăng nhập
                             </button>
                             <div className="login-bottom__txt">
-                                Don’t have account?{' '}
+                                Bạn chưa có tài khoản ?
                                 <Link to="/sign-up" className="text-green text-underline">
-                                    Sign up now
+                                    Đăng ký ngay
                                 </Link>
                             </div>
                         </div>
