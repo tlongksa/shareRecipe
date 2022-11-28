@@ -4,6 +4,7 @@ import './forgotPass.scss';
 import { changePasswordRequest } from '../../api/requests';
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import { useForm } from 'react-hook-form';
+import authBannerImgSrc from '../../assets/img/auth_banner.png';
 
 const ChangePassword = (props) => {
     const [isProcessing, setIsProcessing] = useState(false);
@@ -28,10 +29,9 @@ const ChangePassword = (props) => {
     };
 
     return (
-        <div className="custom-page__container">
+        <div className="change-password__container">
             <div className="change-password__container d-flex">
-                <div className="bgr-fotgot-left" />
-                <div className="bg-gray-custom p-5">
+                <div className="p-5">
                     <div className="auth-body mx-auto">
                         <h1>Change Password</h1>
                         <p className="mb-2">
@@ -39,10 +39,10 @@ const ChangePassword = (props) => {
                         </p>
                         <ol className="list-unstyled mb-5">
                             <li>
-                                <span className="text-primary text-medium">1. </span>Enter your oldPassword.
+                                <span className="text-green text-medium">1. </span>Enter your oldPassword.
                             </li>
                             <li>
-                                <span className="text-primary text-medium">2. </span>Enter your newPassword
+                                <span className="text-green text-medium">2. </span>Enter your newPassword
                             </li>
                         </ol>
                         <div>
@@ -121,19 +121,26 @@ const ChangePassword = (props) => {
                                     )}
                                 </div>
                                 <div className="text-center mt-5">
-                                    <button type="submit" className="button button-full" disabled={isProcessing}>
+                                    <button
+                                        type="submit"
+                                        className="button button-full button-sm button-green"
+                                        disabled={isProcessing}
+                                    >
                                         Change Password
                                     </button>
                                 </div>
                             </form>
                             <hr />
                             <p className="mt-3">
-                                <Link className="text-back" to="/">
+                                <Link className="text-back text-green" to="/">
                                     Back to Home
                                 </Link>
                             </p>
                         </div>
                     </div>
+                </div>
+                <div className="auth-banner">
+                    <img src={authBannerImgSrc} alt="" />
                 </div>
             </div>
         </div>

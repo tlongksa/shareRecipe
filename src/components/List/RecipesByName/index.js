@@ -4,8 +4,10 @@ import { useSearchParams } from 'react-router-dom';
 import AuthContext from '../../../context/auth-context';
 import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
+import ListCategory from '../listCategory';
 import { RecipeByCategoryItem } from '../RecipesByCategory';
 import './index.scss';
+import searchRecipeByNameResultsBannerImg from '../../../assets/img/search_recipe_by_name_results_banner.png';
 
 const RecipesByName = () => {
     const { recipeByNameList, isLoading, error, onFetchMoreByName } = useContext(RecipeContext);
@@ -34,8 +36,13 @@ const RecipesByName = () => {
 
     return (
         <section className="recipes-by__category-container">
+            <img src={searchRecipeByNameResultsBannerImg} alt="" className="page-banner" />
             <div className="custom-page__container">
-                <div className="d-flex justify-content-end mb-4">
+                <ListCategory />
+                <div className="d-flex justify-content-between align-items-center mb-4 mt-5">
+                    <p className="search-result__text">
+                        {recipeByNameList.length} kết quả tìm kiếm cho “{name}”
+                    </p>
                     <form
                         className="global-list_search shadow rounded-3"
                         onSubmit={(e) => {
