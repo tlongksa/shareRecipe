@@ -21,13 +21,13 @@ const ListCategory = (props) => {
     }, []);
 
     return (
-        <div className="row">
+        <div>
             {categories.loading ? (
                 <div className="global-list__loader-container">
                     <LoadingOutlined className="global-list__loader-icon" />
                 </div>
             ) : (
-                <div className="home-category__wrapper bg-green-blur rounded-4 mb-3">
+                <div className="home-category__wrapper bg-green-blur rounded-4 mb-3 px-3 custom-shadow pt-1">
                     <div className="home-category-list__title">🍲 Nấu ăn theo loại</div>
                     <p className="error-message">{categories?.error?.message}</p>
                     <Slider
@@ -44,6 +44,7 @@ const ListCategory = (props) => {
                                 <div className="category-list__item">
                                     <img className="view-img-category" src={list.dishCategoryImage} alt="img" />
                                     <h5 className="recipe__category-name">{list.name}</h5>
+                                    <div className="category-list__item-overlay" />
                                 </div>
                             </Link>
                         ))}

@@ -1,5 +1,9 @@
 import React from 'react';
+import clockImg from '../../../assets/img/clock.png';
+import LightningIcon from '../../../assets/svg-icons/lightning';
+import starImg from '../../../assets/img/star.png';
 import { showRecipeLevelText } from '../../../utils';
+import '../index.scss';
 
 const HomeRecipeItem = ({ item, navigateTo }) => {
     return (
@@ -13,18 +17,25 @@ const HomeRecipeItem = ({ item, navigateTo }) => {
             }}
             className="home-dish__item"
         >
-            <div className="view-week">
+            <div className="home-dish__item-content">
                 <img
-                    className="view-img"
+                    className="home-dish__item-img"
                     src={item.urlImage || item.image || 'https://via.placeholder.com/150'}
                     alt="img"
                 />
                 <div className="recipe-info__text-view">
                     <h5 className="home-recipe__item-name">{item.name} </h5>
-                    <div className="view-top">Độ khó: {showRecipeLevelText(item.level)}</div>
-                    <div className="view-top">Mô tả: {item.summary}</div>
-                    <div className="view-top">Thời gian: {item.time} phút</div>
-                    <div className="view-top">Đánh giá: {item.avgStarRate} ⭐</div>
+                    <div className="d-flex gap-2 justify-content-between mt-3">
+                        <div className="recipe-item__extra-info">
+                            <LightningIcon /> {showRecipeLevelText(item.level)}
+                        </div>
+                        <div className="recipe-item__extra-info">
+                            <img src={clockImg} alt="" /> {item.time} phút
+                        </div>
+                        <div className="recipe-item__extra-info">
+                            <img src={starImg} alt="" /> {item.avgStarRate}/5
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
