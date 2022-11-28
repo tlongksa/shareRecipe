@@ -158,7 +158,11 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
                             >
                                 Hủy
                             </button>
-                            <button className="button button-sm" type="submit" disabled={item?.messContent}>
+                            <button
+                                className="button button-sm button-green"
+                                type="submit"
+                                disabled={item?.messContent}
+                            >
                                 Lưu
                             </button>
                         </div>
@@ -271,7 +275,7 @@ const UserProfile = () => {
                 <div className="profile-name__container mb-4">
                     <h3 className="text-center">{dataResponse?.name}</h3>
                 </div>
-                <div className="bg-gray-custom p-4 rounded-2">
+                <div className="bg-green-blur p-4 rounded-4">
                     {shouldUpdate ? (
                         <EditProfileForm
                             item={dataResponse}
@@ -290,10 +294,10 @@ const UserProfile = () => {
                                 <strong>Giới tính: </strong> {dataResponse?.gender}
                             </div>
                             <div className="mb-3">
-                                <strong>Cân nặng: </strong> {dataResponse?.weight}
+                                <strong>Cân nặng: </strong> {dataResponse?.weight} kg
                             </div>
                             <div className="mb-3">
-                                <strong>Chiều cao: </strong> {dataResponse?.high}
+                                <strong>Chiều cao: </strong> {dataResponse?.high} cm
                             </div>
                             <div className="mb-3">
                                 <strong>Số điện thoại: </strong> {dataResponse?.phone}
@@ -303,7 +307,7 @@ const UserProfile = () => {
                             </div>
                             <div className="d-flex justify-content-end">
                                 <button
-                                    className="button button-sm"
+                                    className="button button-sm button-green"
                                     type="button"
                                     onClick={() => setShouldUpdate(true)}
                                 >

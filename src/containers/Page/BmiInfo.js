@@ -314,14 +314,14 @@ const BmiInfo = () => {
 export default BmiInfo;
 
 const RecipeItem = ({ item }) => (
-    <li className="global-recipe__list-item mb-4">
+    <li className="global-recipe__list-item mb-4 bg-green-blur rounded-3 py-3 px-3">
         <div className="d-flex gap-3">
             <img
                 src={item?.dishImageList?.[0]?.url || IMAGE_PLACEHODLER_URI}
                 alt=""
                 className="rounded-2 recipe-list_item-avatar"
             />
-            <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
+            <div className="flex-fill">
                 <div className="recipe-list_item-content mb-2">
                     <h5>
                         <Link
@@ -419,73 +419,63 @@ const BmiForm = ({ item, userInfo }) => {
                     <Form>
                         <h3 className="bmi-form__info-title">Chỉ số BMI </h3>
                         <div className="d-flex gap-3">
-                            <div className="d-flex gap-3 align-items-center mb-3 bmi-form__info-row flex-fill">
-                                <Input
-                                    name="high"
-                                    onChange={handleChange}
-                                    placeholder="Chiều cao :"
-                                    value={values.high}
-                                    error={errors.high}
-                                    touched={touched.high}
-                                    containerNoMarginBottom
-                                    className="flex-fill"
-                                />
-                                <span>cm</span>
-                            </div>
-                            <div className="d-flex gap-3 align-items-center mb-3 bmi-form__info-row flex-fill">
-                                <Input
-                                    name="weight"
-                                    onChange={handleChange}
-                                    placeholder="Vui lòng nhập cân nặng của bạn "
-                                    value={values.weight}
-                                    error={errors.weight}
-                                    touched={touched.weight}
-                                    containerNoMarginBottom
-                                    className="flex-fill"
-                                />
-                                <span>kg</span>
-                            </div>
+                            <Input
+                                name="high"
+                                onChange={handleChange}
+                                placeholder="Chiều cao :"
+                                label="Chiều cao(cm) :"
+                                value={values.high}
+                                error={errors.high}
+                                touched={touched.high}
+                                className="flex-fill"
+                            />
+                            <Input
+                                name="weight"
+                                onChange={handleChange}
+                                placeholder="Cân nặng"
+                                label="Cân nặng(kg) :"
+                                value={values.weight}
+                                error={errors.weight}
+                                touched={touched.weight}
+                                className="flex-fill"
+                            />
                         </div>
                         <div className="d-flex gap-3">
-                            <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row flex-fill">
-                                <Input
-                                    type="select"
-                                    name="target"
-                                    onChange={handleChange}
-                                    value={values.target}
-                                    error={errors.target}
-                                    touched={touched.target}
-                                    containerNoMarginBottom
-                                    className="flex-fill"
-                                    inputClassName="full"
-                                >
-                                    <option value="Giảm cân">Giảm cân</option>
-                                    <option value="Giữ nguyên">Giữ nguyên</option>
-                                    <option value="Tăng cân">Tăng cân</option>
-                                </Input>
-                            </div>
-                            <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row flex-fill">
-                                <Input
-                                    type="select"
-                                    name="mobility"
-                                    onChange={handleChange}
-                                    value={values.mobility}
-                                    error={errors.mobility}
-                                    touched={touched.mobility}
-                                    containerNoMarginBottom
-                                    className="flex-fill"
-                                    inputClassName="full"
-                                    title={
-                                        'Chỉ số khối cơ thể (BMI - Body mass index) là một phép tính dựa trên chiều cao và cân nặng, giúp xác định xem một người có cân nặng chuẩn, nhẹ cân, thừa cân hay béo phì.'
-                                    }
-                                >
-                                    {mobilityOptions.map(({ value, label }) => (
-                                        <option value={value} key={value}>
-                                            {label}
-                                        </option>
-                                    ))}
-                                </Input>
-                            </div>
+                            <Input
+                                type="select"
+                                name="target"
+                                label="Mục tiêu"
+                                onChange={handleChange}
+                                value={values.target}
+                                error={errors.target}
+                                touched={touched.target}
+                                className="flex-fill"
+                                inputClassName="full"
+                            >
+                                <option value="Giảm cân">Giảm cân</option>
+                                <option value="Giữ nguyên">Giữ nguyên</option>
+                                <option value="Tăng cân">Tăng cân</option>
+                            </Input>
+                            <Input
+                                type="select"
+                                name="mobility"
+                                label="Chỉ số R"
+                                onChange={handleChange}
+                                value={values.mobility}
+                                error={errors.mobility}
+                                touched={touched.mobility}
+                                className="flex-fill"
+                                inputClassName="full"
+                                title={
+                                    'Chỉ số khối cơ thể (BMI - Body mass index) là một phép tính dựa trên chiều cao và cân nặng, giúp xác định xem một người có cân nặng chuẩn, nhẹ cân, thừa cân hay béo phì.'
+                                }
+                            >
+                                {mobilityOptions.map(({ value, label }) => (
+                                    <option value={value} key={value}>
+                                        {label}
+                                    </option>
+                                ))}
+                            </Input>
                         </div>
                         <div className="d-flex gap-4 align-items-center mb-3">
                             <strong className="min-width-120">Tổng số calo: </strong>
