@@ -52,7 +52,7 @@ export const BlogCommentItem = ({
                     alt=""
                     className="rounded-circle blog-list_item-avatar"
                 />
-                <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
+                <div className="bg-green-blur flex-fill py-3 px-4 rounded-1">
                     <div className="d-flex justify-content-between align-items-center">
                         <p className="d-flex align-items-center gap-1">
                             <strong>{item.accountUserName}</strong>
@@ -123,6 +123,7 @@ const BlogDetail = () => {
         onFetchComments,
         onClearDetail,
         onUpdateComment,
+        onIncreaseNumOfComments,
     } = useContext(BlogContext);
     const dataFetchedRef = useRef(false);
     const {
@@ -159,6 +160,7 @@ const BlogDetail = () => {
                 setIsProcessing(false);
                 setContent('');
                 onFetchComments(id);
+                onIncreaseNumOfComments();
             })
             .catch((err) => {
                 setIsProcessing(false);
@@ -311,11 +313,11 @@ const BlogDetail = () => {
                         />
                         <div className="d-flex justify-content-end">
                             <button
-                                className="button button-sm"
+                                className="button button-sm button-green"
                                 type="submit"
                                 disabled={!content.trim() || !isAuthenticated}
                             >
-                                Post
+                                Bình luận
                             </button>
                         </div>
                     </form>

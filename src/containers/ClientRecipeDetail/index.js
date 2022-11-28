@@ -59,7 +59,7 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
                 <div className="d-flex justify-content-between gap-3 mb-3">
                     <h3 className="mb-2">{dataResponse.dishName}</h3>
                     <button
-                        className="button button-sm d-flex align-items-center gap-2 recipe-detail__add-to__favourite-btn"
+                        className="button button-sm button-green d-flex align-items-center gap-2 recipe-detail__add-to__favourite-btn"
                         onClick={() => {
                             accessToken ? onAddToFavourite() : setShowFavouriteOptionModal(true);
                         }}

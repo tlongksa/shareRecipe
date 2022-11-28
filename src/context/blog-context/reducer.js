@@ -24,6 +24,7 @@ import {
     BLOG_GET_COMMENT_REPORT_LIST_FAILURE,
     BLOG_UPDATE_COMMENT_CONTENT,
     BLOG_REMOVE_COMMENT_REPORT_FROM_LIST,
+    BLOG_INCREASE_NUM_OF_COMMENTS,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -107,23 +108,19 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
                 break;
             case BLOG_LIKE_ITEM_DETAIL_SUCCESS:
                 draft.blogDetail.dataResponse.totalLike++;
-                // draft.blogDetail.dataResponse.totalDisLike--;
                 break;
             case BLOG_DISLIKE_ITEM_DETAIL_SUCCESS:
-                // draft.blogDetail.dataResponse.totalLike--;
                 draft.blogDetail.dataResponse.totalDisLike++;
                 break;
             case BLOG_LIKE_ITEM_SUCCESS:
                 const idxLike = draft.list.findIndex((item) => item.blogID === payload);
                 if (idxLike > -1) {
                     draft.list[idxLike].totalLike++;
-                    // draft.list[idxLike].totalDisLike--;
                 }
                 break;
             case BLOG_DISLIKE_ITEM_SUCCESS:
                 const idxDislike = draft.list.findIndex((item) => item.blogID === payload);
                 if (idxDislike > -1) {
-                    // draft.list[idxDislike].totalLike--;
                     draft.list[idxDislike].totalDisLike++;
                 }
                 break;
@@ -162,6 +159,9 @@ const blogReducer = (state = defaultValues, { type, payload }) =>
                 draft.blogCommentReport.list = draft.blogCommentReport.list.filter(
                     (item) => item.blogCommentID !== payload,
                 );
+                break;
+            case BLOG_INCREASE_NUM_OF_COMMENTS:
+                draft.blogDetail.dataResponse.numberComment++;
                 break;
             default:
                 break;

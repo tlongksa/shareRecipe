@@ -1,7 +1,8 @@
 /** @format */
 
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import PropTypes from 'prop-types';
-import styles from './paginator.module.css';
+import styles from './paginator.module.scss';
 
 const Paginator = ({ curPage, isLoading, maxPage, scrollAfterClicking, callback }) => {
     const gotoPage = (page) => {
@@ -32,7 +33,7 @@ const Paginator = ({ curPage, isLoading, maxPage, scrollAfterClicking, callback 
             >
                 <li className={[styles.paginator__item, curPage === 1 ? 'divDisabled' : ''].join(' ')}>
                     <button onClick={() => gotoPage(curPage - 1)} className={styles['paginator-nav__btn']}>
-                        Previous
+                        <ChevronLeft />
                     </button>
                 </li>
                 {Array(maxPage)
@@ -50,7 +51,7 @@ const Paginator = ({ curPage, isLoading, maxPage, scrollAfterClicking, callback 
                     ))}
                 <li className={[styles.paginator__item, curPage === maxPage ? 'divDisabled' : ''].join(' ')}>
                     <button onClick={() => gotoPage(curPage + 1)} className={styles['paginator-nav__btn']}>
-                        Next
+                        <ChevronRight />
                     </button>
                 </li>
             </ul>

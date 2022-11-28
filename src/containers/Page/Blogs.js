@@ -107,14 +107,14 @@ export const BlogForm = ({ show, setShow, blogData, callback }) => {
                 <form onSubmit={onSubmit}>
                     <Input
                         onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Title"
-                        label={'Title'}
+                        label={'Tiêu đề'}
                         value={title}
                         error={null}
                         touched={true}
                         className="flex-fill"
                     />
                     <div className="mb-3">
+                        <h5>Mô tả</h5>
                         <CKEditor
                             editor={ClassicEditor}
                             data={content}
@@ -137,11 +137,11 @@ export const BlogForm = ({ show, setShow, blogData, callback }) => {
                     </div>
                     <div className="d-flex justify-content-end">
                         <button
-                            className="button button-sm"
+                            className="button button-sm button-green"
                             type="submit"
                             disabled={!content.trim() || !title.trim() || isProcessing}
                         >
-                            Post
+                            Xác nhận
                         </button>
                     </div>
                 </form>
@@ -198,7 +198,7 @@ const Blogs = () => {
                     />
                     {isAuthenticated && (
                         <button
-                            className="button button-sm d-flex align-items-center gap-2"
+                            className="button button-sm button-green d-flex align-items-center gap-2"
                             onClick={() => setShowNewBlog(true)}
                         >
                             <PlusCircleOutlined />
@@ -293,7 +293,7 @@ export const BlogItem = ({
     hideContent,
 }) => {
     return (
-        <li className="blog-list_item mb-4">
+        <li className="blog-list_item mb-4 bg-green-blur custom-shadow rounded-3 p-3">
             <div className="d-flex gap-3">
                 <div className="blog-list_item-media">
                     <img
@@ -302,7 +302,7 @@ export const BlogItem = ({
                         className="rounded-circle blog-list_item-avatar"
                     />
                 </div>
-                <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
+                <div className="flex-fill px-2">
                     <div className="d-flex justify-content-between align-items-center">
                         <p className="d-flex align-items-center gap-3">
                             <strong>{item.userName}</strong>
@@ -346,7 +346,7 @@ export const BlogItem = ({
                         </div>
                     </div>
                     <div className="blog-list_item-content mb-2">
-                        <h5>
+                        <h5 className="blog-list_item__title">
                             <Link to={`/blogs/${item.blogID}`}>{item.title}</Link>
                         </h5>
                         <div

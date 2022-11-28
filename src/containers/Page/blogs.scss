@@ -81,3 +81,12 @@
     word-break: break-all;
     max-width: 100%;
 }
+.blog-list_item__title {
+    margin-top: 0.5rem;
+    a {
+        color: #070707;
+        &:hover {
+            color: var(--green-color);
+        }
+    }
+}
