@@ -41,16 +41,12 @@ const HomePage = (props) => {
                 {carousels.map(({ imgSrc, desc, title }) => (
                     <Carousel.Item key={title}>
                         <img className="d-block w-100 h-10 home-carousel__banner-img" src={imgSrc} alt={title} />
-                        <Carousel.Caption>
-                            <h3>{title}</h3>
-                            <p>{desc}</p>
-                        </Carousel.Caption>
                     </Carousel.Item>
                 ))}
             </Carousel>
             <div className="custom-page__container">
-                <SearchBar />
                 <ListCategory />
+                <SearchBar />
                 <ListTopWeek />
                 <ListTopMonth />
                 <ListTopNew />

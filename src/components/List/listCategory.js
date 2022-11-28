@@ -27,8 +27,8 @@ const ListCategory = (props) => {
                     <LoadingOutlined className="global-list__loader-icon" />
                 </div>
             ) : (
-                <>
-                    <div className="home-category-list__title">Catergory</div>
+                <div className="home-category__wrapper bg-green-blur rounded-4 mb-3">
+                    <div className="home-category-list__title">🍲 Nấu ăn theo loại</div>
                     <p className="error-message">{categories?.error?.message}</p>
                     <Slider
                         slidesToShow={showNumOfSlideBaseOnScreenSize(
@@ -48,7 +48,7 @@ const ListCategory = (props) => {
                             </Link>
                         ))}
                     </Slider>
-                </>
+                </div>
             )}
         </div>
     );
