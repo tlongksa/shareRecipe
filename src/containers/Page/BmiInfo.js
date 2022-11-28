@@ -1,5 +1,6 @@
 import { LoadingOutlined, StarOutlined } from '@ant-design/icons';
 import { Form, Formik } from 'formik';
+import { Link } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
 import './index.scss';
 import './bmi.scss';
@@ -9,7 +10,6 @@ import BmiContext from '../../context/bmi-context';
 import { BmiInfoSchema } from '../../validators';
 import { IMAGE_PLACEHODLER_URI } from '.././../constants';
 import { updateUserBmiInfoRequest } from '../../api/requests';
-import { Link } from 'react-router-dom';
 import { SearchDataList } from './Blogs';
 import Slider from '../../components/common/Slider';
 import { useMediaQuery } from 'react-responsive';
@@ -175,7 +175,7 @@ const BmiInfo = () => {
                 </button>
                 {error && <p className="error-message mt-4">{error?.messContent}</p>}
                 {recipeType === 'favourite' && (
-                    <div className="p-4 bg-gray-custom rounded mt-4">
+                    <div className="p-4 bg-green-blur rounded mt-4">
                         <h5 className="mb-4">Chọn bữa</h5>
                         <div className="d-flex gap-4 align-items-center mb-3">
                             {MEALS.map((value) => (
@@ -386,7 +386,13 @@ const BmiForm = ({ item, userInfo }) => {
     };
 
     return (
-        <div className={`bmi-form__info p-4 bg-green-blur flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
+        <div className={`bmi-form__info p-4 bg-white flex-fill rounded-4 border ${isProcessing ? 'divDisabled' : ''}`}>
+            <h3 className="bmi-form__info-title">
+                Thông tin cá nhân{' '}
+                <Link to={`/profile/${userInfo?.id}`} className="text-green ms-4 text-small">
+                    Chỉnh sửa
+                </Link>
+            </h3>
             <div className="d-flex justify-content-between align-items-center mb-3 bmi-form__info-unedit">
                 <p>
                     <strong>Tên</strong> : {item?.name}
@@ -398,6 +404,7 @@ const BmiForm = ({ item, userInfo }) => {
                     <strong>Giới tính</strong> : {item?.gender}
                 </p>
             </div>
+            <hr />
             <Formik
                 initialValues={{
                     high: item?.high,
@@ -410,25 +417,22 @@ const BmiForm = ({ item, userInfo }) => {
             >
                 {({ errors, touched, values, handleChange }) => (
                     <Form>
-                        <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row">
-                            <p className="min-width-120">Chiều cao : </p>
-                            <div className="w-50">
+                        <h3 className="bmi-form__info-title">Chỉ số BMI </h3>
+                        <div className="d-flex gap-3">
+                            <div className="d-flex gap-3 align-items-center mb-3 bmi-form__info-row flex-fill">
                                 <Input
                                     name="high"
                                     onChange={handleChange}
-                                    placeholder="Vui lòng nhập chiều cao của bạn "
+                                    placeholder="Chiều cao :"
                                     value={values.high}
                                     error={errors.high}
                                     touched={touched.high}
                                     containerNoMarginBottom
                                     className="flex-fill"
                                 />
+                                <span>cm</span>
                             </div>
-                            <span>cm</span>
-                        </div>
-                        <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row">
-                            <p className="min-width-120">Cân nặng : </p>
-                            <div className="w-50">
+                            <div className="d-flex gap-3 align-items-center mb-3 bmi-form__info-row flex-fill">
                                 <Input
                                     name="weight"
                                     onChange={handleChange}
@@ -439,51 +443,55 @@ const BmiForm = ({ item, userInfo }) => {
                                     containerNoMarginBottom
                                     className="flex-fill"
                                 />
+                                <span>kg</span>
                             </div>
-                            <span>kg</span>
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row">
-                            <p className="min-width-120">Mục tiêu : </p>
-                            <Input
-                                type="select"
-                                name="target"
-                                onChange={handleChange}
-                                value={values.target}
-                                error={errors.target}
-                                touched={touched.target}
-                                containerNoMarginBottom
-                                className="flex-fill"
-                            >
-                                <option value="Giảm cân">Giảm cân</option>
-                                <option value="Giữ nguyên">Giữ nguyên</option>
-                                <option value="Tăng cân">Tăng cân</option>
-                            </Input>
-                        </div>
-                        <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row">
-                            <p className="min-width-120">Chỉ số R : </p>
-                            <Input
-                                type="select"
-                                name="mobility"
-                                onChange={handleChange}
-                                value={values.mobility}
-                                error={errors.mobility}
-                                touched={touched.mobility}
-                                containerNoMarginBottom
-                                className="flex-fill"
-                                title={
-                                    'Chỉ số khối cơ thể (BMI - Body mass index) là một phép tính dựa trên chiều cao và cân nặng, giúp xác định xem một người có cân nặng chuẩn, nhẹ cân, thừa cân hay béo phì.'
-                                }
-                            >
-                                {mobilityOptions.map(({ value, label }) => (
-                                    <option value={value} key={value}>
-                                        {label}
-                                    </option>
-                                ))}
-                            </Input>
+                        <div className="d-flex gap-3">
+                            <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row flex-fill">
+                                <Input
+                                    type="select"
+                                    name="target"
+                                    onChange={handleChange}
+                                    value={values.target}
+                                    error={errors.target}
+                                    touched={touched.target}
+                                    containerNoMarginBottom
+                                    className="flex-fill"
+                                    inputClassName="full"
+                                >
+                                    <option value="Giảm cân">Giảm cân</option>
+                                    <option value="Giữ nguyên">Giữ nguyên</option>
+                                    <option value="Tăng cân">Tăng cân</option>
+                                </Input>
+                            </div>
+                            <div className="d-flex gap-4 align-items-center mb-3 bmi-form__info-row flex-fill">
+                                <Input
+                                    type="select"
+                                    name="mobility"
+                                    onChange={handleChange}
+                                    value={values.mobility}
+                                    error={errors.mobility}
+                                    touched={touched.mobility}
+                                    containerNoMarginBottom
+                                    className="flex-fill"
+                                    inputClassName="full"
+                                    title={
+                                        'Chỉ số khối cơ thể (BMI - Body mass index) là một phép tính dựa trên chiều cao và cân nặng, giúp xác định xem một người có cân nặng chuẩn, nhẹ cân, thừa cân hay béo phì.'
+                                    }
+                                >
+                                    {mobilityOptions.map(({ value, label }) => (
+                                        <option value={value} key={value}>
+                                            {label}
+                                        </option>
+                                    ))}
+                                </Input>
+                            </div>
                         </div>
                         <div className="d-flex gap-4 align-items-center mb-3">
-                            <p className="min-width-120">Tổng số calo: </p>
-                            <p>{item?.totalCalo} calo</p>
+                            <strong className="min-width-120">Tổng số calo: </strong>
+                            <p>
+                                <strong>{item?.totalCalo}</strong> calo
+                            </p>
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
                         <div className="d-flex justify-content-end">
