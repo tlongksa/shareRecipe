@@ -9,6 +9,7 @@ import Slider from '../../components/common/Slider';
 import { addRecipeToFavouriteList } from '../../api/requests';
 import AuthContext from '../../context/auth-context';
 import Modal from 'react-bootstrap/Modal';
+import ListTopNew from '../../components/List/listTopNew';
 
 const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFavourite, dishId }) => {
     const {
@@ -19,19 +20,19 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
 
     return (
         <div className="top-info__container">
-            <div className="left-view">
-                <img src={bigRecipeImg} alt={dataResponse?.dishName} className="img-view-detail" />
+            <div className="left-view bg-green-blur shadow-custom p-3 rounded-4">
+                <img src={bigRecipeImg} alt={dataResponse?.dishName} className="img-view-detail rounded-4" />
                 <div
                     style={{
-                        maxWidth: 300,
+                        maxWidth: 500,
                     }}
                 >
-                    {dataResponse?.dishImageList?.length > 3 ? (
-                        <Slider slidesToShow={3}>
+                    {dataResponse?.dishImageList?.length > 5 ? (
+                        <Slider slidesToShow={5}>
                             {dataResponse?.dishImageList?.map((listImg) => (
                                 <div key={listImg.dishImageID}>
                                     <img
-                                        className="img-recipe__gallery-item"
+                                        className="img-recipe__gallery-item rounded-2"
                                         src={listImg.url}
                                         alt="img"
                                         onClick={() => setBigRecipeImg(listImg.url)}
@@ -219,10 +220,11 @@ const ClientRecipeDetail = () => {
                         ))}
                     </ul>
                     <h3 className="view-title">Video Hướng Dẫn :</h3>
-                    <video src={dataResponse?.video} width="100%" controls></video>
+                    <video src={dataResponse?.video} width="100%" height={300} controls></video>
                     <hr />
                     <RecipeComments dishId={dishId} />
                 </div>
+                <ListTopNew />
             </div>
         </div>
     );

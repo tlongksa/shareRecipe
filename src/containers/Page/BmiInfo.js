@@ -314,7 +314,7 @@ const BmiInfo = () => {
 export default BmiInfo;
 
 const RecipeItem = ({ item }) => (
-    <li className="global-recipe__list-item mb-4 bg-green-blur rounded-3 py-3 px-3">
+    <li className="global-recipe__list-item mb-4 bg-green-blur custom-shadow rounded-3 py-3 px-3">
         <div className="d-flex gap-3">
             <img
                 src={item?.dishImageList?.[0]?.url || IMAGE_PLACEHODLER_URI}
