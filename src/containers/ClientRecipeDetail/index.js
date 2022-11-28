@@ -153,6 +153,22 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
     );
 };
 
+const RecipeSteps = ({ dataResponse }) => (
+    <ul>
+        {dataResponse?.stepList?.map((item, index) => (
+            <li className="step__list-item mt-3" key={`step__item-${item.stepID}`}>
+                <strong>Bước {index + 1} : </strong>
+                <div
+                    className={`recipe-step-item__content`}
+                    dangerouslySetInnerHTML={{
+                        __html: item.describe,
+                    }}
+                />
+            </li>
+        ))}
+    </ul>
+);
+
 const ClientRecipeDetail = () => {
     const { dishId } = useParams();
     const [bigRecipeImg, setBigRecipeImg] = useState('');
@@ -160,6 +176,7 @@ const ClientRecipeDetail = () => {
         recipeDetail: { dataResponse, isLoading, error },
         onFetchDetail,
     } = useContext(RecipeContext);
+    const [activeTab, setActiveTab] = useState('desc');
 
     useEffect(() => {
         onFetchDetail(dishId);
@@ -202,23 +219,60 @@ const ClientRecipeDetail = () => {
                     onAddToFavourite={onAddToFavouriteListHandler}
                     dishId={dishId}
                 />
-                <div className="bg-green-blur custom-shadow p-3 rounded-4 mt-3"></div>
-                <div className="view-comment">
-                    <h3 className="view-title">Cách làm :</h3>
-                    <ul>
-                        {dataResponse?.stepList?.map((item, index) => (
-                            <li className="step__list-item mt-3" key={`step__item-${item.stepID}`}>
-                                <strong>Bước {index + 1} : </strong>
+                <div className="bg-green-blur custom-shadow p-3 rounded-4 mt-3 mb-3">
+                    <div className="d-flex gap-3">
+                        <div className="recipe-detail__menu pt-3">
+                            <ul>
+                                <li
+                                    className={`${activeTab === 'desc' ? 'is-active' : ''}`}
+                                    onClick={() => setActiveTab('desc')}
+                                >
+                                    Mô tả
+                                </li>
+                                <li
+                                    className={`${activeTab === 'guide' ? 'is-active' : ''}`}
+                                    onClick={() => setActiveTab('guide')}
+                                >
+                                    Hướng dẫn chế biến
+                                </li>
+                                <li
+                                    className={`${activeTab === 'protect' ? 'is-active' : ''}`}
+                                    onClick={() => setActiveTab('protect')}
+                                >
+                                    Hướng dẫn bảo quản
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="recipe-detail__desc">
+                            {activeTab === 'desc' && (
                                 <div
-                                    className={`recipe-step-item__content`}
+                                    className="recipe-desc"
                                     dangerouslySetInnerHTML={{
-                                        __html: item.describe,
+                                        __html: dataResponse?.formulaDescribe?.replaceAll('\n', '<br />'),
                                     }}
                                 />
-                            </li>
-                        ))}
-                    </ul>
-                    <h3 className="view-title">Video Hướng Dẫn :</h3>
+                            )}
+                            {activeTab === 'guide' && <RecipeSteps dataResponse={dataResponse} />}
+                            {activeTab === 'protect' && (
+                                <ul>
+                                    <li>
+                                        1.Phương pháp đông lạnh. Đông lạnh được sử dụng tốt cho hầu như bất kỳ loại thực
+                                        phẩm nào. ...
+                                    </li>
+                                    <li>
+                                        2.Hút chân không. Hút chân không dùng đóng gói các thực phẩm trong một môi
+                                        trường chân không, thường là trong một túi kín hoặc trong chai. ...
+                                    </li>
+                                    <li>3.Đóng hộp, chai, lọ ...</li>
+                                    <li>4.Muối chua. ...</li>
+                                    <li>5.Hun khói. ...</li>
+                                    <li>6.Sấy khô</li>
+                                </ul>
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <div className="view-comment">
                     <video src={dataResponse?.video} width="100%" height={300} controls></video>
                     <hr />
                     <RecipeComments dishId={dishId} />
