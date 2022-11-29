@@ -42,7 +42,7 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
                             ))}
                         </Slider>
                     ) : (
-                        <div className="flex-full d-flex">
+                        <div className="flex-full d-flex justify-content-center">
                             {dataResponse?.dishImageList?.map((listImg) => (
                                 <div key={listImg.dishImageID}>
                                     <img

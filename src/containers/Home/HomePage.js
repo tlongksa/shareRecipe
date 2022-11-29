@@ -28,7 +28,7 @@ const carousels = [
     },
 ];
 
-const HomePage = (props) => {
+export const HomeBannerCarousel = () => {
     const [index, setIndex] = useState(0);
 
     const handleSelect = (selectedIndex, e) => {
@@ -36,14 +36,20 @@ const HomePage = (props) => {
     };
 
     return (
+        <Carousel activeIndex={index} onSelect={handleSelect}>
+            {carousels.map(({ imgSrc, desc, title }) => (
+                <Carousel.Item key={title}>
+                    <img className="d-block w-100 h-10 home-carousel__banner-img" src={imgSrc} alt={title} />
+                </Carousel.Item>
+            ))}
+        </Carousel>
+    );
+};
+
+const HomePage = (props) => {
+    return (
         <div key={'home-page__key'}>
-            <Carousel activeIndex={index} onSelect={handleSelect}>
-                {carousels.map(({ imgSrc, desc, title }) => (
-                    <Carousel.Item key={title}>
-                        <img className="d-block w-100 h-10 home-carousel__banner-img" src={imgSrc} alt={title} />
-                    </Carousel.Item>
-                ))}
-            </Carousel>
+            <HomeBannerCarousel />
             <div className="custom-page__container">
                 <ListCategory />
                 <SearchBar />

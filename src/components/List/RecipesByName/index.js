@@ -6,7 +6,7 @@ import Input from '../../common/Input/Input';
 import ListCategory from '../listCategory';
 import HomeRecipeItem from '../HomeRecipeItem';
 import './index.scss';
-import searchRecipeByNameResultsBannerImg from '../../../assets/img/search_recipe_by_name_results_banner.png';
+import { HomeBannerCarousel } from '../../../containers/Home/HomePage';
 
 const RecipesByName = () => {
     const { recipeByNameList, isLoading, error, onFetchMoreByName } = useContext(RecipeContext);
@@ -32,7 +32,7 @@ const RecipesByName = () => {
 
     return (
         <section className="recipes-by__category-container">
-            <img src={searchRecipeByNameResultsBannerImg} alt="" className="page-banner" />
+            <HomeBannerCarousel />
             <div className="custom-page__container">
                 <ListCategory />
                 <div className="d-flex justify-content-between align-items-center mb-4 mt-5 should-stack-on-mobile">

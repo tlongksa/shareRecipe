@@ -10,6 +10,11 @@ import Avatar from '../common/Avatar';
 import { ROLES } from '../../App';
 import MainLogo from '../common/Logo';
 import { useMediaQuery } from 'react-responsive';
+import { UserIcon } from '../../assets/svg-icons/submenu-icons';
+import heartIconImg from '../../assets/img/heart_Dark.png';
+import lockIconImg from '../../assets/img/lock.png';
+import userSettingIconImg from '../../assets/img/user_setting.png';
+import signoutIconImg from '../../assets/img/signout.png';
 
 export const NavMenuCenter = ({ className, onHide }) => {
     const { pathname } = useLocation();
@@ -76,38 +81,38 @@ export const ProfileTogglerMenu = ({ handleLogout, className }) => {
                     onClick={() => {
                         navigate(`/profile/${id}`);
                     }}
-                    className="cursor-pointer"
+                    className="cursor-pointer f-24 d-flex gap-2 align-items-center"
                 >
-                    Thông tin cá nhân cá nhân
+                    <UserIcon /> Thông tin cá nhân cá nhân
                 </CDropdownItem>
                 <CDropdownItem
                     onClick={() => {
                         navigate(`/favourite-recipes`);
                     }}
-                    className="cursor-pointer"
+                    className="cursor-pointer f-24 d-flex gap-2 align-items-center"
                 >
-                    Yêu thích
+                    <img src={heartIconImg} alt="" /> Yêu thích
                 </CDropdownItem>
                 <CDropdownItem
                     onClick={() => {
                         navigate(`/change-password`);
                     }}
-                    className="cursor-pointer"
+                    className="cursor-pointer f-24 d-flex gap-2 align-items-center"
                 >
-                    Đổi mật khẩu
+                    <img src={lockIconImg} alt="" /> Đổi mật khẩu
                 </CDropdownItem>
                 {roles === ROLES.admin && (
                     <CDropdownItem
                         onClick={() => {
                             navigate(`/admin/accounts`);
                         }}
-                        className="cursor-pointer"
+                        className="cursor-pointer f-24 d-flex gap-2 align-items-center"
                     >
-                        Quản trị
+                        <img src={userSettingIconImg} alt="" /> Quản trị
                     </CDropdownItem>
                 )}
-                <CDropdownItem onClick={handleLogout} className="cursor-pointer">
-                    Đăng xuất
+                <CDropdownItem onClick={handleLogout} className="cursor-pointer f-24 d-flex gap-2 align-items-center">
+                    <img src={signoutIconImg} alt="" /> Đăng xuất
                 </CDropdownItem>
             </CDropdownMenu>
         </CDropdown>

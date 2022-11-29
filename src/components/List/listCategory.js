@@ -40,7 +40,16 @@ const ListCategory = (props) => {
                         )}
                     >
                         {categories.list.map((list) => (
-                            <Link key={list.dishCategoryID} to={`/list-recipe-by-category/${list.dishCategoryID}`}>
+                            <Link
+                                key={list.dishCategoryID}
+                                to={`/list-recipe-by-category/${list.dishCategoryID}`}
+                                onClick={() => {
+                                    window.scrollTo({
+                                        top: 0,
+                                        left: 0,
+                                    });
+                                }}
+                            >
                                 <div className="category-list__item">
                                     <img className="view-img-category" src={list.dishCategoryImage} alt="img" />
                                     <h5 className="recipe__category-name">{list.name}</h5>

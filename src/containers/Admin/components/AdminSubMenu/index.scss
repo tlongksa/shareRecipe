@@ -4,7 +4,7 @@
     top: 52px;
     left: -110%;
     z-index: 4;
-    width: 310px;
+    width: 340px;
     transition: all 0.3s ease-in-out;
     .admin-submenu__item {
         width: 100%;
@@ -22,6 +22,9 @@
             }
             &:hover {
                 background-color: #ddd;
+            }
+            img {
+                width: 30px;
             }
         }
     }
