@@ -147,7 +147,7 @@ const CommentItem = (props) => {
                 avatar={<Avatar src={comment.avatarImage} alt={comment.accountUserName} />}
                 content={
                     <div className="comment-item__container">
-                        <h6
+                        <h5
                             dangerouslySetInnerHTML={{
                                 __html: comment.content?.replaceAll('\n', '<br />'),
                             }}

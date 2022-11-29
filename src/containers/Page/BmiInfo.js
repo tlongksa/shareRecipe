@@ -15,9 +15,9 @@ import Slider from '../../components/common/Slider';
 import { useMediaQuery } from 'react-responsive';
 import { showNumOfBmiItemsBaseOnScreenSize, showRecipeLevelText } from '../../utils';
 import BreakfastIcon, { LunchIcon, DinnerIcon } from '../../assets/svg-icons/breakfast';
-import LightningIcon from '../../assets/svg-icons/lightning';
 import clockImg from '../../assets/img/clock.png';
 import starImg from '../../assets/img/star.png';
+import lightningImg from '../../assets/img/lightning.png';
 
 export const mobilityOptions = [
     {
@@ -143,7 +143,13 @@ const BmiInfo = () => {
                         alt=""
                         className="object-fit-contain align-self-baseline rounded-4"
                     />
-                    <BmiForm item={dataResponse} userInfo={userInfo} />
+                    <BmiForm
+                        item={dataResponse}
+                        userInfo={userInfo}
+                        onRefetch={() => {
+                            onFetchDetail(userInfo?.username);
+                        }}
+                    />
                 </div>
                 <div className="bmi-option__titles">
                     <h3>💡Gợi ý cho bạn</h3>
@@ -397,7 +403,7 @@ const RecipeItem = ({ item }) => (
     </li>
 );
 
-const BmiForm = ({ item, userInfo }) => {
+const BmiForm = ({ item, userInfo, onRefetch }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const onSubmit = (values) => {
@@ -413,6 +419,7 @@ const BmiForm = ({ item, userInfo }) => {
         })
             .then(({ data }) => {
                 setIsProcessing(false);
+                onRefetch();
             })
             .catch((err) => {
                 setIsProcessing(false);
@@ -557,7 +564,7 @@ const BmiRecipeItem = ({ item }) => (
             </Link>
             <div className="d-flex gap-2 justify-content-between mt-3">
                 <div className="recipe-item__extra-info">
-                    <LightningIcon /> {showRecipeLevelText(item.level)}
+                    <img src={lightningImg} alt="" /> {showRecipeLevelText(item.level)}
                 </div>
                 <div className="recipe-item__extra-info">
                     <img src={clockImg} alt="" /> {item.time} phút

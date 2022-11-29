@@ -16,6 +16,7 @@ import Paginator from '../../components/common/Paginator';
 import { ROLES } from '../../App';
 import { CheckCircleTwoTone } from '@ant-design/icons';
 import { notification } from 'antd';
+import Input from '../../components/common/Input/Input';
 
 const RecipeComments = ({ dishId }) => {
     const [content, setContent] = useState('');
@@ -118,24 +119,30 @@ const RecipeComments = ({ dishId }) => {
             <div className="view-cmt">
                 <Form onSubmit={addCommentHandler} autoComplete={'off'}>
                     <Form.Group className="mb-3" controlId="commentContent">
-                        <Form.Label>Bình luận</Form.Label>
-                        <Form.Control
-                            as="textarea"
+                        <Input
+                            type="textarea"
                             placeholder="Nhập nội dung bình luận..."
-                            rows={3}
+                            label="Bình luận"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                         />
                     </Form.Group>
                     <Stack spacing={1}>
-                        Đánh giá công thức nấu ăn :
+                        <h5>Đánh giá công thức nấu ăn :</h5>
                         <Rating
                             name="half-rating"
                             defaultValue={5}
                             precision={1}
                             value={star}
-                            onChange={(e) => setStar(e.target.value)}
-                            disabled={!accessToken}
+                            onChange={(e) => {
+                                if (!accessToken) {
+                                    notification.open({
+                                        message: 'Bạn cần đăng nhập trước khi thực hiện đánh giá',
+                                    });
+                                    return;
+                                }
+                                setStar(e.target.value);
+                            }}
                         />
                     </Stack>
                     <hr />
