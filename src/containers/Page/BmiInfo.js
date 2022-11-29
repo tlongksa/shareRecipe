@@ -436,13 +436,13 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                 </Link>
             </h3>
             <div className="d-flex justify-content-between align-items-center mb-3 bmi-form__info-unedit">
-                <p>
+                <p className="bmi-info__fixed-data">
                     <strong>Tên</strong> : {item?.name}
                 </p>
-                <p>
+                <p className="bmi-info__fixed-data">
                     <strong>Ngày sinh</strong> : {item?.dob?.join('-')}
                 </p>
-                <p>
+                <p className="bmi-info__fixed-data">
                     <strong>Giới tính</strong> : {item?.gender}
                 </p>
             </div>
