@@ -71,11 +71,11 @@ export const BmiProvider = ({ children }) => {
             });
     };
 
-    const fetchBmiRecipeListByFavourite = (totalCalo, meal, mainIngredient, isRemain) => {
+    const fetchBmiRecipeListByFavourite = (totalCalo, meal, mainIngredient, isRemain, listIDDish = '') => {
         dispatchContext(bmiGetRecipeListAction());
 
         if (isRemain) {
-            getBmiRecipesByCaloRequest(totalCalo, meal, mainIngredient)
+            getBmiRecipesByCaloRequest(totalCalo, meal, mainIngredient, listIDDish)
                 .then(({ data }) => {
                     dispatchContext(bmiInsertRecipeToListAction(data));
                     if (totalCalo < 200) {
@@ -142,8 +142,8 @@ export const BmiProvider = ({ children }) => {
                 onClearDetail: () => dispatchContext(clearBmiDetailAction()),
                 onFetchRecipes: (totalCalo) => fetchBmiRecipeList(totalCalo),
                 onFetchMainIngredients: (ing) => fetchMainIngredients(ing),
-                onFetchRecipesByFavourite: (totalCalo, meal, mainIngredient, isRemain) =>
-                    fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient, isRemain),
+                onFetchRecipesByFavourite: (totalCalo, meal, mainIngredient, isRemain, listIDDish) =>
+                    fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient, isRemain, listIDDish),
                 onFetchAlternativeRecipes: (totalCalo, meal, mainIngredient) =>
                     fetchBmiAlternativeRecipeList(totalCalo, meal, mainIngredient),
                 onClearRecipeList: () => dispatchContext(clearBmiRecipeListAction()),

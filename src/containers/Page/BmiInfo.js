@@ -18,6 +18,7 @@ import BreakfastIcon, { LunchIcon, DinnerIcon } from '../../assets/svg-icons/bre
 import LightningIcon from '../../assets/svg-icons/lightning';
 import clockImg from '../../assets/img/clock.png';
 import starImg from '../../assets/img/star.png';
+
 export const mobilityOptions = [
     {
         value: 1,
@@ -148,33 +149,35 @@ const BmiInfo = () => {
                     <h3>💡Gợi ý cho bạn</h3>
                     <p>Thực đơn sẽ được lọc theo chỉ số BMI của bạn</p>
                 </div>
-                <button
-                    className={`button button-sm button-rounded-6 me-3 ${
-                        recipeType === 'total' ? 'button-outlined-hover-green has-border' : 'button-light'
-                    }`}
-                    onClick={() => {
-                        onClearRecipeList();
-                        onFetchRecipes(dataResponse?.totalCalo);
-                        setRecipeType('total');
-                        setMeal('');
-                        setMainIngredient('');
-                    }}
-                >
-                    {recipeType === 'total' ? '✅' : ''} Thực đơn phù hợp
-                </button>
-                <button
-                    className={`button button-sm button-rounded-6 me-3 ${
-                        recipeType === 'favourite' ? 'button-outlined-hover-green has-border' : 'button-light'
-                    }`}
-                    onClick={() => {
-                        onClearRecipeList();
-                        setRecipeType('favourite');
-                        setMeal('');
-                        setMainIngredient('');
-                    }}
-                >
-                    {recipeType === 'favourite' ? '✅' : ''} Thực đơn theo bữa
-                </button>
+                <div>
+                    <button
+                        className={`button button-sm button-rounded-6 me-3 ${
+                            recipeType === 'total' ? 'button-outlined-hover-green has-border' : 'button-light'
+                        }`}
+                        onClick={() => {
+                            onClearRecipeList();
+                            onFetchRecipes(dataResponse?.totalCalo);
+                            setRecipeType('total');
+                            setMeal('');
+                            setMainIngredient('');
+                        }}
+                    >
+                        {recipeType === 'total' ? '✅' : ''} Thực đơn phù hợp
+                    </button>
+                    <button
+                        className={`button button-sm button-rounded-6 me-3 ${
+                            recipeType === 'favourite' ? 'button-outlined-hover-green has-border' : 'button-light'
+                        }`}
+                        onClick={() => {
+                            onClearRecipeList();
+                            setRecipeType('favourite');
+                            setMeal('');
+                            setMainIngredient('');
+                        }}
+                    >
+                        {recipeType === 'favourite' ? '✅' : ''} Thực đơn theo bữa
+                    </button>
+                </div>
                 {error && <p className="error-message mt-4">{error?.messContent}</p>}
                 {recipeType === 'favourite' && (
                     <div className="p-4 bg-green-blur rounded mt-4">
@@ -265,7 +268,13 @@ const BmiInfo = () => {
                                     if (remainCalo < 200) {
                                         setShowFetchMoreFavouriteRecipes(false);
                                     }
-                                    onFetchRecipesByFavourite(remainCalo, meal, mainIngredient, true);
+                                    onFetchRecipesByFavourite(
+                                        remainCalo,
+                                        meal,
+                                        mainIngredient,
+                                        true,
+                                        recipeList.map((it) => it.dishID).join(','),
+                                    );
                                 }}
                             >
                                 Có

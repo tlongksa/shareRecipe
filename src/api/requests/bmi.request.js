@@ -24,12 +24,15 @@ const getUserBmiRecipeByFavouriteRequest = (totalCalo, meal, mainIngredient) =>
         },
     });
 
-const getBmiRecipesByCaloRequest = (totalCalo, meal, mainIngredient) =>
-    axios.get(`/getDishByCaloBMI?meal=${meal}&mainIngredient=${mainIngredient}&calo=${totalCalo}`, {
-        headers: {
-            authorization: `Bearer ${token || ''}`,
+const getBmiRecipesByCaloRequest = (totalCalo, meal, mainIngredient, listIDDish) =>
+    axios.get(
+        `/getDishByCaloBMI?meal=${meal}&mainIngredient=${mainIngredient}&calo=${totalCalo}&listIDDish=${listIDDish}`,
+        {
+            headers: {
+                authorization: `Bearer ${token || ''}`,
+            },
         },
-    });
+    );
 
 const getUserBmiAlternativeListRecipeRequest = (totalCalo, meal, mainIngredient) =>
     axios.get(`/searchDishByCaloBMI?meal=${meal}&mainIngredient=${mainIngredient}&calo=${totalCalo}`, {
