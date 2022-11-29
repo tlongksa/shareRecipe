@@ -21,7 +21,7 @@ const AdminHeader = () => {
         <header className="py-2 admin-header__management border-bottom">
             <div className="custom-page__container-management">
                 <nav className="d-flex justify-content-between align-items-center">
-                    <MainLogo className="logo-md" />
+                    <MainLogo className="logo-md" rightTextClassName="text-green" />
                     <NavMenuCenter className={`${showSidebar ? 'show' : ''}`} onHide={() => setShowSidebar(false)} />
                     <div className="d-flex gap-2">
                         <ProfileTogglerMenu handleLogout={handleLogout} />

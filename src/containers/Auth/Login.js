@@ -16,8 +16,8 @@ const Login = () => {
     const { onLoginSuccess } = useContext(AuthContext);
     const [searchParams] = useSearchParams();
     const [isProcessing, setIsProcessing] = useState(false);
-    const [username, setUser] = useState('');
-    const [password, setPwd] = useState('');
+    const [username, setUserName] = useState('');
+    const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [isRevealPwd, setIsRevealPwd] = useState(false);
     const redirectUrl = searchParams.get('redirectUrl');
@@ -25,6 +25,10 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrMsg('');
+        if (!username || !password) {
+            setErrMsg('Vui lòng không để trống tên đăng nhập & mật khẩu');
+            return;
+        }
         setIsProcessing(true);
         try {
             const { data } = await loginRequest({ username, password });
@@ -83,7 +87,10 @@ const Login = () => {
                                 name="username"
                                 placeholder="Tên đăng nhập"
                                 label="Tên đăng nhập"
-                                onChange={(e) => setUser(e.target.value)}
+                                onChange={(e) => {
+                                    setUserName(e.target.value);
+                                    setErrMsg('');
+                                }}
                                 value={username}
                                 touched={true}
                             />
@@ -93,7 +100,10 @@ const Login = () => {
                                     name="password"
                                     label="Mật khẩu"
                                     placeholder="Mật khẩu"
-                                    onChange={(e) => setPwd(e.target.value)}
+                                    onChange={(e) => {
+                                        setPassword(e.target.value);
+                                        setErrMsg('');
+                                    }}
                                     value={password}
                                     touched={true}
                                 />

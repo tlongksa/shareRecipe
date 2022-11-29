@@ -124,14 +124,20 @@ const Register = () => {
                             <p className="register-desc mb-3">
                                 Đồng hành cùng chúng tôi để tạo ra những món ăn ngon nhất
                             </p>
+                            <div className="mb-3">
+                                <span className="text-red">*</span> Trường bắt buộc
+                            </div>
                             <form onSubmit={handleSubmit} className="register-form">
                                 <Input
                                     label="Họ và tên"
                                     onChange={(e) => setFulName(e.target.value)}
                                     value={fullname}
+                                    shouldHasAsterisk
                                 />
                                 <label className="register-form__label">
-                                    <span>Tên đăng nhập</span>
+                                    <span>
+                                        Tên đăng nhập <span className="text-red">*</span>
+                                    </span>
                                     <FontAwesomeIcon icon={faCheck} className={validName ? 'valid' : 'hide'} />
                                     <FontAwesomeIcon
                                         icon={faTimes}
@@ -157,7 +163,9 @@ const Register = () => {
                                     Letters, numbers, underscores, hyphens allowed.
                                 </p>
                                 <label className="register-form__label">
-                                    <span>Nhập mật khẩu</span>
+                                    <span>
+                                        Nhập mật khẩu <span className="text-red">*</span>
+                                    </span>
                                     <FontAwesomeIcon icon={faCheck} className={validPwd ? 'valid' : 'hide'} />
                                     <FontAwesomeIcon
                                         icon={faTimes}
@@ -184,7 +192,9 @@ const Register = () => {
                                 </p>
 
                                 <label className="register-form__label">
-                                    <span>Xác nhận mật khẩu</span>
+                                    <span>
+                                        Xác nhận mật khẩu <span className="text-red">*</span>
+                                    </span>
                                     <FontAwesomeIcon
                                         icon={faCheck}
                                         className={validMatch && matchPwd ? 'valid' : 'hide'}
@@ -211,7 +221,9 @@ const Register = () => {
                                 </p>
 
                                 <label className="register-form__label">
-                                    <span>E-mail</span>
+                                    <span>
+                                        E-mail <span className="text-red">*</span>
+                                    </span>
                                     <FontAwesomeIcon icon={faCheck} className={validEmail ? 'valid' : 'hide'} />
                                     <FontAwesomeIcon
                                         icon={faTimes}
