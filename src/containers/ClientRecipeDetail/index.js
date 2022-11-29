@@ -82,7 +82,7 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
                     </div>
                     <Modal
                         show={showFavouriteOptionModal}
-                        fullscreen={'sm-down'}
+                        fullscreen={'md-down'}
                         onHide={() => setShowFavouriteOptionModal(false)}
                         centered
                     >
@@ -111,43 +111,7 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
                         </Modal.Body>
                     </Modal>
                 </div>
-                <h3 className="recipe-ing__title mt-3">Thành phần nguyên liệu :</h3>
-                <div className="bg-green-blur custom-shadow p-3 rounded-4">
-                    <h3 className="view-title">Nguyên liệu chính:</h3>
-                    <ul className="ms-5">
-                        {dataResponse?.ingredientDetailList
-                            ?.filter((it) => it.mainIngredient === 1)
-                            .map((mappedItem) => (
-                                <li key={mappedItem.ingredientDetailId} className="list-bullet">
-                                    {mappedItem.name} {mappedItem.quantity} {mappedItem.unit}
-                                </li>
-                            ))}
-                    </ul>
-                    <h3 className="view-title">Nguyên liệu phụ:</h3>
-                    <ul className="ms-5">
-                        {dataResponse?.ingredientDetailList
-                            ?.filter((it) => it.mainIngredient !== 1)
-                            .map((mappedItem) => (
-                                <Fragment key={mappedItem.ingredientDetailId}>
-                                    <li className="list-bullet">
-                                        {mappedItem.name} {mappedItem.quantity} {mappedItem.unit}
-                                    </li>
-                                    {mappedItem.ingredientChangeVoList.length > 0 && (
-                                        <div className="ms-3">
-                                            <p>Có thể thay thế bằng : </p>
-                                            <div className="ms-5">
-                                                {mappedItem.ingredientChangeVoList.map((mappedItem) => (
-                                                    <li key={mappedItem.ingredientChangeId} className="list-bullet">
-                                                        {mappedItem.name} {mappedItem.quantity} {mappedItem.unit}
-                                                    </li>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-                                </Fragment>
-                            ))}
-                    </ul>
-                </div>
+                <RecipeIngredients dataResponse={dataResponse} />
             </div>
         </div>
     );
@@ -169,6 +133,48 @@ const RecipeSteps = ({ dataResponse }) => (
     </ul>
 );
 
+const RecipeIngredients = ({ dataResponse }) => (
+    <>
+        <h3 className="recipe-ing__title mt-3">Thành phần nguyên liệu :</h3>
+        <div className="bg-green-blur custom-shadow p-3 rounded-4">
+            <h3 className="view-title">Nguyên liệu chính:</h3>
+            <ul className="ms-5">
+                {dataResponse?.ingredientDetailList
+                    ?.filter((it) => it.mainIngredient === 1)
+                    .map((mappedItem) => (
+                        <li key={mappedItem.ingredientDetailId} className="list-bullet">
+                            {mappedItem.name} {mappedItem.quantity} {mappedItem.unit}
+                        </li>
+                    ))}
+            </ul>
+            <h3 className="view-title">Nguyên liệu phụ:</h3>
+            <ul className="ms-5">
+                {dataResponse?.ingredientDetailList
+                    ?.filter((it) => it.mainIngredient !== 1)
+                    .map((mappedItem) => (
+                        <Fragment key={mappedItem.ingredientDetailId}>
+                            <li className="list-bullet">
+                                {mappedItem.name} {mappedItem.quantity} {mappedItem.unit}
+                            </li>
+                            {mappedItem.ingredientChangeVoList.length > 0 && (
+                                <div className="ms-3">
+                                    <p>Có thể thay thế bằng : </p>
+                                    <div className="ms-5">
+                                        {mappedItem.ingredientChangeVoList.map((mappedItem) => (
+                                            <li key={mappedItem.ingredientChangeId} className="list-bullet">
+                                                {mappedItem.name} {mappedItem.quantity} {mappedItem.unit}
+                                            </li>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </Fragment>
+                    ))}
+            </ul>
+        </div>
+    </>
+);
+
 const ClientRecipeDetail = () => {
     const { dishId } = useParams();
     const [bigRecipeImg, setBigRecipeImg] = useState('');
@@ -177,6 +183,7 @@ const ClientRecipeDetail = () => {
         onFetchDetail,
     } = useContext(RecipeContext);
     const [activeTab, setActiveTab] = useState('desc');
+    const [showModalDetail, setShowModalDetail] = useState(false);
 
     useEffect(() => {
         onFetchDetail(dishId);
@@ -245,16 +252,18 @@ const ClientRecipeDetail = () => {
                         </div>
                         <div className="recipe-detail__desc">
                             {activeTab === 'desc' && (
-                                <div
-                                    className="recipe-desc"
-                                    dangerouslySetInnerHTML={{
-                                        __html: dataResponse?.formulaDescribe?.replaceAll('\n', '<br />'),
-                                    }}
-                                />
+                                <>
+                                    <div
+                                        className="recipe-desc"
+                                        dangerouslySetInnerHTML={{
+                                            __html: dataResponse?.formulaDescribe?.replaceAll('\n', '<br />'),
+                                        }}
+                                    />
+                                </>
                             )}
                             {activeTab === 'guide' && <RecipeSteps dataResponse={dataResponse} />}
                             {activeTab === 'protect' && (
-                                <ul>
+                                <ul className="protect-guide">
                                     <li>
                                         1.Phương pháp đông lạnh. Đông lạnh được sử dụng tốt cho hầu như bất kỳ loại thực
                                         phẩm nào. ...
@@ -269,7 +278,40 @@ const ClientRecipeDetail = () => {
                                     <li>6.Sấy khô</li>
                                 </ul>
                             )}
+                            <div className="d-flex justify-content-center">
+                                <button
+                                    className="button button-light button-sm"
+                                    onClick={() => setShowModalDetail(true)}
+                                >
+                                    Xem thêm
+                                </button>
+                            </div>
                         </div>
+                        <Modal
+                            show={showModalDetail}
+                            fullscreen={true}
+                            onHide={() => setShowModalDetail(false)}
+                            centered
+                        >
+                            <Modal.Header closeButton className="bg-green-blur">
+                                <Modal.Title>Mô tả</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body className="p-0">
+                                <div className="bg-green-blur p-4">
+                                    <div className="recipe-detail__desc">
+                                        <div
+                                            className="recipe-desc"
+                                            dangerouslySetInnerHTML={{
+                                                __html: dataResponse?.formulaDescribe?.replaceAll('\n', '<br />'),
+                                            }}
+                                        />
+                                    </div>
+                                    <RecipeIngredients dataResponse={dataResponse} />
+                                    <h3 className="view-title mt-3">Cách chế biến:</h3>
+                                    <RecipeSteps dataResponse={dataResponse} />
+                                </div>
+                            </Modal.Body>
+                        </Modal>
                     </div>
                 </div>
                 <div className="view-comment">
