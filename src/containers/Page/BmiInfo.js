@@ -13,9 +13,11 @@ import { updateUserBmiInfoRequest } from '../../api/requests';
 import { SearchDataList } from './Blogs';
 import Slider from '../../components/common/Slider';
 import { useMediaQuery } from 'react-responsive';
-import { showNumOfBmiItemsBaseOnScreenSize } from '../../utils';
+import { showNumOfBmiItemsBaseOnScreenSize, showRecipeLevelText } from '../../utils';
 import BreakfastIcon, { LunchIcon, DinnerIcon } from '../../assets/svg-icons/breakfast';
-
+import LightningIcon from '../../assets/svg-icons/lightning';
+import clockImg from '../../assets/img/clock.png';
+import starImg from '../../assets/img/star.png';
 export const mobilityOptions = [
     {
         value: 1,
@@ -526,7 +528,11 @@ const BmiForm = ({ item, userInfo }) => {
 
 const BmiRecipeItem = ({ item }) => (
     <li className="bmi-recipe__item">
-        <img src={item?.dishImageList?.[0]?.url || 'https://via.placeholder.com/150'} alt="" />
+        <img
+            className="bmi-recipe__item-img"
+            src={item?.dishImageList?.[0]?.url || 'https://via.placeholder.com/150'}
+            alt=""
+        />
         <div className="p-2 pb-4">
             <Link
                 to={`/recipe-detail/${item.dishID}`}
@@ -540,6 +546,17 @@ const BmiRecipeItem = ({ item }) => (
             >
                 {item.dishName}
             </Link>
+            <div className="d-flex gap-2 justify-content-between mt-3">
+                <div className="recipe-item__extra-info">
+                    <LightningIcon /> {showRecipeLevelText(item.level)}
+                </div>
+                <div className="recipe-item__extra-info">
+                    <img src={clockImg} alt="" /> {item.time} phút
+                </div>
+                <div className="recipe-item__extra-info">
+                    <img src={starImg} alt="" /> {item.avgStarRate}/5
+                </div>
+            </div>
             <p className="mt-2">
                 By <strong>{item.verifier}</strong> <span className="text-muted">{item.createDate}</span>
             </p>
