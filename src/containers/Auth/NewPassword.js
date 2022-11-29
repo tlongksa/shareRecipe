@@ -46,7 +46,7 @@ const NewPassword = () => {
 
     return (
         <section className="new-password__container">
-            <h1>Create New Password</h1>
+            <h1>Tạo mật khẩu mới</h1>
             <Formik
                 initialValues={{
                     password: '',
@@ -61,23 +61,23 @@ const NewPassword = () => {
                             name="password"
                             type="password"
                             onChange={handleChange}
-                            placeholder="New password"
+                            placeholder="Mật khẩu mới"
                             value={values.password}
-                            label="Enter new password"
+                            label="Nhập mật khẩu mới"
                             error={errors.password}
                             touched={touched.password}
                         />
                         <Input
                             name="token"
                             onChange={handleChange}
-                            placeholder="Verify Token"
+                            placeholder="Mã xác minh"
                             value={values.token}
                             error={errors.token}
                             touched={touched.token}
-                            label="Enter verify token from e-mail"
+                            label="Nhập mã thông báo xác minh từ e-mail"
                         />
                         <button className="button button-sm" type="submit" disabled={isProcessing}>
-                            Save
+                            Lưu
                         </button>
                     </Form>
                 )}

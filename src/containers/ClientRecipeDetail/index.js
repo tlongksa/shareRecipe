@@ -315,7 +315,7 @@ const ClientRecipeDetail = () => {
                     </div>
                 </div>
                 <div className="view-comment">
-                    <video src={dataResponse?.video} width="100%" height={300} controls></video>
+                    <video src={dataResponse?.video} width="100%" height={400} controls></video>
                     <hr />
                     <RecipeComments dishId={dishId} />
                 </div>

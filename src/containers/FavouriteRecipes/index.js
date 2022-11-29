@@ -73,7 +73,7 @@ const FavouriteRecipes = () => {
                                     alt=""
                                     className="rounded-2 recipe-list_item-avatar"
                                 />
-                                <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1 position-relative global-recipe__list-item-info">
+                                <div className="bg-green-blur flex-fill py-3 px-4 rounded-1 position-relative global-recipe__list-item-info">
                                     <div className="recipe-list_item-content mb-2">
                                         <h5>
                                             <Link

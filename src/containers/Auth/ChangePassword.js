@@ -33,16 +33,17 @@ const ChangePassword = (props) => {
             <div className="change-password__container d-flex">
                 <div className="p-5">
                     <div className="auth-body mx-auto">
-                        <h1>Change Password</h1>
+                        <h1>Đổi mật khẩu</h1>
                         <p className="mb-2">
-                            Change your password in three easy steps. This will help you to secure your password!
+                            Thay đổi mật khẩu của bạn trong ba bước đơn giản. Điều này sẽ giúp bạn bảo mật mật khẩu của
+                            mình!
                         </p>
                         <ol className="list-unstyled mb-5">
                             <li>
-                                <span className="text-green text-medium">1. </span>Enter your oldPassword.
+                                <span className="text-green text-medium">1. </span>Nhập mật khẩu cũ của bạn.
                             </li>
                             <li>
-                                <span className="text-green text-medium">2. </span>Enter your newPassword
+                                <span className="text-green text-medium">2. </span>Nhập mật khẩu mới của bạn
                             </li>
                         </ol>
                         <div>
@@ -126,14 +127,14 @@ const ChangePassword = (props) => {
                                         className="button button-full button-sm button-green"
                                         disabled={isProcessing}
                                     >
-                                        Change Password
+                                        Đổi mật khẩu
                                     </button>
                                 </div>
                             </form>
                             <hr />
                             <p className="mt-3">
                                 <Link className="text-back text-green" to="/">
-                                    Back to Home
+                                    Trở về trang chủ
                                 </Link>
                             </p>
                         </div>

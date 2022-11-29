@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Form from '../../components/Form/form';
 import './forgotPass.scss';
 import { forgotPasswordRequest } from '../../api/requests';
+import authBannerImgSrc from '../../assets/img/auth_banner.png';
+import { notification } from 'antd';
 
 const ForgotPassword = (props) => {
     const [email, setEmail] = useState('');
@@ -48,30 +50,35 @@ const ForgotPassword = (props) => {
             })
             .catch((error) => {
                 setIsSubmitting(false);
-                console.log(error);
+                notification.open({
+                    message: error?.response?.data?.messContent,
+                });
             });
     };
 
     return (
         <div className="mt-5 mh-85vh">
             <div className="custom-page__container">
-                <div className="forgot-password__container">
-                    <div className="bgr-fotgot-left"></div>
+                <div className="forgot-password__container d-flex">
                     <div className="bgr-fotgot-right p-3 px-5">
                         <div className="auth-body">
-                            <h1>Forgot Password</h1>
-                            <p>Change your password in three easy steps. This will help you to secure your password!</p>
+                            <h1>Quên mật khẩu</h1>
+                            <p>
+                                Thay đổi mật khẩu của bạn trong ba bước đơn giản. Điều này sẽ giúp bạn bảo mật mật khẩu
+                                của mình!
+                            </p>
                             <ol className="list-unstyled">
-                                <li>
-                                    <span className="text-primary text-medium">1. </span>Enter your email address below.
+                                <li className="mt-3">
+                                    <span className="text-green text-medium">1. </span>Nhập địa chỉ email của bạn vào
+                                    bên dưới.
                                 </li>
-                                <li>
-                                    <span className="text-primary text-medium">2. </span>Our system will send you a
-                                    temporary link
+                                <li className="mt-3">
+                                    <span className="text-green text-medium">2. </span>Hệ thống của chúng tôi sẽ gửi cho
+                                    bạn một liên kết tạm thời
                                 </li>
-                                <li>
-                                    <span className="text-primary text-medium">3. </span>Use the link to reset your
-                                    password
+                                <li className="mt-3">
+                                    <span className="text-green text-medium">3. </span>Sử dụng liên kết để đặt lại mật
+                                    khẩu của bạn
                                 </li>
                             </ol>
                             <div>
@@ -93,37 +100,38 @@ const ForgotPassword = (props) => {
                                             placeholder="Email"
                                             onChange={(e) => setEmail(e.target.value)}
                                         />
-
                                         <div
                                             className={`invalid-feedback text-start ${
                                                 validate.validate && validate.validate.email ? 'd-block' : 'd-none'
                                             }`}
                                         >
                                             {validate.validate && validate.validate.email
-                                                ? validate.validate.email[0]
+                                                ? validate.validate.email?.[0]
                                                 : ''}
                                         </div>
                                     </div>
-
                                     <div className="text-center">
                                         <button
                                             type="submit"
-                                            className="button button-full button-sm"
+                                            className="button button-full button-green"
                                             disabled={isSubmitting}
                                         >
-                                            Forgot Password
+                                            Quên mật khẩu
                                         </button>
                                     </div>
                                 </form>
                                 <p className={success ? 'sucmsg' : 'offscreen'}>{success}</p>
                                 <hr />
                                 <p className="">
-                                    <Link className="text-back" to="/signin">
-                                        Back to Login
+                                    <Link className="text-back text-green" to="/signin">
+                                        Quay lại đăng nhập
                                     </Link>
                                 </p>
                             </div>
                         </div>
+                    </div>
+                    <div className="auth-banner">
+                        <img src={authBannerImgSrc} alt="" />
                     </div>
                 </div>
             </div>

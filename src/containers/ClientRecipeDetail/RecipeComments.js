@@ -79,7 +79,7 @@ const RecipeComments = ({ dishId }) => {
     const onFlagRecipeCmtHandler = (dishCommentID) => {
         if (accessToken) {
             reportRecipeCommentRequest(dishCommentID, null)
-                .then(({data}) => {
+                .then(({ data }) => {
                     notification.open({
                         message: data?.messContent,
                     });
@@ -139,7 +139,7 @@ const RecipeComments = ({ dishId }) => {
                         />
                     </Stack>
                     <hr />
-                    <button className="button button-sm" type="submit">
+                    <button className="button button-sm button-green" type="submit">
                         Thêm bình luận
                     </button>
                 </Form>

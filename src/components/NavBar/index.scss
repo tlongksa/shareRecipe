@@ -22,7 +22,8 @@
 .auth-links {
     a {
         color: white;
-        &:hover {
+        &:hover,
+        &.active {
             color: white;
             border: 1px solid #fff;
         }
