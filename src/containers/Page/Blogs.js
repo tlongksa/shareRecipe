@@ -347,7 +347,17 @@ export const BlogItem = ({
                     </div>
                     <div className="blog-list_item-content mb-2">
                         <h5 className="blog-list_item__title">
-                            <Link to={`/blogs/${item.blogID}`}>{item.title}</Link>
+                            <Link
+                                to={`/blogs/${item.blogID}`}
+                                onClick={() => {
+                                    window.scrollTo({
+                                        top: 0,
+                                        left: 0,
+                                    });
+                                }}
+                            >
+                                {item.title}
+                            </Link>
                         </h5>
                         <div
                             className={`blog-item__content ${hideContent ? 'hide-content' : ''}`}

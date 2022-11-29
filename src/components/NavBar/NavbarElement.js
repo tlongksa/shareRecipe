@@ -36,7 +36,7 @@ export const NavLink = styled(Link)`
     height: 100%;
     cursor: pointer;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 20px;
     &.active {
         color: #000;
     }
