@@ -246,6 +246,8 @@ a {
     }
     .recipe-item__extra-info {
         font-size: 15px;
+        display: flex;
+        align-items: center;
     }
 }
 

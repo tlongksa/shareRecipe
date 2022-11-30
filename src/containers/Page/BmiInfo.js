@@ -103,7 +103,7 @@ const BmiInfo = () => {
 
     const renderRecipeList = (list) => {
         if (recipeType === 'total') {
-            if (list.length < (isSmallTablet ? 3 : 4)) {
+            if (list.length < (isTablet ? 3 : 4)) {
                 return (
                     <div className="d-flex">
                         {list?.map((item, index) => (
