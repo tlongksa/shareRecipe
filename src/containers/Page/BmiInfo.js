@@ -64,10 +64,32 @@ const BmiInfo = () => {
     const [search, setSearch] = useState('');
     const [showFetchMoreFavouriteRecipes, setShowFetchMoreFavouriteRecipes] = useState(true);
 
-    const breakfastList = recipeList.filter((it) => it.dishCate === 'Bữa sáng');
-    const lunchList = recipeList.filter((it) => it.dishCate === 'Bữa trưa');
-    const dinnerList = recipeList.filter((it) => it.dishCate === 'Bữa tối');
     const dessertList = recipeList.filter((it) => it.dishCate === 'Tráng miệng');
+    const breakfastList = recipeList
+        .filter((it) => it.dishCate === 'Bữa sáng')
+        .concat(dessertList?.[0] ? [{ ...dessertList?.[0] }] : []);
+    const lunchList = recipeList
+        .filter((it) => it.dishCate === 'Bữa trưa')
+        .concat(
+            dessertList?.[1]
+                ? [
+                      {
+                          ...dessertList?.[1],
+                      },
+                  ]
+                : [],
+        );
+    const dinnerList = recipeList
+        .filter((it) => it.dishCate === 'Bữa tối')
+        .concat(
+            dessertList?.[2]
+                ? [
+                      {
+                          ...dessertList?.[2],
+                      },
+                  ]
+                : [],
+        );
 
     const isTablet = useMediaQuery({ query: '(max-width: 991px)' });
     const isSmallTablet = useMediaQuery({ query: '(max-width: 768px)' });
@@ -335,18 +357,6 @@ const BmiInfo = () => {
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
-                </div>
-                <div
-                    className={`${
-                        recipeType === 'total' ? 'bg-green-blur rounded-4 py-2 px-3 mb-3 pb-4 custom-shadow mt-4' : ''
-                    }`}
-                >
-                    {dessertList?.length > 0 && (
-                        <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            Tráng miệng {dessertList?.[0]?.totalCaloBreak} calo
-                        </h4>
-                    )}
-                    <ul className="mt-2">{renderRecipeList(dessertList)}</ul>
                 </div>
                 {isLoadingRecipes && (
                     <div className="global-list__loader-container">
