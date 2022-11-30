@@ -151,6 +151,7 @@ const CommentItem = (props) => {
                             dangerouslySetInnerHTML={{
                                 __html: comment.content?.replaceAll('\n', '<br />'),
                             }}
+                            className="comment-item__content"
                         />
                         <div
                             className={`d-flex gap-2 justify-content-end comment-item__change-actions ${

@@ -12,12 +12,17 @@ import Modal from 'react-bootstrap/Modal';
 import ListTopNew from '../../components/List/listTopNew';
 import { showRecipeLevelText } from '../../utils';
 
-const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFavourite, dishId }) => {
+const TopRecipeInfo = ({
+    dataResponse,
+    bigRecipeImg,
+    setBigRecipeImg,
+    onAddToFavourite,
+    dishId,
+    setShowAuthOptionModal,
+}) => {
     const {
         userInfo: { accessToken },
     } = useContext(AuthContext);
-    const navigate = useNavigate();
-    const [showFavouriteOptionModal, setShowFavouriteOptionModal] = useState(false);
 
     return (
         <div className="top-info__container">
@@ -64,7 +69,7 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
                         <button
                             className="button button-sm button-green d-flex align-items-center gap-2 recipe-detail__add-to__favourite-btn"
                             onClick={() => {
-                                accessToken ? onAddToFavourite() : setShowFavouriteOptionModal(true);
+                                accessToken ? onAddToFavourite() : setShowAuthOptionModal(true);
                             }}
                         >
                             <PlusCircleOutlined />
@@ -80,36 +85,6 @@ const TopRecipeInfo = ({ dataResponse, bigRecipeImg, setBigRecipeImg, onAddToFav
                     <div className="mb-2 mt-2 recipe-info__item">
                         <strong>Thời gian nấu :</strong> {dataResponse.time} phút
                     </div>
-                    <Modal
-                        show={showFavouriteOptionModal}
-                        fullscreen={'md-down'}
-                        onHide={() => setShowFavouriteOptionModal(false)}
-                        centered
-                    >
-                        <Modal.Header closeButton>
-                            <Modal.Title>Vui lòng đăng nhập để thêm vào danh sách yêu thích</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <div className="d-flex gap-2 align-items-center py-3">
-                                <button
-                                    className="button button-sm"
-                                    type="button"
-                                    onClick={() => {
-                                        navigate(`/signin?redirectUrl=/recipe-detail/${dishId}`);
-                                    }}
-                                >
-                                    Đăng nhập
-                                </button>
-                                <button
-                                    className="button button-sm"
-                                    type="button"
-                                    onClick={() => setShowFavouriteOptionModal(false)}
-                                >
-                                    Hủy
-                                </button>
-                            </div>
-                        </Modal.Body>
-                    </Modal>
                 </div>
                 <RecipeIngredients dataResponse={dataResponse} />
             </div>
@@ -184,6 +159,8 @@ const ClientRecipeDetail = () => {
     } = useContext(RecipeContext);
     const [activeTab, setActiveTab] = useState('desc');
     const [showModalDetail, setShowModalDetail] = useState(false);
+    const navigate = useNavigate();
+    const [showAuthOptionModal, setShowAuthOptionModal] = useState(false);
 
     useEffect(() => {
         onFetchDetail(dishId);
@@ -225,6 +202,7 @@ const ClientRecipeDetail = () => {
                     setBigRecipeImg={setBigRecipeImg}
                     onAddToFavourite={onAddToFavouriteListHandler}
                     dishId={dishId}
+                    setShowAuthOptionModal={setShowAuthOptionModal}
                 />
                 <div className="bg-green-blur custom-shadow p-3 rounded-4 mt-3 mb-3">
                     <div className="d-flex gap-3">
@@ -317,9 +295,39 @@ const ClientRecipeDetail = () => {
                 <div className="view-comment">
                     <video src={dataResponse?.video} width="100%" height={400} controls></video>
                     <hr />
-                    <RecipeComments dishId={dishId} />
+                    <RecipeComments dishId={dishId} setShowAuthOptionModal={setShowAuthOptionModal} />
                 </div>
                 <ListTopNew />
+                <Modal
+                    show={showAuthOptionModal}
+                    fullscreen={'md-down'}
+                    onHide={() => setShowAuthOptionModal(false)}
+                    centered
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Vui lòng đăng nhập để thêm vào danh sách yêu thích</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="d-flex gap-2 align-items-center py-3">
+                            <button
+                                className="button button-sm"
+                                type="button"
+                                onClick={() => {
+                                    navigate(`/signin?redirectUrl=/recipe-detail/${dishId}`);
+                                }}
+                            >
+                                Đăng nhập
+                            </button>
+                            <button
+                                className="button button-sm"
+                                type="button"
+                                onClick={() => setShowAuthOptionModal(false)}
+                            >
+                                Hủy
+                            </button>
+                        </div>
+                    </Modal.Body>
+                </Modal>
             </div>
         </div>
     );

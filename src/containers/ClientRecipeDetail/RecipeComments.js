@@ -18,7 +18,7 @@ import { CheckCircleTwoTone } from '@ant-design/icons';
 import { notification } from 'antd';
 import Input from '../../components/common/Input/Input';
 
-const RecipeComments = ({ dishId }) => {
+const RecipeComments = ({ dishId, setShowAuthOptionModal }) => {
     const [content, setContent] = useState('');
     const [star, setStar] = useState(3);
     const {
@@ -136,9 +136,7 @@ const RecipeComments = ({ dishId }) => {
                             value={star}
                             onChange={(e) => {
                                 if (!accessToken) {
-                                    notification.open({
-                                        message: 'Bạn cần đăng nhập trước khi thực hiện đánh giá',
-                                    });
+                                    setShowAuthOptionModal(true);
                                     return;
                                 }
                                 setStar(e.target.value);

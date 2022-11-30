@@ -42,9 +42,9 @@ button:disabled {
     opacity: 0.8;
 }
 .custom-page__container {
-    max-width: 1300px;
+    max-width: 1320px;
     margin: 2.5rem auto;
-    @media (max-width: 1300px) {
+    @media (max-width: 1320px) {
         padding: 0 1rem;
     }
     &.custom-page__container-no__margin {
