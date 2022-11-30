@@ -20,7 +20,7 @@ import Input from '../../components/common/Input/Input';
 
 const RecipeComments = ({ dishId, setShowAuthOptionModal }) => {
     const [content, setContent] = useState('');
-    const [star, setStar] = useState(3);
+    const [star, setStar] = useState(0);
     const {
         userInfo: { accessToken, roles, username },
     } = useContext(AuthContext);
@@ -43,16 +43,20 @@ const RecipeComments = ({ dishId, setShowAuthOptionModal }) => {
             });
             return;
         }
-        if (accessToken && star) {
-            createRecipeCommentRequest({ dishId, content: content, starRate: star })
-                .then(() => {
-                    setContent('');
-                    onFetchRecipeComments(dishId, extraListInfo.pageIndex);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+        if (!star) {
+            notification.open({
+                message: 'Vui lòng chọn đánh giá sao',
+            });
+            return;
         }
+        createRecipeCommentRequest({ dishId, content: content, starRate: star })
+            .then(() => {
+                setContent('');
+                onFetchRecipeComments(dishId, extraListInfo.pageIndex);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const onLikeRecipeCmtHandler = (dishCommentID, commentContent) => {
@@ -131,7 +135,7 @@ const RecipeComments = ({ dishId, setShowAuthOptionModal }) => {
                         <h5>Đánh giá công thức nấu ăn :</h5>
                         <Rating
                             name="half-rating"
-                            defaultValue={5}
+                            defaultValue={0}
                             precision={1}
                             value={star}
                             onChange={(e) => {

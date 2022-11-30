@@ -14,7 +14,9 @@ import { SearchDataList } from './Blogs';
 import Slider from '../../components/common/Slider';
 import { useMediaQuery } from 'react-responsive';
 import { showNumOfBmiItemsBaseOnScreenSize, showRecipeLevelText } from '../../utils';
-import BreakfastIcon, { LunchIcon, DinnerIcon } from '../../assets/svg-icons/breakfast';
+import breakfastIconImg from '../../assets/img/breakfast.png';
+import lunchIconImg from '../../assets/img/lunch.png';
+import dinnerIconImg from '../../assets/img/dinner.png';
 import clockImg from '../../assets/img/clock.png';
 import starImg from '../../assets/img/star.png';
 import lightningImg from '../../assets/img/lightning.png';
@@ -105,7 +107,11 @@ const BmiInfo = () => {
                 return (
                     <div className="d-flex">
                         {list?.map((item, index) => (
-                            <BmiRecipeItem key={item.dishID + index} item={item} />
+                            <BmiRecipeItem
+                                key={item.dishID + index}
+                                item={item}
+                                className={index === 0 ? 'ms-0' : ''}
+                            />
                         ))}
                     </div>
                 );
@@ -120,7 +126,7 @@ const BmiInfo = () => {
                     )}
                 >
                     {list?.map((item, index) => (
-                        <BmiRecipeItem key={item.dishID + index} item={item} />
+                        <BmiRecipeItem key={item.dishID + index} item={item} className={index === 0 ? 'ms-0' : ''} />
                     ))}
                 </Slider>
             );
@@ -301,7 +307,8 @@ const BmiInfo = () => {
                 >
                     {breakfastList?.length > 0 && (
                         <h4 className={`mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <BreakfastIcon /> Bữa sáng {breakfastList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                            <img src={breakfastIconImg} alt="" /> Bữa sáng{' '}
+                            {breakfastList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(breakfastList)}</ul>
@@ -313,7 +320,8 @@ const BmiInfo = () => {
                 >
                     {lunchList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <LunchIcon /> Bữa trưa {lunchList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                            <img src={lunchIconImg} alt="" /> Bữa trưa{' '}
+                            {lunchList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(lunchList)}</ul>
@@ -325,7 +333,8 @@ const BmiInfo = () => {
                 >
                     {dinnerList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <DinnerIcon /> Bữa tối {dinnerList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                            <img src={dinnerIconImg} alt="" /> Bữa tối{' '}
+                            {dinnerList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
@@ -542,8 +551,8 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
     );
 };
 
-const BmiRecipeItem = ({ item }) => (
-    <li className="bmi-recipe__item">
+const BmiRecipeItem = ({ item, className }) => (
+    <li className={`bmi-recipe__item ${className || ''}`}>
         <img
             className="bmi-recipe__item-img"
             src={item?.dishImageList?.[0]?.url || 'https://via.placeholder.com/150'}

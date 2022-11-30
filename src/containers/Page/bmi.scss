@@ -1,4 +1,5 @@
 .bmi-recipe__item {
+    min-width: 250px;
     max-width: 300px;
     margin-right: 1rem;
     margin-left: 1rem;
@@ -39,6 +40,8 @@
     }
     .recipe-item__extra-info {
         font-size: 15px;
+        display: flex;
+        align-items: center;
     }
 }
 .min-width-120 {
