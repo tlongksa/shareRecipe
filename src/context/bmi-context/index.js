@@ -117,7 +117,7 @@ export const BmiProvider = ({ children }) => {
             })
             .catch((err) => {
                 notification.open({
-                    message: err?.response?.data?.messContent,
+                    message: err?.response?.data?.messContent || err?.response?.data?.message,
                 });
                 dispatchContext(bmiGetMainIngredientsFailureAction(err?.response?.data));
             });
