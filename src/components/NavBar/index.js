@@ -64,6 +64,9 @@ export const ProfileTogglerMenu = ({ handleLogout, className }) => {
         userInfo: { id, avatarImage, roles },
     } = useContext(AuthContext);
     const navigate = useNavigate();
+    const {
+        profile: { dataResponse },
+    } = useContext(AuthContext);
 
     return (
         <CDropdown className={`profile_toggler-menu ${className || ''}`}>
@@ -72,9 +75,14 @@ export const ProfileTogglerMenu = ({ handleLogout, className }) => {
                 style={{
                     display: 'flex',
                     alignItems: 'center',
+                    gap: 5,
                 }}
             >
                 <Avatar imgSrc={avatarImage || ''} />
+                <div>
+                    <p>Xin chào</p>
+                    <span>{dataResponse?.name}</span>
+                </div>
             </CDropdownToggle>
             <CDropdownMenu>
                 <CDropdownItem

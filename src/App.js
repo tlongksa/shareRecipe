@@ -13,10 +13,18 @@ export const ROLES = {
 
 function App() {
     const {
-        userInfo: { roles },
+        userInfo: { roles, id },
     } = useContext(AuthContext);
     const { pathname } = useLocation();
     const [hideHeaderAndFooter, setHideHeaderAndFooter] = useState(false);
+    const { onFetchProfile } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (id) {
+            onFetchProfile(id);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
 
     useEffect(() => {
         if (roles && roles !== ROLES.user && pathname.includes('/admin')) {
