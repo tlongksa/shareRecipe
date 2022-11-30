@@ -9,9 +9,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { generateImageUrl, generateVideoUrl } from '../../../../utils';
 import { v4 as uuid_v4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { uploadPlugin } from '../../../Page/Blogs';
+import Input from '../../../../components/common/Input/Input';
 
 const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }) => {
     const recipeImagesRef = useRef();
@@ -75,7 +73,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }
             <div className="d-flex-custom mb-3">
                 <h4>Ảnh chụp mô tả cách làm của món ăn : </h4>
                 <button
-                    className="button button-sm d-flex align-items-center gap-2"
+                    className="button button-sm button-green d-flex align-items-center gap-2"
                     onClick={() => {
                         setImgError('');
                         recipeImagesRef.current?.click();
@@ -103,7 +101,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }
             <div className="d-flex-custom mb-3 mt-3">
                 <h4>Dán link video mô tả cách làm của món ăn : </h4>
                 <button
-                    className="button button-sm d-flex align-items-center gap-2"
+                    className="button button-sm button-green d-flex align-items-center gap-2"
                     onClick={() => {
                         recipeVideoRef.current?.click();
                     }}
@@ -130,28 +128,10 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }
             <div className="steps-container mt-3">
                 <h4>Các bước thực hiện món ăn : </h4>
                 {stepError && <p className="error-message mb-2">{stepError}</p>}
-                <CKEditor
-                    editor={ClassicEditor}
-                    data={describe}
-                    config={{ extraPlugins: [uploadPlugin] }}
-                    onReady={(editor) => {
-                        // You can store the "editor" and use when it is needed.
-                        console.log('Editor is ready to use!', editor);
-                    }}
-                    onChange={(event, editor) => {
-                        const data = editor.getData();
-                        setDescribe(data);
-                    }}
-                    onBlur={(event, editor) => {
-                        console.log('Blur.', editor);
-                    }}
-                    onFocus={(event, editor) => {
-                        console.log('Focus.', 762);
-                    }}
-                />
+                <Input type="textarea" value={describe} onChange={(e) => setDescribe(e.target.value)} />
                 <div className="d-flex justify-content-end mb-3 mt-3">
                     <button
-                        className="button button-sm"
+                        className="button button-sm button-green"
                         onClick={() => {
                             setStepError('');
                             if (selectedStep?.title) {
@@ -190,7 +170,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }
                                     <div
                                         className={`recipe-step-item__content`}
                                         dangerouslySetInnerHTML={{
-                                            __html: item.describe,
+                                            __html: item?.describe?.replaceAll('\n', '<br />'),
                                         }}
                                     />
                                 </div>
@@ -225,7 +205,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }
                     Trở về
                 </button>
                 <button
-                    className="button button-sm"
+                    className="button button-sm button-green"
                     type="button"
                     disabled={imgError || videoError || stepError}
                     onClick={() => {

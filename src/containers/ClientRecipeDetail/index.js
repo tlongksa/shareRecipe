@@ -100,7 +100,7 @@ const RecipeSteps = ({ dataResponse }) => (
                 <div
                     className={`recipe-step-item__content`}
                     dangerouslySetInnerHTML={{
-                        __html: item.describe,
+                        __html: item?.describe?.replaceAll('\n', '<br />'),
                     }}
                 />
             </li>

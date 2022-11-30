@@ -154,7 +154,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues
                         >
                             Hủy bỏ
                         </button>
-                        <button className="button button-sm" type="submit">
+                        <button className="button button-sm button-green" type="submit">
                             Tiếp theo
                         </button>
                     </div>

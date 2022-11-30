@@ -89,7 +89,7 @@ const Recipes = () => {
                     />
                 </form>
                 <button
-                    className="button button-sm d-flex align-items-center gap-2"
+                    className="button button-sm button-green d-flex align-items-center gap-2"
                     onClick={() => navigate('/admin/recipe-form?step=1')}
                 >
                     <PlusCircleOutlined />

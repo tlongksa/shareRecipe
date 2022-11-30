@@ -132,7 +132,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                             <div className="d-flex justify-content-between align-items-center">
                                 <h4>Nguyên liệu chính : </h4>
                                 <button
-                                    className="button button-sm d-flex align-items-center gap-2"
+                                    className="button button-sm button-green d-flex align-items-center gap-2"
                                     onClick={() => setShowNewMainIngredientForm(true)}
                                     type="button"
                                 >
@@ -184,7 +184,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                                     showNewMainIngredientForm ? '' : 'd-none'
                                 }`}
                             >
-                                <button className="button button-sm" type="submit">
+                                <button className="button button-sm button-green" type="submit">
                                     {selectedMainIng?.id ? 'Cập nhật' : 'Tạo'}
                                 </button>
                             </div>
@@ -246,7 +246,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                             <div className="d-flex justify-content-between align-items-center">
                                 <h4>Nguyên liệu phụ : </h4>
                                 <button
-                                    className="button button-sm d-flex align-items-center gap-2"
+                                    className="button button-sm button-green d-flex align-items-center gap-2"
                                     onClick={() => setShowNewExtraIngredientForm(true)}
                                     type="button"
                                 >
@@ -298,7 +298,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                                     showNewExtraIngredientForm ? '' : 'd-none'
                                 }`}
                             >
-                                <button className="button button-sm" type="submit">
+                                <button className="button button-sm button-green" type="submit">
                                     {selectedExtraIng?.id ? 'Cập nhật' : 'Tạo'}
                                 </button>
                             </div>
@@ -359,7 +359,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                     Trở về
                 </button>
                 <button
-                    className="button button-sm"
+                    className="button button-sm button-green"
                     type="button"
                     onClick={() => {
                         if (mainIngredients.length === 0) {
@@ -448,7 +448,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                                         />
                                     </div>
                                     <div className="d-flex justify-content-end gap-4 align-items-center">
-                                        <button className="button button-sm" type="submit">
+                                        <button className="button button-sm button-green" type="submit">
                                             {selectedExtraReplaceIng?.id ? 'Cập nhật' : 'Tạo'}
                                         </button>
                                     </div>

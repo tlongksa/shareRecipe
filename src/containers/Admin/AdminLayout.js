@@ -34,7 +34,7 @@ const AdminLayout = (props) => {
                     >
                         <>
                             <button
-                                className="button button-sm"
+                                className="button button-sm button-green"
                                 onClick={() => setIsShowMenu((prevState) => !prevState)}
                                 id="btn-toggler__admin-submenu"
                             >
