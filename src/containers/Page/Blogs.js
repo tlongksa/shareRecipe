@@ -306,7 +306,7 @@ export const BlogItem = ({
                     <div className="d-flex justify-content-between align-items-center">
                         <p className="d-flex align-items-center gap-3">
                             <strong>{item.userName}</strong>
-                            <span className="text-muted">{item?.createDate || '-'}</span>
+                            <span className="text-muted">{item?.createDate?.join('-') || '-'}</span>
                         </p>
                         <div className="d-flex gap-3">
                             {onApprove && (
