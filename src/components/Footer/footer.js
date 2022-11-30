@@ -8,7 +8,7 @@ export default function Footer() {
             <div className="custom-page__container">
                 <div className="footer-rows">
                     <div className="footer-col">
-                        <MainLogo className="logo-md" rightTextClassName="text-green" />
+                        <MainLogo className="logo-md" isGreen />
                         <ul>
                             <li>
                                 <svg

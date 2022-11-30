@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavLink } from '../../NavBar/NavbarElement';
 import './index.scss';
+import whiteImg from '../../../assets/img/logo.png';
+import greenImg from '../../../assets/img/logo_green.png';
 
-const MainLogo = ({ className, rightTextClassName }) => {
+const MainLogo = ({ className, isGreen }) => {
     return (
         <NavLink to="/" className={`main-logo__container d-flex align-items-center gap-0 ${className || ''}`}>
-            <span>Oi</span>
-            <span className={`${rightTextClassName ? rightTextClassName : 'text-white'}`}>Shii</span>
+            <img src={isGreen ? greenImg : whiteImg} alt="" />
         </NavLink>
     );
 };

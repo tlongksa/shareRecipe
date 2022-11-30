@@ -332,4 +332,5 @@ const ClientRecipeDetail = () => {
         </div>
     );
 };
+
 export default ClientRecipeDetail;

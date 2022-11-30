@@ -341,7 +341,7 @@ const BmiInfo = () => {
                 >
                     {lunchList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={lunchIconImg} alt="" /> Bữa trưa {lunchList?.[0]?.totalCaloBreak} calo
+                            <img src={lunchIconImg} alt="" /> Bữa trưa {lunchList?.[0]?.totalCaloLunch} calo
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(lunchList)}</ul>
@@ -353,7 +353,7 @@ const BmiInfo = () => {
                 >
                     {dinnerList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={dinnerIconImg} alt="" /> Bữa tối {dinnerList?.[0]?.totalCaloBreak} calo
+                            <img src={dinnerIconImg} alt="" /> Bữa tối {dinnerList?.[0]?.totalCaloDinner} calo
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
