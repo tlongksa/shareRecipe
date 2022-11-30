@@ -237,6 +237,14 @@ const ClientRecipeDetail = () => {
                                             __html: dataResponse?.formulaDescribe?.replaceAll('\n', '<br />'),
                                         }}
                                     />
+                                    <div className="d-flex justify-content-center">
+                                        <button
+                                            className="button button-light button-sm"
+                                            onClick={() => setShowModalDetail(true)}
+                                        >
+                                            Xem thêm
+                                        </button>
+                                    </div>
                                 </>
                             )}
                             {activeTab === 'guide' && <RecipeSteps dataResponse={dataResponse} />}
@@ -256,14 +264,6 @@ const ClientRecipeDetail = () => {
                                     <li>6.Sấy khô</li>
                                 </ul>
                             )}
-                            <div className="d-flex justify-content-center">
-                                <button
-                                    className="button button-light button-sm"
-                                    onClick={() => setShowModalDetail(true)}
-                                >
-                                    Xem thêm
-                                </button>
-                            </div>
                         </div>
                         <Modal
                             show={showModalDetail}
