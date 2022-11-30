@@ -18,6 +18,12 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const onSubmit = (values) => {
+        if (new Date() < new Date(values.dob)) {
+            notification.open({
+                message: 'Vui lòng chọn ngày sinh không vượt quá ngày hiện tại',
+            });
+            return;
+        }
         setIsProcessing(true);
         updateAccountProfileRequest(item.profileId, {
             phone: values.phone,
