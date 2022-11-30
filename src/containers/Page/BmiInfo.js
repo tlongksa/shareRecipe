@@ -307,8 +307,7 @@ const BmiInfo = () => {
                 >
                     {breakfastList?.length > 0 && (
                         <h4 className={`mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={breakfastIconImg} alt="" /> Bữa sáng{' '}
-                            {breakfastList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                            <img src={breakfastIconImg} alt="" /> Bữa sáng {breakfastList?.[0]?.totalCaloBreak} calo
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(breakfastList)}</ul>
@@ -320,8 +319,7 @@ const BmiInfo = () => {
                 >
                     {lunchList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={lunchIconImg} alt="" /> Bữa trưa{' '}
-                            {lunchList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                            <img src={lunchIconImg} alt="" /> Bữa trưa {lunchList?.[0]?.totalCaloBreak} calo
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(lunchList)}</ul>
@@ -333,8 +331,7 @@ const BmiInfo = () => {
                 >
                     {dinnerList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={dinnerIconImg} alt="" /> Bữa tối{' '}
-                            {dinnerList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                            <img src={dinnerIconImg} alt="" /> Bữa tối {dinnerList?.[0]?.totalCaloBreak} calo
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
@@ -346,7 +343,7 @@ const BmiInfo = () => {
                 >
                     {dessertList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            Tráng miệng {dessertList?.reduce((acc, it) => acc + it.totalCalo, 0)} calo
+                            Tráng miệng {dessertList?.[0]?.totalCaloBreak} calo
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(dessertList)}</ul>
