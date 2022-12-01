@@ -1,4 +1,4 @@
-import { DeleteOutlined, LoadingOutlined, StarOutlined } from '@ant-design/icons';
+import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { IMAGE_PLACEHODLER_URI } from '../../constants';
 import RecipeContext from '../../context/recipe-context';
 import { SearchDataList } from '../Page/Blogs';
 import './index.scss';
+import starImgIcon from '../../assets/img/star.png';
 
 const FavouriteRecipes = () => {
     const {
@@ -97,12 +98,7 @@ const FavouriteRecipes = () => {
                                             <p>Chưa có đánh giá</p>
                                         ) : (
                                             <div className="d-flex align-items-center gap-2">
-                                                Đánh giá công thức : {item.avgStarRate}{' '}
-                                                <StarOutlined
-                                                    style={{
-                                                        color: '#fcdd0d',
-                                                    }}
-                                                />
+                                                Đánh giá công thức : {item.avgStarRate} <img src={starImgIcon} alt="" />
                                             </div>
                                         )}
                                     </div>

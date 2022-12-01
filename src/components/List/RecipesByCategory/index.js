@@ -1,4 +1,4 @@
-import { LoadingOutlined, SearchOutlined, StarOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { IMAGE_PLACEHODLER_URI } from '../../../constants';
@@ -6,6 +6,7 @@ import AuthContext from '../../../context/auth-context';
 import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
 import './index.scss';
+import starImgIcon from '../../../assets/img/star.png';
 
 export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
     <li className="recipe-list_item mb-4">
@@ -36,12 +37,7 @@ export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
                     <p>Chưa có đánh giá</p>
                 ) : (
                     <div className="d-flex align-items-center gap-2">
-                        Đánh giá công thức : {item.avgStarRate}{' '}
-                        <StarOutlined
-                            style={{
-                                color: '#fcdd0d',
-                            }}
-                        />
+                        Đánh giá công thức : {item.avgStarRate} <img src={starImgIcon} alt="" />
                     </div>
                 )}
             </div>

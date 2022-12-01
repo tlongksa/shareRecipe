@@ -1,4 +1,4 @@
-import { LoadingOutlined, StarOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
@@ -20,6 +20,7 @@ import dinnerIconImg from '../../assets/img/dinner.png';
 import clockImg from '../../assets/img/clock.png';
 import starImg from '../../assets/img/star.png';
 import lightningImg from '../../assets/img/lightning.png';
+import starImgIcon from '../../assets/img/star.png';
 
 export const mobilityOptions = [
     {
@@ -406,12 +407,7 @@ const RecipeItem = ({ item }) => (
                     <p>Chưa có đánh giá</p>
                 ) : (
                     <div className="d-flex align-items-center gap-2">
-                        Đánh giá công thức : {item.avgStarRate}{' '}
-                        <StarOutlined
-                            style={{
-                                color: '#fcdd0d',
-                            }}
-                        />
+                        Đánh giá công thức : {item.avgStarRate} <img src={starImgIcon} alt="" />
                     </div>
                 )}
             </div>
