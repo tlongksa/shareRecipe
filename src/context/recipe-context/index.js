@@ -31,6 +31,10 @@ import {
     recipeGetDetailCommentsFailureAction,
     recipeRemoveItemFromFavouriteListAction,
     removeRecipeCommentReportAction,
+    recipeGetIngReportListAction,
+    recipeGetIngReportListSuccessAction,
+    recipeGetIngReportListFailureAction,
+    removeIngReportItemAction,
 } from './actions';
 import recipeReducer from './reducer';
 import {
@@ -44,6 +48,7 @@ import {
     modeGetRecipeListRequest,
     getRecipeCommentsRequest,
     adminGetRecipeDetailRequest,
+    getListIngReportRequest,
 } from '../../api/requests';
 import AuthContext from '../auth-context';
 import { ROLES } from '../../App';
@@ -86,6 +91,15 @@ export const defaultValues = {
         list: [],
     },
     recipeCommentReport: {
+        list: [],
+        isLoading: false,
+        error: null,
+        extraListInfo: {
+            pageIndex: 1,
+            numOfPages: 0,
+        },
+    },
+    ingReport: {
         list: [],
         isLoading: false,
         error: null,
@@ -259,6 +273,26 @@ export const RecipeProvider = ({ children }) => {
             });
     };
 
+    const fetchIngReportList = (page, search = '') => {
+        dispatchContext(recipeGetIngReportListAction());
+        getListIngReportRequest(page, search)
+            .then(({ data }) => {
+                const { dishCommentAccountVoList = [], pageIndex, numOfPages } = data;
+                dispatchContext(
+                    recipeGetIngReportListSuccessAction({
+                        data: dishCommentAccountVoList,
+                        extraListInfo: {
+                            pageIndex,
+                            numOfPages,
+                        },
+                    }),
+                );
+            })
+            .catch((err) => {
+                dispatchContext(recipeGetIngReportListFailureAction(err?.response?.data));
+            });
+    };
+
     return (
         <RecipeContext.Provider
             value={{
@@ -278,6 +312,8 @@ export const RecipeProvider = ({ children }) => {
                 onFetchRecipeComments: (id, page) => fetchRecipeCommentList(id, page),
                 onRemoveItemFromFavouriteList: (id) => dispatchContext(recipeRemoveItemFromFavouriteListAction(id)),
                 onRemoveRecipeCommentReport: (id) => dispatchContext(removeRecipeCommentReportAction(id)),
+                onFetchMoreIngReport: (page, search) => fetchIngReportList(page, search),
+                onRemoveIngReportItemFromList: (id) => dispatchContext(removeIngReportItemAction(id)),
             }}
         >
             {children}

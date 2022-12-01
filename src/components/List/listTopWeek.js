@@ -1,3 +1,4 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTopWeekListRecipeRequest } from '../../api/requests/recipe.request';
@@ -6,11 +7,18 @@ import './index.scss';
 
 const ListTopWeek = (props) => {
     const [ListTopWeek, setListTopWeek] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         getTopWeekListRecipeRequest()
-            .then(({ data }) => setListTopWeek(data))
-            .catch((error) => setErrMsg(error?.message));
+            .then(({ data }) => {
+                setListTopWeek(data);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                setErrMsg(error?.message);
+                setIsLoading(false);
+            });
     }, []);
 
     const navigateTo = useNavigate();
@@ -25,6 +33,11 @@ const ListTopWeek = (props) => {
                     <HomeRecipeItem key={item.dishID || item.dishId} item={item} navigateTo={navigateTo} />
                 ))}
             </section>
+            {isLoading && (
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
+                </div>
+            )}
         </div>
     );
 };

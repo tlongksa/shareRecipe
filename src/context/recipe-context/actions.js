@@ -29,6 +29,10 @@ import {
     RECIPE_GET_DETAIL_COMMENTS_FAILURE,
     RECIPE_REMOVE_FROM_FAVOURITE_LIST,
     RECIPE_REMOVE_COMMENT_REPORT_FROM_LIST,
+    RECIPE_GET_INGREDIENT_REPORT_LIST,
+    RECIPE_GET_INGREDIENT_REPORT_LIST_SUCCESS,
+    RECIPE_GET_INGREDIENT_REPORT_LIST_FAILURE,
+    RECIPE_REMOVE_FROM_INGREDIENT_REPORT_LIST,
 } from './types';
 
 const recipeGetListAction = () => ({
@@ -171,7 +175,30 @@ const removeRecipeCommentReportAction = (payload) => ({
     payload,
 });
 
+const recipeGetIngReportListAction = () => ({
+    type: RECIPE_GET_INGREDIENT_REPORT_LIST,
+});
+
+const recipeGetIngReportListSuccessAction = (payload) => ({
+    type: RECIPE_GET_INGREDIENT_REPORT_LIST_SUCCESS,
+    payload,
+});
+
+const recipeGetIngReportListFailureAction = (error) => ({
+    type: RECIPE_GET_INGREDIENT_REPORT_LIST_FAILURE,
+    payload: error,
+});
+
+const removeIngReportItemAction = (payload) => ({
+    type: RECIPE_REMOVE_FROM_INGREDIENT_REPORT_LIST,
+    payload,
+});
+
 export {
+    recipeGetIngReportListAction,
+    recipeGetIngReportListSuccessAction,
+    recipeGetIngReportListFailureAction,
+    removeIngReportItemAction,
     recipeGetListAction,
     recipeGetListSuccessAction,
     recipeGetListFailureAction,

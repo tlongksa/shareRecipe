@@ -40,6 +40,7 @@ const RecipeForm = lazy(() => import('./containers/Admin/pages/RecipeForms'));
 const BlogCommentReports = lazy(() => import('./containers/Admin/pages/BlogCommentReports'));
 const RecipeCommentReports = lazy(() => import('./containers/Admin/pages/RecipeCommentReports'));
 const RecipeCategories = lazy(() => import('./containers/Admin/pages/RecipeCategories'));
+const IngredientReports = lazy(() => import('./containers/Admin/pages/IngredientReports'));
 const FavouriteRecipes = lazy(() => import('./containers/FavouriteRecipes'));
 const MyRecipes = lazy(() => import('./containers/mod/MyRecipes'));
 
@@ -296,6 +297,14 @@ root.render(
                                             element={
                                                 <SuspenseWrapper>
                                                     <RecipeCommentReports />
+                                                </SuspenseWrapper>
+                                            }
+                                        />
+                                        <Route
+                                            path="ingredient-reports"
+                                            element={
+                                                <SuspenseWrapper>
+                                                    <IngredientReports />
                                                 </SuspenseWrapper>
                                             }
                                         />

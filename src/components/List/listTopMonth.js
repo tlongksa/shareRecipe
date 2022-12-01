@@ -3,15 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import './index.scss';
 import HomeRecipeItem from './HomeRecipeItem';
 import { getTopMonthListRecipeRequest } from '../../api/requests/recipe.request';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const ListTopMonth = (props) => {
     const [ListTopMonth, setListTopMonth] = useState([]);
     const navigateTo = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         getTopMonthListRecipeRequest()
-            .then(({ data }) => setListTopMonth(data))
-            .catch((error) => setErrMsg(error?.message));
+            .then(({ data }) => {
+                setListTopMonth(data);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                setErrMsg(error?.message);
+                setIsLoading(false);
+            });
     }, []);
 
     const [errMsg, setErrMsg] = useState('');
@@ -25,6 +33,11 @@ const ListTopMonth = (props) => {
                     <HomeRecipeItem key={item.dishID || item.dishId} item={item} navigateTo={navigateTo} />
                 ))}
             </section>
+            {isLoading && (
+                <div className="global-list__loader-container">
+                    <LoadingOutlined className="global-list__loader-icon" />
+                </div>
+            )}
         </div>
     );
 };

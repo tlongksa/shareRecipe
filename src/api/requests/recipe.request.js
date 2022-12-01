@@ -161,6 +161,13 @@ const createCategoryRequest = (data) =>
         },
     });
 
+const getListIngReportRequest = (page, search) =>
+    axios.get(`/getListIngredientConflict?pageIndex=${page}&searchData=${search}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
@@ -190,4 +197,5 @@ export {
     removeRecipeFromFavouriteList,
     createCategoryRequest,
     adminGetRecipeDetailRequest,
+    getListIngReportRequest,
 };

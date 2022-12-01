@@ -7,6 +7,7 @@ import chefIconImg from '../../../../assets/img/chef.png';
 import blogIconImg from '../../../../assets/img/blog.png';
 import sheetIconImg from '../../../../assets/img/sheet.png';
 import analyticsIconImg from '../../../../assets/img/analytics.png';
+import warningIconImg from '../../../../assets/img/warning.png';
 
 export const links = [
     {
@@ -38,6 +39,11 @@ export const links = [
         to: '/admin/recipe-comment-reports',
         label: 'Quản lý cảnh báo bình luận công thức',
         imgIconSrc: analyticsIconImg,
+    },
+    {
+        to: '/admin/ingredient-reports',
+        label: 'Quản lý  cảnh báo nguyên liệu ',
+        imgIconSrc: warningIconImg,
     },
 ];
 
