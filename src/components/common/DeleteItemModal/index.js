@@ -9,10 +9,20 @@ const DeleteItemModal = ({ show, isProcessing, onConfirm, onHide, title }) => {
             </Modal.Header>
             <Modal.Body>
                 <div className="d-flex gap-2 align-items-center py-3">
-                    <button className="button button-sm" type="button" disabled={isProcessing} onClick={onConfirm}>
+                    <button
+                        className="button button-sm button-green"
+                        type="button"
+                        disabled={isProcessing}
+                        onClick={onConfirm}
+                    >
                         Xác nhận
                     </button>
-                    <button className="button button-sm" type="button" disabled={isProcessing} onClick={onHide}>
+                    <button
+                        className="button button-sm button-secondary"
+                        type="button"
+                        disabled={isProcessing}
+                        onClick={onHide}
+                    >
                         Hủy
                     </button>
                 </div>

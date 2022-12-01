@@ -277,10 +277,10 @@ export const RecipeProvider = ({ children }) => {
         dispatchContext(recipeGetIngReportListAction());
         getListIngReportRequest(page, search)
             .then(({ data }) => {
-                const { dishCommentAccountVoList = [], pageIndex, numOfPages } = data;
+                const { listBlogActive = [], pageIndex, numOfPages } = data;
                 dispatchContext(
                     recipeGetIngReportListSuccessAction({
-                        data: dishCommentAccountVoList,
+                        data: listBlogActive,
                         extraListInfo: {
                             pageIndex,
                             numOfPages,

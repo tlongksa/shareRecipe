@@ -167,6 +167,19 @@ const getListIngReportRequest = (page, search) =>
             authorization: `Bearer ${token || ''}`,
         },
     });
+const createIngredientReportRequest = (data) =>
+    axios.post(`/saveIngredientConflict`, data, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
+const removeIngredientReportRequest = (id) =>
+    axios.post(`/deleteIngredientConflict?ingredientConflictId=${id}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
 
 export {
     getListRecipeByCategoryRequest,
@@ -198,4 +211,6 @@ export {
     createCategoryRequest,
     adminGetRecipeDetailRequest,
     getListIngReportRequest,
+    createIngredientReportRequest,
+    removeIngredientReportRequest,
 };

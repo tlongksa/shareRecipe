@@ -1,14 +1,12 @@
 import { LoadingOutlined, PlusCircleOutlined, SearchOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { deleteRecipeRequest } from '../../../api/requests';
-import { ROLES } from '../../../App';
-import RecipeDataList from '../../../components/admin/recipe-datalist';
+import { createIngredientReportRequest, removeIngredientReportRequest } from '../../../api/requests';
 import DeleteItemModal from '../../../components/common/DeleteItemModal';
 import Input from '../../../components/common/Input/Input';
-import AuthContext from '../../../context/auth-context';
 import RecipeContext from '../../../context/recipe-context';
+import Modal from 'react-bootstrap/Modal';
+import IngredientReportDataList from '../../../components/admin/ingredient-report-datalist';
 
 const IngredientReports = () => {
     const {
@@ -16,23 +14,60 @@ const IngredientReports = () => {
         onFetchMoreIngReport,
         onRemoveIngReportItemFromList,
     } = useContext(RecipeContext);
-    const navigate = useNavigate();
     const [search, setSearch] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
-    const {
-        userInfo: { roles },
-    } = useContext(AuthContext);
     const [selectedDeleteId, setSelectedDeleteId] = useState('');
-    const isMod = roles === ROLES.mod;
+    const [ingredientA, setIngredientA] = useState('');
+    const [ingredientB, setIngredientB] = useState('');
+    const [consequence, setConsequence] = useState('');
+    const [selectedIngredientReport, setSelectedIngredientReport] = useState({});
+    const [show, setShow] = useState(false);
+
+    useEffect(() => {
+        if (selectedIngredientReport?.ingredientConflictId) {
+            setIngredientA(selectedIngredientReport?.ingredientA);
+            setIngredientB(selectedIngredientReport?.ingredientB);
+            setConsequence(selectedIngredientReport?.consequence);
+        }
+    }, [selectedIngredientReport]);
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        setIsProcessing(true);
+        const payloadToSubmit = {
+            ingredientA,
+            ingredientB,
+            consequence,
+        };
+        if (selectedIngredientReport?.ingredientConflictId) {
+            payloadToSubmit.ingredientConflictId = selectedIngredientReport?.ingredientConflictId;
+        }
+        createIngredientReportRequest(payloadToSubmit)
+            .then(({ data }) => {
+                onFetchMoreIngReport(1);
+                setIngredientA('');
+                setIngredientB('');
+                setConsequence('');
+                setShow(false);
+                setIsProcessing(false);
+                notification.open({
+                    message: data?.messContent,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsProcessing(false);
+            });
+    };
 
     useEffect(() => {
         onFetchMoreIngReport(1);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const deleteRecipeHandler = () => {
+    const deleteIngReportHandler = () => {
         setIsProcessing(true);
-        deleteRecipeRequest(selectedDeleteId)
+        removeIngredientReportRequest(selectedDeleteId)
             .then(({ data }) => {
                 setIsProcessing(false);
                 onRemoveIngReportItemFromList(selectedDeleteId);
@@ -55,7 +90,7 @@ const IngredientReports = () => {
     }
 
     return (
-        <section className={`account-list__container ${isLoading || isProcessing ? 'divDisabled' : ''}`}>
+        <section className={`account-list__container pb-3 ${isLoading || isProcessing ? 'divDisabled' : ''}`}>
             <div className="d-flex justify-content-end mb-3 gap-3 sm:flex-col">
                 <form
                     className="global-list_search shadow rounded-3"
@@ -93,13 +128,15 @@ const IngredientReports = () => {
                 </form>
                 <button
                     className="button button-sm button-green d-flex align-items-center gap-2"
-                    onClick={() => navigate('/admin/recipe-form?step=1')}
+                    onClick={() => {
+                        setShow(true);
+                    }}
                 >
                     <PlusCircleOutlined />
                     <span>Thêm cảnh báo</span>
                 </button>
             </div>
-            <RecipeDataList
+            <IngredientReportDataList
                 list={list}
                 maxPage={extraListInfo.numOfPages}
                 currentPage={extraListInfo.pageIndex}
@@ -107,24 +144,10 @@ const IngredientReports = () => {
                 paginateCallback={(page) => {
                     onFetchMoreIngReport(page, search || '');
                 }}
-                onEdit={(id) => {
-                    if (isMod) {
-                        navigate(`/recipe-form?step=1&id=${id}`);
-                        return;
-                    }
-                    navigate(`/admin/recipe-form?step=1&id=${id}`);
+                onEdit={(item) => {
+                    setSelectedIngredientReport(item);
+                    setShow(true);
                 }}
-                onView={
-                    roles === ROLES.mod
-                        ? (id) => {
-                              navigate(`/recipe-detail/${id}`);
-                              window.scrollTo({
-                                  top: 0,
-                                  left: 0,
-                              });
-                          }
-                        : null
-                }
             />
             {isLoading && (
                 <div className="global-list__loader-container">
@@ -132,12 +155,65 @@ const IngredientReports = () => {
                 </div>
             )}
             <DeleteItemModal
-                title="công thức"
+                title="cảnh báo nguyên liệu"
                 show={!!selectedDeleteId}
                 onHide={() => setSelectedDeleteId('')}
                 isProcessing={isProcessing}
-                onConfirm={deleteRecipeHandler}
+                onConfirm={deleteIngReportHandler}
             />
+            <Modal
+                show={show}
+                fullscreen={true}
+                onHide={() => {
+                    setShow(false);
+                    setSelectedIngredientReport({});
+                }}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Cảnh báo nguyên liệu kết hợp với nhau gây nguy hiểm</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form onSubmit={onSubmit}>
+                        <Input
+                            onChange={(e) => setIngredientA(e.target.value)}
+                            label={'Nguyên liệu A :'}
+                            placeholder="Nhập nguyên liệu "
+                            value={ingredientA}
+                            error={null}
+                            touched={true}
+                            className="flex-fill"
+                        />
+                        <Input
+                            onChange={(e) => setIngredientB(e.target.value)}
+                            label={'Nguyên liệu B :'}
+                            placeholder="Nhập nguyên liệu "
+                            value={ingredientB}
+                            error={null}
+                            touched={true}
+                            className="flex-fill"
+                        />
+                        <Input
+                            type="textarea"
+                            onChange={(e) => setConsequence(e.target.value)}
+                            label={'Hậu quả của kết hợp Nguyên liệu A và Nguyên liệu B :'}
+                            placeholder="Nhập Hậu quả"
+                            value={consequence}
+                            error={null}
+                            touched={true}
+                            className="flex-fill"
+                        />
+                        <div className="d-flex justify-content-end">
+                            <button
+                                className="button button-sm button-green"
+                                type="submit"
+                                disabled={!ingredientA.trim() || !ingredientA.trim() || isProcessing}
+                            >
+                                {selectedIngredientReport ? 'Cập nhật' : 'Thêm'} cảnh báo
+                            </button>
+                        </div>
+                    </form>
+                </Modal.Body>
+            </Modal>
         </section>
     );
 };
