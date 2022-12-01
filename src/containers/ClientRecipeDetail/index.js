@@ -293,8 +293,9 @@ const ClientRecipeDetail = () => {
                     </div>
                 </div>
                 <div className="view-comment">
+                    <h3 className="mt-3">Video hướng dẫn: {dataResponse?.dishName}</h3>
                     <video src={dataResponse?.video} width="100%" height={400} controls></video>
-                    <hr />
+                    <br /> <br />
                     <RecipeComments dishId={dishId} setShowAuthOptionModal={setShowAuthOptionModal} />
                 </div>
                 <ListTopNew />
