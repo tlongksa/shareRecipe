@@ -265,6 +265,7 @@ const RecipeForm = () => {
                 isUploading || isCreating ? 'divDisabled' : ''
             }`}
         >
+            <h2 className="recipe-form__title text-center mb-3">{id ? 'Sửa công thức' : 'Tạo công thức'}</h2>
             <div className="recipe-form__steps">
                 <button
                     className={`${stepNum === 1 ? 'active-step' : ''}`}

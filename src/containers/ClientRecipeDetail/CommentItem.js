@@ -143,7 +143,15 @@ const CommentItem = (props) => {
         <div className="my-comment">
             <Comment
                 actions={actions}
-                author={<strong>{comment.accountUserName}</strong>}
+                author={
+                    <strong
+                        style={{
+                            fontSize: 20,
+                        }}
+                    >
+                        {comment.accountUserName}
+                    </strong>
+                }
                 avatar={<Avatar src={comment.avatarImage} alt={comment.accountUserName} />}
                 content={
                     <div className="comment-item__container">
@@ -182,7 +190,13 @@ const CommentItem = (props) => {
                 }
                 datetime={
                     <Tooltip title="">
-                        <span>{comment.updateDate}</span>
+                        <span
+                            style={{
+                                fontSize: 20,
+                            }}
+                        >
+                            {comment.updateDate}
+                        </span>
                     </Tooltip>
                 }
             />
