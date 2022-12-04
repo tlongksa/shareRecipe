@@ -330,10 +330,19 @@ const BmiInfo = () => {
                 >
                     {breakfastList?.length > 0 && (
                         <h4 className={`mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={breakfastIconImg} alt="" /> Bữa sáng {breakfastList?.[0]?.totalCaloBreak} kcal
+                            <img src={breakfastIconImg} alt="" /> Bữa sáng cần : {breakfastList?.[0]?.totalCaloBreak}{' '}
+                            kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(breakfastList)}</ul>
+                    {recipeType === 'total' && (
+                        <div className="d-flex justify-content-end">
+                            <h3>
+                                Tổng kcal của các món :{' '}
+                                {breakfastList?.[0]?.totalCaloBreak + (dessertList?.[0]?.totalCalo || 0)} kcal
+                            </h3>
+                        </div>
+                    )}
                 </div>
                 <div
                     className={`${
@@ -342,10 +351,18 @@ const BmiInfo = () => {
                 >
                     {lunchList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={lunchIconImg} alt="" /> Bữa trưa {lunchList?.[0]?.totalCaloLunch} kcal
+                            <img src={lunchIconImg} alt="" /> Bữa trưa cần {lunchList?.[0]?.totalCaloLunch} kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(lunchList)}</ul>
+                    {recipeType === 'total' && (
+                        <div className="d-flex justify-content-end">
+                            <h3>
+                                Tổng kcal của các món :{' '}
+                                {lunchList?.[0]?.totalCaloLunch + (dessertList?.[1]?.totalCalo || 0)} kcal
+                            </h3>
+                        </div>
+                    )}
                 </div>
                 <div
                     className={`${
@@ -354,10 +371,18 @@ const BmiInfo = () => {
                 >
                     {dinnerList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={dinnerIconImg} alt="" /> Bữa tối {dinnerList?.[0]?.totalCaloDinner} kcal
+                            <img src={dinnerIconImg} alt="" /> Bữa tối cần : {dinnerList?.[0]?.totalCaloDinner} kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
+                    {recipeType === 'total' && (
+                        <div className="d-flex justify-content-end">
+                            <h3>
+                                Tổng kcal của các món :{' '}
+                                {dinnerList?.[0]?.totalCaloDinner + (dessertList?.[2]?.totalCalo || 0)} kcal
+                            </h3>
+                        </div>
+                    )}
                 </div>
                 {isLoadingRecipes && (
                     <div className="global-list__loader-container">

@@ -30,7 +30,7 @@ const TopRecipeInfo = ({
                 <img src={bigRecipeImg} alt={dataResponse?.dishName} className="img-view-detail rounded-4" />
                 <div
                     style={{
-                        maxWidth: 500,
+                        maxWidth: 650,
                     }}
                 >
                     {dataResponse?.dishImageList?.length > 5 ? (
@@ -47,7 +47,7 @@ const TopRecipeInfo = ({
                             ))}
                         </Slider>
                     ) : (
-                        <div className="flex-full d-flex justify-content-center">
+                        <div className="flex-full d-flex justify-content-center w-100">
                             {dataResponse?.dishImageList?.map((listImg) => (
                                 <div key={listImg.dishImageID}>
                                     <img
@@ -110,8 +110,8 @@ const RecipeSteps = ({ dataResponse }) => (
 
 const RecipeIngredients = ({ dataResponse }) => (
     <>
-        <h3 className="recipe-ing__title mt-3">Thành phần nguyên liệu :</h3>
-        <div className="bg-green-blur custom-shadow p-3 rounded-4">
+        <h3 className="recipe-ing__title mt-2">Thành phần nguyên liệu :</h3>
+        <div className="bg-green-blur custom-shadow p-3 py-2 rounded-4">
             <h3 className="view-title">Nguyên liệu chính:</h3>
             <ul className="ms-5">
                 {dataResponse?.ingredientDetailList
