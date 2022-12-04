@@ -267,7 +267,7 @@ export const SearchDataList = ({ search, setSearch, callback, emptySearchCallbac
             <SearchOutlined className="global-list_search-icon cursor-pointer" onClick={callback} />
             <Input
                 onChange={handleChange}
-                placeholder="Search..."
+                placeholder="Tìm kiếm..."
                 value={search}
                 error={null}
                 touched={true}

@@ -33,10 +33,6 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                     <p>{no}</p>
                 </div>
                 <div className="custom-col">
-                    <strong>Id</strong>
-                    <p>{item.ingredientConflictId}</p>
-                </div>
-                <div className="custom-col">
                     <strong>Nguyên liệu A</strong>
                     <p>{item.ingredientA}</p>
                 </div>
@@ -67,7 +63,6 @@ const IngredientReportDataList = ({ list, onEdit, onDelete, currentPage, maxPage
     let listRecipeMarkup = list.map((item, index) => (
         <li key={item.ingredientConflictId} className={styles.dataItem}>
             <span className={styles.no}>{index + 1}</span>
-            <span>{item.ingredientConflictId}</span>
             <span>{item.ingredientA}</span>
             <span>{item.ingredientB}</span>
             <span>{item?.consequence}</span>
@@ -114,7 +109,6 @@ const IngredientReportDataList = ({ list, onEdit, onDelete, currentPage, maxPage
                 {!isMobile && (
                     <li className={[styles.dataItem, styles.dataItemHead].join(' ')}>
                         <strong className={styles.no}>No</strong>
-                        <strong>Id</strong>
                         <strong>Nguyên liệu A</strong>
                         <strong>Nguyên liệu B </strong>
                         <strong>Hậu quả</strong>

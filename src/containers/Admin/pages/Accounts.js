@@ -86,7 +86,7 @@ const Accounts = () => {
                                 onFetchMore(1, '');
                             }
                         }}
-                        placeholder="Search..."
+                        placeholder="Tìm kiếm..."
                         value={search}
                         error={null}
                         touched={true}

@@ -166,8 +166,8 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }
                         <li className="step__list-item mt-3" key={`step__item-${item.title}`}>
                             <div className="d-flex justify-content-between align-items-center gap-5">
                                 <div>
-                                    <strong>Bước {index + 1} :</strong>
-                                    <div
+                                    <strong className="recipe-step-item__step">Bước {index + 1} : </strong>
+                                    <span
                                         className={`recipe-step-item__content`}
                                         dangerouslySetInnerHTML={{
                                             __html: item?.describe?.replaceAll('\n', '<br />'),
