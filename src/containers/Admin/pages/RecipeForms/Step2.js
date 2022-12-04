@@ -173,7 +173,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                                     type="number"
                                     onChange={handleChange}
                                     value={values.calo}
-                                    label="Calo :"
+                                    label="Kcal :"
                                     error={errors.calo}
                                     touched={touched.calo}
                                     className="w-100"
@@ -287,7 +287,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                                     type="number"
                                     onChange={handleChange}
                                     value={values.calo}
-                                    label="Calo :"
+                                    label="Kcal :"
                                     error={errors.calo}
                                     touched={touched.calo}
                                     className="w-100"
@@ -441,7 +441,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                                             type="number"
                                             onChange={handleChange}
                                             value={values.calo}
-                                            label="Calo :"
+                                            label="Kcal :"
                                             error={errors.calo}
                                             touched={touched.calo}
                                             className="w-100"

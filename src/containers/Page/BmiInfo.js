@@ -286,12 +286,12 @@ const BmiInfo = () => {
                     >
                         {remainCalo < 200 ? (
                             <p>
-                                Hiện tại lượng calo còn lại của bạn là <strong>{remainCalo}</strong> đang dưới 200, bạn
+                                Hiện tại lượng kcal còn lại của bạn là <strong>{remainCalo}</strong> đang dưới 200, bạn
                                 có muốn tìm món Tráng miệng hay không?
                             </p>
                         ) : (
                             <p>
-                                Bạn còn thiếu : <strong>{remainCalo}</strong> calo, bạn có muốn hiển thị thêm công thức
+                                Bạn còn thiếu : <strong>{remainCalo}</strong> kcal, bạn có muốn hiển thị thêm công thức
                                 không ?
                             </p>
                         )}
@@ -330,7 +330,7 @@ const BmiInfo = () => {
                 >
                     {breakfastList?.length > 0 && (
                         <h4 className={`mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={breakfastIconImg} alt="" /> Bữa sáng {breakfastList?.[0]?.totalCaloBreak} calo
+                            <img src={breakfastIconImg} alt="" /> Bữa sáng {breakfastList?.[0]?.totalCaloBreak} kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(breakfastList)}</ul>
@@ -342,7 +342,7 @@ const BmiInfo = () => {
                 >
                     {lunchList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={lunchIconImg} alt="" /> Bữa trưa {lunchList?.[0]?.totalCaloLunch} calo
+                            <img src={lunchIconImg} alt="" /> Bữa trưa {lunchList?.[0]?.totalCaloLunch} kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(lunchList)}</ul>
@@ -354,7 +354,7 @@ const BmiInfo = () => {
                 >
                     {dinnerList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={dinnerIconImg} alt="" /> Bữa tối {dinnerList?.[0]?.totalCaloDinner} calo
+                            <img src={dinnerIconImg} alt="" /> Bữa tối {dinnerList?.[0]?.totalCaloDinner} kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
@@ -400,7 +400,7 @@ const RecipeItem = ({ item }) => (
                         <span className="text-muted">{item?.createDate || '-'}</span>
                     </p>
                     <div>
-                        <strong>Calo : </strong> <span>{item.totalCalo}</span>
+                        <strong>Kcal : </strong> <span>{item.totalCalo}</span>
                     </div>
                 </div>
                 {item.avgStarRate === 0 ? (
@@ -532,9 +532,9 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                             </Input>
                         </div>
                         <div className="d-flex gap-4 align-items-center mb-3">
-                            <strong className="min-width-120">Tổng số calo: </strong>
+                            <strong className="min-width-120">Tổng số kcal: </strong>
                             <p>
-                                <strong>{item?.totalCalo}</strong> calo
+                                <strong>{item?.totalCalo}</strong> kcal
                             </p>
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}

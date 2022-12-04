@@ -77,7 +77,7 @@ const TopRecipeInfo = ({
                         </button>
                     </div>
                     <div className="mb-2 recipe-info__item">
-                        <strong>Calo :</strong> {dataResponse.totalCalo}
+                        <strong>Kcal :</strong> {dataResponse.totalCalo}
                     </div>
                     <div className="mb-2 recipe-info__item">
                         <strong>Độ khó :</strong> {showRecipeLevelText(dataResponse.level)}

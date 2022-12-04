@@ -12,7 +12,7 @@ const RecipeStep2Schema = Yup.object().shape({
     name: Yup.string().required('Vui lòng nhập tên nguyên liệu'),
     unit: Yup.string().required('Vui lòng nhập đơn vị'),
     quantity: Yup.number().min(0, 'Vui lòng nhập số lượng >= 0'),
-    calo: Yup.number().min(0, 'Vui lòng nhập calo >= 0'),
+    calo: Yup.number().min(0, 'Vui lòng nhập kcal >= 0'),
 });
 
 export { RecipeStep1Schema, RecipeStep2Schema };
