@@ -186,6 +186,9 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
                 draft.ingReport.isLoading = false;
                 draft.ingReport.error = payload;
                 break;
+            case RECIPE_REMOVE_FROM_INGREDIENT_REPORT_LIST:
+                draft.ingReport.list = draft.ingReport.list.filter((item) => item.ingredientConflictId !== payload);
+                break;
             default:
                 break;
         }
