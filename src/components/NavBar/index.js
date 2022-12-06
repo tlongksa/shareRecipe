@@ -15,47 +15,91 @@ import heartIconImg from '../../assets/img/heart_Dark.png';
 import lockIconImg from '../../assets/img/lock.png';
 import userSettingIconImg from '../../assets/img/user_setting.png';
 import signoutIconImg from '../../assets/img/signout.png';
+import Modal from 'react-bootstrap/Modal';
 
 export const NavMenuCenter = ({ className, onHide }) => {
     const { pathname } = useLocation();
     const {
         userInfo: { accessToken, roles },
     } = useContext(AuthContext);
+    const [showAuthOptionModal, setShowAuthOptionModal] = useState(false);
+    const navigate = useNavigate();
 
     return (
-        <NavMenu className={`${className || ''}`}>
-            <NavLinkRoot
-                to="/"
-                className={({ isActive }) =>
-                    isActive && pathname === '/' ? 'active ps-4 header-menu__link' : 'ps-4 header-menu__link'
-                }
-                onClick={onHide}
-            >
-                Trang chủ
-            </NavLinkRoot>
-            <NavLink to="/blogs" className="ps-4" onClick={onHide}>
-                Blog
-            </NavLink>
+        <>
+            <NavMenu className={`${className || ''}`}>
+                <NavLinkRoot
+                    to="/"
+                    className={({ isActive }) =>
+                        isActive && pathname === '/' ? 'active ps-4 header-menu__link' : 'ps-4 header-menu__link'
+                    }
+                    onClick={onHide}
+                >
+                    Trang chủ
+                </NavLinkRoot>
+                <NavLink to="/blogs" className="ps-4" onClick={onHide}>
+                    Blog
+                </NavLink>
 
-            {accessToken && (
-                <NavLink to="/favourite-recipes" className="ps-4" onClick={onHide}>
-                    Yêu thích
-                </NavLink>
-            )}
-            {roles === ROLES.mod && (
-                <NavLink to="/my-recipes" className="ps-4" onClick={onHide}>
-                    Các công thức
-                </NavLink>
-            )}
-            {accessToken && (
-                <NavLink to="/bmi" className="ps-4" onClick={onHide}>
+                {accessToken && (
+                    <NavLink to="/favourite-recipes" className="ps-4" onClick={onHide}>
+                        Yêu thích
+                    </NavLink>
+                )}
+                {roles === ROLES.mod && (
+                    <NavLink to="/my-recipes" className="ps-4" onClick={onHide}>
+                        Các công thức
+                    </NavLink>
+                )}
+                <NavLink
+                    to="/bmi"
+                    className="ps-4"
+                    onClick={(e) => {
+                        onHide();
+                        if (!accessToken) {
+                            e.preventDefault();
+                            setShowAuthOptionModal(true);
+                        }
+                    }}
+                >
                     BMI
                 </NavLink>
-            )}
-            <NavLink to="/introduce" className="ps-4" onClick={onHide}>
-                Giới thiệu
-            </NavLink>
-        </NavMenu>
+                <NavLink to="/introduce" className="ps-4" onClick={onHide}>
+                    Giới thiệu
+                </NavLink>
+            </NavMenu>
+            <Modal
+                show={showAuthOptionModal}
+                fullscreen={'md-down'}
+                onHide={() => setShowAuthOptionModal(false)}
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Bạn cần đăng nhập để sử dụng tính năng này?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="d-flex gap-2 align-items-center py-3">
+                        <button
+                            className="button button-sm"
+                            type="button"
+                            onClick={() => {
+                                navigate(`/signin?redirectUrl=/bmi`);
+                                setShowAuthOptionModal(false);
+                            }}
+                        >
+                            Đăng nhập
+                        </button>
+                        <button
+                            className="button button-sm"
+                            type="button"
+                            onClick={() => setShowAuthOptionModal(false)}
+                        >
+                            Hủy
+                        </button>
+                    </div>
+                </Modal.Body>
+            </Modal>
+        </>
     );
 };
 
