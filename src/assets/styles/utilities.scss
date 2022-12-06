@@ -297,3 +297,12 @@
 .f-48 {
     font-size: 48px;
 }
+.mw-60-pc {
+    max-width: 60%;
+    @media (max-width: 768px) {
+        max-width: 95%;
+    }
+}
+.top-30 {
+    top: 30%;
+}

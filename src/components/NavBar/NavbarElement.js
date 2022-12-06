@@ -14,6 +14,8 @@ export const Nav = styled.nav`
 export const NavRight = styled.nav`
     height: 60px;
     display: flex;
+    position: absolute;
+    right: 1rem;
     @media screen and (max-width: 768px) {
         position: relative;
         right: 50px;

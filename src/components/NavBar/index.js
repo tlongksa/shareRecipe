@@ -155,28 +155,33 @@ const Navbar = () => {
     };
 
     return (
-        <div className="custom-page__container custom-page__container-no__margin">
-            <Nav>
-                <div className="d-flex align-items-center gap-2">
-                    <MainLogo className={`logo-md ${isMobile ? 'logo-extra-sm' : ''}`} />
-                    <NavMenuCenter className={`${showSidebar ? 'show' : ''}`} onHide={() => setShowSidebar(false)} />
-                </div>
-                {!accessToken ? (
-                    <div className="auth-links d-flex align-items-center gap-2">
-                        <NavLinkRoot className={`button button-outlined-hover-green button-sm`} to="/sign-up">
-                            Đăng kí
-                        </NavLinkRoot>
-                        <NavLinkRoot className={`button button-outlined-hover-green button-sm`} to="/signin">
-                            Đăng nhập
-                        </NavLinkRoot>
+        <div className="position-relative">
+            <div className="custom-page__container custom-page__container-no__margin">
+                <Nav>
+                    <div className="d-flex align-items-center gap-2">
+                        <MainLogo className={`logo-md ${isMobile ? 'logo-extra-sm' : ''}`} />
+                        <NavMenuCenter
+                            className={`${showSidebar ? 'show' : ''}`}
+                            onHide={() => setShowSidebar(false)}
+                        />
                     </div>
-                ) : (
-                    <NavRight>
-                        <ProfileTogglerMenu handleLogout={handleLogout} className="keep-position" />
-                    </NavRight>
-                )}
-                <Bars onClick={() => setShowSidebar((prevState) => !prevState)} />
-            </Nav>
+                    {!accessToken ? (
+                        <div className="auth-links d-flex align-items-center gap-2">
+                            <NavLinkRoot className={`button button-outlined-hover-green button-sm`} to="/sign-up">
+                                Đăng kí
+                            </NavLinkRoot>
+                            <NavLinkRoot className={`button button-outlined-hover-green button-sm`} to="/signin">
+                                Đăng nhập
+                            </NavLinkRoot>
+                        </div>
+                    ) : (
+                        <NavRight>
+                            <ProfileTogglerMenu handleLogout={handleLogout} className="keep-position" />
+                        </NavRight>
+                    )}
+                    <Bars onClick={() => setShowSidebar((prevState) => !prevState)} />
+                </Nav>
+            </div>
         </div>
     );
 };

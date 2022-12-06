@@ -11,7 +11,7 @@ export default function SearchBar() {
             <div className="home-search__form">
                 <input
                     className="home_input-search"
-                    type="search"
+                    type="text"
                     value={searchTitle}
                     onChange={(e) => setSearchTitle(e.target.value)}
                     placeholder="Bạn muốn tìm kiếm gì?"

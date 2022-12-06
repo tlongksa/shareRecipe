@@ -9,6 +9,7 @@ import img2 from '../../assets/img/img2.jpg';
 import img3 from '../../assets/img/img3.jpg';
 import './homePage.scss';
 import SearchBar from '../../components/Search/SearchBar';
+import SearchRecipe from './SearchRecipe';
 
 const carousels = [
     {
@@ -36,13 +37,16 @@ export const HomeBannerCarousel = () => {
     };
 
     return (
-        <Carousel activeIndex={index} onSelect={handleSelect}>
-            {carousels.map(({ imgSrc, desc, title }) => (
-                <Carousel.Item key={title}>
-                    <img className="d-block w-100 h-10 home-carousel__banner-img" src={imgSrc} alt={title} />
-                </Carousel.Item>
-            ))}
-        </Carousel>
+        <div className="position-relative">
+            <Carousel activeIndex={index} onSelect={handleSelect}>
+                {carousels.map(({ imgSrc, desc, title }) => (
+                    <Carousel.Item key={title}>
+                        <img className="d-block w-100 h-10 home-carousel__banner-img" src={imgSrc} alt={title} />
+                    </Carousel.Item>
+                ))}
+            </Carousel>
+            <SearchRecipe />
+        </div>
     );
 };
 

@@ -335,11 +335,16 @@ const BmiInfo = () => {
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(breakfastList)}</ul>
+                    {recipeType === 'total' && isLoadingRecipes && (
+                        <div className="global-list__loader-container">
+                            <LoadingOutlined className="global-list__loader-icon" />
+                        </div>
+                    )}
                     {recipeType === 'total' && (
                         <div className="d-flex justify-content-end">
                             <h3>
                                 Tổng kcal của các món :{' '}
-                                {breakfastList?.[0]?.totalCaloBreak + (dessertList?.[0]?.totalCalo || 0)} kcal
+                                {(breakfastList?.[0]?.totalCaloBreak || 0) + (dessertList?.[0]?.totalCalo || 0)} kcal
                             </h3>
                         </div>
                     )}
@@ -356,11 +361,16 @@ const BmiInfo = () => {
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(lunchList)}</ul>
+                    {recipeType === 'total' && isLoadingRecipes && (
+                        <div className="global-list__loader-container">
+                            <LoadingOutlined className="global-list__loader-icon" />
+                        </div>
+                    )}
                     {recipeType === 'total' && (
                         <div className="d-flex justify-content-end">
                             <h3>
                                 Tổng kcal của các món :{' '}
-                                {lunchList?.[0]?.totalCaloLunch + (dessertList?.[1]?.totalCalo || 0)} kcal
+                                {(lunchList?.[0]?.totalCaloLunch || 0) + (dessertList?.[1]?.totalCalo || 0)} kcal
                             </h3>
                         </div>
                     )}
@@ -377,11 +387,16 @@ const BmiInfo = () => {
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
+                    {recipeType === 'total' && isLoadingRecipes && (
+                        <div className="global-list__loader-container">
+                            <LoadingOutlined className="global-list__loader-icon" />
+                        </div>
+                    )}
                     {recipeType === 'total' && (
                         <div className="d-flex justify-content-end">
                             <h3>
                                 Tổng kcal của các món :{' '}
-                                {dinnerList?.[0]?.totalCaloDinner + (dessertList?.[2]?.totalCalo || 0)} kcal
+                                {(dinnerList?.[0]?.totalCaloDinner || 0) + (dessertList?.[2]?.totalCalo || 0)} kcal
                             </h3>
                         </div>
                     )}
