@@ -92,6 +92,7 @@ export const NavMenu = styled.div`
             height: auto;
             width: 100%;
             padding: 1rem 2rem;
+            color: #131313;
         }
         &.show {
             transform: translateX(0);

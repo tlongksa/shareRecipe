@@ -27,7 +27,7 @@ export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
                             {item.name}
                         </Link>
                     </h5>
-                    <p>{item.description}</p>
+                    <p>{item.describe}</p>
                 </div>
                 <p className="d-flex align-items-center gap-1 mb-2">
                     <strong>By {item.verifier}</strong>
