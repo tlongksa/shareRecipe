@@ -311,7 +311,7 @@ const ClientRecipeDetail = () => {
                     <Modal.Body>
                         <div className="d-flex gap-2 align-items-center py-3">
                             <button
-                                className="button button-sm"
+                                className="button button-sm button-green"
                                 type="button"
                                 onClick={() => {
                                     navigate(`/signin?redirectUrl=/recipe-detail/${dishId}`);
@@ -320,7 +320,7 @@ const ClientRecipeDetail = () => {
                                 Đăng nhập
                             </button>
                             <button
-                                className="button button-sm"
+                                className="button button-sm button-secondary"
                                 type="button"
                                 onClick={() => setShowAuthOptionModal(false)}
                             >
