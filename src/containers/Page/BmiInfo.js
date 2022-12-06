@@ -330,8 +330,8 @@ const BmiInfo = () => {
                 >
                     {breakfastList?.length > 0 && (
                         <h4 className={`mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={breakfastIconImg} alt="" /> Bữa sáng cần : {breakfastList?.[0]?.totalCaloBreak}{' '}
-                            kcal
+                            <img src={breakfastIconImg} alt="" /> Bữa sáng cần :{' '}
+                            {breakfastList?.[0]?.totalCaloBreak + (dessertList?.[0]?.totalCalo || 0)} kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(breakfastList)}</ul>
@@ -351,7 +351,8 @@ const BmiInfo = () => {
                 >
                     {lunchList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={lunchIconImg} alt="" /> Bữa trưa cần {lunchList?.[0]?.totalCaloLunch} kcal
+                            <img src={lunchIconImg} alt="" /> Bữa trưa cần{' '}
+                            {lunchList?.[0]?.totalCaloLunch + (dessertList?.[1]?.totalCalo || 0)} kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(lunchList)}</ul>
@@ -371,7 +372,8 @@ const BmiInfo = () => {
                 >
                     {dinnerList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={dinnerIconImg} alt="" /> Bữa tối cần : {dinnerList?.[0]?.totalCaloDinner} kcal
+                            <img src={dinnerIconImg} alt="" /> Bữa tối cần :{' '}
+                            {dinnerList?.[0]?.totalCaloDinner + (dessertList?.[2]?.totalCalo || 0)} kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
