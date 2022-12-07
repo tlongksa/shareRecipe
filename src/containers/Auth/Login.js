@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 import './Login.scss';
 import { Link, useSearchParams } from 'react-router-dom';
-import showPwdImg from '../../assets/img/show-password.png';
-import hidePwdImg from '../../assets/img/hide-.svg';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import AuthContext from '../../context/auth-context';
@@ -11,6 +9,7 @@ import { ROLES } from '../../App';
 import { loginRequest } from '../../api/requests';
 import Input from '../../components/common/Input/Input';
 import authBannerImgSrc from '../../assets/img/auth_banner.png';
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 
 const Login = () => {
     const { onLoginSuccess } = useContext(AuthContext);
@@ -107,13 +106,19 @@ const Login = () => {
                                     value={password}
                                     touched={true}
                                 />
-                                <img
-                                    className="toggle-password__type"
-                                    title={isRevealPwd ? 'Hide password' : 'Show password'}
-                                    src={isRevealPwd ? hidePwdImg : showPwdImg}
-                                    onClick={() => setIsRevealPwd((prevState) => !prevState)}
-                                    alt=""
-                                />
+                                {isRevealPwd ? (
+                                    <EyeInvisibleOutlined
+                                        className="toggle-password__type"
+                                        onClick={() => setIsRevealPwd(false)}
+                                        title="Hide password"
+                                    />
+                                ) : (
+                                    <EyeOutlined
+                                        className="toggle-password__type"
+                                        onClick={() => setIsRevealPwd(true)}
+                                        title="Show password"
+                                    />
+                                )}
                             </div>
                             <div className="signin-remember d-flex justify-content-end">
                                 <Link to="/forgot-password" className="text-green text-underline">
