@@ -43,12 +43,14 @@ const RecipesByName = () => {
                         className="global-list_search shadow rounded-3"
                         onSubmit={(e) => {
                             e.preventDefault();
-                            onFetchMoreByName(name, 1, search.trim());
+                            navigate(`/list-recipe-by-name?name=${search.trim()}`);
                         }}
                     >
                         <SearchOutlined
                             className="global-list_search-icon cursor-pointer"
-                            onClick={() => onFetchMoreByName(name, 1, search.trim())}
+                            onClick={() => {
+                                navigate(`/list-recipe-by-name?name=${search.trim()}`);
+                            }}
                         />
                         <Input
                             onChange={(e) => {
@@ -56,6 +58,7 @@ const RecipesByName = () => {
                                 setSearch(value);
                                 if (!value.trim()) {
                                     onFetchMoreByName(name, 1, '');
+                                    navigate(`/list-recipe-by-name?name=`);
                                 }
                             }}
                             placeholder="Tìm  kiếm công  thức ..."
