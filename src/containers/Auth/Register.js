@@ -156,11 +156,11 @@ const Register = () => {
                                     }`}
                                 >
                                     <FontAwesomeIcon icon={faInfoCircle} />
-                                    More characters.
+                                    Nhiều kí tự hơn.
                                     <br />
-                                    Must begin with a letter.
+                                    Phải bắt đầu bằng một chữ cái.
                                     <br />
-                                    Letters, numbers, underscores, hyphens allowed.
+                                    Cho phép chữ cái, số, dấu gạch dưới, dấu gạch nối.
                                 </p>
                                 <label className="register-form__label">
                                     <span>
@@ -185,9 +185,9 @@ const Register = () => {
                                     }`}
                                 >
                                     <FontAwesomeIcon icon={faInfoCircle} />
-                                    8 to 24 characters.
+                                    8 đến 24 ký tự.
                                     <br />
-                                    Must include uppercase and lowercase letters, a number and a special character.
+                                    Phải bao gồm chữ hoa và chữ thường, một số và một ký tự đặc biệt.
                                     <br />
                                 </p>
 
@@ -217,7 +217,7 @@ const Register = () => {
                                     }`}
                                 >
                                     <FontAwesomeIcon icon={faInfoCircle} />
-                                    Must match the first password input field.
+                                    Phải khớp với trường nhập mật khẩu đầu tiên.
                                 </p>
 
                                 <label className="register-form__label">
