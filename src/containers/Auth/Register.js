@@ -79,7 +79,7 @@ const Register = () => {
         } catch (err) {
             setIsProcessing(false);
             if (err?.response) {
-                setErrMsg(err?.response?.data?.message);
+                setErrMsg(err?.response?.data?.message || err?.response?.data?.messContent);
             } else if (err.response?.status === 409) {
                 setErrMsg('Username Taken');
             } else {
