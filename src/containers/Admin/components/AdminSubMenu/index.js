@@ -42,7 +42,7 @@ export const links = [
     },
     {
         to: '/admin/ingredient-reports',
-        label: 'Quản lý  cảnh báo nguyên liệu ',
+        label: 'Quản lý cảnh báo nguyên liệu',
         imgIconSrc: warningIconImg,
     },
 ];

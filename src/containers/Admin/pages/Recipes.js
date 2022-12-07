@@ -53,48 +53,51 @@ const Recipes = () => {
 
     return (
         <section className={`account-list__container ${isLoading || isProcessing ? 'divDisabled' : ''}`}>
-            <div className="d-flex justify-content-end mb-3 gap-3 sm:flex-col">
-                <form
-                    className="global-list_search shadow rounded-3"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        if (search.trim()) {
-                            onAdminFetchMore(1, search);
-                        }
-                    }}
-                >
-                    <SearchOutlined
-                        className="global-list_search-icon cursor-pointer"
-                        onClick={() => {
+            <div className="d-flex justify-content-between align-items-center mb-3 gap-3 sm:flex-col">
+                <h3>Quản lí công thức</h3>
+                <div className="d-flex justify-content-end">
+                    <form
+                        className="global-list_search shadow rounded-3"
+                        onSubmit={(e) => {
+                            e.preventDefault();
                             if (search.trim()) {
                                 onAdminFetchMore(1, search);
                             }
                         }}
-                    />
-                    <Input
-                        onChange={(e) => {
-                            const { value } = e.target;
-                            setSearch(value);
-                            if (!value.trim()) {
-                                onAdminFetchMore(1, '');
-                            }
-                        }}
-                        placeholder="Tìm kiếm..."
-                        value={search}
-                        error={null}
-                        touched={true}
-                        containerNoMarginBottom
-                        className="flex-fill"
-                        inputClassName="border-0"
-                    />
-                </form>
-                <button
-                    className="button button-sm button-green d-flex align-items-center gap-2"
-                    onClick={() => navigate(isMod ? '/recipe-form?step=1' : '/admin/recipe-form?step=1')}
-                >
-                    <PlusCircleOutlined />
-                    <span>Thêm công thức</span>
-                </button>
+                    >
+                        <SearchOutlined
+                            className="global-list_search-icon cursor-pointer"
+                            onClick={() => {
+                                if (search.trim()) {
+                                    onAdminFetchMore(1, search);
+                                }
+                            }}
+                        />
+                        <Input
+                            onChange={(e) => {
+                                const { value } = e.target;
+                                setSearch(value);
+                                if (!value.trim()) {
+                                    onAdminFetchMore(1, '');
+                                }
+                            }}
+                            placeholder="Tìm kiếm..."
+                            value={search}
+                            error={null}
+                            touched={true}
+                            containerNoMarginBottom
+                            className="flex-fill"
+                            inputClassName="border-0"
+                        />
+                    </form>
+                    <button
+                        className="button button-sm button-green d-flex align-items-center gap-2"
+                        onClick={() => navigate(isMod ? '/recipe-form?step=1' : '/admin/recipe-form?step=1')}
+                    >
+                        <PlusCircleOutlined />
+                        <span>Thêm công thức</span>
+                    </button>
+                </div>
             </div>
             <RecipeDataList
                 list={adminRecipeList}

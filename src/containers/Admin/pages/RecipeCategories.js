@@ -113,7 +113,8 @@ const RecipeCategories = () => {
 
     return (
         <>
-            <div className="d-flex justify-content-end mb-3">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+                <h3 className="mb-0">Quản lí thể loại</h3>
                 <button
                     className="button button-sm button-green d-flex align-items-center gap-2"
                     onClick={() => setShowNewCategory(true)}

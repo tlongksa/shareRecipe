@@ -91,50 +91,53 @@ const IngredientReports = () => {
 
     return (
         <section className={`account-list__container pb-3 ${isLoading || isProcessing ? 'divDisabled' : ''}`}>
-            <div className="d-flex justify-content-end mb-3 gap-3 sm:flex-col">
-                <form
-                    className="global-list_search shadow rounded-3"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        if (search.trim()) {
-                            onFetchMoreIngReport(1, search);
-                        }
-                    }}
-                >
-                    <SearchOutlined
-                        className="global-list_search-icon cursor-pointer"
-                        onClick={() => {
+            <div className="d-flex justify-content-between align-align-items-center mb-3 gap-3 sm:flex-col">
+                <h3 className="mb-0">Quản lý cảnh báo nguyên liệu</h3>
+                <div className="d-flex gap-3">
+                    <form
+                        className="global-list_search shadow rounded-3"
+                        onSubmit={(e) => {
+                            e.preventDefault();
                             if (search.trim()) {
                                 onFetchMoreIngReport(1, search);
                             }
                         }}
-                    />
-                    <Input
-                        onChange={(e) => {
-                            const { value } = e.target;
-                            setSearch(value);
-                            if (!value.trim()) {
-                                onFetchMoreIngReport(1, '');
-                            }
+                    >
+                        <SearchOutlined
+                            className="global-list_search-icon cursor-pointer"
+                            onClick={() => {
+                                if (search.trim()) {
+                                    onFetchMoreIngReport(1, search);
+                                }
+                            }}
+                        />
+                        <Input
+                            onChange={(e) => {
+                                const { value } = e.target;
+                                setSearch(value);
+                                if (!value.trim()) {
+                                    onFetchMoreIngReport(1, '');
+                                }
+                            }}
+                            placeholder="Tìm kiếm..."
+                            value={search}
+                            error={null}
+                            touched={true}
+                            containerNoMarginBottom
+                            className="flex-fill"
+                            inputClassName="border-0"
+                        />
+                    </form>
+                    <button
+                        className="button button-sm button-green d-flex align-items-center gap-2"
+                        onClick={() => {
+                            setShow(true);
                         }}
-                        placeholder="Tìm kiếm..."
-                        value={search}
-                        error={null}
-                        touched={true}
-                        containerNoMarginBottom
-                        className="flex-fill"
-                        inputClassName="border-0"
-                    />
-                </form>
-                <button
-                    className="button button-sm button-green d-flex align-items-center gap-2"
-                    onClick={() => {
-                        setShow(true);
-                    }}
-                >
-                    <PlusCircleOutlined />
-                    <span>Thêm cảnh báo</span>
-                </button>
+                    >
+                        <PlusCircleOutlined />
+                        <span>Thêm cảnh báo</span>
+                    </button>
+                </div>
             </div>
             <IngredientReportDataList
                 list={list}
