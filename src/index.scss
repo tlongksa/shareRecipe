@@ -275,3 +275,27 @@ a {
         gap: 0.5rem;
     }
 }
+.global-loader__animation {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    img {
+        max-width: 100px;
+        animation: rotateImg 1s linear infinite;
+    }
+}
+
+@keyframes rotateImg {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

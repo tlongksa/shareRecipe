@@ -11,6 +11,7 @@ import RecipeContext from '../../../../context/recipe-context';
 import { LoadingOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
 import { ROLES } from '../../../../App';
+import imgLoader from '../../../../assets/img/loader.png';
 
 const RecipeForm = () => {
     const {
@@ -314,6 +315,11 @@ const RecipeForm = () => {
                     id={id}
                     isMod={isMod}
                 />
+            )}
+            {(isUploading || isCreating) && (
+                <div className="global-loader__animation">
+                    <img src={imgLoader} alt="" />
+                </div>
             )}
         </section>
     );
