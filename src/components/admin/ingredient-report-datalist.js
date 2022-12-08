@@ -65,7 +65,7 @@ const IngredientReportDataList = ({ list, onEdit, onDelete, currentPage, maxPage
             <span className={styles.no}>{index + 1}</span>
             <span>{item.ingredientA}</span>
             <span>{item.ingredientB}</span>
-            <span>{item?.consequence}</span>
+            <span className="pe-3">{item?.consequence}</span>
             <span>{item.createUsername}</span>
             <span>{item.createDate?.join('-')}</span>
             <span>

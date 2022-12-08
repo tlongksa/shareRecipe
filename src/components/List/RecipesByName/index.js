@@ -20,25 +20,20 @@ const RecipesByName = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [name]);
 
-    if (!isLoading && error) {
-        return (
-            <section className="recipes-by__category-container">
-                <div className="custom-page__container">
-                    <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>
-                </div>
-            </section>
-        );
-    }
-
     return (
         <section className="recipes-by__category-container">
             <HomeBannerCarousel />
             <div className="custom-page__container">
                 <ListCategory />
                 <div className="d-flex justify-content-between align-items-center mb-4 mt-5 should-stack-on-mobile">
-                    <p className="search-result__text">
-                        {recipeByNameList.length} kết quả tìm kiếm cho “{name}”
-                    </p>
+                    {!isLoading && error ? (
+                        <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>
+                    ) : (
+                        <p className="search-result__text">
+                            {recipeByNameList.length} kết quả tìm kiếm cho “{name}”
+                        </p>
+                    )}
+
                     <form
                         className="global-list_search shadow rounded-3"
                         onSubmit={(e) => {
@@ -72,7 +67,7 @@ const RecipesByName = () => {
                     </form>
                 </div>
                 <div className="home__list-recipe__container">
-                    {recipeByNameList.map((item) => (
+                    {recipeByNameList?.map((item) => (
                         <HomeRecipeItem item={item} key={item.dishID} navigateTo={navigate} />
                     ))}
                 </div>
