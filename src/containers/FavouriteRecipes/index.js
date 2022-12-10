@@ -65,6 +65,9 @@ const FavouriteRecipes = () => {
                         emptySearchCallback={() => onFetchFavouriteMore(1, '')}
                     />
                 </div>
+                {!isLoading && !error && favouriteRecipeList.length === 0 && (
+                    <p className="f-24 text-center">Bạn chưa có thêm món ăn yêu thích nào</p>
+                )}
                 <ul className="mt-4">
                     {favouriteRecipeList?.map((item, index) => (
                         <li className="global-recipe__list-item mb-4" key={item.dishId + index}>
