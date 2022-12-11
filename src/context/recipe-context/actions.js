@@ -33,6 +33,9 @@ import {
     RECIPE_GET_INGREDIENT_REPORT_LIST_SUCCESS,
     RECIPE_GET_INGREDIENT_REPORT_LIST_FAILURE,
     RECIPE_REMOVE_FROM_INGREDIENT_REPORT_LIST,
+    RECIPE_ADMIN_GET_LIST_BY_CATEGORY,
+    RECIPE_ADMIN_GET_LIST_BY_CATEGORY_SUCCESS,
+    RECIPE_ADMIN_GET_LIST_BY_CATEGORY_FAILURE,
 } from './types';
 
 const recipeGetListAction = () => ({
@@ -194,7 +197,24 @@ const removeIngReportItemAction = (payload) => ({
     payload,
 });
 
+const recipeAdminGetListByCategoryAction = () => ({
+    type: RECIPE_ADMIN_GET_LIST_BY_CATEGORY,
+});
+
+const recipeAdminGetListByCategorySuccessAction = (payload) => ({
+    type: RECIPE_ADMIN_GET_LIST_BY_CATEGORY_SUCCESS,
+    payload,
+});
+
+const recipeAdminGetListByCategoryFailureAction = (error) => ({
+    type: RECIPE_ADMIN_GET_LIST_BY_CATEGORY_FAILURE,
+    payload: error,
+});
+
 export {
+    recipeAdminGetListByCategoryAction,
+    recipeAdminGetListByCategorySuccessAction,
+    recipeAdminGetListByCategoryFailureAction,
     recipeGetIngReportListAction,
     recipeGetIngReportListSuccessAction,
     recipeGetIngReportListFailureAction,

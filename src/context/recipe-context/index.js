@@ -49,6 +49,7 @@ import {
     getRecipeCommentsRequest,
     adminGetRecipeDetailRequest,
     getListIngReportRequest,
+    adminGetRecipeListByCategoryRequest,
 } from '../../api/requests';
 import AuthContext from '../auth-context';
 import { ROLES } from '../../App';
@@ -293,6 +294,30 @@ export const RecipeProvider = ({ children }) => {
             });
     };
 
+    const fetchAdminRecipeByCategoryList = (categoryId, page, search = '') => {
+        dispatchContext(recipeAdminGetListAction());
+        const promise =
+            roles === ROLES.mod
+                ? modeGetRecipeListRequest(username, page, search)
+                : adminGetRecipeListByCategoryRequest(categoryId, page, search);
+        promise
+            .then(({ data }) => {
+                const { dishFormulaVoList = [], pageIndex, numOfPages } = data;
+                dispatchContext(
+                    recipeAdminGetListSuccessAction({
+                        data: dishFormulaVoList,
+                        extraListInfo: {
+                            pageIndex,
+                            numOfPages,
+                        },
+                    }),
+                );
+            })
+            .catch((err) => {
+                dispatchContext(recipeAdminGetListFailureAction(err?.response?.data));
+            });
+    };
+
     return (
         <RecipeContext.Provider
             value={{
@@ -314,6 +339,8 @@ export const RecipeProvider = ({ children }) => {
                 onRemoveRecipeCommentReport: (id) => dispatchContext(removeRecipeCommentReportAction(id)),
                 onFetchMoreIngReport: (page, search) => fetchIngReportList(page, search),
                 onRemoveIngReportItemFromList: (id) => dispatchContext(removeIngReportItemAction(id)),
+                onAdminFetchMoreByCategory: (categoryId, page, search) =>
+                    fetchAdminRecipeByCategoryList(categoryId, page, search),
             }}
         >
             {children}

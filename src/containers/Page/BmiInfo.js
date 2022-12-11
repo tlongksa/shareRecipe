@@ -636,7 +636,7 @@ const BmiRecipeItem = ({ item, className }) => (
                     <img src={clockImg} alt="" /> {item.time} phút
                 </div>
                 <div className="recipe-item__extra-info">
-                    <img src={starImg} alt="" /> {item.avgStarRate}/5
+                    <img src={starImg} alt="" /> {item.avgStartRate}/5
                 </div>
             </div>
             <p className="mt-1">Lượng kcal: {item.totalCalo} </p>

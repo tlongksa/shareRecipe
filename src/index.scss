@@ -130,6 +130,11 @@ input:focus {
     @media (max-width: 600px) {
         flex-direction: column;
     }
+    @media (max-width: 600px) {
+        &.d-flex {
+            flex-direction: column !important;
+        }
+    }
 }
 p {
     margin-bottom: 0 !important;

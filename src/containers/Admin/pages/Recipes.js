@@ -11,8 +11,17 @@ import AuthContext from '../../../context/auth-context';
 import RecipeContext from '../../../context/recipe-context';
 
 const Recipes = () => {
-    const { adminRecipeList, isLoading, error, onAdminFetchMore, adminRecipeExtraListInfo, onRemoveItemFromList } =
-        useContext(RecipeContext);
+    const {
+        adminRecipeList,
+        isLoading,
+        error,
+        onAdminFetchMore,
+        adminRecipeExtraListInfo,
+        onRemoveItemFromList,
+        onFetchRecipeCategories,
+        categories,
+        onAdminFetchMoreByCategory,
+    } = useContext(RecipeContext);
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
@@ -21,9 +30,11 @@ const Recipes = () => {
     } = useContext(AuthContext);
     const [selectedDeleteId, setSelectedDeleteId] = useState('');
     const isMod = roles === ROLES.mod;
+    const [category, setCategory] = useState('');
 
     useEffect(() => {
         onAdminFetchMore(1);
+        onFetchRecipeCategories();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -54,13 +65,43 @@ const Recipes = () => {
     return (
         <section className={`account-list__container ${isLoading || isProcessing ? 'divDisabled' : ''}`}>
             <div className="d-flex justify-content-between align-items-center mb-3 gap-3 sm:flex-col">
-                <h3>Quản lí công thức</h3>
+                <div className="d-flex align-items-center gap-3">
+                    <h3 className="mb-0">Quản lí công thức</h3>
+                    <Input
+                        type="select"
+                        onChange={(e) => {
+                            setCategory(e.target.value);
+                            if (!e.target.value) {
+                                onAdminFetchMore(1);
+                                return;
+                            }
+                            onAdminFetchMoreByCategory(e.target.value, 1, search);
+                        }}
+                        value={category}
+                        error={''}
+                        touched={true}
+                        containerNoMarginBottom
+                        className="flex-fill"
+                        inputClassName="full"
+                    >
+                        <option value="">Thể loại công thức</option>
+                        {categories.list?.map((value) => (
+                            <option value={value.dishCategoryID} key={value.dishCategoryID}>
+                                {value.name}
+                            </option>
+                        ))}
+                    </Input>
+                </div>
                 <div className="d-flex justify-content-end">
                     <form
                         className="global-list_search shadow rounded-3"
                         onSubmit={(e) => {
                             e.preventDefault();
                             if (search.trim()) {
+                                if (category) {
+                                    onAdminFetchMoreByCategory(category, 1, search);
+                                    return;
+                                }
                                 onAdminFetchMore(1, search);
                             }
                         }}
@@ -78,6 +119,10 @@ const Recipes = () => {
                                 const { value } = e.target;
                                 setSearch(value);
                                 if (!value.trim()) {
+                                    if (category) {
+                                        onAdminFetchMoreByCategory(category, 1, search);
+                                        return;
+                                    }
                                     onAdminFetchMore(1, '');
                                 }
                             }}
@@ -105,6 +150,10 @@ const Recipes = () => {
                 currentPage={adminRecipeExtraListInfo.pageIndex}
                 onDelete={(id) => setSelectedDeleteId(id)}
                 paginateCallback={(page) => {
+                    if (category) {
+                        onAdminFetchMoreByCategory(category, 1, search);
+                        return;
+                    }
                     onAdminFetchMore(page, search || '');
                 }}
                 onEdit={(id) => {

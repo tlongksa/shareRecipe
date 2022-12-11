@@ -181,6 +181,13 @@ const removeIngredientReportRequest = (id) =>
         },
     });
 
+const adminGetRecipeListByCategoryRequest = (categoryId, page = 1, search = '') =>
+    axios.get(`/admin/listRecipeByCategory?categoryId=${categoryId}&pageIndex=${page}&searchData=${search}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
@@ -213,4 +220,5 @@ export {
     getListIngReportRequest,
     createIngredientReportRequest,
     removeIngredientReportRequest,
+    adminGetRecipeListByCategoryRequest,
 };
