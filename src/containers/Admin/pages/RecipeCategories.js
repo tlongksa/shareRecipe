@@ -158,8 +158,8 @@ const RecipeCategories = () => {
                     <form onSubmit={onSubmit}>
                         <Input
                             onChange={(e) => setCategoryName(e.target.value)}
-                            placeholder="Category Name"
-                            label={'Category Name'}
+                            placeholder="Tên thể loại công thức"
+                            label={'Tên thể loại:'}
                             value={categoryName}
                             error={null}
                             touched={true}
@@ -167,7 +167,7 @@ const RecipeCategories = () => {
                         />
                         <Input
                             type="file"
-                            label="Category Image"
+                            label="Ảnh thể loại:"
                             onChange={(e) => {
                                 setImgError('');
                                 setCategoryImage(e.target?.files?.[0]);
@@ -185,7 +185,7 @@ const RecipeCategories = () => {
                                 type="submit"
                                 disabled={!categoryImageUrl || !categoryName.trim() || isProcessing}
                             >
-                                Post
+                                Đăng
                             </button>
                         </div>
                     </form>

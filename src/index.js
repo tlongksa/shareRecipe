@@ -18,13 +18,11 @@ const Login = lazy(() => import('./containers/Auth/Login'));
 const Register = lazy(() => import('./containers/Auth/Register'));
 const HomePage = lazy(() => import('./containers/Home/HomePage'));
 const Introduce = lazy(() => import('./containers/Page/Introduce'));
-const Contact = lazy(() => import('./containers/Page/Contact'));
 const BmiInfo = lazy(() => import('./containers/Page/BmiInfo'));
 const Save = lazy(() => import('./containers/Page/Save'));
 const ForgotPassword = lazy(() => import('./containers/Auth/forgotPassword'));
 const Profile = lazy(() => import('./containers/User/UserProfile'));
 const RecipesByCategory = lazy(() => import('./components/List/RecipesByCategory'));
-
 const NotFound = lazy(() => import('./components/Error/NotFound'));
 const SearchBar = lazy(() => import('./components/Search/SearchBar'));
 const ChangePassword = lazy(() => import('./containers/Auth/ChangePassword'));
@@ -123,14 +121,7 @@ root.render(
                                             </SuspenseWrapper>
                                         }
                                     />
-                                    <Route
-                                        path="/contact"
-                                        element={
-                                            <SuspenseWrapper>
-                                                <Contact />
-                                            </SuspenseWrapper>
-                                        }
-                                    />
+                                    
                                     <Route
                                         path="/bmi"
                                         element={
