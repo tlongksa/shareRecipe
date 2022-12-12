@@ -57,10 +57,9 @@ const HomePage = (props) => {
             <div className="custom-page__container">
                 <ListCategory />
                 <SearchBar />
-                <ListTopNew />
                 <ListTopWeek />
                 <ListTopMonth />
-
+                <ListTopNew />
             </div>
         </div>
     );

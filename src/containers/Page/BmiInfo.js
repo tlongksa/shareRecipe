@@ -331,8 +331,7 @@ const BmiInfo = () => {
                     {breakfastList?.length > 0 && (
                         <h4 className={`mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
                             <img src={breakfastIconImg} alt="" /> Bữa sáng cần :{' '}
-                            {breakfastList?.reduce((acc, cur) => acc + cur.totalCalo, 0) +
-                                (dessertList?.[0]?.totalCalo || 0)}{' '}
+                            {breakfastList?.[0]?.totalCaloBreak}{' '}
                             kcal
                         </h4>
                     )}
@@ -361,8 +360,7 @@ const BmiInfo = () => {
                     {lunchList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
                             <img src={lunchIconImg} alt="" /> Bữa trưa cần{' '}
-                            {lunchList?.reduce((acc, cur) => acc + cur.totalCalo, 0) +
-                                (dessertList?.[1]?.totalCalo || 0)}{' '}
+                            {breakfastList?.[0]?.totalCaloLunch}{' '}
                             kcal
                         </h4>
                     )}
@@ -391,8 +389,7 @@ const BmiInfo = () => {
                     {dinnerList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
                             <img src={dinnerIconImg} alt="" /> Bữa tối cần :{' '}
-                            {dinnerList?.reduce((acc, cur) => acc + cur.totalCalo, 0) +
-                                (dessertList?.[2]?.totalCalo || 0)}{' '}
+                            {breakfastList?.[0]?.totalCaloDinner}{' '}
                             kcal
                         </h4>
                     )}
@@ -585,11 +582,8 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                                 ))}
                             </Input>
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
-                            <strong className="min-width-120">Tổng số kcal: </strong>
-                            <p>
-                                <strong>{item?.totalCalo}</strong> kcal
-                            </p>
+                        <div className="d-flex align-items-center mb-3">
+                                <strong>{"☛ Bạn cần "} {item?.totalCalo} {" kcal/ngày để"} {item?.target} {" cân nặng"}</strong>                         
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
                         <div className="d-flex justify-content-end">
