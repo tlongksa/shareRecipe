@@ -21,34 +21,41 @@ const ListCategory = (props) => {
     }, []);
 
     return (
-        <div className="row">
-            {categories.loading ? (
+        <div className="home-category__wrapper bg-green-blur rounded-4 mb-3 px-3 custom-shadow pt-1 pb-1">
+            <div className="home-category-list__title">🍲 Nấu ăn theo loại</div>
+            <p className="error-message">{categories?.error?.message}</p>
+            <Slider
+                slidesToShow={showNumOfSlideBaseOnScreenSize(
+                    isMobile,
+                    isExtraSmallTablet,
+                    isSmallTablet,
+                    isTablet,
+                    isSmallLaptop,
+                )}
+            >
+                {categories.list.map((list) => (
+                    <Link
+                        key={list.dishCategoryID}
+                        to={`/list-recipe-by-category/${list.dishCategoryID}`}
+                        onClick={() => {
+                            window.scrollTo({
+                                top: 0,
+                                left: 0,
+                            });
+                        }}
+                    >
+                        <div className="category-list__item">
+                            <img className="view-img-category" src={list.dishCategoryImage} alt="img" />
+                            <h5 className="recipe__category-name">{list.name}</h5>
+                            <div className="category-list__item-overlay" />
+                        </div>
+                    </Link>
+                ))}
+            </Slider>
+            {categories.isLoading && (
                 <div className="global-list__loader-container">
                     <LoadingOutlined className="global-list__loader-icon" />
                 </div>
-            ) : (
-                <>
-                    <div className="home-category-list__title">Catergory</div>
-                    <p className="error-message">{categories?.error?.message}</p>
-                    <Slider
-                        slidesToShow={showNumOfSlideBaseOnScreenSize(
-                            isMobile,
-                            isExtraSmallTablet,
-                            isSmallTablet,
-                            isTablet,
-                            isSmallLaptop,
-                        )}
-                    >
-                        {categories.list.map((list) => (
-                            <Link key={list.dishCategoryID} to={`/list-recipe-by-category/${list.dishCategoryID}`}>
-                                <div className="category-list__item">
-                                    <img className="view-img-category" src={list.dishCategoryImage} alt="img" />
-                                    <h5 className="recipe__category-name">{list.name}</h5>
-                                </div>
-                            </Link>
-                        ))}
-                    </Slider>
-                </>
             )}
         </div>
     );

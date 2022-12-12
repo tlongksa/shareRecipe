@@ -11,6 +11,8 @@ import {
     bmiGetRecipeListAction,
     bmiGetRecipeListSuccessAction,
     bmiGetRecipeListFailureAction,
+    clearBmiRecipeListAction,
+    bmiInsertRecipeToListAction,
 } from './actions';
 import bmiReducer from './reducer';
 import {
@@ -19,6 +21,8 @@ import {
     getMainIngredientListRequest,
     getUserBmiRecipeByFavouriteRequest,
     searchMainIngredientListRequest,
+    getUserBmiAlternativeListRecipeRequest,
+    getBmiRecipesByCaloRequest,
 } from '../../api/requests';
 import { notification } from 'antd';
 
@@ -67,15 +71,37 @@ export const BmiProvider = ({ children }) => {
             });
     };
 
-    const fetchBmiRecipeListByFavourite = (totalCalo, meal, mainIngredient) => {
+    const fetchBmiRecipeListByFavourite = (totalCalo, meal, mainIngredient, isRemain, listIDDish = '') => {
         dispatchContext(bmiGetRecipeListAction());
-        getUserBmiRecipeByFavouriteRequest(totalCalo, meal, mainIngredient)
-            .then(({ data }) => {
-                dispatchContext(bmiGetRecipeListSuccessAction([data]));
-            })
-            .catch((err) => {
-                dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
-            });
+
+        if (isRemain) {
+            getBmiRecipesByCaloRequest(totalCalo, meal, mainIngredient, listIDDish)
+                .then(({ data }) => {
+                    dispatchContext(bmiInsertRecipeToListAction(data));
+                    if (totalCalo < 200) {
+                        notification.open({
+                            message: 'Danh sách công thức món ăn của bạn đã hoàn thiện',
+                        });
+                    }
+                })
+                .catch((err) => {
+                    dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
+                    notification.open({
+                        message: err?.response?.data?.messContent || err?.response?.data?.message,
+                    });
+                });
+        } else {
+            getUserBmiRecipeByFavouriteRequest(totalCalo, meal, mainIngredient)
+                .then(({ data }) => {
+                    dispatchContext(bmiGetRecipeListSuccessAction(data));
+                })
+                .catch((err) => {
+                    dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
+                    notification.open({
+                        message: err?.response?.data?.messContent,
+                    });
+                });
+        }
     };
 
     const fetchMainIngredients = (ing = '') => {
@@ -91,9 +117,20 @@ export const BmiProvider = ({ children }) => {
             })
             .catch((err) => {
                 notification.open({
-                    message: err?.response?.data?.messContent,
+                    message: err?.response?.data?.messContent || err?.response?.data?.message,
                 });
                 dispatchContext(bmiGetMainIngredientsFailureAction(err?.response?.data));
+            });
+    };
+
+    const fetchBmiAlternativeRecipeList = (totalCalo, meal, mainIngredient) => {
+        dispatchContext(bmiGetRecipeListAction());
+        getUserBmiAlternativeListRecipeRequest(totalCalo, meal, mainIngredient)
+            .then(({ data }) => {
+                dispatchContext(bmiGetRecipeListSuccessAction([{ ...data }]));
+            })
+            .catch((err) => {
+                dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
             });
     };
 
@@ -105,8 +142,11 @@ export const BmiProvider = ({ children }) => {
                 onClearDetail: () => dispatchContext(clearBmiDetailAction()),
                 onFetchRecipes: (totalCalo) => fetchBmiRecipeList(totalCalo),
                 onFetchMainIngredients: (ing) => fetchMainIngredients(ing),
-                onFetchRecipesByFavourite: (totalCalo, meal, mainIngredient) =>
-                    fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient),
+                onFetchRecipesByFavourite: (totalCalo, meal, mainIngredient, isRemain, listIDDish) =>
+                    fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient, isRemain, listIDDish),
+                onFetchAlternativeRecipes: (totalCalo, meal, mainIngredient) =>
+                    fetchBmiAlternativeRecipeList(totalCalo, meal, mainIngredient),
+                onClearRecipeList: () => dispatchContext(clearBmiRecipeListAction()),
             }}
         >
             {children}

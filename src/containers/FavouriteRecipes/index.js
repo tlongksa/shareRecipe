@@ -1,4 +1,4 @@
-import { DeleteOutlined, DislikeOutlined, LikeOutlined, LoadingOutlined } from '@ant-design/icons';
+import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,8 @@ import Paginator from '../../components/common/Paginator';
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
 import RecipeContext from '../../context/recipe-context';
 import { SearchDataList } from '../Page/Blogs';
+import './index.scss';
+import starImgIcon from '../../assets/img/star.png';
 
 const FavouriteRecipes = () => {
     const {
@@ -63,6 +65,9 @@ const FavouriteRecipes = () => {
                         emptySearchCallback={() => onFetchFavouriteMore(1, '')}
                     />
                 </div>
+                {!isLoading && !error && favouriteRecipeList.length === 0 && (
+                    <p className="f-24 text-center">Bạn chưa có thêm món ăn yêu thích nào</p>
+                )}
                 <ul className="mt-4">
                     {favouriteRecipeList?.map((item, index) => (
                         <li className="global-recipe__list-item mb-4" key={item.dishId + index}>
@@ -72,26 +77,35 @@ const FavouriteRecipes = () => {
                                     alt=""
                                     className="rounded-2 recipe-list_item-avatar"
                                 />
-                                <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
+                                <div className="bg-green-blur flex-fill py-3 px-4 rounded-1 position-relative global-recipe__list-item-info">
                                     <div className="recipe-list_item-content mb-2">
                                         <h5>
-                                            <Link to={`/recipe-detail/${item.dishId}`}>{item.name}</Link>
+                                            <Link
+                                                to={`/recipe-detail/${item.dishId}`}
+                                                onClick={() =>
+                                                    window.scrollTo({
+                                                        top: 0,
+                                                        left: 0,
+                                                    })
+                                                }
+                                            >
+                                                {item.name}
+                                            </Link>
                                         </h5>
                                         <p>{item.describe}</p>
-                                        <p className="d-flex align-items-center gap-3">
+                                        <div className="d-flex align-items-center gap-3">
                                             <strong>By {item.verifier}</strong>
                                             <span className="text-muted">{item?.createDate || '-'}</span>
-                                        </p>
+                                        </div>
+                                        {item.avgStarRate === 0 ? (
+                                            <p>Chưa có đánh giá</p>
+                                        ) : (
+                                            <div className="d-flex align-items-center gap-2">
+                                                Đánh giá công thức : {item.avgStarRate} <img src={starImgIcon} alt="" />
+                                            </div>
+                                        )}
                                     </div>
-                                    <div className={`recipe-list_item-actions d-flex gap-3 align-items-center`}>
-                                        <button onClick={() => {}}>
-                                            <LikeOutlined />
-                                            <span>{item.totalLike}</span>
-                                        </button>
-                                        <button onClick={() => {}}>
-                                            <DislikeOutlined />
-                                            <span>{item.totalDisLike}</span>
-                                        </button>
+                                    <div className={`recipe-list_item-actions position-absolute top-1 right-1`}>
                                         <button onClick={() => onRemoveRecipeHandler(item.dishId)}>
                                             <DeleteOutlined />
                                         </button>

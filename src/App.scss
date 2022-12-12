@@ -1,0 +1,11 @@
+.main-app__content-container {
+    min-height: 90vh;
+}
+.header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 5;
+    padding: 1rem 0;
+}

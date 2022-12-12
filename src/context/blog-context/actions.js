@@ -24,6 +24,7 @@ import {
     BLOG_GET_COMMENT_REPORT_LIST_FAILURE,
     BLOG_UPDATE_COMMENT_CONTENT,
     BLOG_REMOVE_COMMENT_REPORT_FROM_LIST,
+    BLOG_INCREASE_NUM_OF_COMMENTS,
 } from './types';
 
 const blogGetListAction = () => ({
@@ -141,6 +142,10 @@ const removeBlogCommentReportAction = (payload) => ({
     payload,
 });
 
+const increaseNumOfComments = () => ({
+    type: BLOG_INCREASE_NUM_OF_COMMENTS,
+});
+
 export {
     blogGetListAction,
     blogGetListSuccessAction,
@@ -167,4 +172,5 @@ export {
     blogGetCommentReportListFailureAction,
     blogUpdateCommentContentAction,
     removeBlogCommentReportAction,
+    increaseNumOfComments,
 };

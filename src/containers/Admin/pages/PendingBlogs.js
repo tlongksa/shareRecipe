@@ -69,7 +69,8 @@ const PendingBlogs = () => {
     }
     return (
         <section className="pending-blogs__container pb-4">
-            <div className="d-flex justify-content-end mb-3 gap-3 sm:flex-col">
+            <div className="d-flex justify-content-between align-items-center mb-3 gap-3 sm:flex-col">
+                <h3 className="mb-0">Phê duyệt blog</h3>
                 <form
                     className="global-list_search shadow rounded-3"
                     onSubmit={(e) => {
@@ -95,7 +96,7 @@ const PendingBlogs = () => {
                                 onFetchMorePendingList(1, '');
                             }
                         }}
-                        placeholder="Search..."
+                        placeholder="Tìm kiếm..."
                         value={search}
                         error={null}
                         touched={true}

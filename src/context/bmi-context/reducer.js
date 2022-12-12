@@ -11,6 +11,7 @@ import {
     BMI_GET_MAIN_INGREDIENTS_SUCCESS,
     BMI_GET_MAIN_INGREDIENTS_FAILURE,
     BMI_UPDATE_SUCCESS,
+    BMI_INSERT_RECIPE_TO_LIST,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -76,6 +77,11 @@ const bmiReducer = (state = defaultValues, { type, payload }) =>
                 draft.bmiDetail.dataResponse.weight = payload.weight;
                 draft.bmiDetail.dataResponse.mobility = payload.mobility;
                 draft.bmiDetail.dataResponse.target = payload.target;
+                break;
+            case BMI_INSERT_RECIPE_TO_LIST:
+                draft.recipes.dataResponse = draft.recipes.dataResponse.concat(payload);
+                draft.recipes.error = null;
+                draft.recipes.isLoading = false;
                 break;
             default:
                 break;

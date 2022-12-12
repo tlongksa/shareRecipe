@@ -1,2 +1,101 @@
-.client-bmi__info {
+.bmi-recipe__item {
+    min-width: 250px;
+    max-width: 300px;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    background: #ffffff;
+    box-shadow: 0px 8px 32px -8px rgba(0, 55, 12, 0.12);
+    border-radius: 12px;
+    .bmi-recipe__item-img {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+        flex-shrink: 0;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        border-bottom: 1px solid #eee;
+    }
+    a {
+        line-height: 24px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* number of lines to show */
+        -webkit-box-orient: vertical;
+        margin-bottom: 0.5rem;
+        height: 44px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #000;
+        &:hover {
+            color: var(--green-color);
+        }
+
+        @media (max-width: 768px) {
+            font-size: 18px;
+        }
+        @media (max-width: 475px) {
+            font-size: 15px;
+        }
+    }
+    .recipe-item__extra-info {
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+}
+.min-width-120 {
+    min-width: 120px;
+}
+
+.bmi-form__wrapper {
+    img {
+        max-width: 350px;
+    }
+    @media (max-width: 700px) {
+        img {
+            display: none;
+        }
+    }
+}
+.bmi-form__info-unedit {
+    @media (max-width: 630px) {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+}
+.bmi-form__info-row {
+    @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+}
+.bmi__choose-main-ing__row {
+    @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+}
+.bmi-option__titles {
+    h3 {
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 48px;
+        margin-bottom: 0;
+    }
+    p {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 24px;
+        margin-bottom: 1.5rem !important;
+    }
+}
+.bmi-form__info-title {
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 32px;
+}
+.bmi-info__fixed-data {
+    font-size: 22px;
 }

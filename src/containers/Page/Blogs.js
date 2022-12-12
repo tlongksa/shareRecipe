@@ -25,131 +25,39 @@ import AuthContext from '../../context/auth-context';
 import { CDropdownToggle, CDropdown, CDropdownMenu, CDropdownItem } from '@coreui/react';
 import { IMAGE_PLACEHODLER_URI } from '../../constants';
 import { ROLES } from '../../App';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { fileUploadHandler } from '../../hooks/useFileUpload';
 
-export const SearchDataList = ({ search, setSearch, callback, emptySearchCallback, className }) => {
-    const handleChange = (e) => {
-        const { value } = e.target;
-        setSearch(value);
-        if (!value.trim()) {
-            emptySearchCallback();
-        }
+export function uploadAdapter(loader) {
+    return {
+        upload: () => {
+            return new Promise((resolve, reject) => {
+                // const body = new FormData();
+                loader.file.then((file) => {
+                    fileUploadHandler(
+                        file,
+                        (isLoading) => {
+                            console.log(isLoading);
+                        },
+                        reject,
+                        (url) => {
+                            resolve({
+                                default: url,
+                            });
+                        },
+                    );
+                });
+            });
+        },
     };
+}
 
-    return (
-        <form
-            className={`global-list_search shadow rounded-3 ${className || ''}`}
-            onSubmit={(e) => {
-                e.preventDefault();
-                callback();
-            }}
-        >
-            <SearchOutlined className="global-list_search-icon cursor-pointer" onClick={callback} />
-            <Input
-                onChange={handleChange}
-                placeholder="Search..."
-                value={search}
-                error={null}
-                touched={true}
-                containerNoMarginBottom
-                className="flex-fill"
-                inputClassName="border-0"
-            />
-        </form>
-    );
-};
-
-export const BlogItem = ({
-    item,
-    isAuthenticated,
-    onLike,
-    onDislike,
-    hideBottomActions,
-    onApprove,
-    onDelete,
-    username,
-    hideDeleteIcon,
-    onEdit,
-}) => {
-    return (
-        <li className="blog-list_item mb-4">
-            <div className="d-flex gap-3">
-                <img
-                    src={item.avatarImage || IMAGE_PLACEHODLER_URI}
-                    alt=""
-                    className="rounded-circle blog-list_item-avatar"
-                />
-                <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
-                    <div className="d-flex justify-content-between align-items-center">
-                        <p className="d-flex align-items-center gap-3">
-                            <strong>{item.userName}</strong>
-                            <span className="text-muted">{item?.createDate || '-'}</span>
-                        </p>
-                        <div className="d-flex gap-3">
-                            {onApprove && (
-                                <CheckSquareOutlined
-                                    className="blog-list_item-actions_icon"
-                                    onClick={() => onApprove(item.blogID)}
-                                />
-                            )}
-                            {onDelete && (
-                                <DeleteOutlined
-                                    className={`blog-list_item-actions_icon ${hideDeleteIcon ? 'd-none' : ''}`}
-                                    onClick={() => onDelete(item.blogID)}
-                                />
-                            )}
-                            {username && item.userName === username && (
-                                <CDropdown>
-                                    <CDropdownToggle
-                                        color="white"
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                        }}
-                                        caret={false}
-                                    >
-                                        <EllipsisOutlined className="blog-list_item-actions_icon" />
-                                    </CDropdownToggle>
-                                    <CDropdownMenu>
-                                        <CDropdownItem onClick={() => onEdit && onEdit(item)}>
-                                            <EditOutlined className="blog-list_item-actions_icon" /> <span>Sửa</span>
-                                        </CDropdownItem>
-                                        <CDropdownItem onClick={() => onDelete(item.blogID)}>
-                                            <DeleteOutlined className="blog-list_item-actions_icon" /> <span>Xóa</span>
-                                        </CDropdownItem>
-                                    </CDropdownMenu>
-                                </CDropdown>
-                            )}
-                        </div>
-                    </div>
-                    <div className="blog-list_item-content mb-2">
-                        <h5>
-                            <Link to={`/blogs/${item.blogID}`}>{item.title}</Link>
-                        </h5>
-                        <p>{item.content}</p>
-                    </div>
-                    <div
-                        className={`blog-list_item-actions d-flex gap-3 align-items-center ${
-                            isAuthenticated ? '' : 'divDisabled'
-                        } ${hideBottomActions ? 'd-none' : ''}`}
-                    >
-                        <button onClick={() => onLike && onLike(item.blogID)}>
-                            {item?.checkLike ? <LikeFilled /> : <LikeOutlined />}
-                            <span>{item.totalLike}</span>
-                        </button>
-                        <button onClick={() => onDislike && onDislike(item.blogID)}>
-                            {item?.checkDislike ? <DislikeFilled /> : <DislikeOutlined />}
-                            <span>{item.totalDisLike}</span>
-                        </button>
-                        <button>
-                            <CommentOutlined />
-                            <span>{item.numberComment}</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </li>
-    );
-};
+export function uploadPlugin(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+        return uploadAdapter(loader);
+    };
+}
 
 export const BlogForm = ({ show, setShow, blogData, callback }) => {
     const [title, setTitle] = useState('');
@@ -199,28 +107,41 @@ export const BlogForm = ({ show, setShow, blogData, callback }) => {
                 <form onSubmit={onSubmit}>
                     <Input
                         onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Title"
-                        label={'Title'}
+                        label={'Tiêu đề'}
                         value={title}
                         error={null}
                         touched={true}
                         className="flex-fill"
                     />
-                    <Input
-                        type="textarea"
-                        label="Content"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="Content ..."
-                        textAreaRows={15}
-                    />
+                    <div className="mb-3">
+                        <h5>Mô tả</h5>
+                        <CKEditor
+                            editor={ClassicEditor}
+                            data={content}
+                            config={{ extraPlugins: [uploadPlugin] }}
+                            onReady={(editor) => {
+                                // You can store the "editor" and use when it is needed.
+                                console.log('Editor is ready to use!', editor);
+                            }}
+                            onChange={(event, editor) => {
+                                const data = editor.getData();
+                                setContent(data);
+                            }}
+                            onBlur={(event, editor) => {
+                                console.log('Blur.', editor);
+                            }}
+                            onFocus={(event, editor) => {
+                                console.log('Focus.', 762);
+                            }}
+                        />
+                    </div>
                     <div className="d-flex justify-content-end">
                         <button
-                            className="button button-sm"
+                            className="button button-sm button-green"
                             type="submit"
                             disabled={!content.trim() || !title.trim() || isProcessing}
                         >
-                            Post
+                            Xác nhận
                         </button>
                     </div>
                 </form>
@@ -277,7 +198,7 @@ const Blogs = () => {
                     />
                     {isAuthenticated && (
                         <button
-                            className="button button-sm d-flex align-items-center gap-2"
+                            className="button button-sm button-green d-flex align-items-center gap-2"
                             onClick={() => setShowNewBlog(true)}
                         >
                             <PlusCircleOutlined />
@@ -287,7 +208,12 @@ const Blogs = () => {
                 </div>
                 <ul className="blog-list_items">
                     {list.map((item, index) => (
-                        <BlogItem key={`${item.blogID}-${index}`} item={item} isAuthenticated={isAuthenticated} />
+                        <BlogItem
+                            key={`${item.blogID}-${index}`}
+                            item={item}
+                            isAuthenticated={isAuthenticated}
+                            hideContent
+                        />
                     ))}
                 </ul>
                 {isLoading && (
@@ -320,3 +246,146 @@ const Blogs = () => {
 };
 
 export default Blogs;
+
+export const SearchDataList = ({ search, setSearch, callback, emptySearchCallback, className }) => {
+    const handleChange = (e) => {
+        const { value } = e.target;
+        setSearch(value);
+        if (!value.trim()) {
+            emptySearchCallback();
+        }
+    };
+
+    return (
+        <form
+            className={`global-list_search shadow rounded-3 ${className || ''}`}
+            onSubmit={(e) => {
+                e.preventDefault();
+                callback();
+            }}
+        >
+            <SearchOutlined className="global-list_search-icon cursor-pointer" onClick={callback} />
+            <Input
+                onChange={handleChange}
+                placeholder="Tìm kiếm..."
+                value={search}
+                error={null}
+                touched={true}
+                containerNoMarginBottom
+                className="flex-fill"
+                inputClassName="border-0"
+            />
+        </form>
+    );
+};
+
+export const BlogItem = ({
+    item,
+    isAuthenticated,
+    onLike,
+    onDislike,
+    hideBottomActions,
+    onApprove,
+    onDelete,
+    username,
+    hideDeleteIcon,
+    onEdit,
+    hideContent,
+}) => {
+    return (
+        <li className="blog-list_item mb-4 bg-green-blur custom-shadow rounded-3 p-3">
+            <div className="d-flex gap-3">
+                <div className="blog-list_item-media">
+                    <img
+                        src={item.avatarImage || IMAGE_PLACEHODLER_URI}
+                        alt=""
+                        className="rounded-circle blog-list_item-avatar"
+                    />
+                </div>
+                <div className="flex-fill px-2">
+                    <div className="d-flex justify-content-between align-items-center">
+                        <p className="d-flex align-items-center gap-3">
+                            <strong>{item.userName}</strong>
+                            <span className="text-muted">{item?.createDate?.join('-') || '-'}</span>
+                        </p>
+                        <div className="d-flex gap-3">
+                            {onApprove && (
+                                <CheckSquareOutlined
+                                    className="blog-list_item-actions_icon"
+                                    onClick={() => onApprove(item.blogID)}
+                                />
+                            )}
+                            {onDelete && (
+                                <DeleteOutlined
+                                    className={`blog-list_item-actions_icon ${hideDeleteIcon ? 'd-none' : ''}`}
+                                    onClick={() => onDelete(item.blogID)}
+                                />
+                            )}
+                            {username && item.userName === username && (
+                                <CDropdown>
+                                    <CDropdownToggle
+                                        color="white"
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                        }}
+                                        caret={false}
+                                    >
+                                        <EllipsisOutlined className="blog-list_item-actions_icon" />
+                                    </CDropdownToggle>
+                                    <CDropdownMenu>
+                                        <CDropdownItem onClick={() => onEdit && onEdit(item)}>
+                                            <EditOutlined className="blog-list_item-actions_icon" /> <span>Sửa</span>
+                                        </CDropdownItem>
+                                        <CDropdownItem onClick={() => onDelete(item.blogID)}>
+                                            <DeleteOutlined className="blog-list_item-actions_icon" /> <span>Xóa</span>
+                                        </CDropdownItem>
+                                    </CDropdownMenu>
+                                </CDropdown>
+                            )}
+                        </div>
+                    </div>
+                    <div className="blog-list_item-content mb-2">
+                        <h5 className="blog-list_item__title">
+                            <Link
+                                to={`/blogs/${item.blogID}`}
+                                onClick={() => {
+                                    window.scrollTo({
+                                        top: 0,
+                                        left: 0,
+                                    });
+                                }}
+                            >
+                                {item.title}
+                            </Link>
+                        </h5>
+                        <div
+                            className={`blog-item__content ${hideContent ? 'd-none' : ''}`}
+                            dangerouslySetInnerHTML={{
+                                __html: item.content,
+                            }}
+                        />
+                    </div>
+                    <div
+                        className={`blog-list_item-actions d-flex gap-3 align-items-center ${
+                            isAuthenticated ? '' : 'divDisabled'
+                        } ${hideBottomActions ? 'd-none' : ''}`}
+                    >
+                        <button onClick={() => onLike && onLike(item.blogID)}>
+                            {item?.checkLike ? <LikeFilled /> : <LikeOutlined />}
+                            <span>{item.totalLike}</span>
+                        </button>
+                        <button onClick={() => onDislike && onDislike(item.blogID)}>
+                            {item?.checkDislike ? <DislikeFilled /> : <DislikeOutlined />}
+                            <span>{item.totalDisLike}</span>
+                        </button>
+                        <button>
+                            <CommentOutlined />
+                            <span>{item.numberComment}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </li>
+    );
+};

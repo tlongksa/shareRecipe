@@ -18,6 +18,12 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const onSubmit = (values) => {
+        if (new Date() < new Date(values.dob)) {
+            notification.open({
+                message: 'Vui lòng chọn ngày sinh không vượt quá ngày hiện tại',
+            });
+            return;
+        }
         setIsProcessing(true);
         updateAccountProfileRequest(item.profileId, {
             phone: values.phone,
@@ -41,13 +47,13 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
     };
 
     return (
-        <div className={`bmi-form__info p-4 bg-gray-custom flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
+        <div className={`bmi-form__info flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
             <Formik
                 initialValues={{
                     high: item?.high || 0,
                     weight: item?.weight || 0,
                     dob: item?.dob || '',
-                    gender: item?.gender || '',
+                    gender: item?.gender || 'Nam',
                     phone: item?.phone || '',
                     address: item?.address || '',
                 }}
@@ -56,98 +62,104 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
             >
                 {({ errors, touched, values, handleChange }) => (
                     <Form>
-                        <div className="d-flex gap-4 align-items-center mb-3">
-                            <p className="w-150px">Ngày sinh: </p>
-                            <Input
-                                type="date"
-                                name="dob"
-                                onChange={handleChange}
-                                placeholder="Vui lòng nhập chiều cao của bạn "
-                                value={values.dob}
-                                error={errors.dob}
-                                touched={touched.dob}
-                                containerNoMarginBottom
-                                className="flex-fill"
-                                errorNormalPosition
-                                inputClassName="w-50"
-                            />
+                        <div className="d-flex align-items-center gap-5 mb-3">
+                            <div className="d-flex gap-4 align-items-center edit-profile__field-row w-100">
+                                <p className="w-150px">Ngày sinh: </p>
+                                <Input
+                                    type="date"
+                                    name="dob"
+                                    onChange={handleChange}
+                                    placeholder="Vui lòng nhập chiều cao của bạn "
+                                    value={values.dob}
+                                    error={errors.dob}
+                                    touched={touched.dob}
+                                    containerNoMarginBottom
+                                    className="flex-fill"
+                                    errorNormalPosition
+                                    inputClassName="w-50"
+                                />
+                            </div>
+                            <div className="d-flex gap-4 align-items-center edit-profile__field-row w-100">
+                                <p className="w-150px">Giới tính: </p>
+                                <Input
+                                    type="select"
+                                    name="gender"
+                                    onChange={handleChange}
+                                    value={values.gender}
+                                    error={errors.gender}
+                                    touched={touched.gender}
+                                    containerNoMarginBottom
+                                    className="flex-fill"
+                                    errorNormalPosition
+                                >
+                                    {['Nam', 'Nữ'].map((value) => (
+                                        <option value={value} key={value}>
+                                            {value}
+                                        </option>
+                                    ))}
+                                </Input>
+                            </div>
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
-                            <p className="w-150px">Giới tính: </p>
-                            <Input
-                                type="select"
-                                name="gender"
-                                onChange={handleChange}
-                                value={values.gender}
-                                error={errors.gender}
-                                touched={touched.gender}
-                                containerNoMarginBottom
-                                className="flex-fill"
-                                errorNormalPosition
-                            >
-                                {['Nam', 'Nữ'].map((value) => (
-                                    <option value={value} key={value}>
-                                        {value}
-                                    </option>
-                                ))}
-                            </Input>
+                        <div className="d-flex align-items-center gap-5 mb-3">
+                            <div className="d-flex gap-4 align-items-center edit-profile__field-row w-100">
+                                <p className="w-150px">Chiều cao(cm) : </p>
+                                <Input
+                                    name="high"
+                                    onChange={handleChange}
+                                    placeholder="Vui lòng nhập chiều cao của bạn "
+                                    value={values.high}
+                                    error={errors.high}
+                                    touched={touched.high}
+                                    containerNoMarginBottom
+                                    className="flex-fill"
+                                    errorNormalPosition
+                                    inputClassName="w-50"
+                                />
+                            </div>
+                            <div className="d-flex gap-4 align-items-center edit-profile__field-row w-100">
+                                <p className="w-150px">Cân nặng(kg) : </p>
+                                <Input
+                                    name="weight"
+                                    onChange={handleChange}
+                                    placeholder="Vui lòng nhập cân nặng của bạn "
+                                    value={values.weight}
+                                    error={errors.weight}
+                                    touched={touched.weight}
+                                    containerNoMarginBottom
+                                    className="flex-fill"
+                                    errorNormalPosition
+                                    inputClassName="w-50"
+                                />
+                            </div>
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
-                            <p className="w-150px">Chiều cao : </p>
-                            <Input
-                                name="high"
-                                onChange={handleChange}
-                                placeholder="Vui lòng nhập chiều cao của bạn "
-                                value={values.high}
-                                error={errors.high}
-                                touched={touched.high}
-                                containerNoMarginBottom
-                                className="flex-fill"
-                                errorNormalPosition
-                                inputClassName="w-50"
-                            />
-                        </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
-                            <p className="w-150px">Cân nặng : </p>
-                            <Input
-                                name="weight"
-                                onChange={handleChange}
-                                placeholder="Vui lòng nhập cân nặng của bạn "
-                                value={values.weight}
-                                error={errors.weight}
-                                touched={touched.weight}
-                                containerNoMarginBottom
-                                className="flex-fill"
-                                errorNormalPosition
-                                inputClassName="w-50"
-                            />
-                        </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
-                            <p className="w-150px">Số điện thoại: </p>
-                            <Input
-                                name="phone"
-                                onChange={handleChange}
-                                value={values.phone}
-                                error={errors.phone}
-                                touched={touched.phone}
-                                containerNoMarginBottom
-                                className="flex-fill"
-                                errorNormalPosition
-                                inputClassName="w-50"
-                            />
-                        </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
-                            <p className="w-150px">Địa chỉ: </p>
-                            <Input
-                                name="address"
-                                onChange={handleChange}
-                                value={values.address}
-                                error={errors.address}
-                                touched={touched.address}
-                                containerNoMarginBottom
-                                className="flex-fill"
-                                errorNormalPosition
-                            />
+                        <div className="d-flex align-items-center gap-5 mb-3">
+                            <div className="d-flex gap-4 align-items-center edit-profile__field-row w-100">
+                                <p className="w-150px">Số điện thoại: </p>
+                                <Input
+                                    name="phone"
+                                    onChange={handleChange}
+                                    value={values.phone}
+                                    error={errors.phone}
+                                    touched={touched.phone}
+                                    containerNoMarginBottom
+                                    className="flex-fill"
+                                    errorNormalPosition
+                                    inputClassName="w-50"
+                                />
+                            </div>
+                            <div className="d-flex gap-4 align-items-center edit-profile__field-row w-100">
+                                <p className="w-150px">Địa chỉ: </p>
+                                <Input
+                                    name="address"
+                                    onChange={handleChange}
+                                    value={values.address}
+                                    error={errors.address}
+                                    touched={touched.address}
+                                    containerNoMarginBottom
+                                    className="flex-fill"
+                                    errorNormalPosition
+                                />
+                            </div>
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
                         <div className="d-flex justify-content-end gap-2">
@@ -158,7 +170,11 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
                             >
                                 Hủy
                             </button>
-                            <button className="button button-sm" type="submit" disabled={item?.messContent}>
+                            <button
+                                className="button button-sm button-green"
+                                type="submit"
+                                disabled={item?.messContent}
+                            >
                                 Lưu
                             </button>
                         </div>
@@ -271,7 +287,7 @@ const UserProfile = () => {
                 <div className="profile-name__container mb-4">
                     <h3 className="text-center">{dataResponse?.name}</h3>
                 </div>
-                <div className="bg-gray-custom p-4 rounded-2">
+                <div className="bg-green-blur p-4 rounded-4 text-larger">
                     {shouldUpdate ? (
                         <EditProfileForm
                             item={dataResponse}
@@ -283,27 +299,33 @@ const UserProfile = () => {
                         />
                     ) : (
                         <>
-                            <div className="mb-3">
-                                <strong>Ngày sinh: </strong> {dataResponse?.dob}
+                            <div className="d-flex align-items-center gap-5 mb-3">
+                                <div className="w-100">
+                                    <strong>Ngày sinh: </strong> {dataResponse?.dob}
+                                </div>
+                                <div className="w-100">
+                                    <strong>Giới tính: </strong> {dataResponse?.gender}
+                                </div>
                             </div>
-                            <div className="mb-3">
-                                <strong>Giới tính: </strong> {dataResponse?.gender}
+                            <div className="d-flex align-items-center gap-5 mb-3">
+                                <div className="w-100">
+                                    <strong>Cân nặng: </strong> {dataResponse?.weight} kg
+                                </div>
+                                <div className="w-100">
+                                    <strong>Chiều cao: </strong> {dataResponse?.high} cm
+                                </div>
                             </div>
-                            <div className="mb-3">
-                                <strong>Cân nặng: </strong> {dataResponse?.weight}
-                            </div>
-                            <div className="mb-3">
-                                <strong>Chiều cao: </strong> {dataResponse?.high}
-                            </div>
-                            <div className="mb-3">
-                                <strong>Số điện thoại: </strong> {dataResponse?.phone}
-                            </div>
-                            <div className="mb-3">
-                                <strong>Địa chỉ: </strong> {dataResponse?.address}
+                            <div className="d-flex align-items-center gap-5 mb-3">
+                                <div className="w-100">
+                                    <strong>Số điện thoại: </strong> {dataResponse?.phone}
+                                </div>
+                                <div className="w-100">
+                                    <strong>Địa chỉ: </strong> {dataResponse?.address}
+                                </div>
                             </div>
                             <div className="d-flex justify-content-end">
                                 <button
-                                    className="button button-sm"
+                                    className="button button-sm button-green"
                                     type="button"
                                     onClick={() => setShouldUpdate(true)}
                                 >

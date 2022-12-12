@@ -11,6 +11,7 @@ import {
     BMI_GET_MAIN_INGREDIENTS_SUCCESS,
     BMI_GET_MAIN_INGREDIENTS_FAILURE,
     BMI_UPDATE_SUCCESS,
+    BMI_INSERT_RECIPE_TO_LIST,
 } from './types';
 
 const bmiGetDetailAction = () => ({
@@ -37,6 +38,11 @@ const bmiGetRecipeListAction = () => ({
 
 const bmiGetRecipeListSuccessAction = (payload) => ({
     type: BMI_GET_RECIPE_LIST_SUCCESS,
+    payload,
+});
+
+const bmiInsertRecipeToListAction = (payload) => ({
+    type: BMI_INSERT_RECIPE_TO_LIST,
     payload,
 });
 
@@ -81,4 +87,5 @@ export {
     bmiGetMainIngredientsSuccessAction,
     bmiGetMainIngredientsFailureAction,
     updateBmiInfoSuccess,
+    bmiInsertRecipeToListAction,
 };

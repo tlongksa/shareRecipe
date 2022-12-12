@@ -73,7 +73,8 @@ const BlogCommentReports = () => {
 
     return (
         <section className={`account-list__container pb-3 ${isLoading || isProcessing ? 'divDisabled' : ''}`}>
-            <div className="d-flex justify-content-end mb-3 gap-3 sm:flex-col">
+            <div className="d-flex justify-content-between align-items-center mb-3 gap-3 sm:flex-col">
+                <h3 className="mb-0">Quản lí report bình luận blog</h3>
                 <form
                     className="global-list_search shadow rounded-3"
                     onSubmit={(e) => {
@@ -99,7 +100,7 @@ const BlogCommentReports = () => {
                                 onFetchMoreBlogCommentReport(1, '');
                             }
                         }}
-                        placeholder="Search..."
+                        placeholder="Tìm kiếm..."
                         value={search}
                         error={null}
                         touched={true}

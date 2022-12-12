@@ -20,6 +20,10 @@ const Input = ({
     inputClassName,
     textAreaRows = 6,
     errorNormalPosition,
+    id,
+    onFocus,
+    onBlur,
+    title,
 }) => {
     let input = (
         <input
@@ -31,6 +35,10 @@ const Input = ({
             placeholder={placeholder}
             readOnly={readOnly}
             autoComplete="off"
+            id={id || ''}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            title={title || ''}
         />
     );
 
@@ -45,6 +53,10 @@ const Input = ({
                 value={value}
                 placeholder={placeholder}
                 readOnly={readOnly}
+                id={id || ''}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                title={title || ''}
             />
         );
     }
@@ -57,6 +69,10 @@ const Input = ({
                 onChange={onChange}
                 value={value}
                 readOnly={readOnly}
+                id={id || ''}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                title={title || ''}
             >
                 {children}
             </select>

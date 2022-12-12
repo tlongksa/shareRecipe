@@ -1,0 +1,20 @@
+.main-logo__container {
+    font-size: 3rem !important;
+    font-weight: 400 !important;
+    max-height: 44px;
+    span {
+        color: #000;
+    }
+    &.logo-md {
+        font-size: 1.8rem !important;
+    }
+    &.logo-sm {
+        font-size: 1.2rem !important;
+    }
+    &.logo-extra-sm {
+        font-size: 1rem !important;
+    }
+    img {
+        max-width: 130px;
+    }
+}

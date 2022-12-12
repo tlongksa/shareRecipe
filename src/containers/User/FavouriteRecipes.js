@@ -4,16 +4,27 @@ import { Link } from 'react-router-dom';
 import RecipeContext from '../../context/recipe-context';
 import './index.scss';
 
-const ProfileFavouriteRecipe = ({ item }) => {
+export const ProfileFavouriteRecipe = ({ item }) => {
     return (
         <li className="profile-favourite__recipe-item">
-            <Link to={`/recipe-detail/${item.dishId}`} className="d-block">
-                {item.name}
-            </Link>
             <img src={item.urlImage || 'https://via.placeholder.com/150'} alt="" />
-            <p className="mt-2">
-                By <strong>{item.verifier}</strong> <span className="text-muted">{item.createDate}</span>
-            </p>
+            <div className="p-2">
+                <Link
+                    to={`/recipe-detail/${item.dishId}`}
+                    className="d-block"
+                    onClick={() =>
+                        window.scrollTo({
+                            top: 0,
+                            left: 0,
+                        })
+                    }
+                >
+                    {item.name}
+                </Link>
+                <p className="mt-2">
+                    By <strong>{item.verifier}</strong> <span className="text-muted">{item.createDate}</span>
+                </p>
+            </div>
         </li>
     );
 };
@@ -27,11 +38,11 @@ const FavouriteRecipes = () => {
     }, []);
 
     if (!isLoading && error) {
-        return <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>;
+        return <p className="error-message mt-3">{error?.message || 'Lỗi xảy ra!'}</p>;
     }
     return (
         <div className="mt-4">
-            <h2>Các món yêu thích của tôi : </h2>
+            <h2 className="mb-3">Các món yêu thích của tôi : </h2>
             <ul className="profile-favourite__recipes">
                 {favouriteRecipeList.map((item) => (
                     <ProfileFavouriteRecipe key={item.dishId} item={item} />

@@ -51,7 +51,7 @@ function MobileCard({ item, no, onEdit, onDelete, onView }) {
                 </div>
                 <div className="custom-col">
                     <strong>Mô tả</strong>
-                    <p>{item.formulaDescribe?.substr(0, 45)}</p>
+                    <p >{item.formulaDescribe?.substr(0, 45)}</p>
                 </div>
                 <div className="custom-col">
                     <strong>Ngày tạo</strong>
@@ -72,9 +72,8 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
     let listRecipeMarkup = list.map((item, index) => (
         <li key={item.dishID} className={styles.dataItem}>
             <span className={styles.no}>{index + 1}</span>
-            <span>{item.dishID}</span>
             <span>{item.dishName || '-'}</span>
-            <span>{item.formulaDescribe?.substr(0, 45) || '-'}</span>
+            <span className="pe-3" >{item.formulaDescribe?.substr(0, 45) || '-'}</span>
             <span>{item?.createDate || '-'}</span>
             <span>{item.verifier}</span>
             <span>
@@ -128,7 +127,6 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
                 {!isMobile && (
                     <li className={[styles.dataItem, styles.dataItemHead].join(' ')}>
                         <strong className={styles.no}>No</strong>
-                        <strong>Id</strong>
                         <strong>Tên công thức</strong>
                         <strong>Mô tả</strong>
                         <strong>Ngày tạo </strong>

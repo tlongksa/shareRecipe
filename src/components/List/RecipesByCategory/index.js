@@ -1,4 +1,4 @@
-import { DislikeOutlined, LikeOutlined, LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { IMAGE_PLACEHODLER_URI } from '../../../constants';
@@ -6,6 +6,7 @@ import AuthContext from '../../../context/auth-context';
 import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
 import './index.scss';
+import starImgIcon from '../../../assets/img/star.png';
 
 export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
     <li className="recipe-list_item mb-4">
@@ -14,28 +15,31 @@ export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
             <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
                 <div className="recipe-list_item-content">
                     <h5>
-                        <Link to={`/recipe-detail/${item.dishID}`}>{item.name}</Link>
+                        <Link
+                            to={`/recipe-detail/${item.dishID}`}
+                            onClick={() =>
+                                window.scrollTo({
+                                    top: 0,
+                                    left: 0,
+                                })
+                            }
+                        >
+                            {item.name}
+                        </Link>
                     </h5>
-                    <p>{item.description}</p>
+                    <p>{item.describe}</p>
                 </div>
                 <p className="d-flex align-items-center gap-1 mb-2">
                     <strong>By {item.verifier}</strong>
                     <span className="text-muted">{item.createDate}</span>
                 </p>
-                <div
-                    className={`recipe-list_item-actions d-flex gap-3 align-items-center ${
-                        isAuthenticated ? '' : 'divDisabled'
-                    }`}
-                >
-                    <button>
-                        <LikeOutlined />
-                        <span>{item.totalLike}</span>
-                    </button>
-                    <button>
-                        <DislikeOutlined />
-                        <span>{item.totalDisLike}</span>
-                    </button>
-                </div>
+                {item.avgStarRate === 0 ? (
+                    <p>Chưa có đánh giá</p>
+                ) : (
+                    <div className="d-flex align-items-center gap-2">
+                        Đánh giá công thức : {item.avgStarRate} <img src={starImgIcon} alt="" />
+                    </div>
+                )}
             </div>
         </div>
     </li>

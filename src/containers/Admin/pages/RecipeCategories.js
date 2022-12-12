@@ -113,9 +113,10 @@ const RecipeCategories = () => {
 
     return (
         <>
-            <div className="d-flex justify-content-end mb-3">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+                <h3 className="mb-0">Quản lí thể loại</h3>
                 <button
-                    className="button button-sm d-flex align-items-center gap-2"
+                    className="button button-sm button-green d-flex align-items-center gap-2"
                     onClick={() => setShowNewCategory(true)}
                 >
                     <PlusCircleOutlined />
@@ -180,7 +181,7 @@ const RecipeCategories = () => {
                         {imgError && <p className="error-message">{imgError}</p>}
                         <div className="d-flex justify-content-end">
                             <button
-                                className="button button-sm"
+                                className="button button-sm button-green"
                                 type="submit"
                                 disabled={!categoryImageUrl || !categoryName.trim() || isProcessing}
                             >

@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import Navbar from './components/NavBar';
 import { Outlet, useLocation } from 'react-router-dom';
 import React, { Fragment, useContext, useEffect, useState } from 'react';
@@ -13,10 +13,18 @@ export const ROLES = {
 
 function App() {
     const {
-        userInfo: { roles },
+        userInfo: { roles, id },
     } = useContext(AuthContext);
     const { pathname } = useLocation();
     const [hideHeaderAndFooter, setHideHeaderAndFooter] = useState(false);
+    const { onFetchProfile } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (id) {
+            onFetchProfile(id);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
 
     useEffect(() => {
         if (roles && roles !== ROLES.user && pathname.includes('/admin')) {
@@ -29,9 +37,9 @@ function App() {
     return (
         <Fragment>
             {!hideHeaderAndFooter && (
-                <div className="header">
+                <header className="header bg-green-header">
                     <Navbar />
-                </div>
+                </header>
             )}
             <div className="main-app__content-container">
                 <Outlet />

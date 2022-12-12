@@ -161,6 +161,33 @@ const createCategoryRequest = (data) =>
         },
     });
 
+const getListIngReportRequest = (page, search) =>
+    axios.get(`/getListIngredientConflict?pageIndex=${page}&searchData=${search}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+const createIngredientReportRequest = (data) =>
+    axios.post(`/saveIngredientConflict`, data, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
+const removeIngredientReportRequest = (id) =>
+    axios.post(`/deleteIngredientConflict?ingredientConflictId=${id}`, null, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
+const adminGetRecipeListByCategoryRequest = (categoryId, page = 1, search = '') =>
+    axios.get(`/admin/listRecipeByCategory?categoryId=${categoryId}&pageIndex=${page}&searchData=${search}`, {
+        headers: {
+            authorization: `Bearer ${token || ''}`,
+        },
+    });
+
 export {
     getListRecipeByCategoryRequest,
     getRecipeDetailRequest,
@@ -190,4 +217,8 @@ export {
     removeRecipeFromFavouriteList,
     createCategoryRequest,
     adminGetRecipeDetailRequest,
+    getListIngReportRequest,
+    createIngredientReportRequest,
+    removeIngredientReportRequest,
+    adminGetRecipeListByCategoryRequest,
 };

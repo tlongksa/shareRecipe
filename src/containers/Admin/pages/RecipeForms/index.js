@@ -11,6 +11,7 @@ import RecipeContext from '../../../../context/recipe-context';
 import { LoadingOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
 import { ROLES } from '../../../../App';
+import imgLoader from '../../../../assets/img/loader.png';
 
 const RecipeForm = () => {
     const {
@@ -35,6 +36,12 @@ const RecipeForm = () => {
     } = useContext(RecipeContext);
 
     const isMod = roles === ROLES.mod;
+
+    useEffect(() => {
+        if (roles && roles === ROLES.user) {
+            navigate('/');
+        }
+    }, [roles, navigate]);
 
     useEffect(() => {
         if (id) {
@@ -254,23 +261,28 @@ const RecipeForm = () => {
     }
 
     return (
-        <section className={`recipe-form__container pb-4 ${isUploading || isCreating ? 'divDisabled' : ''}`}>
+        <section
+            className={`recipe-form__container pb-4 ${isMod ? 'custom-page__container-management mt-4' : ''} ${
+                isUploading || isCreating ? 'divDisabled' : ''
+            }`}
+        >
+            <h2 className="recipe-form__title text-center mb-3">{id ? 'Sửa công thức' : 'Tạo công thức'}</h2>
             <div className="recipe-form__steps">
                 <button
                     className={`${stepNum === 1 ? 'active-step' : ''}`}
-                    onClick={() => navigate(`/admin/recipe-form?step=1${id ? `&id=${id}` : ''}`)}
+                    onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=1${id ? `&id=${id}` : ''}`)}
                 >
                     Step 1
                 </button>
                 <button
                     className={`${stepNum === 2 ? 'active-step' : ''} ${stepNum >= 2 || id ? '' : 'divDisabled'}`}
-                    onClick={() => navigate(`/admin/recipe-form?step=2${id ? `&id=${id}` : ''}`)}
+                    onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=2${id ? `&id=${id}` : ''}`)}
                 >
                     Step 2
                 </button>
                 <button
                     className={`${stepNum === 3 ? 'active-step' : ''} ${stepNum >= 3 || id ? '' : 'divDisabled'}`}
-                    onClick={() => navigate(`/admin/recipe-form?step=3${id ? `&id=${id}` : ''}`)}
+                    onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=3${id ? `&id=${id}` : ''}`)}
                 >
                     Step 3
                 </button>
@@ -292,14 +304,22 @@ const RecipeForm = () => {
                     isMod={isMod}
                 />
             )}
-            {step === '2' && <Step2 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} id={id} />}
+            {step === '2' && (
+                <Step2 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} id={id} isMod={isMod} />
+            )}
             {step === '3' && (
                 <Step3
                     recipeFormData={recipeFormData}
                     setRecipeFormData={setRecipeFormData}
                     setShouldFinish={setShouldFinish}
                     id={id}
+                    isMod={isMod}
                 />
+            )}
+            {(isUploading || isCreating) && (
+                <div className="global-loader__animation">
+                    <img src={imgLoader} alt="" />
+                </div>
             )}
         </section>
     );

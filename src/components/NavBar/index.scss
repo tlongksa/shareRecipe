@@ -2,19 +2,41 @@
     color: #333;
 }
 .header-menu__link {
-    color: #000;
+    color: #fff;
     display: flex;
     align-items: center;
     text-decoration: none;
     padding: 0 1.5rem 0 0;
     height: 100%;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 400;
+    font-size: 20px;
     &.active {
-        color: #667eea;
+        color: #000;
     }
     &:hover {
         transition: all 0.2s ease-in-out;
-        color: #667eea;
+        color: #000;
+    }
+}
+.auth-links {
+    a {
+        font-size: 20px;
+        color: white;
+        &:hover,
+        &.active {
+            color: white;
+            border: 1px solid #fff;
+        }
+    }
+    @media (max-width: 768px) {
+        position: relative;
+        right: 60px;
+    }
+    @media (max-width: 400px) {
+        a {
+            font-size: 12px;
+            padding: 0.6rem 0.7rem;
+        }
     }
 }

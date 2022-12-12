@@ -26,6 +26,7 @@ import {
     blogGetCommentReportListFailureAction,
     blogUpdateCommentContentAction,
     removeBlogCommentReportAction,
+    increaseNumOfComments,
 } from './actions';
 import blogReducer from './reducer';
 import {
@@ -186,6 +187,7 @@ export const BlogProvider = ({ children }) => {
                 onFetchMoreBlogCommentReport: (page, search) => fetchBlogCommentReportList(page, search),
                 onUpdateComment: (data) => dispatchContext(blogUpdateCommentContentAction(data)),
                 onRemoveBlogCommentReport: (id) => dispatchContext(removeBlogCommentReportAction(id)),
+                onIncreaseNumOfComments: () => dispatchContext(increaseNumOfComments()),
             }}
         >
             {children}

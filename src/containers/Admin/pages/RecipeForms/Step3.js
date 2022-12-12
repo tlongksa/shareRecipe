@@ -6,12 +6,12 @@ import {
     VideoCameraAddOutlined,
 } from '@ant-design/icons';
 import React, { useRef, useState, useEffect } from 'react';
-import Input from '../../../../components/common/Input/Input';
 import { generateImageUrl, generateVideoUrl } from '../../../../utils';
 import { v4 as uuid_v4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
+import Input from '../../../../components/common/Input/Input';
 
-const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
+const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }) => {
     const recipeImagesRef = useRef();
     const recipeVideoRef = useRef();
     const navigate = useNavigate();
@@ -73,7 +73,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
             <div className="d-flex-custom mb-3">
                 <h4>Ảnh chụp mô tả cách làm của món ăn : </h4>
                 <button
-                    className="button button-sm d-flex align-items-center gap-2"
+                    className="button button-sm button-green d-flex align-items-center gap-2"
                     onClick={() => {
                         setImgError('');
                         recipeImagesRef.current?.click();
@@ -101,7 +101,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
             <div className="d-flex-custom mb-3 mt-3">
                 <h4>Dán link video mô tả cách làm của món ăn : </h4>
                 <button
-                    className="button button-sm d-flex align-items-center gap-2"
+                    className="button button-sm button-green d-flex align-items-center gap-2"
                     onClick={() => {
                         recipeVideoRef.current?.click();
                     }}
@@ -128,15 +128,10 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
             <div className="steps-container mt-3">
                 <h4>Các bước thực hiện món ăn : </h4>
                 {stepError && <p className="error-message mb-2">{stepError}</p>}
-                <Input
-                    type="textarea"
-                    value={describe}
-                    onChange={(e) => setDescribe(e.target.value)}
-                    placeholder="Vui lòng mô tả chi tiết các bước của công thức nấu ăn "
-                />
+                <Input type="textarea" value={describe} onChange={(e) => setDescribe(e.target.value)} />
                 <div className="d-flex justify-content-end mb-3 mt-3">
                     <button
-                        className="button button-sm"
+                        className="button button-sm button-green"
                         onClick={() => {
                             setStepError('');
                             if (selectedStep?.title) {
@@ -170,9 +165,15 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                     {listStep.map((item, index) => (
                         <li className="step__list-item mt-3" key={`step__item-${item.title}`}>
                             <div className="d-flex justify-content-between align-items-center gap-5">
-                                <p>
-                                    <strong>Bước {index + 1} :</strong> {item.describe}
-                                </p>
+                                <div>
+                                    <strong className="recipe-step-item__step">Bước {index + 1} : </strong>
+                                    <span
+                                        className={`recipe-step-item__content`}
+                                        dangerouslySetInnerHTML={{
+                                            __html: item?.describe?.replaceAll('\n', '<br />'),
+                                        }}
+                                    />
+                                </div>
                                 <span className="d-flex gap-3 align-items-center">
                                     <EditOutlined
                                         className="cursor-pointer"
@@ -199,12 +200,12 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id }) => {
                 <button
                     className="button button-sm button-secondary"
                     type="button"
-                    onClick={() => navigate(`/admin/recipe-form?step=2${id ? `&id=${id}` : ''}`)}
+                    onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=2${id ? `&id=${id}` : ''}`)}
                 >
                     Trở về
                 </button>
                 <button
-                    className="button button-sm"
+                    className="button button-sm button-green"
                     type="button"
                     disabled={imgError || videoError || stepError}
                     onClick={() => {

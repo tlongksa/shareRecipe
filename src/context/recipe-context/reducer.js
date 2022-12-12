@@ -29,6 +29,10 @@ import {
     RECIPE_GET_DETAIL_COMMENTS_FAILURE,
     RECIPE_REMOVE_FROM_FAVOURITE_LIST,
     RECIPE_REMOVE_COMMENT_REPORT_FROM_LIST,
+    RECIPE_GET_INGREDIENT_REPORT_LIST,
+    RECIPE_GET_INGREDIENT_REPORT_LIST_SUCCESS,
+    RECIPE_GET_INGREDIENT_REPORT_LIST_FAILURE,
+    RECIPE_REMOVE_FROM_INGREDIENT_REPORT_LIST,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -168,6 +172,22 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
                 draft.recipeCommentReport.list = draft.recipeCommentReport.list.filter(
                     (item) => item.dishCommentID !== payload,
                 );
+                break;
+            case RECIPE_GET_INGREDIENT_REPORT_LIST:
+                draft.ingReport.isLoading = true;
+                draft.ingReport.error = null;
+                break;
+            case RECIPE_GET_INGREDIENT_REPORT_LIST_SUCCESS:
+                draft.ingReport.isLoading = false;
+                draft.ingReport.list = payload?.data || [];
+                draft.ingReport.extraListInfo = payload.extraListInfo;
+                break;
+            case RECIPE_GET_INGREDIENT_REPORT_LIST_FAILURE:
+                draft.ingReport.isLoading = false;
+                draft.ingReport.error = payload;
+                break;
+            case RECIPE_REMOVE_FROM_INGREDIENT_REPORT_LIST:
+                draft.ingReport.list = draft.ingReport.list.filter((item) => item.ingredientConflictId !== payload);
                 break;
             default:
                 break;

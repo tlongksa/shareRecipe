@@ -1,51 +1,51 @@
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import AuthContext from '../../../context/auth-context';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
-import { RecipeByCategoryItem } from '../RecipesByCategory';
+import ListCategory from '../listCategory';
+import HomeRecipeItem from '../HomeRecipeItem';
 import './index.scss';
+import { HomeBannerCarousel } from '../../../containers/Home/HomePage';
 
 const RecipesByName = () => {
     const { recipeByNameList, isLoading, error, onFetchMoreByName } = useContext(RecipeContext);
     const [search, setSearch] = useState('');
     const [searchParams] = useSearchParams();
-    const {
-        userInfo: { accessToken },
-    } = useContext(AuthContext);
-    const isAuthenticated = !!accessToken;
     const name = searchParams.get('name');
+    const navigate = useNavigate();
 
     useEffect(() => {
         onFetchMoreByName(name, 1, '');
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [name]);
 
-    if (!isLoading && error) {
-        return (
-            <section className="recipes-by__category-container">
-                <div className="custom-page__container">
-                    <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>
-                </div>
-            </section>
-        );
-    }
-
     return (
         <section className="recipes-by__category-container">
+            <HomeBannerCarousel />
             <div className="custom-page__container">
-                <div className="d-flex justify-content-end mb-4">
+                <ListCategory />
+                <div className="d-flex justify-content-between align-items-center mb-4 mt-5 should-stack-on-mobile">
+                    {!isLoading && error ? (
+                        <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>
+                    ) : (
+                        <p className="search-result__text">
+                            {recipeByNameList.length} kết quả tìm kiếm cho “{name}”
+                        </p>
+                    )}
+
                     <form
                         className="global-list_search shadow rounded-3"
                         onSubmit={(e) => {
                             e.preventDefault();
-                            onFetchMoreByName(name, 1, search.trim());
+                            navigate(`/list-recipe-by-name?name=${search.trim()}`);
                         }}
                     >
                         <SearchOutlined
                             className="global-list_search-icon cursor-pointer"
-                            onClick={() => onFetchMoreByName(name, 1, search.trim())}
+                            onClick={() => {
+                                navigate(`/list-recipe-by-name?name=${search.trim()}`);
+                            }}
                         />
                         <Input
                             onChange={(e) => {
@@ -53,6 +53,7 @@ const RecipesByName = () => {
                                 setSearch(value);
                                 if (!value.trim()) {
                                     onFetchMoreByName(name, 1, '');
+                                    navigate(`/list-recipe-by-name?name=`);
                                 }
                             }}
                             placeholder="Tìm  kiếm công  thức ..."
@@ -65,9 +66,9 @@ const RecipesByName = () => {
                         />
                     </form>
                 </div>
-                <div className="recipes-by__category-list">
-                    {recipeByNameList.map((item) => (
-                        <RecipeByCategoryItem item={item} key={item.dishID} isAuthenticated={isAuthenticated} />
+                <div className="home__list-recipe__container">
+                    {recipeByNameList?.map((item) => (
+                        <HomeRecipeItem item={item} key={item.dishID} navigateTo={navigate} />
                     ))}
                 </div>
                 {isLoading && (

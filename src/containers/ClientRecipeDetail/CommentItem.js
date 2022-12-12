@@ -117,7 +117,9 @@ const CommentItem = (props) => {
         <Tooltip key="comment-basic-flag" title="Báo cáo">
             <div
                 onClick={() => onFlag(comment.dishCommentID)}
-                className={`cursor-pointer d-flex align-items-center ${isAuth ? '' : 'divDisabled'}`}
+                className={`cursor-pointer d-flex align-items-center ${isAuth ? '' : 'divDisabled'} ${
+                    username === comment.accountUserName ? 'divDisabled' : ''
+                }`}
             >
                 {comment.flag ? (
                     <FlagFilled
@@ -141,11 +143,24 @@ const CommentItem = (props) => {
         <div className="my-comment">
             <Comment
                 actions={actions}
-                author={<strong>{comment.accountUserName}</strong>}
+                author={
+                    <strong
+                        style={{
+                            fontSize: 20,
+                        }}
+                    >
+                        {comment.accountUserName}
+                    </strong>
+                }
                 avatar={<Avatar src={comment.avatarImage} alt={comment.accountUserName} />}
                 content={
                     <div className="comment-item__container">
-                        <h6> {comment.content}</h6>
+                        <h5
+                            dangerouslySetInnerHTML={{
+                                __html: comment.content?.replaceAll('\n', '<br />'),
+                            }}
+                            className="comment-item__content"
+                        />
                         <div
                             className={`d-flex gap-2 justify-content-end comment-item__change-actions ${
                                 username === comment.accountUserName || isAdmin ? '' : 'd-none'
@@ -175,7 +190,13 @@ const CommentItem = (props) => {
                 }
                 datetime={
                     <Tooltip title="">
-                        <span>{comment.updateDate}</span>
+                        <span
+                            style={{
+                                fontSize: 20,
+                            }}
+                        >
+                            {comment.updateDate}
+                        </span>
                     </Tooltip>
                 }
             />

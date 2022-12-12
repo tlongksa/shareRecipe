@@ -52,7 +52,7 @@ export const BlogCommentItem = ({
                     alt=""
                     className="rounded-circle blog-list_item-avatar"
                 />
-                <div className="bg-gray-custom flex-fill py-3 px-4 rounded-1">
+                <div className="bg-green-blur flex-fill py-3 px-4 rounded-1">
                     <div className="d-flex justify-content-between align-items-center">
                         <p className="d-flex align-items-center gap-1">
                             <strong>{item.accountUserName}</strong>
@@ -85,7 +85,12 @@ export const BlogCommentItem = ({
                         </CDropdown>
                     </div>
                     <div className="blog-list_item-content mb-2">
-                        <p>{item.content}</p>
+                        <div
+                            className="blog-list_item-content-text"
+                            dangerouslySetInnerHTML={{
+                                __html: item.content?.replaceAll('\n', '<br />'),
+                            }}
+                        />
                     </div>
                     <div
                         className={`blog-list_item-actions d-flex gap-3 align-items-center ${
@@ -118,6 +123,7 @@ const BlogDetail = () => {
         onFetchComments,
         onClearDetail,
         onUpdateComment,
+        onIncreaseNumOfComments,
     } = useContext(BlogContext);
     const dataFetchedRef = useRef(false);
     const {
@@ -154,6 +160,7 @@ const BlogDetail = () => {
                 setIsProcessing(false);
                 setContent('');
                 onFetchComments(id);
+                onIncreaseNumOfComments();
             })
             .catch((err) => {
                 setIsProcessing(false);
@@ -305,8 +312,12 @@ const BlogDetail = () => {
                             placeholder="Bình luận ..."
                         />
                         <div className="d-flex justify-content-end">
-                            <button className="button button-sm" type="submit" disabled={!content.trim()}>
-                                Post
+                            <button
+                                className="button button-sm button-green"
+                                type="submit"
+                                disabled={!content.trim() || !isAuthenticated}
+                            >
+                                Bình luận
                             </button>
                         </div>
                     </form>

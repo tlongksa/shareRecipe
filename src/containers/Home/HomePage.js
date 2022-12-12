@@ -9,6 +9,7 @@ import img2 from '../../assets/img/img2.jpg';
 import img3 from '../../assets/img/img3.jpg';
 import './homePage.scss';
 import SearchBar from '../../components/Search/SearchBar';
+import SearchRecipe from './SearchRecipe';
 
 const carousels = [
     {
@@ -28,7 +29,7 @@ const carousels = [
     },
 ];
 
-const HomePage = (props) => {
+export const HomeBannerCarousel = () => {
     const [index, setIndex] = useState(0);
 
     const handleSelect = (selectedIndex, e) => {
@@ -36,21 +37,26 @@ const HomePage = (props) => {
     };
 
     return (
-        <div key={'home-page__key'}>
+        <div className="position-relative">
             <Carousel activeIndex={index} onSelect={handleSelect}>
                 {carousels.map(({ imgSrc, desc, title }) => (
                     <Carousel.Item key={title}>
                         <img className="d-block w-100 h-10 home-carousel__banner-img" src={imgSrc} alt={title} />
-                        <Carousel.Caption>
-                            <h3>{title}</h3>
-                            <p>{desc}</p>
-                        </Carousel.Caption>
                     </Carousel.Item>
                 ))}
             </Carousel>
+            <SearchRecipe />
+        </div>
+    );
+};
+
+const HomePage = (props) => {
+    return (
+        <div key={'home-page__key'}>
+            <HomeBannerCarousel />
             <div className="custom-page__container">
-                <SearchBar />
                 <ListCategory />
+                <SearchBar />
                 <ListTopWeek />
                 <ListTopMonth />
                 <ListTopNew />

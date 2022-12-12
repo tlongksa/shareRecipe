@@ -17,7 +17,7 @@ const App = lazy(() => import('./App'));
 const Login = lazy(() => import('./containers/Auth/Login'));
 const Register = lazy(() => import('./containers/Auth/Register'));
 const HomePage = lazy(() => import('./containers/Home/HomePage'));
-const About = lazy(() => import('./containers/Page/About'));
+const Introduce = lazy(() => import('./containers/Page/Introduce'));
 const Contact = lazy(() => import('./containers/Page/Contact'));
 const BmiInfo = lazy(() => import('./containers/Page/BmiInfo'));
 const Save = lazy(() => import('./containers/Page/Save'));
@@ -40,6 +40,7 @@ const RecipeForm = lazy(() => import('./containers/Admin/pages/RecipeForms'));
 const BlogCommentReports = lazy(() => import('./containers/Admin/pages/BlogCommentReports'));
 const RecipeCommentReports = lazy(() => import('./containers/Admin/pages/RecipeCommentReports'));
 const RecipeCategories = lazy(() => import('./containers/Admin/pages/RecipeCategories'));
+const IngredientReports = lazy(() => import('./containers/Admin/pages/IngredientReports'));
 const FavouriteRecipes = lazy(() => import('./containers/FavouriteRecipes'));
 const MyRecipes = lazy(() => import('./containers/mod/MyRecipes'));
 
@@ -91,10 +92,10 @@ root.render(
                                         }
                                     />
                                     <Route
-                                        path="/about"
+                                        path="/introduce"
                                         element={
                                             <SuspenseWrapper>
-                                                <About />
+                                                <Introduce />
                                             </SuspenseWrapper>
                                         }
                                     />
@@ -234,6 +235,14 @@ root.render(
                                             </SuspenseWrapper>
                                         }
                                     />
+                                    <Route
+                                        path="recipe-form"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <RecipeForm />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
                                     <Route path="/admin" element={<AdminLayout />}>
                                         <Route
                                             path="accounts"
@@ -288,6 +297,14 @@ root.render(
                                             element={
                                                 <SuspenseWrapper>
                                                     <RecipeCommentReports />
+                                                </SuspenseWrapper>
+                                            }
+                                        />
+                                        <Route
+                                            path="ingredient-reports"
+                                            element={
+                                                <SuspenseWrapper>
+                                                    <IngredientReports />
                                                 </SuspenseWrapper>
                                             }
                                         />

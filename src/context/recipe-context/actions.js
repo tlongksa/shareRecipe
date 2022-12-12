@@ -29,6 +29,13 @@ import {
     RECIPE_GET_DETAIL_COMMENTS_FAILURE,
     RECIPE_REMOVE_FROM_FAVOURITE_LIST,
     RECIPE_REMOVE_COMMENT_REPORT_FROM_LIST,
+    RECIPE_GET_INGREDIENT_REPORT_LIST,
+    RECIPE_GET_INGREDIENT_REPORT_LIST_SUCCESS,
+    RECIPE_GET_INGREDIENT_REPORT_LIST_FAILURE,
+    RECIPE_REMOVE_FROM_INGREDIENT_REPORT_LIST,
+    RECIPE_ADMIN_GET_LIST_BY_CATEGORY,
+    RECIPE_ADMIN_GET_LIST_BY_CATEGORY_SUCCESS,
+    RECIPE_ADMIN_GET_LIST_BY_CATEGORY_FAILURE,
 } from './types';
 
 const recipeGetListAction = () => ({
@@ -171,7 +178,47 @@ const removeRecipeCommentReportAction = (payload) => ({
     payload,
 });
 
+const recipeGetIngReportListAction = () => ({
+    type: RECIPE_GET_INGREDIENT_REPORT_LIST,
+});
+
+const recipeGetIngReportListSuccessAction = (payload) => ({
+    type: RECIPE_GET_INGREDIENT_REPORT_LIST_SUCCESS,
+    payload,
+});
+
+const recipeGetIngReportListFailureAction = (error) => ({
+    type: RECIPE_GET_INGREDIENT_REPORT_LIST_FAILURE,
+    payload: error,
+});
+
+const removeIngReportItemAction = (payload) => ({
+    type: RECIPE_REMOVE_FROM_INGREDIENT_REPORT_LIST,
+    payload,
+});
+
+const recipeAdminGetListByCategoryAction = () => ({
+    type: RECIPE_ADMIN_GET_LIST_BY_CATEGORY,
+});
+
+const recipeAdminGetListByCategorySuccessAction = (payload) => ({
+    type: RECIPE_ADMIN_GET_LIST_BY_CATEGORY_SUCCESS,
+    payload,
+});
+
+const recipeAdminGetListByCategoryFailureAction = (error) => ({
+    type: RECIPE_ADMIN_GET_LIST_BY_CATEGORY_FAILURE,
+    payload: error,
+});
+
 export {
+    recipeAdminGetListByCategoryAction,
+    recipeAdminGetListByCategorySuccessAction,
+    recipeAdminGetListByCategoryFailureAction,
+    recipeGetIngReportListAction,
+    recipeGetIngReportListSuccessAction,
+    recipeGetIngReportListFailureAction,
+    removeIngReportItemAction,
     recipeGetListAction,
     recipeGetListSuccessAction,
     recipeGetListFailureAction,

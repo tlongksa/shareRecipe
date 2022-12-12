@@ -8,7 +8,7 @@ import produce from 'immer';
 import { v4 as uuid_v4 } from 'uuid';
 import Modal from 'react-bootstrap/Modal';
 
-const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
+const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
     const navigate = useNavigate();
     const [showNewMainIngredientForm, setShowNewMainIngredientForm] = useState(false);
     const [showNewExtraIngredientForm, setShowNewExtraIngredientForm] = useState(false);
@@ -132,7 +132,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                             <div className="d-flex justify-content-between align-items-center">
                                 <h4>Nguyên liệu chính : </h4>
                                 <button
-                                    className="button button-sm d-flex align-items-center gap-2"
+                                    className="button button-sm button-green d-flex align-items-center gap-2"
                                     onClick={() => setShowNewMainIngredientForm(true)}
                                     type="button"
                                 >
@@ -173,7 +173,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                                     type="number"
                                     onChange={handleChange}
                                     value={values.calo}
-                                    label="Calo :"
+                                    label="Kcal :"
                                     error={errors.calo}
                                     touched={touched.calo}
                                     className="w-100"
@@ -184,7 +184,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                                     showNewMainIngredientForm ? '' : 'd-none'
                                 }`}
                             >
-                                <button className="button button-sm" type="submit">
+                                <button className="button button-sm button-green" type="submit">
                                     {selectedMainIng?.id ? 'Cập nhật' : 'Tạo'}
                                 </button>
                             </div>
@@ -209,6 +209,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                                                             unit: item.unit,
                                                             calo: item.calo,
                                                         });
+                                                        setShowNewMainIngredientForm(true);
                                                     }}
                                                 />
                                                 <DeleteOutlined
@@ -245,7 +246,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                             <div className="d-flex justify-content-between align-items-center">
                                 <h4>Nguyên liệu phụ : </h4>
                                 <button
-                                    className="button button-sm d-flex align-items-center gap-2"
+                                    className="button button-sm button-green d-flex align-items-center gap-2"
                                     onClick={() => setShowNewExtraIngredientForm(true)}
                                     type="button"
                                 >
@@ -286,7 +287,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                                     type="number"
                                     onChange={handleChange}
                                     value={values.calo}
-                                    label="Calo :"
+                                    label="Kcal :"
                                     error={errors.calo}
                                     touched={touched.calo}
                                     className="w-100"
@@ -297,7 +298,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                                     showNewExtraIngredientForm ? '' : 'd-none'
                                 }`}
                             >
-                                <button className="button button-sm" type="submit">
+                                <button className="button button-sm button-green" type="submit">
                                     {selectedExtraIng?.id ? 'Cập nhật' : 'Tạo'}
                                 </button>
                             </div>
@@ -329,6 +330,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                                                             unit: item.unit,
                                                             calo: item.calo,
                                                         });
+                                                        setShowNewExtraIngredientForm(true);
                                                     }}
                                                 />
                                                 <DeleteOutlined
@@ -352,12 +354,12 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                 <button
                     className="button button-sm button-secondary"
                     type="button"
-                    onClick={() => navigate(`/admin/recipe-form?step=1${id ? `&id=${id}` : ''}`)}
+                    onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=1${id ? `&id=${id}` : ''}`)}
                 >
                     Trở về
                 </button>
                 <button
-                    className="button button-sm"
+                    className="button button-sm button-green"
                     type="button"
                     onClick={() => {
                         if (mainIngredients.length === 0) {
@@ -373,7 +375,7 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                             mainIngredients,
                             extraIngredients,
                         }));
-                        navigate(`/admin/recipe-form?step=3${id ? `&id=${id}` : ''}`);
+                        navigate(`${isMod ? '' : '/admin'}/recipe-form?step=3${id ? `&id=${id}` : ''}`);
                     }}
                 >
                     Tiếp theo
@@ -439,14 +441,14 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id }) => {
                                             type="number"
                                             onChange={handleChange}
                                             value={values.calo}
-                                            label="Calo :"
+                                            label="Kcal :"
                                             error={errors.calo}
                                             touched={touched.calo}
                                             className="w-100"
                                         />
                                     </div>
                                     <div className="d-flex justify-content-end gap-4 align-items-center">
-                                        <button className="button button-sm" type="submit">
+                                        <button className="button button-sm button-green" type="submit">
                                             {selectedExtraReplaceIng?.id ? 'Cập nhật' : 'Tạo'}
                                         </button>
                                     </div>

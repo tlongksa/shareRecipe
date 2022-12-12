@@ -1,27 +1,33 @@
 import React, { useContext, useState } from 'react';
 import './Login.scss';
 import { Link, useSearchParams } from 'react-router-dom';
-import showPwdImg from '../../assets/img/show-password.png';
-import hidePwdImg from '../../assets/img/hide-.svg';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import AuthContext from '../../context/auth-context';
 import { USER_INFO_STORAGE_KEY } from '../../constants';
 import { ROLES } from '../../App';
 import { loginRequest } from '../../api/requests';
+import Input from '../../components/common/Input/Input';
+import authBannerImgSrc from '../../assets/img/auth_banner.png';
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 
 const Login = () => {
     const { onLoginSuccess } = useContext(AuthContext);
     const [searchParams] = useSearchParams();
     const [isProcessing, setIsProcessing] = useState(false);
-    const [username, setUser] = useState('');
-    const [password, setPwd] = useState('');
+    const [username, setUserName] = useState('');
+    const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [isRevealPwd, setIsRevealPwd] = useState(false);
     const redirectUrl = searchParams.get('redirectUrl');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrMsg('');
+        if (!username || !password) {
+            setErrMsg('Vui lòng không để trống tên đăng nhập & mật khẩu');
+            return;
+        }
         setIsProcessing(true);
         try {
             const { data } = await loginRequest({ username, password });
@@ -58,12 +64,8 @@ const Login = () => {
             window.location.replace('/');
         } catch (err) {
             setIsProcessing(false);
-            if (!err?.response) {
-                setErrMsg(err);
-            } else if (err.response?.status === 400) {
-                setErrMsg('Missing Username or Password (400)');
-            } else if (err.response?.status === 401) {
-                setErrMsg('user or password not value (401)');
+            if (err?.response) {
+                setErrMsg(err?.response?.data?.message);
             } else {
                 setErrMsg('Login Failed');
             }
@@ -71,68 +73,75 @@ const Login = () => {
     };
 
     return (
-        <div className="custom-page__container">
-            <form onSubmit={handleSubmit} className="background">
-                <h2 className="login__page-title mb-4">Wellcome to OiShii</h2>
+        <section className="signin__container">
+            <form onSubmit={handleSubmit}>
                 <div className="login-form__container">
-                    <div className="left"></div>
-                    <div className="right-login bg-gray-custom">
-                        <div className="login-background">
-                            <div className="login-title">Login</div>
-                            <p className={'error-message text-center'}>{errMsg}</p>
-                            <div className="container-login">
-                                <label htmlFor="name" className="label">
-                                    User Name:{' '}
-                                </label>
-                                <div className="form-group">
-                                    <input
-                                        type="text"
-                                        name="username"
-                                        id="username"
-                                        placeholder="Enter your user name"
-                                        onChange={(e) => setUser(e.target.value)}
-                                        value={username}
-                                        required
+                    <div className="main-login">
+                        <h3 className="login-title">Đăng nhập</h3>
+                        <p className="login-desc">Đồng hành cùng chúng tôi để tạo ra những món ăn ngon nhất</p>
+                        {errMsg && <p className="error-message">{errMsg}</p>}
+                        <div className="container-login">
+                            <Input
+                                type="text"
+                                name="username"
+                                placeholder="Tên đăng nhập"
+                                label="Tên đăng nhập"
+                                onChange={(e) => {
+                                    setUserName(e.target.value);
+                                    setErrMsg('');
+                                }}
+                                value={username}
+                                touched={true}
+                            />
+                            <div className="password-container">
+                                <Input
+                                    type={isRevealPwd ? 'text' : 'password'}
+                                    name="password"
+                                    label="Mật khẩu"
+                                    placeholder="Mật khẩu"
+                                    onChange={(e) => {
+                                        setPassword(e.target.value);
+                                        setErrMsg('');
+                                    }}
+                                    value={password}
+                                    touched={true}
+                                />
+                                {isRevealPwd ? (
+                                    <EyeInvisibleOutlined
+                                        className="toggle-password__type"
+                                        onClick={() => setIsRevealPwd(false)}
+                                        title="Hide password"
                                     />
-                                </div>
-                                <label htmlFor="password" className="label">
-                                    Password:{' '}
-                                </label>
-                                <div className="form-group">
-                                    <input
-                                        type={isRevealPwd ? 'text' : 'password'}
-                                        name="password"
-                                        id="password"
-                                        placeholder="Enter your password"
-                                        onChange={(e) => setPwd(e.target.value)}
-                                        value={password}
-                                        required
+                                ) : (
+                                    <EyeOutlined
+                                        className="toggle-password__type"
+                                        onClick={() => setIsRevealPwd(true)}
+                                        title="Show password"
                                     />
-                                    <img
-                                        className="imgEye"
-                                        title={isRevealPwd ? 'Hide password' : 'Show password'}
-                                        src={isRevealPwd ? hidePwdImg : showPwdImg}
-                                        onClick={() => setIsRevealPwd((prevState) => !prevState)}
-                                        alt=""
-                                    />
-                                </div>
-                                <button className="button button-sm button-full mt-3" disabled={isProcessing}>
-                                    Login
-                                </button>
-                                <div className="login-bottom__txt">
-                                    <Link to="/sign-up" className="nav-link">
-                                        Register
-                                    </Link>
-                                    <Link to="/forgot-password" className="nav-link">
-                                        Forgot your password?
-                                    </Link>
-                                </div>
+                                )}
+                            </div>
+                            <div className="signin-remember d-flex justify-content-end">
+                                <Link to="/forgot-password" className="text-green text-underline">
+                                    Quên mật khẩu?
+                                </Link>
+                            </div>
+                            <button className="button button-sm button-full button-green mt-4" disabled={isProcessing}>
+                                Đăng nhập
+                            </button>
+                            <div className="login-bottom__txt">
+                                Bạn chưa có tài khoản ?
+                                <Link to="/sign-up" className="text-green text-underline">
+                                    Đăng ký ngay
+                                </Link>
                             </div>
                         </div>
                     </div>
+                    <div className="auth-banner">
+                        <img src={authBannerImgSrc} alt="" />
+                    </div>
                 </div>
             </form>
-        </div>
+        </section>
     );
 };
 export default Login;
