@@ -119,9 +119,9 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
             <Formik
                 initialValues={{
                     name: '',
-                    quantity: 0,
+                    quantity: '',
                     unit: '',
-                    calo: 0,
+                    calo: '',
                 }}
                 onSubmit={onSubmitMainIngredient}
                 validationSchema={RecipeStep2Schema}
@@ -233,9 +233,9 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
             <Formik
                 initialValues={{
                     name: '',
-                    quantity: 0,
+                    quantity: '',
                     unit: '',
-                    calo: 0,
+                    calo: '',
                 }}
                 onSubmit={onSubmitExtraIngredient}
                 validationSchema={RecipeStep2Schema}
