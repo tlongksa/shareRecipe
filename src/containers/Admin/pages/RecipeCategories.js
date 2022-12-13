@@ -21,6 +21,7 @@ const RecipeCategories = () => {
     const [categoryImage, setCategoryImage] = useState(null);
     const [categoryImageUrl, setCategoryImageUrl] = useState('');
     const [imgError, setImgError] = useState('');
+    const [categoryNameErr, setCategoryNameError] = useState('');
 
     useEffect(() => {
         onFetchRecipeCategories();
@@ -83,6 +84,12 @@ const RecipeCategories = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+
+        if (!categoryName) {
+            setCategoryNameError('Vui lòng nhập thể loại công thức');
+            return;
+        }
+
         if (categoryImage) {
             return fileUploadHandler(categoryImage, setIsProcessing, setImgError, (url) => {
                 const payloadToSubmit = {
@@ -97,7 +104,7 @@ const RecipeCategories = () => {
         }
 
         if (!categoryImage && !categoryImageUrl) {
-            setImgError('Please choose an image');
+            setImgError('Vui lòng chọn ảnh cho thể loại ');
             return;
         }
 
@@ -157,11 +164,14 @@ const RecipeCategories = () => {
                 <Modal.Body>
                     <form onSubmit={onSubmit}>
                         <Input
-                            onChange={(e) => setCategoryName(e.target.value)}
+                            onChange={(e) => {
+                                setCategoryName(e.target.value);
+                                setCategoryNameError('');
+                            }}
                             placeholder="Category Name"
                             label={'Category Name'}
                             value={categoryName}
-                            error={null}
+                            error={categoryNameErr}
                             touched={true}
                             className="flex-fill"
                         />
@@ -172,20 +182,17 @@ const RecipeCategories = () => {
                                 setImgError('');
                                 setCategoryImage(e.target?.files?.[0]);
                             }}
+                            touched={true}
+                            error={imgError}
                         />
                         {categoryImageUrl && (
                             <div className="category-image__preview">
                                 <img src={categoryImageUrl} alt="" />
                             </div>
                         )}
-                        {imgError && <p className="error-message">{imgError}</p>}
                         <div className="d-flex justify-content-end">
-                            <button
-                                className="button button-sm button-green"
-                                type="submit"
-                                disabled={!categoryImageUrl || !categoryName.trim() || isProcessing}
-                            >
-                                Post
+                            <button className="button button-sm button-green" type="submit" disabled={isProcessing}>
+                                Đăng
                             </button>
                         </div>
                     </form>

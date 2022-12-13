@@ -154,7 +154,15 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues
                         >
                             Hủy bỏ
                         </button>
-                        <button className="button button-sm button-green" type="submit">
+                        <button
+                            className="button button-sm button-green"
+                            type="submit"
+                            onClick={() => {
+                                if (idDishCategory.length === 0) {
+                                    setListCateError('Vui lòng chọn ít nhất 1 thể loại món ăn');
+                                }
+                            }}
+                        >
                             Tiếp theo
                         </button>
                     </div>

@@ -118,6 +118,9 @@ const PendingBlogs = () => {
                     />
                 ))}
             </ul>
+            {!isLoading && !error && listPendingBlog.length === 0 && (
+                <p className="f-24 text-center">Không còn blog nào cần phê duyệt</p>
+            )}
             <Paginator
                 isLoading={isLoading}
                 maxPage={extraPendingBlogListInfo.numOfPages}
@@ -131,7 +134,7 @@ const PendingBlogs = () => {
                 </div>
             )}
             <DeleteItemModal
-                title="account"
+                title="blog"
                 show={!!selectedDeleteId}
                 onHide={() => setSelectedDeleteId('')}
                 isProcessing={isProcessing}

@@ -120,19 +120,22 @@ const RecipeCommentReports = () => {
                 onEdit={(id) => setSelectedApproveId(id)}
                 onDelete={(id) => setSelectedDeleteId(id)}
             />
+            {!isLoading && !error && list.length === 0 && (
+                <p className="f-24 text-center">Không có bình luận nào cần kiểm định</p>
+            )}
             {isLoading && (
                 <div className="global-list__loader-container">
                     <LoadingOutlined className="global-list__loader-icon" />
                 </div>
             )}
-            <Modal show={!!selectedApproveId} fullscreen={'md-down'} onHide={() => setSelectedApproveId('')}>
+            <Modal show={!!selectedApproveId} fullscreen={'md-down'} onHide={() => setSelectedApproveId('')} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Bạn có muốn tiếp tục ?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="d-flex gap-2 align-items-center py-3">
                         <button
-                            className="button button-sm"
+                            className="button button-sm button-green"
                             type="button"
                             disabled={isProcessing}
                             onClick={onApproveRecipeCommentHandler}
@@ -140,7 +143,7 @@ const RecipeCommentReports = () => {
                             Xác nhận
                         </button>
                         <button
-                            className="button button-sm"
+                            className="button button-sm button-secondary"
                             type="button"
                             disabled={isProcessing}
                             onClick={() => setSelectedApproveId('')}

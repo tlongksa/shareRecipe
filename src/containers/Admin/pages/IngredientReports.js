@@ -19,6 +19,8 @@ const IngredientReports = () => {
     const [selectedDeleteId, setSelectedDeleteId] = useState('');
     const [ingredientA, setIngredientA] = useState('');
     const [ingredientB, setIngredientB] = useState('');
+    const [ingredientAErr, setIngredientAErr] = useState('');
+    const [ingredientBErr, setIngredientBErr] = useState('');
     const [consequence, setConsequence] = useState('');
     const [selectedIngredientReport, setSelectedIngredientReport] = useState({});
     const [show, setShow] = useState(false);
@@ -33,7 +35,19 @@ const IngredientReports = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+
+        if (!ingredientA) {
+            setIngredientAErr('Vui lòng nhập nguyên liệu A');
+            return;
+        }
+
+        if (!ingredientB) {
+            setIngredientBErr('Vui lòng nhập nguyên liệu B');
+            return;
+        }
+
         setIsProcessing(true);
+
         const payloadToSubmit = {
             ingredientA,
             ingredientB,
@@ -72,7 +86,7 @@ const IngredientReports = () => {
                 setIsProcessing(false);
                 onRemoveIngReportItemFromList(selectedDeleteId);
                 notification.open({
-                    message: data,
+                    message: data?.messContent,
                 });
                 setSelectedDeleteId('');
                 if (list.length === 0) {
@@ -152,6 +166,9 @@ const IngredientReports = () => {
                     setShow(true);
                 }}
             />
+            {!isLoading && !error && list.length === 0 && (
+                <p className="f-24 text-center">Bạn chưa có quản lý cảnh báo nguyên liệu nào</p>
+            )}
             {isLoading && (
                 <div className="global-list__loader-container">
                     <LoadingOutlined className="global-list__loader-icon" />
@@ -178,20 +195,26 @@ const IngredientReports = () => {
                 <Modal.Body>
                     <form onSubmit={onSubmit}>
                         <Input
-                            onChange={(e) => setIngredientA(e.target.value)}
+                            onChange={(e) => {
+                                setIngredientA(e.target.value);
+                                setIngredientAErr('');
+                            }}
                             label={'Nguyên liệu A :'}
                             placeholder="Nhập nguyên liệu "
                             value={ingredientA}
-                            error={null}
+                            error={ingredientAErr}
                             touched={true}
                             className="flex-fill"
                         />
                         <Input
-                            onChange={(e) => setIngredientB(e.target.value)}
+                            onChange={(e) => {
+                                setIngredientB(e.target.value);
+                                setIngredientBErr('');
+                            }}
                             label={'Nguyên liệu B :'}
                             placeholder="Nhập nguyên liệu "
                             value={ingredientB}
-                            error={null}
+                            error={ingredientBErr}
                             touched={true}
                             className="flex-fill"
                         />
@@ -206,12 +229,8 @@ const IngredientReports = () => {
                             className="flex-fill"
                         />
                         <div className="d-flex justify-content-end">
-                            <button
-                                className="button button-sm button-green"
-                                type="submit"
-                                disabled={!ingredientA.trim() || !ingredientA.trim() || isProcessing}
-                            >
-                                {selectedIngredientReport ? 'Cập nhật' : 'Thêm'} cảnh báo
+                            <button className="button button-sm button-green" type="submit" disabled={isProcessing}>
+                                {selectedIngredientReport?.ingredientConflictId ? 'Cập nhật' : 'Thêm'} cảnh báo
                             </button>
                         </div>
                     </form>

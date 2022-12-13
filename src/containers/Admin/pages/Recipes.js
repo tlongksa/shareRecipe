@@ -151,7 +151,7 @@ const Recipes = () => {
                 onDelete={(id) => setSelectedDeleteId(id)}
                 paginateCallback={(page) => {
                     if (category) {
-                        onAdminFetchMoreByCategory(category, 1, search);
+                        onAdminFetchMoreByCategory(category, page, search || '');
                         return;
                     }
                     onAdminFetchMore(page, search || '');
