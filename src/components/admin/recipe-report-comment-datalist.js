@@ -2,6 +2,7 @@ import styles from './data-list.module.css';
 import { useMediaQuery } from 'react-responsive';
 import { DeleteOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import Paginator from '../common/Paginator';
+import { MAX_ITEMS } from '../../constants';
 
 function MobileCard({ item, no, onEdit, onDelete }) {
     return (
@@ -31,10 +32,6 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                 <div className="custom-col">
                     <strong>No</strong>
                     <p>{no}</p>
-                </div>
-                <div className="custom-col">
-                    <strong>Id</strong>
-                    <p>{item.dishCommentID}</p>
                 </div>
                 <div className="custom-col">
                     <strong>Mô tả nội dung</strong>
@@ -70,8 +67,7 @@ const RecipeReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxP
 
     let listRecipeCommentReportMarkup = list.map((item, index) => (
         <li key={item.dishCommentID} className={styles.dataItem}>
-            <span className={styles.no}>{index + 1}</span>
-            <span>{item.dishCommentID}</span>
+            <span className={styles.no}>{(currentPage - 1) * MAX_ITEMS + index + 1}</span>
             <span>{item.content?.substr(0, 45)}</span>
             <span>{item?.createDate || '-'}</span>
             <span>{item.accountUserName}</span>
@@ -103,7 +99,13 @@ const RecipeReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxP
 
     if (isMobile) {
         listRecipeCommentReportMarkup = list.map((item, index) => (
-            <MobileCard no={index + 1} key={item.dishCommentID} item={item} onEdit={onEdit} onDelete={onDelete} />
+            <MobileCard
+                no={(currentPage - 1) * MAX_ITEMS + index + 1}
+                key={item.dishCommentID}
+                item={item}
+                onEdit={onEdit}
+                onDelete={onDelete}
+            />
         ));
     }
 
@@ -113,7 +115,6 @@ const RecipeReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxP
                 {!isMobile && (
                     <li className={[styles.dataItem, styles.dataItemHead].join(' ')}>
                         <strong className={styles.no}>No</strong>
-                        <strong>Id</strong>
                         <strong>Mô tả nội dung</strong>
                         <strong>Ngày tạo </strong>
                         <strong>Người tạo</strong>

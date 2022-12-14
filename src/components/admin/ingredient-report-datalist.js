@@ -62,7 +62,7 @@ const IngredientReportDataList = ({ list, onEdit, onDelete, currentPage, maxPage
 
     let listRecipeMarkup = list.map((item, index) => (
         <li key={item.ingredientConflictId} className={styles.dataItem}>
-            <span className={styles.no}>{index + 1}</span>
+            <span className={styles.no}>{(currentPage - 1) * 20 + index + 1}</span>
             <span>{item.ingredientA}</span>
             <span>{item.ingredientB}</span>
             <span className="pe-3">{item?.consequence}</span>
@@ -94,7 +94,7 @@ const IngredientReportDataList = ({ list, onEdit, onDelete, currentPage, maxPage
     if (isMobile) {
         listRecipeMarkup = list.map((item, index) => (
             <MobileCard
-                no={index + 1}
+                no={(currentPage - 1) * 20 + index + 1}
                 key={item.ingredientConflictId}
                 item={item}
                 onEdit={onEdit}

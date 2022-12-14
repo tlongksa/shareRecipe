@@ -2,6 +2,7 @@ import styles from './data-list.module.css';
 import { useMediaQuery } from 'react-responsive';
 import { DeleteOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import Paginator from '../common/Paginator';
+import { MAX_ITEMS } from '../../constants';
 
 function MobileCard({ item, no, onEdit, onDelete }) {
     return (
@@ -31,10 +32,6 @@ function MobileCard({ item, no, onEdit, onDelete }) {
                 <div className="custom-col">
                     <strong>No</strong>
                     <p>{no}</p>
-                </div>
-                <div className="custom-col">
-                    <strong>Id</strong>
-                    <p>{item.blogCommentID}</p>
                 </div>
                 <div className="custom-col">
                     <strong>Mô tả nội dung</strong>
@@ -70,8 +67,7 @@ const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPag
 
     let listBlogCommentReportMarkup = list.map((item, index) => (
         <li key={item.blogCommentID} className={styles.dataItem}>
-            <span className={styles.no}>{index + 1}</span>
-            <span>{item.blogCommentID}</span>
+            <span className={styles.no}>{(currentPage - 1) * MAX_ITEMS + index + 1}</span>
             <span>{item.content?.substr(0, 45)}</span>
             <span>{item?.createDate || '-'}</span>
             <span>{item.accountUserName}</span>
@@ -103,7 +99,13 @@ const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPag
 
     if (isMobile) {
         listBlogCommentReportMarkup = list.map((item, index) => (
-            <MobileCard no={index + 1} key={item.blogCommentID} item={item} onEdit={onEdit} onDelete={onDelete} />
+            <MobileCard
+                no={(currentPage - 1) * MAX_ITEMS + index + 1}
+                key={item.blogCommentID}
+                item={item}
+                onEdit={onEdit}
+                onDelete={onDelete}
+            />
         ));
     }
 
@@ -113,7 +115,6 @@ const BlogReportCommentDataList = ({ list, onEdit, onDelete, currentPage, maxPag
                 {!isMobile && (
                     <li className={[styles.dataItem, styles.dataItemHead].join(' ')}>
                         <strong className={styles.no}>No</strong>
-                        <strong>Id</strong>
                         <strong>Mô tả nội dung</strong>
                         <strong>Ngày tạo </strong>
                         <strong>Người tạo</strong>

@@ -2,6 +2,7 @@ import styles from './data-list.module.css';
 import { useMediaQuery } from 'react-responsive';
 import { SettingOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import Paginator from '../common/Paginator';
+import { MAX_ITEMS } from '../../constants';
 
 function MobileCard({ item, no, onEdit, onDelete, onView }) {
     return (
@@ -42,10 +43,6 @@ function MobileCard({ item, no, onEdit, onDelete, onView }) {
                     <p>{no}</p>
                 </div>
                 <div className="custom-col">
-                    <strong>Id</strong>
-                    <p>{item.dishID}</p>
-                </div>
-                <div className="custom-col">
                     <strong>Tên công thức</strong>
                     <p>{item.dishName}</p>
                 </div>
@@ -71,8 +68,7 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
 
     let listRecipeMarkup = list.map((item, index) => (
         <li key={item.dishID} className={styles.dataItem}>
-            <span className={styles.no}>{index + 1}</span>
-            <span>{item.dishID}</span>
+            <span className={styles.no}>{(currentPage - 1) * MAX_ITEMS + index + 1}</span>
             <span>{item.dishName || '-'}</span>
             <span>{item.formulaDescribe?.substr(0, 45) || '-'}</span>
             <span>{item?.createDate || '-'}</span>
@@ -112,7 +108,7 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
     if (isMobile) {
         listRecipeMarkup = list.map((item, index) => (
             <MobileCard
-                no={index + 1}
+                no={(currentPage - 1) * MAX_ITEMS + index + 1}
                 key={item.dishID}
                 item={item}
                 onEdit={onEdit}
@@ -128,7 +124,6 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
                 {!isMobile && (
                     <li className={[styles.dataItem, styles.dataItemHead].join(' ')}>
                         <strong className={styles.no}>No</strong>
-                        <strong>Id</strong>
                         <strong>Tên công thức</strong>
                         <strong>Mô tả</strong>
                         <strong>Ngày tạo </strong>

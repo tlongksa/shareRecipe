@@ -2,7 +2,7 @@ import styles from './data-list.module.css';
 import { useMediaQuery } from 'react-responsive';
 import { SettingOutlined, DeleteOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import Paginator from '../common/Paginator';
-import { mapRoleKeyToText, role_options } from '../../constants';
+import { mapRoleKeyToText, MAX_ITEMS, role_options } from '../../constants';
 import Input from '../common/Input/Input';
 
 function MobileCard({ item, no, onEdit, onDelete, onChangeRole, selectedEditItem, onCancelEdit }) {
@@ -44,10 +44,6 @@ function MobileCard({ item, no, onEdit, onDelete, onChangeRole, selectedEditItem
                 <div className="custom-col">
                     <strong>No</strong>
                     <p>{no}</p>
-                </div>
-                <div className="custom-col">
-                    <strong>Id</strong>
-                    <p>{item.accountId}</p>
                 </div>
                 <div className="custom-col">
                     <strong>Họ và tên</strong>
@@ -102,8 +98,7 @@ const UserDataList = ({
 
     let listUserMarkup = list.map((item, index) => (
         <li key={item.accountId} className={styles.dataItem}>
-            <span className={styles.no}>{index + 1}</span>
-            <span>{item.accountId}</span>
+            <span className={styles.no}>{(currentPage - 1) * MAX_ITEMS + index + 1}</span>
             <span>{item.userName || '-'}</span>
             <span>{item?.email}</span>
             <span className="text-capitalize">
@@ -165,7 +160,7 @@ const UserDataList = ({
     if (isMobile) {
         listUserMarkup = list.map((item, index) => (
             <MobileCard
-                no={index + 1}
+                no={(currentPage - 1) * MAX_ITEMS + index + 1}
                 key={item.accountId}
                 item={item}
                 onEdit={onEdit}
@@ -182,7 +177,6 @@ const UserDataList = ({
                 {!isMobile && (
                     <li className={[styles.dataItem, styles.dataItemHead].join(' ')}>
                         <strong className={styles.no}>No</strong>
-                        <strong>Id</strong>
                         <strong>Họ và tên</strong>
                         <strong>E-mail</strong>
                         <strong>Chức vụ</strong>
