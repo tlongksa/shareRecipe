@@ -28,6 +28,7 @@ const AdminLayout = (props) => {
                 <div className="main__admin-layout-sidebar my-3">
                     <ClickOutsideWrapper
                         cb={() => {
+                            // hide menu
                             setIsShowMenu(false);
                         }}
                         idToIgnore="btn-toggler__admin-submenu"

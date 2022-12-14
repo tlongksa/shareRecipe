@@ -40,10 +40,12 @@ export const BlogCommentItem = ({
     onDelete,
     onLike,
     onDislike,
-    onEdit,
     onReport,
     isAdmin,
+    blogId,
+    onUpdateComment,
 }) => {
+    const [selectedComment, setSelectedComment] = useState(null);
     return (
         <li className="blog-list_item mb-4">
             <div className="d-flex gap-3">
@@ -73,7 +75,7 @@ export const BlogCommentItem = ({
                             </CDropdownToggle>
                             <CDropdownMenu>
                                 <CDropdownItem
-                                    onClick={() => onEdit(item)}
+                                    onClick={() => setSelectedComment(item)}
                                     className={`${username && item.accountUserName === username ? '' : 'd-none'}`}
                                 >
                                     <EditOutlined className="blog-list_item-actions_icon" /> <span>Sửa</span>
@@ -111,6 +113,16 @@ export const BlogCommentItem = ({
                     </div>
                 </div>
             </div>
+            <EditComment
+                show={!!selectedComment}
+                setShow={setSelectedComment}
+                blogId={blogId}
+                formData={selectedComment}
+                promise={commentOnBlogRequest}
+                callback={(content) => {
+                    onUpdateComment({ blogCommentId: selectedComment.blogCommentID, content });
+                }}
+            />
         </li>
     );
 };
@@ -135,7 +147,6 @@ const BlogDetail = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate();
     const [showEditBlog, setShowEditBlog] = useState(false);
-    const [selectedComment, setSelectedComment] = useState(null);
     const [selectedDeleteId, setSelectedDeleteId] = useState('');
 
     useEffect(() => {
@@ -286,10 +297,9 @@ const BlogDetail = () => {
                                 onLike={onLikeBlogCmtHandler}
                                 onDislike={onDislikeBlogCmtHandler}
                                 onReport={onReportBlogCommentHandler}
-                                onEdit={(cmtItem) => {
-                                    setSelectedComment(cmtItem);
-                                }}
+                                onUpdateComment={onUpdateComment}
                                 isAdmin={isAdmin}
+                                blogId={id}
                             />
                         ))}
                     </div>
@@ -329,16 +339,7 @@ const BlogDetail = () => {
                 blogData={dataResponse}
                 callback={() => onFetchDetail(id)}
             />
-            <EditComment
-                show={!!selectedComment}
-                setShow={setSelectedComment}
-                blogId={id}
-                formData={selectedComment}
-                promise={commentOnBlogRequest}
-                callback={(content) => {
-                    onUpdateComment({ blogCommentId: selectedComment.blogCommentID, content });
-                }}
-            />
+
             <DeleteItemModal
                 title="bình luận"
                 show={!!selectedDeleteId}

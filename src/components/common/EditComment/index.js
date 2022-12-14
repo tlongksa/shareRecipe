@@ -1,6 +1,5 @@
 import { notification } from 'antd';
 import React, { useState, useEffect } from 'react';
-import Modal from 'react-bootstrap/Modal';
 import Input from '../Input/Input';
 
 const EditComment = ({ show, setShow, formData, callback, promise, blogId }) => {
@@ -41,28 +40,33 @@ const EditComment = ({ show, setShow, formData, callback, promise, blogId }) => 
             });
     };
     return (
-        <Modal show={show} fullscreen={true} onHide={() => setShow(null)}>
-            <Modal.Header closeButton>
-                <Modal.Title>Thay đổi nội dung bình luận</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <form onSubmit={onSubmit}>
-                    <Input
-                        type="textarea"
-                        label="Content"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="Content ..."
-                        textAreaRows={8}
-                    />
-                    <div className="d-flex justify-content-end">
-                        <button className="button button-sm" type="submit" disabled={!content.trim() || isProcessing}>
-                            Post
-                        </button>
-                    </div>
-                </form>
-            </Modal.Body>
-        </Modal>
+        <form onSubmit={onSubmit} className={`${show ? '' : 'd-none'}`}>
+            <Input
+                type="textarea"
+                label="Nội dung"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Nội dung ..."
+                textAreaRows={3}
+            />
+            <div className="d-flex justify-content-end gap-2 align-items-center">
+                <button
+                    className="button button-sm button-secondary"
+                    type="button"
+                    disabled={isProcessing}
+                    onClick={() => setShow(null)}
+                >
+                    Hủy
+                </button>
+                <button
+                    className="button button-sm button-green"
+                    type="submit"
+                    disabled={!content.trim() || isProcessing}
+                >
+                    Lưu
+                </button>
+            </div>
+        </form>
     );
 };
 
