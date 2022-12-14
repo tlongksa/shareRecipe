@@ -331,7 +331,8 @@ const BmiInfo = () => {
                     {breakfastList?.length > 0 && (
                         <h4 className={`mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
                             <img src={breakfastIconImg} alt="" /> Bữa sáng cần :{' '}
-                            {breakfastList?.reduce((acc, cur) => acc + cur.totalCalo, 0)} kcal
+                            {breakfastList?.[0]?.totalCaloBreak}{' '}
+                            kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(breakfastList)}</ul>
@@ -344,7 +345,8 @@ const BmiInfo = () => {
                         <div className="d-flex justify-content-end">
                             <h3>
                                 Tổng kcal của các món :{' '}
-                                {breakfastList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0} kcal
+                                {(breakfastList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0)}{' '}
+                                kcal
                             </h3>
                         </div>
                     )}
@@ -357,7 +359,8 @@ const BmiInfo = () => {
                     {lunchList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
                             <img src={lunchIconImg} alt="" /> Bữa trưa cần{' '}
-                            {lunchList?.reduce((acc, cur) => acc + cur.totalCalo, 0)} kcal
+                            {breakfastList?.[0]?.totalCaloLunch}{' '}
+                            kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(lunchList)}</ul>
@@ -369,7 +372,8 @@ const BmiInfo = () => {
                     {recipeType === 'total' && (
                         <div className="d-flex justify-content-end">
                             <h3>
-                                Tổng kcal của các món : {lunchList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0}{' '}
+                                Tổng kcal của các món :{' '}
+                                {(lunchList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0)}{' '}
                                 kcal
                             </h3>
                         </div>
@@ -383,7 +387,8 @@ const BmiInfo = () => {
                     {dinnerList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
                             <img src={dinnerIconImg} alt="" /> Bữa tối cần :{' '}
-                            {dinnerList?.reduce((acc, cur) => acc + cur.totalCalo, 0)} kcal
+                            {breakfastList?.[0]?.totalCaloDinner}{' '}
+                            kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
@@ -395,7 +400,8 @@ const BmiInfo = () => {
                     {recipeType === 'total' && (
                         <div className="d-flex justify-content-end">
                             <h3>
-                                Tổng kcal của các món : {dinnerList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0}{' '}
+                                Tổng kcal của các món :{' '}
+                                {(dinnerList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0)}{' '}
                                 kcal
                             </h3>
                         </div>
@@ -574,9 +580,7 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                             </Input>
                         </div>
                         <div className="d-flex align-items-center mb-3">
-                            <strong>
-                                {'☛ Bạn cần '} {item?.totalCalo} {' kcal/ngày để'} {item?.target} {' cân nặng'}
-                            </strong>
+                                <strong>{"☛ Bạn cần "} {item?.totalCalo} {" kcal/ngày để"} {item?.target} {" cân nặng"}</strong>                         
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
                         <div className="d-flex justify-content-end">
