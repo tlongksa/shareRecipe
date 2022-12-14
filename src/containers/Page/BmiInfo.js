@@ -573,11 +573,10 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                                 ))}
                             </Input>
                         </div>
-                        <div className="d-flex gap-4 align-items-center mb-3">
-                            <strong className="min-width-120">Tổng số kcal: </strong>
-                            <p>
-                                <strong>{item?.totalCalo}</strong> kcal
-                            </p>
+                        <div className="d-flex align-items-center mb-3">
+                            <strong>
+                                {'☛ Bạn cần '} {item?.totalCalo} {' kcal/ngày để'} {item?.target} {' cân nặng'}
+                            </strong>
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
                         <div className="d-flex justify-content-end">
