@@ -69,6 +69,7 @@ const BmiInfo = () => {
     const breakfastList = recipeList
         .filter((it) => it.dishCate === 'Bữa Sáng')
         .concat(dessertList?.[0] ? [{ ...dessertList?.[0] }] : []);
+    const extraList = recipeList.filter((it) => it.dishCate === 'Món Canh');
     const lunchList = recipeList
         .filter((it) => it.dishCate === 'Bữa Trưa')
         .concat(
@@ -76,6 +77,15 @@ const BmiInfo = () => {
                 ? [
                       {
                           ...dessertList?.[1],
+                      },
+                  ]
+                : [],
+        )
+        .concat(
+            extraList?.[0]
+                ? [
+                      {
+                          ...extraList?.[0],
                       },
                   ]
                 : [],
@@ -87,6 +97,15 @@ const BmiInfo = () => {
                 ? [
                       {
                           ...dessertList?.[2],
+                      },
+                  ]
+                : [],
+        )
+        .concat(
+            extraList?.[1]
+                ? [
+                      {
+                          ...extraList?.[1],
                       },
                   ]
                 : [],
