@@ -65,12 +65,12 @@ const BmiInfo = () => {
     const [search, setSearch] = useState('');
     const [showFetchMoreFavouriteRecipes, setShowFetchMoreFavouriteRecipes] = useState(true);
 
-    const dessertList = recipeList.filter((it) => it.dishCate === 'Tráng miệng');
+    const dessertList = recipeList.filter((it) => it.dishCate === 'Món Tráng Miệng');
     const breakfastList = recipeList
-        .filter((it) => it.dishCate === 'Bữa sáng')
+        .filter((it) => it.dishCate === 'Bữa Sáng')
         .concat(dessertList?.[0] ? [{ ...dessertList?.[0] }] : []);
     const lunchList = recipeList
-        .filter((it) => it.dishCate === 'Bữa trưa')
+        .filter((it) => it.dishCate === 'Bữa Trưa')
         .concat(
             dessertList?.[1]
                 ? [
@@ -81,7 +81,7 @@ const BmiInfo = () => {
                 : [],
         );
     const dinnerList = recipeList
-        .filter((it) => it.dishCate === 'Bữa tối')
+        .filter((it) => it.dishCate === 'Bữa Tối')
         .concat(
             dessertList?.[2]
                 ? [
@@ -330,8 +330,7 @@ const BmiInfo = () => {
                 >
                     {breakfastList?.length > 0 && (
                         <h4 className={`mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={breakfastIconImg} alt="" /> Bữa sáng cần :{' '}
-                            {breakfastList?.[0]?.totalCaloBreak}{' '}
+                            <img src={breakfastIconImg} alt="" /> Bữa sáng cần : {breakfastList?.[0]?.totalCaloBreak}{' '}
                             kcal
                         </h4>
                     )}
@@ -345,8 +344,7 @@ const BmiInfo = () => {
                         <div className="d-flex justify-content-end">
                             <h3>
                                 Tổng kcal của các món :{' '}
-                                {(breakfastList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0)}{' '}
-                                kcal
+                                {breakfastList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0} kcal
                             </h3>
                         </div>
                     )}
@@ -358,9 +356,7 @@ const BmiInfo = () => {
                 >
                     {lunchList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={lunchIconImg} alt="" /> Bữa trưa cần{' '}
-                            {breakfastList?.[0]?.totalCaloLunch}{' '}
-                            kcal
+                            <img src={lunchIconImg} alt="" /> Bữa trưa cần {breakfastList?.[0]?.totalCaloLunch} kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(lunchList)}</ul>
@@ -372,8 +368,7 @@ const BmiInfo = () => {
                     {recipeType === 'total' && (
                         <div className="d-flex justify-content-end">
                             <h3>
-                                Tổng kcal của các món :{' '}
-                                {(lunchList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0)}{' '}
+                                Tổng kcal của các món : {lunchList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0}{' '}
                                 kcal
                             </h3>
                         </div>
@@ -386,9 +381,7 @@ const BmiInfo = () => {
                 >
                     {dinnerList?.length > 0 && (
                         <h4 className={`mt-4 mb-3 ${recipeType === 'total' ? '' : 'd-none'}`}>
-                            <img src={dinnerIconImg} alt="" /> Bữa tối cần :{' '}
-                            {breakfastList?.[0]?.totalCaloDinner}{' '}
-                            kcal
+                            <img src={dinnerIconImg} alt="" /> Bữa tối cần : {breakfastList?.[0]?.totalCaloDinner} kcal
                         </h4>
                     )}
                     <ul className="mt-2">{renderRecipeList(dinnerList)}</ul>
@@ -400,8 +393,7 @@ const BmiInfo = () => {
                     {recipeType === 'total' && (
                         <div className="d-flex justify-content-end">
                             <h3>
-                                Tổng kcal của các món :{' '}
-                                {(dinnerList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0)}{' '}
+                                Tổng kcal của các món : {dinnerList?.reduce((acc, cur) => acc + cur.totalCalo, 0) || 0}{' '}
                                 kcal
                             </h3>
                         </div>
@@ -580,7 +572,9 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                             </Input>
                         </div>
                         <div className="d-flex align-items-center mb-3">
-                                <strong>{"☛ Bạn cần "} {item?.totalCalo} {" kcal/ngày để"} {item?.target} {" cân nặng"}</strong>                         
+                            <strong>
+                                {'☛ Bạn cần '} {item?.totalCalo} {' kcal/ngày để'} {item?.target} {' cân nặng'}
+                            </strong>
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
                         <div className="d-flex justify-content-end">
