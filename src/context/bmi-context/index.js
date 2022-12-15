@@ -13,6 +13,7 @@ import {
     bmiGetRecipeListFailureAction,
     clearBmiRecipeListAction,
     bmiInsertRecipeToListAction,
+    removeBmiRecipeFromList,
 } from './actions';
 import bmiReducer from './reducer';
 import {
@@ -141,6 +142,7 @@ export const BmiProvider = ({ children }) => {
                 onFetchDetail: (name) => fetchBmiDetail(name),
                 onClearDetail: () => dispatchContext(clearBmiDetailAction()),
                 onFetchRecipes: (totalCalo) => fetchBmiRecipeList(totalCalo),
+                onRemoveRecipe: (id) => dispatchContext(removeBmiRecipeFromList(id)),
                 onFetchMainIngredients: (ing) => fetchMainIngredients(ing),
                 onFetchRecipesByFavourite: (totalCalo, meal, mainIngredient, isRemain, listIDDish) =>
                     fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient, isRemain, listIDDish),

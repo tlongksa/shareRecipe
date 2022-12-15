@@ -12,6 +12,7 @@ import {
     BMI_GET_MAIN_INGREDIENTS_FAILURE,
     BMI_UPDATE_SUCCESS,
     BMI_INSERT_RECIPE_TO_LIST,
+    BMI_REMOVE_RECIPE_FROM_LIST,
 } from './types';
 
 const bmiGetDetailAction = () => ({
@@ -74,6 +75,11 @@ const updateBmiInfoSuccess = (payload) => ({
     payload,
 });
 
+const removeBmiRecipeFromList = (payload) => ({
+    type: BMI_REMOVE_RECIPE_FROM_LIST,
+    payload,
+});
+
 export {
     bmiGetDetailAction,
     bmiGetDetailSuccessAction,
@@ -88,4 +94,5 @@ export {
     bmiGetMainIngredientsFailureAction,
     updateBmiInfoSuccess,
     bmiInsertRecipeToListAction,
+    removeBmiRecipeFromList,
 };

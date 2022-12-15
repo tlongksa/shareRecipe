@@ -12,6 +12,7 @@ import {
     BMI_GET_MAIN_INGREDIENTS_FAILURE,
     BMI_UPDATE_SUCCESS,
     BMI_INSERT_RECIPE_TO_LIST,
+    BMI_REMOVE_RECIPE_FROM_LIST,
 } from './types';
 import produce from 'immer';
 import { defaultValues } from '.';
@@ -58,6 +59,9 @@ const bmiReducer = (state = defaultValues, { type, payload }) =>
                     isLoading: false,
                     error: null,
                 };
+                break;
+            case BMI_REMOVE_RECIPE_FROM_LIST:
+                draft.recipes.dataResponse = draft.recipes.dataResponse.filter((it) => it.dishID !== payload);
                 break;
             case BMI_GET_MAIN_INGREDIENTS:
                 draft.mainIngredients.isLoading = true;

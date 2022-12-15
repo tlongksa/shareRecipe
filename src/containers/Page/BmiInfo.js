@@ -1,4 +1,4 @@
-import { LoadingOutlined } from '@ant-design/icons';
+import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
@@ -58,6 +58,7 @@ const BmiInfo = () => {
         onFetchMainIngredients,
         onFetchRecipesByFavourite,
         onClearRecipeList,
+        onRemoveRecipe,
     } = useContext(BmiContext);
     const [recipeType, setRecipeType] = useState('total');
     const [meal, setMeal] = useState('');
@@ -115,8 +116,14 @@ const BmiInfo = () => {
     const isSmallTablet = useMediaQuery({ query: '(max-width: 768px)' });
     const isExtraSmallTablet = useMediaQuery({ query: '(max-width: 630px)' });
     const isMobile = useMediaQuery({ query: '(max-width: 465px)' });
+    const [deletedList, setDeletedList] = useState([]);
+    const [remainCalo, setRemainCalo] = useState(0);
 
-    const remainCalo = recipeType === 'favourite' ? recipeList?.[recipeList?.length - 1]?.totalRemainingCalo : 0;
+    useEffect(() => {
+        if (recipeType === 'favourite') {
+            setRemainCalo(recipeList?.[recipeList?.length - 1]?.totalRemainingCalo || 0);
+        }
+    }, [recipeType, recipeList]);
 
     useEffect(() => {
         if (userInfo?.username) {
@@ -176,7 +183,15 @@ const BmiInfo = () => {
         return (
             <ul className="mt-2">
                 {list?.map((item, index) => (
-                    <RecipeItem key={item.dishID + index} item={item} />
+                    <RecipeItem
+                        key={item.dishID + index}
+                        item={item}
+                        onDeleteFromList={(id) => {
+                            setDeletedList((prevState) => [...prevState, id]);
+                            onRemoveRecipe(id);
+                            setRemainCalo((prevState) => prevState + item.totalCalo);
+                        }}
+                    />
                 ))}
             </ul>
         );
@@ -214,6 +229,8 @@ const BmiInfo = () => {
                             setRecipeType('total');
                             setMeal('');
                             setMainIngredient('');
+                            setRemainCalo(0);
+                            setDeletedList([]);
                         }}
                     >
                         {recipeType === 'total' ? '✅' : ''} Thực đơn phù hợp
@@ -305,13 +322,13 @@ const BmiInfo = () => {
                     >
                         {remainCalo < 200 ? (
                             <p>
-                                Hiện tại lượng kcal còn lại của bạn là <strong>{remainCalo}</strong> đang dưới 200, bạn
-                                có muốn tìm món Tráng miệng hay không?
+                                Hiện tại lượng kcal còn lại của bạn là <strong>{remainCalo.toFixed(2)}</strong> đang
+                                dưới 200, bạn có muốn tìm món Tráng miệng hay không?
                             </p>
                         ) : (
                             <p>
-                                Bạn còn thiếu : <strong>{remainCalo}</strong> kcal, bạn có muốn hiển thị thêm công thức
-                                không ?
+                                Bạn còn thiếu : <strong>{remainCalo.toFixed(2)}</strong> kcal, bạn có muốn hiển thị thêm
+                                công thức không ?
                             </p>
                         )}
 
@@ -327,7 +344,10 @@ const BmiInfo = () => {
                                         meal,
                                         mainIngredient,
                                         true,
-                                        recipeList.map((it) => it.dishID).join(','),
+                                        recipeList
+                                            .map((it) => it.dishID)
+                                            .concat(deletedList)
+                                            .join(','),
                                     );
                                 }}
                             >
@@ -430,7 +450,7 @@ const BmiInfo = () => {
 
 export default BmiInfo;
 
-const RecipeItem = ({ item }) => (
+const RecipeItem = ({ item, onDeleteFromList }) => (
     <li className="global-recipe__list-item mb-4 bg-green-blur custom-shadow rounded-3 py-3 px-3">
         <div className="d-flex gap-3">
             <img
@@ -439,7 +459,7 @@ const RecipeItem = ({ item }) => (
                 className="rounded-2 recipe-list_item-avatar"
             />
             <div className="flex-fill">
-                <div className="recipe-list_item-content mb-2">
+                <div className="recipe-list_item-content mb-2 position-relative">
                     <h5>
                         <Link
                             to={`/recipe-detail/${item.dishID}`}
@@ -461,6 +481,10 @@ const RecipeItem = ({ item }) => (
                     <div>
                         <strong>Kcal : </strong> <span>{item.totalCalo}</span>
                     </div>
+                    <DeleteOutlined
+                        className="global-list_item-actions_icon position-absolute right-0 top-5"
+                        onClick={() => onDeleteFromList(item.dishID)}
+                    />
                 </div>
                 {item.avgStarRate === 0 ? (
                     <p>Chưa có đánh giá</p>
