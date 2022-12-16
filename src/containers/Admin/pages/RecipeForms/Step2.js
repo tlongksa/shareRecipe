@@ -20,6 +20,9 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
     const [selectedExtraReplaceIng, setSelectedExtraReplaceIng] = useState({});
     const [listIngredientError, setListIngredientError] = useState('');
 
+    console.log(extraIngredients);
+    console.log(selectedExtraIng);
+
     useEffect(() => {
         if (recipeFormData?.mainIngredients?.length) {
             setMainIngredients(recipeFormData?.mainIngredients);
@@ -397,9 +400,9 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                     <Formik
                         initialValues={{
                             name: '',
-                            quantity: 0,
+                            quantity: '',
                             unit: '',
-                            calo: 0,
+                            calo: '',
                         }}
                         onSubmit={onSubmitExtraReplaceIngredient}
                         validationSchema={RecipeStep2Schema}

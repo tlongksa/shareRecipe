@@ -291,6 +291,7 @@ export const BlogItem = ({
     hideDeleteIcon,
     onEdit,
     hideContent,
+    setShowAuthOptionModal,
 }) => {
     return (
         <li className="blog-list_item mb-4 bg-green-blur custom-shadow rounded-3 p-3">
@@ -368,14 +369,30 @@ export const BlogItem = ({
                     </div>
                     <div
                         className={`blog-list_item-actions d-flex gap-3 align-items-center ${
-                            isAuthenticated ? '' : 'divDisabled'
-                        } ${hideBottomActions ? 'd-none' : ''}`}
+                            hideBottomActions ? 'd-none' : ''
+                        }`}
                     >
-                        <button onClick={() => onLike && onLike(item.blogID)}>
+                        <button
+                            onClick={() => {
+                                if (!isAuthenticated) {
+                                    setShowAuthOptionModal(true);
+                                    return;
+                                }
+                                onLike && onLike(item.blogID);
+                            }}
+                        >
                             {item?.checkLike ? <LikeFilled /> : <LikeOutlined />}
                             <span>{item.totalLike}</span>
                         </button>
-                        <button onClick={() => onDislike && onDislike(item.blogID)}>
+                        <button
+                            onClick={() => {
+                                if (!isAuthenticated) {
+                                    setShowAuthOptionModal(true);
+                                    return;
+                                }
+                                onDislike && onDislike(item.blogID);
+                            }}
+                        >
                             {item?.checkDislike ? <DislikeFilled /> : <DislikeOutlined />}
                             <span>{item.totalDisLike}</span>
                         </button>

@@ -83,7 +83,7 @@ const RecipeForm = () => {
                             unit: mappedItem.unit,
                             id: mappedItem.ingredientDetailID,
                             ingredientChangeList:
-                                mappedItem?.ingredientChangeVoList?.map((nestedItem) => ({
+                                mappedItem?.listIngredientChange?.map((nestedItem) => ({
                                     name: nestedItem.name,
                                     quantity: nestedItem.quantity,
                                     unit: nestedItem.unit,
@@ -232,7 +232,7 @@ const RecipeForm = () => {
             .then(({ data }) => {
                 setIsCreating(false);
                 notification.open({
-                    message: data,
+                    message: data?.message || data || 'Tạo món ăn thành công',
                 });
                 navigate(isMod ? '/my-recipes' : '/admin/recipes');
             })

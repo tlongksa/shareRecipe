@@ -25,10 +25,11 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
             return;
         }
         setIsProcessing(true);
+
         updateAccountProfileRequest(item.profileId, {
             phone: values.phone,
-            high: values.high,
-            weight: values.weight,
+            high: parseInt(values.high.toString(), 10),
+            weight: parseInt(values.weight.toString(), 10),
             address: values.address,
             name: item?.name,
             gender: values.gender,
@@ -38,7 +39,11 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
         })
             .then(({ data }) => {
                 setIsProcessing(false);
-                callback(values);
+                callback({
+                    ...values,
+                    high: parseInt(values.high.toString(), 10),
+                    weight: parseInt(values.weight.toString(), 10),
+                });
             })
             .catch((err) => {
                 setIsProcessing(false);
@@ -50,8 +55,8 @@ const EditProfileForm = ({ item, callback, setShouldUpdate }) => {
         <div className={`bmi-form__info flex-fill rounded ${isProcessing ? 'divDisabled' : ''}`}>
             <Formik
                 initialValues={{
-                    high: item?.high || 0,
-                    weight: item?.weight || 0,
+                    high: item?.high || '',
+                    weight: item?.weight || '',
                     dob: item?.dob || '',
                     gender: item?.gender || 'Nam',
                     phone: item?.phone || '',

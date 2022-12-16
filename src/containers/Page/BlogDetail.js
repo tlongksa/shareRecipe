@@ -32,6 +32,7 @@ import { notification } from 'antd';
 import EditComment from '../../components/common/EditComment';
 import DeleteItemModal from '../../components/common/DeleteItemModal';
 import { ROLES } from '../../App';
+import Modal from 'react-bootstrap/Modal';
 
 export const BlogCommentItem = ({
     item,
@@ -44,6 +45,7 @@ export const BlogCommentItem = ({
     isAdmin,
     blogId,
     onUpdateComment,
+    setShowAuthOptionModal,
 }) => {
     const [selectedComment, setSelectedComment] = useState(null);
     return (
@@ -94,20 +96,40 @@ export const BlogCommentItem = ({
                             }}
                         />
                     </div>
-                    <div
-                        className={`blog-list_item-actions d-flex gap-3 align-items-center ${
-                            isAuthenticated ? '' : 'divDisabled'
-                        }`}
-                    >
-                        <button onClick={() => onLike(item.blogCommentID)}>
+                    <div className={`blog-list_item-actions d-flex gap-3 align-items-center`}>
+                        <button
+                            onClick={() => {
+                                if (!isAuthenticated) {
+                                    setShowAuthOptionModal(true);
+                                    return;
+                                }
+                                onLike(item.blogCommentID);
+                            }}
+                        >
                             {item?.checkLike ? <LikeFilled /> : <LikeOutlined />}
                             <span>{item.totalLike}</span>
                         </button>
-                        <button onClick={() => onDislike(item.blogCommentID)}>
+                        <button
+                            onClick={() => {
+                                if (!isAuthenticated) {
+                                    setShowAuthOptionModal(true);
+                                    return;
+                                }
+                                onDislike(item.blogCommentID);
+                            }}
+                        >
                             {item?.checkDislike ? <DislikeFilled /> : <DislikeOutlined />}
                             <span>{item.totalDisLike}</span>
                         </button>
-                        <button onClick={() => onReport(item.blogCommentID)}>
+                        <button
+                            onClick={() => {
+                                if (!isAuthenticated) {
+                                    setShowAuthOptionModal(true);
+                                    return;
+                                }
+                                onReport(item.blogCommentID);
+                            }}
+                        >
                             <FlagOutlined />
                         </button>
                     </div>
@@ -148,6 +170,7 @@ const BlogDetail = () => {
     const navigate = useNavigate();
     const [showEditBlog, setShowEditBlog] = useState(false);
     const [selectedDeleteId, setSelectedDeleteId] = useState('');
+    const [showAuthOptionModal, setShowAuthOptionModal] = useState(false);
 
     useEffect(() => {
         if (dataFetchedRef.current) return;
@@ -284,6 +307,7 @@ const BlogDetail = () => {
                     onEdit={(blog) => {
                         setShowEditBlog(true);
                     }}
+                    setShowAuthOptionModal={setShowAuthOptionModal}
                 />
                 <div className="blog-comments__list-container">
                     <div className="blog-comments__list">
@@ -300,6 +324,7 @@ const BlogDetail = () => {
                                 onUpdateComment={onUpdateComment}
                                 isAdmin={isAdmin}
                                 blogId={id}
+                                setShowAuthOptionModal={setShowAuthOptionModal}
                             />
                         ))}
                     </div>
@@ -339,7 +364,6 @@ const BlogDetail = () => {
                 blogData={dataResponse}
                 callback={() => onFetchDetail(id)}
             />
-
             <DeleteItemModal
                 title="bình luận"
                 show={!!selectedDeleteId}
@@ -347,6 +371,37 @@ const BlogDetail = () => {
                 isProcessing={isProcessing}
                 onConfirm={onDeleteBlogCommentHandler}
             />
+            <Modal
+                show={showAuthOptionModal}
+                fullscreen={'md-down'}
+                onHide={() => setShowAuthOptionModal(false)}
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Bạn cần đăng nhập để sử dụng tính năng này ?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="d-flex gap-2 align-items-center py-3">
+                        <button
+                            className="button button-sm button-green"
+                            type="button"
+                            onClick={() => {
+                                navigate(`/signin?redirectUrl=/blogs/${id}`);
+                                setShowAuthOptionModal(false);
+                            }}
+                        >
+                            Đăng nhập
+                        </button>
+                        <button
+                            className="button button-sm button-secondary"
+                            type="button"
+                            onClick={() => setShowAuthOptionModal(false)}
+                        >
+                            Hủy
+                        </button>
+                    </div>
+                </Modal.Body>
+            </Modal>
         </section>
     );
 };
