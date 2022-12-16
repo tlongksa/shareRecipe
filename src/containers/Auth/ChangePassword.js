@@ -5,6 +5,7 @@ import { changePasswordRequest } from '../../api/requests';
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import { useForm } from 'react-hook-form';
 import authBannerImgSrc from '../../assets/img/auth_banner.png';
+import { notification } from 'antd';
 
 const ChangePassword = (props) => {
     const [isProcessing, setIsProcessing] = useState(false);
@@ -24,7 +25,9 @@ const ChangePassword = (props) => {
             setIsProcessing(false);
         } catch (error) {
             setIsProcessing(false);
-            console.log(error);
+            notification.open({
+                message: error?.response?.data?.messContent || error?.response?.data?.message,
+            });
         }
     };
 

@@ -185,6 +185,10 @@ const BlogDetail = () => {
 
     const onCommentSubmit = (e) => {
         e.preventDefault();
+        if (!isAuthenticated) {
+            setShowAuthOptionModal(true);
+            return;
+        }
         setIsProcessing(true);
         commentOnBlogRequest({
             blogId: id,
@@ -347,11 +351,7 @@ const BlogDetail = () => {
                             placeholder="Bình luận ..."
                         />
                         <div className="d-flex justify-content-end">
-                            <button
-                                className="button button-sm button-green"
-                                type="submit"
-                                disabled={!content.trim() || !isAuthenticated}
-                            >
+                            <button className="button button-sm button-green" type="submit" disabled={!content.trim()}>
                                 Bình luận
                             </button>
                         </div>

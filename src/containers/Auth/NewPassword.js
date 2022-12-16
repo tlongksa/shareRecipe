@@ -7,10 +7,12 @@ import { NewPasswordSchema } from '../../validators';
 import './new-password.scss';
 import { notification } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 
 const NewPassword = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate();
+    const [isRevealPwd, setIsRevealPwd] = useState(false);
 
     const onSubmit = (values) => {
         setIsProcessing(true);
@@ -57,16 +59,32 @@ const NewPassword = () => {
             >
                 {({ errors, touched, isValidating, values, handleChange, isSubmitting }) => (
                     <Form>
-                        <Input
-                            name="password"
-                            type="password"
-                            onChange={handleChange}
-                            placeholder="Mật khẩu mới"
-                            value={values.password}
-                            label="Nhập mật khẩu mới"
-                            error={errors.password}
-                            touched={touched.password}
-                        />
+                        <div className="position-relative">
+                            <Input
+                                name="password"
+                                type={isRevealPwd ? 'text' : 'password'}
+                                onChange={handleChange}
+                                placeholder="Mật khẩu mới"
+                                value={values.password}
+                                label="Nhập mật khẩu mới"
+                                error={errors.password}
+                                touched={touched.password}
+                            />
+                            {isRevealPwd ? (
+                                <EyeInvisibleOutlined
+                                    className="toggle-password__type"
+                                    onClick={() => setIsRevealPwd(false)}
+                                    title="Hide password"
+                                />
+                            ) : (
+                                <EyeOutlined
+                                    className="toggle-password__type"
+                                    onClick={() => setIsRevealPwd(true)}
+                                    title="Show password"
+                                />
+                            )}
+                        </div>
+
                         <Input
                             name="token"
                             onChange={handleChange}
@@ -76,7 +94,7 @@ const NewPassword = () => {
                             touched={touched.token}
                             label="Nhập mã thông báo xác minh từ e-mail"
                         />
-                        <button className="button button-sm" type="submit" disabled={isProcessing}>
+                        <button className="button button-sm button-green" type="submit" disabled={isProcessing}>
                             Lưu
                         </button>
                     </Form>

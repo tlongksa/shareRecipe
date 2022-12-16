@@ -69,6 +69,9 @@ export const BmiProvider = ({ children }) => {
             })
             .catch((err) => {
                 dispatchContext(bmiGetRecipeListFailureAction(err?.response?.data));
+                notification.open({
+                    message: err?.response?.data?.message || err?.response?.data?.messContent,
+                });
             });
     };
 
