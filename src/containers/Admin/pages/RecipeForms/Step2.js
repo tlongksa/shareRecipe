@@ -20,9 +20,6 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
     const [selectedExtraReplaceIng, setSelectedExtraReplaceIng] = useState({});
     const [listIngredientError, setListIngredientError] = useState('');
 
-    console.log(extraIngredients);
-    console.log(selectedExtraIng);
-
     useEffect(() => {
         if (recipeFormData?.mainIngredients?.length) {
             setMainIngredients(recipeFormData?.mainIngredients);
@@ -115,6 +112,10 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
         );
         resetForm();
     };
+
+    const ingChangeList = extraIngredients.find(
+        (extraItem) => extraItem.id === selectedExtraIng?.id,
+    )?.ingredientChangeList;
 
     return (
         <>
@@ -456,52 +457,51 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                                         </button>
                                     </div>
                                     <ul className="main-ingredient__list">
-                                        {extraIngredients
-                                            .find((extraIng) => extraIng.id === selectedExtraIng?.id)
-                                            ?.ingredientChangeList?.map((item, index) => (
-                                                <li
-                                                    className="main-ingredient__list-item mt-3"
-                                                    key={`main-ingredient__item-${item.id}`}
-                                                >
-                                                    <div className="d-flex justify-content-between align-items-center">
-                                                        <strong>
-                                                            {index + 1}. {item.name} {item.quantity} {item.unit}
-                                                        </strong>
-                                                        <span className="d-flex gap-3 align-items-center">
-                                                            <EditOutlined
-                                                                className="cursor-pointer"
-                                                                onClick={() => {
-                                                                    setSelectedExtraReplaceIng(item);
-                                                                    setValues({
-                                                                        name: item.name,
-                                                                        quantity: item.quantity,
-                                                                        unit: item.unit,
-                                                                        calo: item.calo,
-                                                                    });
-                                                                }}
-                                                            />
-                                                            <DeleteOutlined
-                                                                className="cursor-pointer"
-                                                                onClick={() => {
-                                                                    setExtraIngredients((prevState) =>
-                                                                        prevState.map((item) =>
-                                                                            item.id === selectedExtraIng?.id
-                                                                                ? {
-                                                                                      ...item,
-                                                                                      ingredientChangeList:
-                                                                                          item.ingredientChangeList.filter(
-                                                                                              (it) => it.id !== item.id,
-                                                                                          ),
-                                                                                  }
-                                                                                : item,
-                                                                        ),
-                                                                    );
-                                                                }}
-                                                            />
-                                                        </span>
-                                                    </div>
-                                                </li>
-                                            ))}
+                                        {ingChangeList?.map((item, index) => (
+                                            <li
+                                                className="main-ingredient__list-item mt-3"
+                                                key={`main-ingredient__item-${item.id}`}
+                                            >
+                                                <div className="d-flex justify-content-between align-items-center">
+                                                    <strong>
+                                                        {index + 1}. {item.name} {item.quantity} {item.unit}
+                                                    </strong>
+                                                    <span className="d-flex gap-3 align-items-center">
+                                                        <EditOutlined
+                                                            className="cursor-pointer"
+                                                            onClick={() => {
+                                                                setSelectedExtraReplaceIng(item);
+                                                                setValues({
+                                                                    name: item.name,
+                                                                    quantity: item.quantity,
+                                                                    unit: item.unit,
+                                                                    calo: item.calo,
+                                                                });
+                                                            }}
+                                                        />
+                                                        <DeleteOutlined
+                                                            className="cursor-pointer"
+                                                            onClick={() => {
+                                                                setExtraIngredients((prevState) =>
+                                                                    prevState.map((itemInner) => {
+                                                                        if (itemInner?.id === selectedExtraIng?.id) {
+                                                                            return {
+                                                                                ...itemInner,
+                                                                                ingredientChangeList:
+                                                                                    itemInner.ingredientChangeList.filter(
+                                                                                        (it) => it.id !== item.id,
+                                                                                    ),
+                                                                            };
+                                                                        }
+                                                                        return itemInner;
+                                                                    }),
+                                                                );
+                                                            }}
+                                                        />
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                             </Form>
