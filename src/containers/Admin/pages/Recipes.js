@@ -81,7 +81,7 @@ const Recipes = () => {
                         error={''}
                         touched={true}
                         containerNoMarginBottom
-                        className="flex-fill"
+                        className={`flex-fill ${isMod ? 'd-none' : ''}`}
                         inputClassName="full"
                     >
                         <option value="">Thể loại công thức</option>
