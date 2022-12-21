@@ -10,7 +10,8 @@ import { HomeBannerCarousel } from '../../../containers/Home/HomePage';
 import Paginator from '../../common/Paginator';
 
 const RecipesByName = () => {
-    const { recipeByNameList, isLoading, error, onFetchMoreByName, extraListInfo } = useContext(RecipeContext);
+    const { recipeByNameList, isLoading, error, onFetchMoreByName, recipeByNameExtraListInfo } =
+        useContext(RecipeContext);
     const [search, setSearch] = useState('');
     const [searchParams] = useSearchParams();
     const name = searchParams.get('name');
@@ -74,8 +75,8 @@ const RecipesByName = () => {
                 </div>
                 <Paginator
                     isLoading={isLoading}
-                    maxPage={extraListInfo.numOfPages}
-                    curPage={extraListInfo.pageIndex}
+                    maxPage={recipeByNameExtraListInfo.numOfPages}
+                    curPage={recipeByNameExtraListInfo.pageIndex}
                     scrollAfterClicking={false}
                     callback={(page) => onFetchMoreByName(name, page, search || '')}
                 />
