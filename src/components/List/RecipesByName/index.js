@@ -7,9 +7,10 @@ import ListCategory from '../listCategory';
 import HomeRecipeItem from '../HomeRecipeItem';
 import './index.scss';
 import { HomeBannerCarousel } from '../../../containers/Home/HomePage';
+import Paginator from '../../common/Paginator';
 
 const RecipesByName = () => {
-    const { recipeByNameList, isLoading, error, onFetchMoreByName } = useContext(RecipeContext);
+    const { recipeByNameList, isLoading, error, onFetchMoreByName, extraListInfo } = useContext(RecipeContext);
     const [search, setSearch] = useState('');
     const [searchParams] = useSearchParams();
     const name = searchParams.get('name');
@@ -71,6 +72,13 @@ const RecipesByName = () => {
                         <HomeRecipeItem item={item} key={item.dishID} navigateTo={navigate} />
                     ))}
                 </div>
+                <Paginator
+                    isLoading={isLoading}
+                    maxPage={extraListInfo.numOfPages}
+                    curPage={extraListInfo.pageIndex}
+                    scrollAfterClicking={false}
+                    callback={(page) => onFetchMoreByName(name, page, search || '')}
+                />
                 {isLoading && (
                     <div className="global-list__loader-container">
                         <LoadingOutlined className="global-list__loader-icon" />

@@ -7,6 +7,7 @@ import RecipeContext from '../../../context/recipe-context';
 import Input from '../../common/Input/Input';
 import './index.scss';
 import starImgIcon from '../../../assets/img/star.png';
+import Paginator from '../../common/Paginator';
 
 export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
     <li className="recipe-list_item mb-4">
@@ -46,7 +47,7 @@ export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
 );
 
 const RecipesByCategory = () => {
-    const { list, isLoading, error, onFetchMoreByCategory } = useContext(RecipeContext);
+    const { list, isLoading, error, onFetchMoreByCategory, extraListInfo } = useContext(RecipeContext);
     const [search, setSearch] = useState('');
     const { id } = useParams();
     const {
@@ -107,6 +108,13 @@ const RecipesByCategory = () => {
                         <RecipeByCategoryItem item={item} key={item.dishID} isAuthenticated={isAuthenticated} />
                     ))}
                 </div>
+                <Paginator
+                    isLoading={isLoading}
+                    maxPage={extraListInfo.numOfPages}
+                    curPage={extraListInfo.pageIndex}
+                    scrollAfterClicking={false}
+                    callback={(page) => onFetchMoreByCategory(id, page, search || '')}
+                />
                 {isLoading && (
                     <div className="global-list__loader-container">
                         <LoadingOutlined className="global-list__loader-icon" />

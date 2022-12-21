@@ -11,7 +11,7 @@ const getTopNewListRecipeRequest = () => axios.get(apiUrl.TOPNEW_URL);
 const getTopWeekListRecipeRequest = () => axios.get(apiUrl.TOPWEEK_URL);
 
 const getListRecipeByCategoryRequest = (categoryId, page = 1, search = '') =>
-    axios.get(`/searchdishbycate?cateId=${categoryId}&pageIndex=${page}&searchData=${search}`);
+    axios.get(`/searchdishbycate?cateId=${categoryId}&page_index=${page}&searchData=${search}`);
 
 const getRecipeDetailRequest = (id) => axios.get(`/getRecipeDetail?dishId=${id}`);
 
@@ -36,7 +36,7 @@ const modeGetRecipeListRequest = (creator, page = 1, search = '') =>
     });
 
 const getListRecipeByNameRequest = (name, page = 1, search = '') =>
-    axios.get(`/searchdishbyname?name=${name}&pageIndex=${page}&searchData=${search}`);
+    axios.get(`/searchdishbyname?name=${name}&page_index=${page}&searchData=${search}`);
 
 const getListRecipeCategoriesRequest = () => axios.get('/getCategories');
 

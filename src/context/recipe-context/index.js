@@ -128,13 +128,13 @@ export const RecipeProvider = ({ children }) => {
         dispatchContext(recipeGetListAction());
         getListRecipeByCategoryRequest(categoryId, page, search)
             .then(({ data }) => {
-                // const { listRecipeActive = [], pageIndex, numOfPages } = data;
+                const { dishResponseList = [], pageIndex, numOfPages } = data;
                 dispatchContext(
                     recipeGetListSuccessAction({
-                        data: data,
+                        data: dishResponseList,
                         extraListInfo: {
-                            pageIndex: 1,
-                            numOfPages: 0,
+                            pageIndex,
+                            numOfPages,
                         },
                     }),
                 );
@@ -207,13 +207,13 @@ export const RecipeProvider = ({ children }) => {
         dispatchContext(recipeGetListByNameAction());
         getListRecipeByNameRequest(name, page, search)
             .then(({ data }) => {
-                // const { listRecipeActive = [], pageIndex, numOfPages } = data;
+                const { dishResponseList = [], pageIndex, numOfPages } = data;
                 dispatchContext(
                     recipeGetListByNameSuccessAction({
-                        data: data,
+                        data: dishResponseList,
                         extraListInfo: {
-                            pageIndex: 1,
-                            numOfPages: 0,
+                            pageIndex: pageIndex || 1,
+                            numOfPages: numOfPages || 0,
                         },
                     }),
                 );
