@@ -108,9 +108,9 @@ export const BmiProvider = ({ children }) => {
         }
     };
 
-    const fetchMainIngredients = (ing = '') => {
+    const fetchMainIngredients = (ing = '', meal = '') => {
         dispatchContext(bmiGetMainIngredientsAction());
-        const promise = ing ? searchMainIngredientListRequest(ing) : getMainIngredientListRequest();
+        const promise = ing ? searchMainIngredientListRequest(ing) : getMainIngredientListRequest(meal);
         promise
             .then(({ data }) => {
                 const ingArr = [];
@@ -146,7 +146,7 @@ export const BmiProvider = ({ children }) => {
                 onClearDetail: () => dispatchContext(clearBmiDetailAction()),
                 onFetchRecipes: (totalCalo) => fetchBmiRecipeList(totalCalo),
                 onRemoveRecipe: (id) => dispatchContext(removeBmiRecipeFromList(id)),
-                onFetchMainIngredients: (ing) => fetchMainIngredients(ing),
+                onFetchMainIngredients: (ing, meal) => fetchMainIngredients(ing, meal),
                 onFetchRecipesByFavourite: (totalCalo, meal, mainIngredient, isRemain, listIDDish) =>
                     fetchBmiRecipeListByFavourite(totalCalo, meal, mainIngredient, isRemain, listIDDish),
                 onFetchAlternativeRecipes: (totalCalo, meal, mainIngredient) =>

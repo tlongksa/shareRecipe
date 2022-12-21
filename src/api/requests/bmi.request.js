@@ -41,8 +41,8 @@ const getUserBmiAlternativeListRecipeRequest = (totalCalo, meal, mainIngredient)
         },
     });
 
-const getMainIngredientListRequest = () =>
-    axios.get(`/getMainIngredient`, {
+const getMainIngredientListRequest = (meal) =>
+    axios.get(meal ? `getListMainIngredientByMeal?meal=${meal}` : `/getMainIngredient`, {
         headers: {
             authorization: `Bearer ${token || ''}`,
         },

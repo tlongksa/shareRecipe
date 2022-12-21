@@ -128,7 +128,7 @@ const BmiInfo = () => {
     useEffect(() => {
         if (userInfo?.username) {
             onFetchDetail(userInfo?.username);
-            onFetchMainIngredients();
+            onFetchMainIngredients('', '');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userInfo]);
@@ -261,6 +261,7 @@ const BmiInfo = () => {
                                         type="radio"
                                         onChange={(e) => {
                                             setMeal(e.target.value);
+                                            onFetchMainIngredients('', e.target.value);
                                         }}
                                         value={value}
                                         checked={value === meal}
@@ -276,10 +277,10 @@ const BmiInfo = () => {
                                 setSearch={setSearch}
                                 callback={() => {
                                     if (search.trim()) {
-                                        onFetchMainIngredients(search);
+                                        onFetchMainIngredients(search, '');
                                     }
                                 }}
-                                emptySearchCallback={() => onFetchMainIngredients('')}
+                                emptySearchCallback={() => onFetchMainIngredients('', '')}
                                 className="bg-white"
                             />
                         </div>
@@ -615,8 +616,9 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                             </Input>
                         </div>
                         <div className="d-flex align-items-center mb-3">
-                            <strong>
+                            <strong className="bmi-note__info">
                                 {'☛ Bạn cần '} {item?.totalCalo} {' kcal/ngày để'} {item?.target} {' cân nặng'}
+                                <span className="bmi-note__info-popup">{item?.bminote}</span>
                             </strong>
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
