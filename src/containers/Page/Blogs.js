@@ -183,65 +183,67 @@ const Blogs = () => {
     }
 
     return (
-        <section className="client-blog__list-container">
-            <div className="custom-page__container">
-                <div className="d-flex justify-content-end mb-3 gap-3">
-                    <SearchDataList
-                        search={search}
-                        setSearch={setSearch}
-                        callback={() => {
-                            if (search.trim()) {
-                                onFetchMore(1, search);
-                            }
-                        }}
-                        emptySearchCallback={() => onFetchMore(1, '')}
-                    />
-                    {isAuthenticated && (
-                        <button
-                            className="button button-sm button-green d-flex align-items-center gap-2"
-                            onClick={() => setShowNewBlog(true)}
-                        >
-                            <PlusCircleOutlined />
-                            <span>Thêm blog</span>
-                        </button>
-                    )}
-                </div>
-                <ul className="blog-list_items">
-                    {list.map((item, index) => (
-                        <BlogItem
-                            key={`${item.blogID}-${index}`}
-                            item={item}
-                            isAuthenticated={isAuthenticated}
-                            hideContent
+        <div className="background-ingredient pt-5">
+            <section className="client-blog__list-container">
+                <div className="custom-page__container custom-page__container-no__margin-top">
+                    <div className="d-flex justify-content-end mb-3 gap-3">
+                        <SearchDataList
+                            search={search}
+                            setSearch={setSearch}
+                            callback={() => {
+                                if (search.trim()) {
+                                    onFetchMore(1, search);
+                                }
+                            }}
+                            emptySearchCallback={() => onFetchMore(1, '')}
                         />
-                    ))}
-                </ul>
-                {isLoading && (
-                    <div className="global-list__loader-container">
-                        <LoadingOutlined className="global-list__loader-icon" />
+                        {isAuthenticated && (
+                            <button
+                                className="button button-sm button-green d-flex align-items-center gap-2"
+                                onClick={() => setShowNewBlog(true)}
+                            >
+                                <PlusCircleOutlined />
+                                <span>Thêm blog</span>
+                            </button>
+                        )}
                     </div>
-                )}
-                {!isLoading && list.length === 0 && (
-                    <p className="my-3 text-center error-message">Không có bài viết phù hơp</p>
-                )}
-                <Paginator
-                    isLoading={isLoading}
-                    maxPage={extraListInfo.numOfPages}
-                    curPage={extraListInfo.pageIndex}
-                    scrollAfterClicking={false}
-                    callback={(page) => onFetchMore(page, search || '')}
+                    <ul className="blog-list_items">
+                        {list.map((item, index) => (
+                            <BlogItem
+                                key={`${item.blogID}-${index}`}
+                                item={item}
+                                isAuthenticated={isAuthenticated}
+                                hideContent
+                            />
+                        ))}
+                    </ul>
+                    {isLoading && (
+                        <div className="global-list__loader-container">
+                            <LoadingOutlined className="global-list__loader-icon" />
+                        </div>
+                    )}
+                    {!isLoading && list.length === 0 && (
+                        <p className="my-3 text-center error-message">Không có bài viết phù hơp</p>
+                    )}
+                    <Paginator
+                        isLoading={isLoading}
+                        maxPage={extraListInfo.numOfPages}
+                        curPage={extraListInfo.pageIndex}
+                        scrollAfterClicking={false}
+                        callback={(page) => onFetchMore(page, search || '')}
+                    />
+                </div>
+                <BlogForm
+                    show={showNewBlog}
+                    setShow={setShowNewBlog}
+                    callback={() => {
+                        if (roles === ROLES.admin) {
+                            onFetchMore(1, search);
+                        }
+                    }}
                 />
-            </div>
-            <BlogForm
-                show={showNewBlog}
-                setShow={setShowNewBlog}
-                callback={() => {
-                    if (roles === ROLES.admin) {
-                        onFetchMore(1, search);
-                    }
-                }}
-            />
-        </section>
+            </section>
+        </div>
     );
 };
 
@@ -294,7 +296,7 @@ export const BlogItem = ({
     setShowAuthOptionModal,
 }) => {
     return (
-        <li className="blog-list_item mb-4 bg-green-blur custom-shadow rounded-3 p-3">
+        <li className="blog-list_item mb-4 bg-green-blur__bolder custom-shadow rounded-3 p-3">
             <div className="d-flex gap-3">
                 <div className="blog-list_item-media">
                     <img

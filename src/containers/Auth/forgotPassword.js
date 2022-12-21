@@ -62,7 +62,7 @@ const ForgotPassword = (props) => {
                 <div className="forgot-password__container d-flex">
                     <div className="bgr-fotgot-right p-3 px-5">
                         <div className="auth-body">
-                            <h1>Quên mật khẩu</h1>
+                            <h1 className="mb-5 text-center">Quên mật khẩu</h1>
                             <p>
                                 Thay đổi mật khẩu của bạn trong ba bước đơn giản. Điều này sẽ giúp bạn bảo mật mật khẩu
                                 của mình!

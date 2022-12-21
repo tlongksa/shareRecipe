@@ -77,7 +77,7 @@ const Login = () => {
             <form onSubmit={handleSubmit}>
                 <div className="login-form__container">
                     <div className="main-login">
-                        <h3 className="login-title">Đăng nhập</h3>
+                        <h3 className="login-title mb-5 text-center">Đăng nhập</h3>
                         <p className="login-desc">Đồng hành cùng chúng tôi để tạo ra những món ăn ngon nhất</p>
                         {errMsg && <p className="error-message">{errMsg}</p>}
                         <div className="container-login">

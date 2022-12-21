@@ -14,6 +14,7 @@
     --green-color: #038c00;
     --green-header-color: #58af00;
     --green-blur-color: rgba(224, 239, 227, 0.5);
+    --green-blur-bolder: #f0f7f1;
 }
 
 * {
@@ -96,6 +97,7 @@ input:focus {
     align-items: center;
     gap: 2px;
     padding: 4px 0.5rem 0 0.5rem;
+    background-color: white;
     .global-list_search-icon {
         font-size: 24px;
     }
@@ -313,6 +315,13 @@ a {
 .background-chef {
     background-image: url('./assets/img/background.png');
     background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.background-ingredient {
+    background-image: url('./assets/img/background_ingredient.png');
+    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
