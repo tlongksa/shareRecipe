@@ -102,14 +102,15 @@
 .bmi-note__info {
     position: relative;
     width: 100%;
+    font-weight: 600;
     .bmi-note__info-popup {
         display: none;
         position: absolute;
-        top: 5px;
-        width: 280px;
+        top: 0px;
+        width: 300px;
         padding: 0.5rem;
         border-radius: 8px;
-        font-size: 10px;
+        font-size: 11px;
         border: 1px solid #999;
         background-color: white;
         &:hover {

@@ -549,6 +549,7 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                     weight: item?.weight,
                     target: item?.target,
                     mobility: item?.mobility || 1,
+                    targetIndex: item?.targetIndex || '',
                 }}
                 onSubmit={onSubmit}
                 validationSchema={BmiInfoSchema}
@@ -615,11 +616,30 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                                 ))}
                             </Input>
                         </div>
+                        <Input
+                            type="select"
+                            name="targetIndex"
+                            label="Số lượng kilogram muốn tăng(giảm)/ tuần"
+                            onChange={handleChange}
+                            value={values.targetIndex}
+                            error={errors.targetIndex}
+                            touched={touched.targetIndex}
+                            className="flex-fill"
+                        >
+                            <option value={0.5}>o,5 kg / tuần</option>
+                            <option value={1}>1 kg / tuần</option>
+                            <option value={1.5}>1,5 kg / tuần</option>
+                        </Input>
                         <div className="d-flex align-items-center mb-3">
-                            <strong className="bmi-note__info">
+                            <strong>
                                 {'☛ Bạn cần '} {item?.totalCalo} {' kcal/ngày để'} {item?.target} {' cân nặng'}
-                                <span className="bmi-note__info-popup">{item?.bminote}</span>
                             </strong>
+                        </div>
+                        <div className="mb-3">
+                            <div className="bmi-note__info">
+                                Chỉ số BMI của bạn là : {item?.bmiindex} bạn đang {item?.bmistatus}
+                                <span className="bmi-note__info-popup">{item?.bminote}</span>
+                            </div>
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
                         <div className="d-flex justify-content-end">
