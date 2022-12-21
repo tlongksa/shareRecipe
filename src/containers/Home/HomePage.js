@@ -54,12 +54,14 @@ const HomePage = (props) => {
     return (
         <div key={'home-page__key'}>
             <HomeBannerCarousel />
-            <div className="custom-page__container">
-                <ListCategory />
-                <SearchBar />
-                <ListTopWeek />
-                <ListTopMonth />
-                <ListTopNew />
+            <div className="background-chef">
+                <div className="custom-page__container">
+                    <ListCategory />
+                    <SearchBar />
+                    <ListTopWeek />
+                    <ListTopMonth />
+                    <ListTopNew />
+                </div>
             </div>
         </div>
     );
