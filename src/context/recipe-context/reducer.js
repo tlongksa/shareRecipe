@@ -33,9 +33,11 @@ import {
     RECIPE_GET_INGREDIENT_REPORT_LIST_SUCCESS,
     RECIPE_GET_INGREDIENT_REPORT_LIST_FAILURE,
     RECIPE_REMOVE_FROM_INGREDIENT_REPORT_LIST,
+    RECIPE_SET_FORM_DATA,
+    RECIPE_CLEAR_FORM_DATA,
 } from './types';
 import produce from 'immer';
-import { defaultValues } from '.';
+import { defaultValues, initialRecipeFormData } from '.';
 
 const recipeReducer = (state = defaultValues, { type, payload }) =>
     produce(state, (draft) => {
@@ -184,6 +186,12 @@ const recipeReducer = (state = defaultValues, { type, payload }) =>
                 break;
             case RECIPE_REMOVE_FROM_INGREDIENT_REPORT_LIST:
                 draft.ingReport.list = draft.ingReport.list.filter((item) => item.ingredientConflictId !== payload);
+                break;
+            case RECIPE_CLEAR_FORM_DATA:
+                draft.recipeFormData = initialRecipeFormData;
+                break;
+            case RECIPE_SET_FORM_DATA:
+                draft.recipeFormData = payload;
                 break;
             default:
                 break;

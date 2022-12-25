@@ -21,6 +21,7 @@ const Recipes = () => {
         onFetchRecipeCategories,
         categories,
         onAdminFetchMoreByCategory,
+        onClearFormData,
     } = useContext(RecipeContext);
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
@@ -137,7 +138,10 @@ const Recipes = () => {
                     </form>
                     <button
                         className="button button-sm button-green d-flex align-items-center gap-2"
-                        onClick={() => navigate(isMod ? '/recipe-form?step=1' : '/admin/recipe-form?step=1')}
+                        onClick={() => {
+                            onClearFormData();
+                            navigate(isMod ? '/recipe-form?step=1' : '/admin/recipe-form?step=1');
+                        }}
                     >
                         <PlusCircleOutlined />
                         <span>Thêm công thức</span>

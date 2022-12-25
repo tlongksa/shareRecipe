@@ -35,6 +35,8 @@ import {
     recipeGetIngReportListSuccessAction,
     recipeGetIngReportListFailureAction,
     removeIngReportItemAction,
+    recipeSetFormDataAction,
+    recipeClearFormDataAction,
 } from './actions';
 import recipeReducer from './reducer';
 import {
@@ -53,6 +55,20 @@ import {
 } from '../../api/requests';
 import AuthContext from '../auth-context';
 import { ROLES } from '../../App';
+
+export const initialRecipeFormData = {
+    name: '',
+    description: '',
+    numberPeopleForDish: '',
+    level: '',
+    time: '',
+    idDishCategory: [],
+    mainIngredients: [],
+    extraIngredients: [],
+    video: '',
+    listDishImage: [],
+    listStep: [],
+};
 
 export const defaultValues = {
     list: [],
@@ -114,6 +130,7 @@ export const defaultValues = {
         pageIndex: 1,
         numOfPages: 0,
     },
+    recipeFormData: { ...initialRecipeFormData },
 };
 
 const RecipeContext = createContext(defaultValues);
@@ -341,6 +358,8 @@ export const RecipeProvider = ({ children }) => {
                 onRemoveIngReportItemFromList: (id) => dispatchContext(removeIngReportItemAction(id)),
                 onAdminFetchMoreByCategory: (categoryId, page, search) =>
                     fetchAdminRecipeByCategoryList(categoryId, page, search),
+                onSetFormData: (data) => dispatchContext(recipeSetFormDataAction(data)),
+                onClearFormData: () => dispatchContext(recipeClearFormDataAction()),
             }}
         >
             {children}

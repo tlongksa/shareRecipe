@@ -36,6 +36,8 @@ import {
     RECIPE_ADMIN_GET_LIST_BY_CATEGORY,
     RECIPE_ADMIN_GET_LIST_BY_CATEGORY_SUCCESS,
     RECIPE_ADMIN_GET_LIST_BY_CATEGORY_FAILURE,
+    RECIPE_SET_FORM_DATA,
+    RECIPE_CLEAR_FORM_DATA,
 } from './types';
 
 const recipeGetListAction = () => ({
@@ -211,6 +213,15 @@ const recipeAdminGetListByCategoryFailureAction = (error) => ({
     payload: error,
 });
 
+const recipeSetFormDataAction = (payload) => ({
+    type: RECIPE_SET_FORM_DATA,
+    payload,
+});
+
+const recipeClearFormDataAction = () => ({
+    type: RECIPE_CLEAR_FORM_DATA,
+});
+
 export {
     recipeAdminGetListByCategoryAction,
     recipeAdminGetListByCategorySuccessAction,
@@ -249,4 +260,6 @@ export {
     recipeGetDetailCommentsFailureAction,
     recipeRemoveItemFromFavouriteListAction,
     removeRecipeCommentReportAction,
+    recipeSetFormDataAction,
+    recipeClearFormDataAction,
 };

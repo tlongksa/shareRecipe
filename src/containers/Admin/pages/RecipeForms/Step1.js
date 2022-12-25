@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../../../components/common/Input/Input';
 import { RECIPE_LEVELS } from '../../../../constants';
-import RecipeContext from '../../../../context/recipe-context';
+import RecipeContext, { initialRecipeFormData } from '../../../../context/recipe-context';
 import { RecipeStep1Schema } from '../../../../validators';
 
 const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues, isMod }) => {
@@ -39,11 +39,11 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues
             setListCateError('Vui lòng chọn ít nhất 1 thể loại món ăn');
             return;
         }
-        setRecipeFormData((prevState) => ({
-            ...prevState,
+        setRecipeFormData({
+            ...recipeFormData,
             ...values,
             idDishCategory,
-        }));
+        });
         navigate(`${isMod ? '' : '/admin'}/recipe-form?step=2${id ? `&id=${id}` : ''}`);
     };
 
@@ -147,7 +147,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues
                             className="button button-sm button-secondary"
                             type="button"
                             onClick={() => {
-                                setRecipeFormData({});
+                                setRecipeFormData(initialRecipeFormData);
                                 setIdDishCategory([]);
                                 navigate(isMod ? '/my-recipes' : '/admin/recipes');
                             }}

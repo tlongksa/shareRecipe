@@ -374,11 +374,11 @@ const Step2 = ({ recipeFormData, setRecipeFormData, id, isMod }) => {
                             setListIngredientError('Vui lòng nhập nguyên liệu phụ');
                             return;
                         }
-                        setRecipeFormData((prevState) => ({
-                            ...prevState,
+                        setRecipeFormData({
+                            ...recipeFormData,
                             mainIngredients,
                             extraIngredients,
-                        }));
+                        });
                         navigate(`${isMod ? '' : '/admin'}/recipe-form?step=3${id ? `&id=${id}` : ''}`);
                     }}
                 >

@@ -221,12 +221,12 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }
                             setStepError('Vui lòng nhập các bước thực hiện món ăn');
                             return;
                         }
-                        setRecipeFormData((prevState) => ({
-                            ...prevState,
+                        setRecipeFormData({
+                            ...recipeFormData,
                             listStep,
                             files,
                             videoFile,
-                        }));
+                        });
                         setShouldFinish(true);
                     }}
                 >

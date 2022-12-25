@@ -21,7 +21,6 @@ const RecipeForm = () => {
     const step = searchParams.get('step');
     const stepNum = +step;
     const id = searchParams.get('id');
-    const [recipeFormData, setRecipeFormData] = useState({});
     const [shouldFinish, setShouldFinish] = useState(false);
     const navigate = useNavigate();
     const [isUploading, setIsUploading] = useState(false);
@@ -31,8 +30,10 @@ const RecipeForm = () => {
     const [video, setVideo] = useState('');
     const {
         recipeDetail: { dataResponse, isLoading, error },
+        recipeFormData,
         onFetchDetail,
         onClearDetail,
+        onSetFormData,
     } = useContext(RecipeContext);
 
     const isMod = roles === ROLES.mod;
@@ -56,7 +57,7 @@ const RecipeForm = () => {
     useEffect(() => {
         if (id && dataResponse?.name) {
             startTransition(() => {
-                setRecipeFormData({
+                onSetFormData({
                     name: dataResponse.name,
                     description: dataResponse?.formula?.describe,
                     numberPeopleForDish: dataResponse.numberPeopleForDish,
@@ -291,7 +292,7 @@ const RecipeForm = () => {
             {step === '1' && (
                 <Step1
                     recipeFormData={recipeFormData}
-                    setRecipeFormData={setRecipeFormData}
+                    setRecipeFormData={onSetFormData}
                     id={id}
                     isLoading={isLoading}
                     initialValues={{
@@ -305,12 +306,12 @@ const RecipeForm = () => {
                 />
             )}
             {step === '2' && (
-                <Step2 recipeFormData={recipeFormData} setRecipeFormData={setRecipeFormData} id={id} isMod={isMod} />
+                <Step2 recipeFormData={recipeFormData} setRecipeFormData={onSetFormData} id={id} isMod={isMod} />
             )}
             {step === '3' && (
                 <Step3
                     recipeFormData={recipeFormData}
-                    setRecipeFormData={setRecipeFormData}
+                    setRecipeFormData={onSetFormData}
                     setShouldFinish={setShouldFinish}
                     id={id}
                     isMod={isMod}
