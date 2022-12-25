@@ -99,7 +99,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }
                 ))}
             </div>
             <div className="d-flex-custom mb-3 mt-3">
-                <h4>Dán link video mô tả cách làm của món ăn : </h4>
+                <h4>Video mô tả cách làm của món ăn : </h4>
                 <button
                     className="button button-sm button-green d-flex align-items-center gap-2"
                     onClick={() => {
