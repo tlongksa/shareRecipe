@@ -8,6 +8,8 @@ import Input from '../../common/Input/Input';
 import './index.scss';
 import starImgIcon from '../../../assets/img/star.png';
 import Paginator from '../../common/Paginator';
+import { HomeBannerCarousel } from '../../../containers/Home/HomePage';
+import ListCategory from '../listCategory';
 
 export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
     <li className="recipe-list_item mb-4">
@@ -47,14 +49,21 @@ export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (
 );
 
 const RecipesByCategory = () => {
-    const { list, isLoading, error, onFetchMoreByCategory, extraListInfo, categories } = useContext(RecipeContext);
+    const {
+        list,
+        isLoading,
+        error,
+        onFetchMoreByCategory,
+        extraListInfo,
+        // , categories
+    } = useContext(RecipeContext);
     const [search, setSearch] = useState('');
     const { id } = useParams();
     const {
         userInfo: { accessToken },
     } = useContext(AuthContext);
     const isAuthenticated = !!accessToken;
-    const [category, setCategory] = useState('');
+    // const [category, setCategory] = useState('');
 
     useEffect(() => {
         onFetchMoreByCategory(id, 1, '');
@@ -72,80 +81,84 @@ const RecipesByCategory = () => {
     }
 
     return (
-        <section className="recipes-by__category-container">
-            <div className="custom-page__container">
-                <div className="d-flex gap-3 justify-content-end align-items-center mb-4">
-                    <Input
-                        type="select"
-                        onChange={(e) => {
-                            setCategory(e.target.value);
-                            if (!e.target.value) {
-                                onFetchMoreByCategory(id, 1, '');
-                                return;
-                            }
-                            onFetchMoreByCategory(e.target.value, 1, search);
-                        }}
-                        value={category}
-                        error={''}
-                        touched={true}
-                        containerNoMarginBottom
-                        className={`flex-fill`}
-                    >
-                        <option value="">Thể loại công thức</option>
-                        {categories.list?.map((value) => (
-                            <option value={value.dishCategoryID} key={value.dishCategoryID}>
-                                {value.name}
-                            </option>
-                        ))}
-                    </Input>
-                    <form
-                        className="global-list_search shadow rounded-3"
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            onFetchMoreByCategory(id, 1, search.trim());
-                        }}
-                    >
-                        <SearchOutlined
-                            className="global-list_search-icon cursor-pointer"
-                            onClick={() => onFetchMoreByCategory(id, 1, search.trim())}
-                        />
-                        <Input
+        <div className="background-chef pt-4">
+            <section className="recipes-by__category-container">
+                <HomeBannerCarousel />
+                <div className="custom-page__container custom-page__container-no__margin-top">
+                    <ListCategory />
+                    <div className="d-flex gap-3 justify-content-end align-items-center mb-4">
+                        {/* <Input
+                            type="select"
                             onChange={(e) => {
-                                const { value } = e.target;
-                                setSearch(value);
-                                if (!value.trim()) {
+                                setCategory(e.target.value);
+                                if (!e.target.value) {
                                     onFetchMoreByCategory(id, 1, '');
+                                    return;
                                 }
+                                onFetchMoreByCategory(e.target.value, 1, search);
                             }}
-                            placeholder="Tìm  kiếm công  thức ..."
-                            value={search}
-                            error={null}
+                            value={category}
+                            error={''}
                             touched={true}
                             containerNoMarginBottom
-                            className="flex-fill"
-                            inputClassName="border-0"
-                        />
-                    </form>
-                </div>
-                <div className="recipes-by__category-list">
-                    {list.map((item) => (
-                        <RecipeByCategoryItem item={item} key={item.dishID} isAuthenticated={isAuthenticated} />
-                    ))}
-                </div>
-                <Paginator
-                    isLoading={isLoading}
-                    maxPage={extraListInfo.numOfPages}
-                    curPage={extraListInfo.pageIndex}
-                    scrollAfterClicking={false}
-                    callback={(page) => onFetchMoreByCategory(id, page, search || '')}
-                />
-                {isLoading && (
-                    <div className="global-list__loader-container">
-                        <LoadingOutlined className="global-list__loader-icon" />
+                            className={`flex-fill`}
+                        >
+                            <option value="">Thể loại công thức</option>
+                            {categories.list?.map((value) => (
+                                <option value={value.dishCategoryID} key={value.dishCategoryID}>
+                                    {value.name}
+                                </option>
+                            ))}
+                        </Input> */}
+                        <form
+                            className="global-list_search shadow rounded-3"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                onFetchMoreByCategory(id, 1, search.trim());
+                            }}
+                        >
+                            <SearchOutlined
+                                className="global-list_search-icon cursor-pointer"
+                                onClick={() => onFetchMoreByCategory(id, 1, search.trim())}
+                            />
+                            <Input
+                                onChange={(e) => {
+                                    const { value } = e.target;
+                                    setSearch(value);
+                                    if (!value.trim()) {
+                                        onFetchMoreByCategory(id, 1, '');
+                                    }
+                                }}
+                                placeholder="Tìm  kiếm công  thức ..."
+                                value={search}
+                                error={null}
+                                touched={true}
+                                containerNoMarginBottom
+                                className="flex-fill"
+                                inputClassName="border-0"
+                            />
+                        </form>
                     </div>
-                )}
-            </div>
-        </section>
+                    <div className="recipes-by__category-list">
+                        {list.map((item) => (
+                            <RecipeByCategoryItem item={item} key={item.dishID} isAuthenticated={isAuthenticated} />
+                        ))}
+                    </div>
+                    <Paginator
+                        isLoading={isLoading}
+                        maxPage={extraListInfo.numOfPages}
+                        curPage={extraListInfo.pageIndex}
+                        scrollAfterClicking={false}
+                        callback={(page) => onFetchMoreByCategory(id, page, search || '')}
+                    />
+                    {isLoading && (
+                        <div className="global-list__loader-container">
+                            <LoadingOutlined className="global-list__loader-icon" />
+                        </div>
+                    )}
+                </div>
+            </section>
+        </div>
     );
 };
 export default RecipesByCategory;

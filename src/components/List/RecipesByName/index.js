@@ -23,70 +23,72 @@ const RecipesByName = () => {
     }, [name]);
 
     return (
-        <section className="recipes-by__category-container">
-            <HomeBannerCarousel />
-            <div className="custom-page__container">
-                <ListCategory />
-                <div className="d-flex justify-content-between align-items-center mb-4 mt-5 should-stack-on-mobile">
-                    {!isLoading && error ? (
-                        <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>
-                    ) : (
-                        <p className="search-result__text">
-                            {recipeByNameList.length} kết quả tìm kiếm cho “{name}”
-                        </p>
-                    )}
+        <div className="background-chef">
+            <section className="recipes-by__category-container">
+                <HomeBannerCarousel />
+                <div className="custom-page__container">
+                    <ListCategory />
+                    <div className="d-flex justify-content-between align-items-center mb-4 mt-5 should-stack-on-mobile">
+                        {!isLoading && error ? (
+                            <p className="error-message">{error?.message || 'Lỗi xảy ra!'}</p>
+                        ) : (
+                            <p className="search-result__text">
+                                {recipeByNameList.length} kết quả tìm kiếm cho “{name}”
+                            </p>
+                        )}
 
-                    <form
-                        className="global-list_search shadow rounded-3"
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            navigate(`/list-recipe-by-name?name=${search.trim()}`);
-                        }}
-                    >
-                        <SearchOutlined
-                            className="global-list_search-icon cursor-pointer"
-                            onClick={() => {
+                        <form
+                            className="global-list_search shadow rounded-3"
+                            onSubmit={(e) => {
+                                e.preventDefault();
                                 navigate(`/list-recipe-by-name?name=${search.trim()}`);
                             }}
-                        />
-                        <Input
-                            onChange={(e) => {
-                                const { value } = e.target;
-                                setSearch(value);
-                                if (!value.trim()) {
-                                    onFetchMoreByName(name, 1, '');
-                                    navigate(`/list-recipe-by-name?name=`);
-                                }
-                            }}
-                            placeholder="Tìm  kiếm công  thức ..."
-                            value={search}
-                            error={null}
-                            touched={true}
-                            containerNoMarginBottom
-                            className="flex-fill"
-                            inputClassName="border-0"
-                        />
-                    </form>
-                </div>
-                <div className="home__list-recipe__container">
-                    {recipeByNameList?.map((item) => (
-                        <HomeRecipeItem item={item} key={item.dishID} navigateTo={navigate} />
-                    ))}
-                </div>
-                <Paginator
-                    isLoading={isLoading}
-                    maxPage={recipeByNameExtraListInfo.numOfPages}
-                    curPage={recipeByNameExtraListInfo.pageIndex}
-                    scrollAfterClicking={false}
-                    callback={(page) => onFetchMoreByName(name, page, search || '')}
-                />
-                {isLoading && (
-                    <div className="global-list__loader-container">
-                        <LoadingOutlined className="global-list__loader-icon" />
+                        >
+                            <SearchOutlined
+                                className="global-list_search-icon cursor-pointer"
+                                onClick={() => {
+                                    navigate(`/list-recipe-by-name?name=${search.trim()}`);
+                                }}
+                            />
+                            <Input
+                                onChange={(e) => {
+                                    const { value } = e.target;
+                                    setSearch(value);
+                                    if (!value.trim()) {
+                                        onFetchMoreByName(name, 1, '');
+                                        navigate(`/list-recipe-by-name?name=`);
+                                    }
+                                }}
+                                placeholder="Tìm  kiếm công  thức ..."
+                                value={search}
+                                error={null}
+                                touched={true}
+                                containerNoMarginBottom
+                                className="flex-fill"
+                                inputClassName="border-0"
+                            />
+                        </form>
                     </div>
-                )}
-            </div>
-        </section>
+                    <div className="home__list-recipe__container">
+                        {recipeByNameList?.map((item) => (
+                            <HomeRecipeItem item={item} key={item.dishID} navigateTo={navigate} />
+                        ))}
+                    </div>
+                    <Paginator
+                        isLoading={isLoading}
+                        maxPage={recipeByNameExtraListInfo.numOfPages}
+                        curPage={recipeByNameExtraListInfo.pageIndex}
+                        scrollAfterClicking={false}
+                        callback={(page) => onFetchMoreByName(name, page, search || '')}
+                    />
+                    {isLoading && (
+                        <div className="global-list__loader-container">
+                            <LoadingOutlined className="global-list__loader-icon" />
+                        </div>
+                    )}
+                </div>
+            </section>
+        </div>
     );
 };
 export default RecipesByName;

@@ -54,6 +54,9 @@ button:disabled {
     &.custom-page__container-no__margin-top {
         margin-top: 0;
     }
+    &.custom-page__container-no__margin-bottom {
+        margin-bottom: 0;
+    }
     @media (max-width: 414px) {
         padding: 0 0.4rem;
     }

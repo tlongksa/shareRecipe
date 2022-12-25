@@ -55,7 +55,7 @@ const HomePage = (props) => {
         <div key={'home-page__key'}>
             <HomeBannerCarousel />
             <div className="background-chef">
-                <div className="custom-page__container">
+                <div className="custom-page__container custom-page__container-no__margin-bottom">
                     <ListCategory />
                     <SearchBar />
                     <ListTopWeek />
