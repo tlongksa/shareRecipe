@@ -579,6 +579,12 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                                 className="flex-fill"
                             />
                         </div>
+                        <div className="mb-3">
+                            <div className="bmi-note__info">
+                                Chỉ số BMI của bạn là : {item?.bmiindex} bạn đang {item?.bmistatus}
+                                <span className="bmi-note__info-popup">{item?.bminote}</span>
+                            </div>
+                        </div>
                         <div className="d-flex gap-3">
                             <Input
                                 type="select"
@@ -634,12 +640,6 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                             <strong>
                                 {'☛ Bạn cần '} {item?.totalCalo} {' kcal/ngày để'} {item?.target} {' cân nặng'}
                             </strong>
-                        </div>
-                        <div className="mb-3">
-                            <div className="bmi-note__info">
-                                Chỉ số BMI của bạn là : {item?.bmiindex} bạn đang {item?.bmistatus}
-                                <span className="bmi-note__info-popup">{item?.bminote}</span>
-                            </div>
                         </div>
                         {item?.messContent && <p className="mb-3 error-message">{item?.messContent}</p>}
                         <div className="d-flex justify-content-end">
