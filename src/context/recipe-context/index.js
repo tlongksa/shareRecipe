@@ -59,7 +59,6 @@ import { ROLES } from '../../App';
 export const initialRecipeFormData = {
     name: '',
     description: '',
-    numberPeopleForDish: '',
     level: '',
     time: '',
     idDishCategory: [],

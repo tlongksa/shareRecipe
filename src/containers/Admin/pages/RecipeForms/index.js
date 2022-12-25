@@ -60,7 +60,6 @@ const RecipeForm = () => {
                 onSetFormData({
                     name: dataResponse.name,
                     description: dataResponse?.formula?.describe,
-                    numberPeopleForDish: dataResponse.numberPeopleForDish,
                     level: dataResponse.level,
                     time: dataResponse.time,
                     idDishCategory: dataResponse.listDishCategory,
@@ -98,6 +97,7 @@ const RecipeForm = () => {
                 });
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, dataResponse]);
 
     useEffect(() => {
@@ -177,7 +177,7 @@ const RecipeForm = () => {
             origin: 'vn',
             level: +recipeFormData.level,
             calo: recipeFormData.calo,
-            numberPeopleForDish: recipeFormData.numberPeopleForDish,
+            numberPeopleForDish: 1,
             time: recipeFormData.time,
             idDishCategory: recipeFormData.idDishCategory,
             formulaId: {
@@ -299,7 +299,6 @@ const RecipeForm = () => {
                         name: recipeFormData.name || '',
                         description: recipeFormData.description || '',
                         level: recipeFormData?.level?.toString() || '',
-                        numberPeopleForDish: recipeFormData.numberPeopleForDish || 0,
                         time: recipeFormData?.time || 0,
                     }}
                     isMod={isMod}

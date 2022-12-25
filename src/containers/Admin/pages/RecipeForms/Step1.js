@@ -122,16 +122,6 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues
                     </div>
                     <div className="mt-3 d-flex gap-5">
                         <Input
-                            name="numberPeopleForDish"
-                            type="number"
-                            onChange={handleChange}
-                            value={values.numberPeopleForDish}
-                            label="Số người ăn :"
-                            error={errors.numberPeopleForDish}
-                            touched={touched.numberPeopleForDish}
-                            className="w-100"
-                        />
-                        <Input
                             name="time"
                             type="number"
                             onChange={handleChange}
@@ -139,7 +129,7 @@ const Step1 = ({ recipeFormData, setRecipeFormData, id, isLoading, initialValues
                             label="Thời gian nấu :"
                             error={errors.time}
                             touched={touched.time}
-                            className="w-100"
+                            className="w-50"
                         />
                     </div>
                     <div className="d-flex justify-content-end gap-4 align-items-center mt-4">
