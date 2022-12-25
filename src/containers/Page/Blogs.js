@@ -363,7 +363,7 @@ export const BlogItem = ({
                             </Link>
                         </h5>
                         <div
-                            className={`blog-item__content ${hideContent ? 'd-none' : ''}`}
+                            className={`blog-item__content ${hideContent ? 'hide-content' : ''}`}
                             dangerouslySetInnerHTML={{
                                 __html: item.content,
                             }}
