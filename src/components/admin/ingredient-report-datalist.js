@@ -65,7 +65,7 @@ const IngredientReportDataList = ({ list, onEdit, onDelete, currentPage, maxPage
             <span className={styles.no}>{(currentPage - 1) * 20 + index + 1}</span>
             <span>{item.ingredientA}</span>
             <span>{item.ingredientB}</span>
-            <span className="pe-3">{item?.consequence}</span>
+            <span className="pe-4">{item?.consequence}</span>
             <span>{item.createUsername}</span>
             <span>{item.createDate?.join('-')}</span>
             <span>
@@ -111,7 +111,7 @@ const IngredientReportDataList = ({ list, onEdit, onDelete, currentPage, maxPage
                         <strong className={styles.no}>No</strong>
                         <strong>Nguyên liệu A</strong>
                         <strong>Nguyên liệu B </strong>
-                        <strong>Hậu quả</strong>
+                        <strong className="pe-4">Hậu quả</strong>
                         <strong>Người tạo</strong>
                         <strong>Ngày tạo</strong>
                         <strong />

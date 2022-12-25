@@ -69,8 +69,8 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
     let listRecipeMarkup = list.map((item, index) => (
         <li key={item.dishID} className={styles.dataItem}>
             <span className={styles.no}>{(currentPage - 1) * MAX_ITEMS + index + 1}</span>
-            <span>{item.dishName || '-'}</span>
-            <span>{item.formulaDescribe?.substr(0, 45) || '-'}</span>
+            <span className="pe-4">{item.dishName || '-'}</span>
+            <span className="pe-4">{item.formulaDescribe?.substr(0, 45) || '-'}</span>
             <span>{item?.createDate || '-'}</span>
             <span>{item.verifier}</span>
             <span>
@@ -124,8 +124,8 @@ const RecipeDataList = ({ list, onEdit, onDelete, currentPage, maxPage, paginate
                 {!isMobile && (
                     <li className={[styles.dataItem, styles.dataItemHead].join(' ')}>
                         <strong className={styles.no}>No</strong>
-                        <strong>Tên công thức</strong>
-                        <strong>Mô tả</strong>
+                        <strong className="pe-4">Tên công thức</strong>
+                        <strong className="pe-4">Mô tả</strong>
                         <strong>Ngày tạo </strong>
                         <strong>Người tạo</strong>
                         <strong />
