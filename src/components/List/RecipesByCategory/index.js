@@ -83,7 +83,6 @@ const RecipesByCategory = () => {
     return (
         <div className="background-chef pt-4">
             <section className="recipes-by__category-container">
-                <HomeBannerCarousel />
                 <div className="custom-page__container custom-page__container-no__margin-top">
                     <ListCategory />
                     <div className="d-flex gap-3 justify-content-end align-items-center mb-4">

@@ -1,5 +1,6 @@
 .client-blog__list-container {
     min-height: 80vh;
+    margin-bottom: -40px;
 }
 .blog-list_item {
     .blog-list_item-media {
@@ -35,6 +36,7 @@
 }
 .client-blog-detail__container {
     min-height: 80vh;
+
     .blog-detail__loader-container {
         margin: 2.5rem 0;
         display: flex;

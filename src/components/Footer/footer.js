@@ -134,7 +134,7 @@ export default function Footer() {
                         </ul>
                     </div>
                 </div>
-                <p className="footer-bottom__text text-center">© 2021 Bản quyền thuộc về FoodRecipes</p>
+                <p className="footer-bottom__text text-center">© 2021 Bản quyền thuộc về Food Share Recipes Systems</p>
             </div>
         </footer>
     );

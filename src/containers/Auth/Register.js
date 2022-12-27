@@ -91,7 +91,7 @@ const Register = () => {
         notification.open({
             message: 'Đăng ký thành công !',
             description:
-                'Chúc mùng bạn đã có tài khoản đăng nhập OiShii, bạn hãy đăng nhập tài khoản để có trải nghiệm thú vị nất',
+                'Chúc mùng bạn đã có tài khoản đăng nhập FSRS, bạn hãy đăng nhập tài khoản để có trải nghiệm thú vị nất',
             icon: (
                 <SmileOutlined
                     style={{

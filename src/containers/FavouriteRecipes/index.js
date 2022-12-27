@@ -51,7 +51,7 @@ const FavouriteRecipes = () => {
     }
 
     return (
-        <div className="background-chef">
+        <div className="background-recipe">
             <section className="mh-85vh">
                 <div className="custom-page__container">
                     <div className="d-flex justify-content-end mb-3 gap-3">

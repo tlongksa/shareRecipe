@@ -64,9 +64,9 @@ const Recipes = () => {
     }
 
     return (
-        <section className={`account-list__container ${isLoading || isProcessing ? 'divDisabled' : ''}`}>
-            <div className="d-flex justify-content-between align-items-center mb-3 gap-3 sm:flex-col">
-                <div className="d-flex align-items-center gap-3">
+        <section className={`account-list__container ${isLoading || isProcessing ? 'divDisabled' : ''}` }>
+            <div className="d-flex justify-content-between align-items-center mb-3 gap-3 sm:flex-col ">
+                <div className="d-flex align-items-center gap-3 ">
                     <h3 className="mb-0">Quản lí công thức</h3>
                     <Input
                         type="select"
