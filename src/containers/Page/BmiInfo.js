@@ -328,7 +328,7 @@ const BmiInfo = () => {
                         {remainCalo < 200 ? (
                             <p>
                                 Hiện tại lượng kcal còn lại của bạn là <strong>{remainCalo.toFixed(2)}</strong> đang
-                                dưới 200, bạn có muốn tìm món Tráng miệng hay không?
+                                dưới 300, bạn có muốn tìm món Tráng miệng hay không?
                             </p>
                         ) : (
                             <p>
@@ -637,7 +637,7 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                             touched={touched.targetIndex}
                             className="flex-fill"
                         >
-                            <option value={0.5}>o,5 kg / tuần</option>
+                            <option value={0.5}>0,5 kg / tuần</option>
                             <option value={1}>1 kg / tuần</option>
                             <option value={1.5}>1,5 kg / tuần</option>
                         </Input>
