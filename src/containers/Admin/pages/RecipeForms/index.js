@@ -273,19 +273,19 @@ const RecipeForm = () => {
                     className={`${stepNum === 1 ? 'active-step' : ''}`}
                     onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=1${id ? `&id=${id}` : ''}`)}
                 >
-                    Step 1
+                    Bước 1
                 </button>
                 <button
                     className={`${stepNum === 2 ? 'active-step' : ''} ${stepNum >= 2 || id ? '' : 'divDisabled'}`}
                     onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=2${id ? `&id=${id}` : ''}`)}
                 >
-                    Step 2
+                    Bước 2
                 </button>
                 <button
                     className={`${stepNum === 3 ? 'active-step' : ''} ${stepNum >= 3 || id ? '' : 'divDisabled'}`}
                     onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=3${id ? `&id=${id}` : ''}`)}
                 >
-                    Step 3
+                    bước 3
                 </button>
             </div>
             {fileError && <p className="error-message">{fileError}</p>}
