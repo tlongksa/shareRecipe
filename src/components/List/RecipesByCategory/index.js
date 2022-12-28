@@ -8,7 +8,7 @@ import Input from '../../common/Input/Input';
 import './index.scss';
 import starImgIcon from '../../../assets/img/star.png';
 import Paginator from '../../common/Paginator';
-import { HomeBannerCarousel } from '../../../containers/Home/HomePage';
+// import { HomeBannerCarousel } from '../../../containers/Home/HomePage';
 import ListCategory from '../listCategory';
 
 export const RecipeByCategoryItem = ({ item, isAuthenticated }) => (

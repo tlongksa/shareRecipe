@@ -478,7 +478,7 @@ const RecipeItem = ({ item, onDeleteFromList }) => (
                             {item.dishName}
                         </Link>
                     </h5>
-                    <p>{item.formulaDescribe}</p>
+                    <p className="break-line-2">{item.formulaDescribe}</p>
                     <p className="d-flex align-items-center gap-3">
                         <strong>By {item.verifier}</strong>
                         <span className="text-muted">{item?.createDate || '-'}</span>
