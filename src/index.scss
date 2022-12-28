@@ -1,5 +1,6 @@
 @import './assets/styles/utilities.scss';
 @import 'antd/dist/antd.css';
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
 
 :root {
     --primary-color: #667eea;
@@ -354,4 +355,7 @@ a {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.ff-dancing-script {
+    font-family: 'Dancing Script', cursive;
 }
