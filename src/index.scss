@@ -53,6 +53,7 @@ button:disabled {
     }
     &.custom-page__container-no__margin-top {
         margin-top: 0;
+        padding-bottom: 2rem;
     }
     &.custom-page__container-no__margin-bottom {
         margin-bottom: 0;
@@ -321,10 +322,27 @@ a {
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin-top: -2rem;
 }
 
 .background-ingredient {
     background-image: url('./assets/img/background_ingredient.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.background-blog {
+    background-image: url('./assets/img/background_blog1.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.background-recipe {
+    background-image: url('./assets/img/background_recipe.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

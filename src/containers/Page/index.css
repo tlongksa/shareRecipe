@@ -1,0 +1,22 @@
+.col-bmi {
+    margin-left: -500px;
+    font-size: 20px;
+}
+.bmiImage {
+    width: 30% !important;
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.btn-bmi {
+    margin-top: 15px;
+    width: 30%;
+    justify-content: center;
+}
+.txt-bmi {
+    width: 100%;
+}
+.select-bmi {
+    width: 100%;
+    font-size: 20px !important;
+}

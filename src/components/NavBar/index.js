@@ -187,7 +187,7 @@ const Navbar = () => {
         navigateTo(0);
         notification.open({
             message: 'Đăng xuất thành công !',
-            description: 'Chào bạn, OiShii rất vui lòng được phục vụ quý khách, chúc quý khác có một ngày tốt lành !!!',
+            description: 'Chào bạn, FSRS rất vui lòng được phục vụ quý khách, chúc quý khác có một ngày tốt lành !!!',
             icon: (
                 <SmileOutlined
                     style={{

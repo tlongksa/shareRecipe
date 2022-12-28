@@ -220,12 +220,12 @@ const ClientRecipeDetail = () => {
                                 >
                                     Hướng dẫn chế biến
                                 </li>
-                                <li
+                                {/* <li
                                     className={`${activeTab === 'protect' ? 'is-active' : ''}`}
                                     onClick={() => setActiveTab('protect')}
                                 >
                                     Hướng dẫn bảo quản
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                         <div className="recipe-detail__desc">
@@ -248,7 +248,7 @@ const ClientRecipeDetail = () => {
                                 </>
                             )}
                             {activeTab === 'guide' && <RecipeSteps dataResponse={dataResponse} />}
-                            {activeTab === 'protect' && (
+                            {/* {activeTab === 'protect' && (
                                 <ul className="protect-guide">
                                     <li>
                                         1.Phương pháp đông lạnh. Đông lạnh được sử dụng tốt cho hầu như bất kỳ loại thực
@@ -263,7 +263,7 @@ const ClientRecipeDetail = () => {
                                     <li>5.Hun khói. ...</li>
                                     <li>6.Sấy khô</li>
                                 </ul>
-                            )}
+                            )} */}
                         </div>
                         <Modal
                             show={showModalDetail}

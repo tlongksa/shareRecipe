@@ -183,7 +183,7 @@ const Blogs = () => {
     }
 
     return (
-        <div className="background-ingredient pt-5">
+        <div className="background-blog pt-5">
             <section className="client-blog__list-container">
                 <div className="custom-page__container custom-page__container-no__margin-top">
                     <div className="d-flex justify-content-end mb-3 gap-3">
