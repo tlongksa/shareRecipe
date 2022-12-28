@@ -261,6 +261,7 @@ const BmiInfo = () => {
                                         type="radio"
                                         onChange={(e) => {
                                             setMeal(e.target.value);
+                                            setMainIngredient('');
                                             onFetchMainIngredients('', e.target.value);
                                         }}
                                         value={value}
@@ -315,7 +316,7 @@ const BmiInfo = () => {
                         </div>
                     </div>
                 )}
-                {recipeType === 'favourite' && remainCalo && remainCalo > 0 && (
+                {recipeType === 'favourite' && !!remainCalo && remainCalo > 0 && (
                     <div
                         className={`d-flex align-items-center gap-3 mt-3 ${
                             showFetchMoreFavouriteRecipes ? '' : 'd-none'
@@ -512,6 +513,7 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
             username: userInfo?.username,
             gender: item?.gender,
             dob: item.dob,
+            targetIndex: values.targetIndex,
         })
             .then(({ data }) => {
                 setIsProcessing(false);
