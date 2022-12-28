@@ -1,4 +1,7 @@
-import { DeleteOutlined, LoadingOutlined } from '@ant-design/icons';
+import {
+    // DeleteOutlined,
+    LoadingOutlined,
+} from '@ant-design/icons';
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
@@ -483,10 +486,10 @@ const RecipeItem = ({ item, onDeleteFromList }) => (
                     <div>
                         <strong>Kcal : </strong> <span>{item.totalCalo}</span>
                     </div>
-                    <DeleteOutlined
+                    {/* <DeleteOutlined
                         className="global-list_item-actions_icon position-absolute right-0 top-5"
                         onClick={() => onDeleteFromList(item.dishID)}
-                    />
+                    /> */}
                 </div>
                 {item.avgStarRate === 0 ? (
                     <p>Chưa có đánh giá</p>
