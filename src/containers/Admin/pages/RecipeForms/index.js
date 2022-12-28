@@ -276,13 +276,13 @@ const RecipeForm = () => {
                     Bước 1
                 </button>
                 <button
-                    className={`${stepNum === 2 ? 'active-step' : ''} ${stepNum >= 2 || id ? '' : 'divDisabled'}`}
+                    className={`${stepNum === 2 ? 'active-step' : ''} ${stepNum >= 2 ? '' : 'divDisabled'}`}
                     onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=2${id ? `&id=${id}` : ''}`)}
                 >
                     Bước 2
                 </button>
                 <button
-                    className={`${stepNum === 3 ? 'active-step' : ''} ${stepNum >= 3 || id ? '' : 'divDisabled'}`}
+                    className={`${stepNum === 3 ? 'active-step' : ''} ${stepNum >= 3 ? '' : 'divDisabled'}`}
                     onClick={() => navigate(`${isMod ? '' : '/admin'}/recipe-form?step=3${id ? `&id=${id}` : ''}`)}
                 >
                     bước 3

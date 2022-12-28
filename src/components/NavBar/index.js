@@ -40,7 +40,9 @@ export const NavMenuCenter = ({ className, onHide }) => {
                 <NavLink to="/blogs" className="ps-4" onClick={onHide}>
                     Blog
                 </NavLink>
-
+                <NavLink to="/ing-report" className="ps-4" onClick={onHide}>
+                    Nguyên liệu xung khắc
+                </NavLink>
                 {accessToken && (
                     <NavLink to="/favourite-recipes" className="ps-4" onClick={onHide}>
                         Yêu thích
@@ -164,7 +166,7 @@ export const ProfileTogglerMenu = ({ handleLogout, className }) => {
                     </CDropdownItem>
                 )}
                 <CDropdownItem onClick={handleLogout} className="cursor-pointer f-16 d-flex gap-2 align-items-center">
-                    <img src={signoutIconImg} alt="" />    Đăng xuất
+                    <img src={signoutIconImg} alt="" /> Đăng xuất
                 </CDropdownItem>
             </CDropdownMenu>
         </CDropdown>

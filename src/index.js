@@ -28,6 +28,7 @@ const NotFound = lazy(() => import('./components/Error/NotFound'));
 const SearchBar = lazy(() => import('./components/Search/SearchBar'));
 const ChangePassword = lazy(() => import('./containers/Auth/ChangePassword'));
 const ClientRecipeDetail = lazy(() => import('./containers/ClientRecipeDetail'));
+const PublicIngReport = lazy(() => import('./containers/PublicIngReport'));
 const NewPassword = lazy(() => import('./containers/Auth/NewPassword'));
 const Blogs = lazy(() => import('./containers/Page/Blogs'));
 const BlogDetail = lazy(() => import('./containers/Page/BlogDetail'));
@@ -115,6 +116,14 @@ root.render(
                                         }
                                     />
                                     <Route
+                                        path="/ing-report"
+                                        element={
+                                            <SuspenseWrapper>
+                                                <PublicIngReport />
+                                            </SuspenseWrapper>
+                                        }
+                                    />
+                                    <Route
                                         path="/save"
                                         element={
                                             <SuspenseWrapper>
@@ -122,7 +131,7 @@ root.render(
                                             </SuspenseWrapper>
                                         }
                                     />
-                                    
+
                                     <Route
                                         path="/bmi"
                                         element={
