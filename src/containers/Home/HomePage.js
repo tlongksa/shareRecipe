@@ -75,9 +75,10 @@ const HomePage = (props) => {
                 <div className="custom-page__container custom-page__container-no__margin-bottom">
                     <ListCategory />
                     <SearchBar />
+                    <ListTopNew />
                     <ListTopWeek />
                     <ListTopMonth />
-                    <ListTopNew />
+                    
                 </div>
             </div>
         </div>
