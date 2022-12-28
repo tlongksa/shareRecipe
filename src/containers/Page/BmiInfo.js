@@ -516,7 +516,7 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
             username: userInfo?.username,
             gender: item?.gender,
             dob: item.dob,
-            targetIndex: values.targetIndex,
+            targetIndex: values.target === 'Giữ nguyên' ? '' : values.targetIndex,
         })
             .then(({ data }) => {
                 setIsProcessing(false);
@@ -627,20 +627,23 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                                 ))}
                             </Input>
                         </div>
-                        <Input
-                            type="select"
-                            name="targetIndex"
-                            label="Số lượng kilogram muốn tăng(giảm)/ tuần"
-                            onChange={handleChange}
-                            value={values.targetIndex}
-                            error={errors.targetIndex}
-                            touched={touched.targetIndex}
-                            className="flex-fill"
-                        >
-                            <option value={0.5}>0,5 kg / tuần</option>
-                            <option value={1}>1 kg / tuần</option>
-                            <option value={1.5}>1,5 kg / tuần</option>
-                        </Input>
+                        {values.target === 'Giữ nguyên' ? null : (
+                            <Input
+                                type="select"
+                                name="targetIndex"
+                                label="Số lượng kilogram muốn tăng(giảm)/ tuần"
+                                onChange={handleChange}
+                                value={values.targetIndex}
+                                error={errors.targetIndex}
+                                touched={touched.targetIndex}
+                                className="flex-fill"
+                            >
+                                <option value={0.5}>0,5 kg / tuần</option>
+                                <option value={1}>1 kg / tuần</option>
+                                <option value={1.5}>1,5 kg / tuần</option>
+                            </Input>
+                        )}
+
                         <div className="d-flex align-items-center mb-3">
                             <strong>
                                 {'☛ Bạn cần '} {item?.totalCalo} {' kcal/ngày để'} {item?.target} {' cân nặng'}
