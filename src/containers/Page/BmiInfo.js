@@ -137,7 +137,7 @@ const BmiInfo = () => {
     }, [userInfo]);
 
     useEffect(() => {
-        if (dataResponse?.totalCalo) {
+        if (dataResponse?.totalCalo && recipeType === 'total') {
             onFetchRecipes(dataResponse?.totalCalo);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -218,8 +218,8 @@ const BmiInfo = () => {
                     />
                 </div>
                 <div className="bmi-option__titles">
-                    <h3 className='ff-dancing-script'>💡Gợi ý cho bạn</h3>
-                    <p className='ff-dancing-script'>Thực đơn sẽ được lọc theo chỉ số BMI của bạn</p>
+                    <h3 className="ff-dancing-script">💡Gợi ý cho bạn</h3>
+                    <p className="ff-dancing-script">Thực đơn sẽ được lọc theo chỉ số BMI của bạn</p>
                 </div>
                 <div>
                     <button
@@ -554,7 +554,7 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                     weight: item?.weight,
                     target: item?.target,
                     mobility: item?.mobility || 1,
-                    targetIndex: item?.targetIndex || '',
+                    targetIndex: item?.tagetIndex || '',
                 }}
                 onSubmit={onSubmit}
                 validationSchema={BmiInfoSchema}
