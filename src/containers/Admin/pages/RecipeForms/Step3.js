@@ -67,7 +67,7 @@ const Step3 = ({ recipeFormData, setRecipeFormData, setShouldFinish, id, isMod }
                 ref={recipeImagesRef}
                 onChange={(e) => {
                     setImgError('');
-                    setFiles(e.target.files);
+                    setFiles((prevState) => [...prevState, ...e.target.files]);
                 }}
             />
             <div className="d-flex-custom mb-3">
