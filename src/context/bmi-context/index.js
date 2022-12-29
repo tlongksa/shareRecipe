@@ -72,6 +72,7 @@ export const BmiProvider = ({ children }) => {
                 notification.open({
                     message: err?.response?.data?.message || err?.response?.data?.messContent,
                 });
+                dispatchContext(clearBmiRecipeListAction());
             });
     };
 
