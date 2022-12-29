@@ -137,7 +137,7 @@ const BmiInfo = () => {
     }, [userInfo]);
 
     useEffect(() => {
-        if (dataResponse?.totalCalo) {
+        if (dataResponse?.totalCalo && recipeType === 'total') {
             onFetchRecipes(dataResponse?.totalCalo);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
