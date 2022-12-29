@@ -24,7 +24,7 @@ const ListTopMonth = (props) => {
 
     return (
         <div>
-            <div className="home-list__title">Top With Month</div>
+            <div className="home-list__title ff-dancing-script">Top With Month</div>
             <section className="view-container">
                 <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>
                     {errMsg}

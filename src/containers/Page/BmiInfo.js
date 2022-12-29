@@ -27,7 +27,7 @@ import starImgIcon from '../../assets/img/star.png';
 
 export const mobilityOptions = [
     {
-        value: 1,
+        value: 1.2,
         label: 'Ít hoạt động, chỉ ăn đi làm về ngủ',
     },
     {
@@ -35,11 +35,11 @@ export const mobilityOptions = [
         label: 'Có tập nhẹ nhàng, tuần 1-3 buổi',
     },
     {
-        value: 1.5,
+        value: 1.55,
         label: 'Có vận động vừa 4-5 buổi',
     },
     {
-        value: 1.72,
+        value: 1.725,
         label: 'Vận động nhiều 6-7 buổi',
     },
     {
@@ -137,7 +137,7 @@ const BmiInfo = () => {
     }, [userInfo]);
 
     useEffect(() => {
-        if (dataResponse?.totalCalo && recipeType === 'total') {
+        if (dataResponse?.totalCalo) {
             onFetchRecipes(dataResponse?.totalCalo);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -218,8 +218,8 @@ const BmiInfo = () => {
                     />
                 </div>
                 <div className="bmi-option__titles">
-                    <h3>💡Gợi ý cho bạn</h3>
-                    <p>Thực đơn sẽ được lọc theo chỉ số BMI của bạn</p>
+                    <h3 className='ff-dancing-script'>💡Gợi ý cho bạn</h3>
+                    <p className='ff-dancing-script'>Thực đơn sẽ được lọc theo chỉ số BMI của bạn</p>
                 </div>
                 <div>
                     <button
@@ -325,7 +325,7 @@ const BmiInfo = () => {
                             showFetchMoreFavouriteRecipes ? '' : 'd-none'
                         }`}
                     >
-                        {remainCalo < 200 ? (
+                        {remainCalo < 300 ? (
                             <p>
                                 Hiện tại lượng kcal còn lại của bạn là <strong>{remainCalo.toFixed(2)}</strong> đang
                                 dưới 300, bạn có muốn tìm món Tráng miệng hay không?
@@ -341,7 +341,7 @@ const BmiInfo = () => {
                             <button
                                 className="button button-sm button-green"
                                 onClick={() => {
-                                    if (remainCalo < 200) {
+                                    if (remainCalo < 300) {
                                         setShowFetchMoreFavouriteRecipes(false);
                                     }
                                     onFetchRecipesByFavourite(
@@ -554,7 +554,7 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                     weight: item?.weight,
                     target: item?.target,
                     mobility: item?.mobility || 1,
-                    targetIndex: item?.tagetIndex || '',
+                    targetIndex: item?.targetIndex || '',
                 }}
                 onSubmit={onSubmit}
                 validationSchema={BmiInfoSchema}
@@ -617,7 +617,7 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                                 className="flex-fill"
                                 inputClassName="full"
                                 title={
-                                    'Chỉ số khối cơ thể (BMI - Body mass index) là một phép tính dựa trên chiều cao và cân nặng, giúp xác định xem một người có cân nặng chuẩn, nhẹ cân, thừa cân hay béo phì.'
+                                    'R là 1 hệ số chỉ mức độ hoạt động thể chất của cơ thể. Bạn luyện tập càng nhiều thì hệ số này càng cao'
                                 }
                             >
                                 {mobilityOptions.map(({ value, label }) => (

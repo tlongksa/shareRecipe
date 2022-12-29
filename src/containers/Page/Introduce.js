@@ -6,7 +6,7 @@ const About = () => {
         <div className="background-chef">
             <section className="custom-page__container custom-page__container-no__margin-top custom-page__container-no__margin-bottom introduce-container">
                 <div className="mh-85vh">
-                    <h1>Giới thiệu thương hiệu FSRS</h1>
+                    <h1 className='ff-dancing-script'>Giới thiệu thương hiệu FSRS</h1>
                     <p>
                         Xin chào, Chúng tôi là FSRS, một food blogger và vinh dự được chính phủ Việt Nam bổ nhiệm là
                         Đại sứ ẩm thực . Thế giới bếp núc với Chúng tôi vốn là một trò chơi tuyệt đẹp mà không biết từ

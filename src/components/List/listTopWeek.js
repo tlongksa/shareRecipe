@@ -26,7 +26,7 @@ const ListTopWeek = (props) => {
 
     return (
         <div className="bg-green-blur rounded-4 py-2 px-3 mb-3 pb-4 custom-shadow">
-            <div className="home-list__title should-darken">🔥 Món ăn theo tuần</div>
+            <div className="home-list__title should-darken ff-dancing-script">🔥 Món ăn theo tuần</div>
             <p className="error-message">{errMsg}</p>
             <section className="home__list-recipe__container">
                 {ListTopWeek.map((item) => (
