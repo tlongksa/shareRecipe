@@ -19,7 +19,11 @@ export default function SearchBar() {
                 <button
                     className=""
                     type="button"
-                    onClick={() => navigate(`/list-recipe-by-name?name=${searchTitle.trim()}`)}
+                    onClick={() => {
+                        if (searchTitle) {
+                            navigate(`/list-recipe-by-name?name=${searchTitle.trim()}`);
+                        }
+                    }}
                 >
                     <SearchIcon />
                 </button>

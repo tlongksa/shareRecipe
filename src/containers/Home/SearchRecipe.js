@@ -13,11 +13,13 @@ const SearchRecipe = () => {
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        navigate(`/list-recipe-by-name?name=${searchTitle.trim()}`);
-                        window.scrollTo({
-                            left: 0,
-                            top: 600,
-                        });
+                        if (searchTitle) {
+                            navigate(`/list-recipe-by-name?name=${searchTitle.trim()}`);
+                            window.scrollTo({
+                                left: 0,
+                                top: 600,
+                            });
+                        }
                     }}
                     className="d-flex"
                 >

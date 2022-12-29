@@ -554,7 +554,7 @@ const BmiForm = ({ item, userInfo, onRefetch }) => {
                     weight: item?.weight,
                     target: item?.target,
                     mobility: item?.mobility || 1,
-                    targetIndex: item?.targetIndex || '',
+                    targetIndex: item?.tagetIndex || '',
                 }}
                 onSubmit={onSubmit}
                 validationSchema={BmiInfoSchema}
